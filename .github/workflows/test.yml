@@ -1,0 +1,20 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  snippets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Run every Python block in the skill docs
+        run: uv run tests/test_snippets.py
+      - name: Build and inspect the templates
+        run: |
+          uv run skills/cadquery/scripts/inspect_model.py skills/cadquery/templates/part.py -o out/part.step -o out/part.stl
+          uv run skills/cadquery/scripts/inspect_model.py skills/cadquery/templates/assembly.py --interference -o out/assembly.step
+      - name: API lookup works
+        run: uv run skills/cadquery/scripts/cq_api.py Workplane.hole

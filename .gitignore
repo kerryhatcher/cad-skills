@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# CAD outputs generated while testing
+*.step
+*.stp
+*.stl
+*.3mf
+*.glb
+*.gltf
+out/
