@@ -15,6 +15,19 @@ Bridges a finished CAD model and the slicer. `scripts/printability.py` checks me
 
 **Core principle: orientation is a design decision, not a slicer afterthought.** It fixes the weak axis (layers), where supports scar the surface, and which faces come out accurate. Decide it from the part's job, then confirm strength with the `structural-analysis` skill using the same build direction.
 
+## Language: Simplified Technical English
+
+Write in ASD-STE100 Simplified Technical English (STE) when you use or change this skill. This applies to documentation, code comments, docstrings, CLI help text, error messages, commit messages and all messages to the user.
+
+- Use approved STE words with one meaning each. Technical names and technical verbs are permitted.
+- Use the active voice. Use the imperative for instructions. Use simple present, simple past or simple future.
+- Write one topic in each sentence. Maximum 20 words in a procedure step, 25 words in a description.
+- Do not use phrasal verbs, idioms, or noun clusters of more than three words.
+- Write a warning or caution as a command before the step, then give the reason.
+- Do not change code, commands, file names, setting keys or quoted output. Copy them exactly.
+
+The full rules and examples are in `AGENTS.md` at the root of the cad-skills repository.
+
 ## Environment
 
 ```bash

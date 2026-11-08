@@ -15,6 +15,19 @@ Answers "is this part suitable for the job?" before it is printed. A linear-stat
 
 **Core principle: an FEA number is only as good as its loads, supports and material data, and FDM parts are not isotropic.** Always (1) sanity-check with a hand calculation, (2) look at the boundary-condition picture, (3) check mesh convergence, (4) check layer-normal stress for the real print orientation, and (5) apply a safety factor suited to the uncertainty.
 
+## Language: Simplified Technical English
+
+Write in ASD-STE100 Simplified Technical English (STE) when you use or change this skill. This applies to documentation, code comments, docstrings, CLI help text, error messages, commit messages and all messages to the user.
+
+- Use approved STE words with one meaning each. Technical names and technical verbs are permitted.
+- Use the active voice. Use the imperative for instructions. Use simple present, simple past or simple future.
+- Write one topic in each sentence. Maximum 20 words in a procedure step, 25 words in a description.
+- Do not use phrasal verbs, idioms, or noun clusters of more than three words.
+- Write a warning or caution as a command before the step, then give the reason.
+- Do not change code, commands, file names, setting keys or quoted output. Copy them exactly.
+
+The full rules and examples are in `AGENTS.md` at the root of the cad-skills repository.
+
 ## Environment
 
 Everything runs with `uv` (Python 3.10–3.13, deps fetched on demand):

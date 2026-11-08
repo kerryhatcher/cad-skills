@@ -92,6 +92,10 @@ uv run tests/test_print_tools.py
 
 CI runs both on every push (`.github/workflows/test.yml`).
 
+### Writing style
+
+Write all documentation, code comments, help text, commit messages and agent messages in ASD-STE100 Simplified Technical English (STE). `AGENTS.md` gives the rules and examples. `CLAUDE.md` imports `AGENTS.md` for Claude Code.
+
 ## License
 
 MIT

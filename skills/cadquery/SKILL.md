@@ -16,6 +16,19 @@ CadQuery is a Python library (on the OpenCascade kernel) for building exact BREP
 
 **Core principle: never trust geometry you have not measured and looked at.** Many CadQuery mistakes fail *silently* (a cut into empty air, a `shell()` that does nothing, a hole on the wrong face). After every build, check validity + bounding box + volume, and render a PNG and look at it.
 
+## Language: Simplified Technical English
+
+Write in ASD-STE100 Simplified Technical English (STE) when you use or change this skill. This applies to documentation, code comments, docstrings, CLI help text, error messages, commit messages and all messages to the user.
+
+- Use approved STE words with one meaning each. Technical names and technical verbs are permitted.
+- Use the active voice. Use the imperative for instructions. Use simple present, simple past or simple future.
+- Write one topic in each sentence. Maximum 20 words in a procedure step, 25 words in a description.
+- Do not use phrasal verbs, idioms, or noun clusters of more than three words.
+- Write a warning or caution as a command before the step, then give the reason.
+- Do not change code, commands, file names, setting keys or quoted output. Copy them exactly.
+
+The full rules and examples are in `AGENTS.md` at the root of the cad-skills repository.
+
 ## Environment (uv)
 
 Always use `uv`; never `pip install` into a system Python.
