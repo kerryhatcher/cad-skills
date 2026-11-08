@@ -17,13 +17,13 @@ Answers "is this part suitable for the job?" before it is printed. A linear-stat
 
 ## Environment
 
-Everything runs with `uv` (Python 3.10–3.13, deps fetched on demand, no system installs):
+Everything runs with `uv` (Python 3.10–3.13, deps fetched on demand):
 
 ```bash
 uv run <skill-dir>/scripts/fea.py --list-materials
 ```
 
-`<skill-dir>` = the directory containing this SKILL.md. The first run downloads gmsh, scikit-fem and CadQuery (~1 min).
+`<skill-dir>` = the directory containing this SKILL.md. The first run downloads gmsh, scikit-fem and CadQuery (~1 min). The gmsh wheel loads system GL/X libraries even headless; if it fails with `libGLU.so.1: cannot open shared object file`, install them (Debian/Ubuntu: `sudo apt install libglu1-mesa libxcursor1 libxft2 libxinerama1`; Fedora: `sudo dnf install mesa-libGLU libXcursor libXft libXinerama`).
 
 ## Workflow
 

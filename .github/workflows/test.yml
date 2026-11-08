@@ -23,5 +23,7 @@ jobs:
           uv run skills/cadquery/scripts/inspect_model.py skills/cadquery/templates/assembly.py --interference -o out/assembly.step
       - name: API lookup works
         run: uv run skills/cadquery/scripts/cq_api.py Workplane.hole
+      - name: System libraries for the gmsh wheel
+        run: sudo apt-get update -q && sudo apt-get install -yq --no-install-recommends libglu1-mesa libxcursor1 libxft2 libxinerama1
       - name: FEA, printability and PrusaSlicer profile tools
         run: uv run tests/test_print_tools.py
