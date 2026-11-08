@@ -1,92 +1,92 @@
-# Design for FDM (Prusa MK4, 0.4 mm nozzle)
+# FDM design rules (Prusa MK4, 0.4 mm nozzle)
 
-Values assume 0.4 mm nozzle, 0.45 mm line width, 0.2 mm layers, a calibrated printer and Prusament/Jessie PLA or PETG. Put every value in the CAD parameter block, and print a test coupon for critical fits.
+The values are for a 0.4 mm nozzle, 0.45 mm line width, 0.2 mm layers, a calibrated printer, and Prusament or Jessie PLA or PETG. Put each value in the CAD parameter block. For important fits, print a test coupon.
 
 ## Overhangs and bridges
 
 | Feature | Rule |
 |---|---|
-| Unsupported overhang | ≤ 45° from vertical is clean, ≤ 55° acceptable on MK4 (PrusaSlicer supports from 50°) |
-| Bottom edges | 45° chamfer, never a fillet (a fillet's lower part is a ~90° overhang) |
-| Bridges | ≤ 10–20 mm clean, up to ~50 mm with sag. Bridge between two solid anchors |
-| Horizontal holes ≤ 10 mm | Usually fine unsupported. Slight droop at top: ream or ×1.05 Ø |
-| Horizontal holes > 10 mm | Teardrop (45° roof) or flat-top (bridge) profile |
-| Ceilings over cavities | Make them bridges (rectangular) or 45° roofs |
-| Overhanging bosses/shelves | Add 45° gussets underneath instead of support |
+| Overhang with no support | 45° from vertical or less gives a clean surface. 55° or less is satisfactory on the MK4 (PrusaSlicer adds supports from 50°) |
+| Bottom edges | Use a 45° chamfer, not a fillet. The bottom part of a fillet is an overhang of approximately 90° |
+| Bridges | 10 mm to 20 mm or less give a clean bridge. Up to approximately 50 mm, the bridge sags. Make a bridge between two solid anchors |
+| Horizontal holes, 10 mm or less | Usually satisfactory with no support. The top sags a little: ream the hole, or make the Ø 1.05 times larger |
+| Horizontal holes, more than 10 mm | Use a teardrop profile (45° roof) or a flat-top profile (bridge) |
+| Ceilings above cavities | Make them bridges (rectangular) or 45° roofs |
+| Bosses or shelves that overhang | Add 45° gussets below them. Do not use support |
 
-## Walls, floors, small features
+## Walls, floors and small features
 
 | Feature | Minimum | Structural |
 |---|---|---|
-| Vertical wall | 0.9 mm (2 lines) | ≥ 1.8 mm (4 lines). Design in multiples of 0.45 mm |
-| Floor/roof | 0.6 mm (3 layers) | ≥ 1.0 mm (5 layers) |
-| Pin / standing post Ø | 2 mm | ≥ 4 mm, fillet the base |
-| Embossed/engraved text | stroke ≥ 0.6 mm, depth/height ≥ 0.4 mm | Text on top faces looks best |
-| Gap between parts (print-in-place) | 0.4 mm | 0.5 mm for reliable release |
+| Vertical wall | 0.9 mm (2 lines) | 1.8 mm or more (4 lines). Make the wall thickness a multiple of 0.45 mm |
+| Floor and roof | 0.6 mm (3 layers) | 1.0 mm or more (5 layers) |
+| Pin or vertical post Ø | 2 mm | 4 mm or more. Fillet the bottom of the post |
+| Embossed or engraved text | Stroke 0.6 mm or more, depth or height 0.4 mm or more | Text on top faces looks best |
+| Gap between parts (print-in-place) | 0.4 mm | 0.5 mm for a release that always occurs |
 
-## Fits and tolerances (per side, on a tuned MK4)
+## Fits and tolerances (on each side, on a calibrated MK4)
 
-| Fit | Clearance per side |
+| Fit | Clearance on each side |
 |---|---|
-| Press fit | 0.0–0.1 mm (coupon test) |
-| Snug / location | 0.1–0.15 mm |
-| Sliding / rotating | 0.2–0.3 mm |
-| Loose / print-in-place | 0.4–0.5 mm |
-| Vertical holes | Print ~0.1–0.15 mm undersize in Ø. Slicer hole compensation is off by default |
-| Horizontal holes | Ellipse slightly in Z. Ream critical holes or orient vertically |
+| Press fit | 0.0 mm to 0.1 mm (coupon test) |
+| Tight fit, location | 0.1 mm to 0.15 mm |
+| Sliding or turning fit | 0.2 mm to 0.3 mm |
+| Loose fit, print-in-place | 0.4 mm to 0.5 mm |
+| Vertical holes | Make the Ø approximately 0.1 mm to 0.15 mm smaller. By default, the hole compensation of the slicer is off |
+| Horizontal holes | The holes become a little elliptical in Z. Ream important holes, or make them vertical |
 
-The first layers spread (elephant foot). Prusa profiles compensate 0.2 mm (`elefant_foot_compensation`). Still chamfer bed edges of mating faces 0.4–0.5 mm.
+The first layers become wider (elephant foot). The Prusa profiles compensate 0.2 mm (`elefant_foot_compensation`). But also chamfer the bed edges of mating faces by 0.4 mm to 0.5 mm.
 
 ## Fasteners
 
 | Method | Hole | Notes |
 |---|---|---|
-| Heat-set insert M3 (short) | Ø 4.0–4.2 mm, depth = insert length + 0.5 mm | Wall around ≥ 1.6 mm (≥ 4 perimeters). Strongest repeat-assembly option |
-| Heat-set insert M4 / M5 | Ø 5.6 / 6.4 mm | Per vendor spec |
-| Self-tapping into plastic M3 | Ø 2.5–2.7 mm pilot | Boss OD ≥ 7 mm. ≤ 10 re-assemblies |
-| Captive nut M3 | Hex 5.5 mm AF + 0.2–0.3 clearance, slot from the side | Bridge over it, or pause-and-insert |
-| Through bolt M3 | Ø 3.4 mm clearance | Counterbore 6.5 mm Ø |
-| Printed threads | Only ≥ M8, coarse pitch, 0.2 mm clearance | Prefer inserts for anything structural |
+| Heat-set insert M3 (short) | Ø 4.0 mm to 4.2 mm, depth = insert length + 0.5 mm | Wall around the insert: 1.6 mm or more (4 perimeters or more). This is the strongest method for assemblies that you open many times |
+| Heat-set insert M4 / M5 | Ø 5.6 / 6.4 mm | Refer to the data from the supplier |
+| Self-tapping screw into plastic, M3 | Ø 2.5 mm to 2.7 mm pilot hole | Boss outer diameter 7 mm or more. 10 assemblies or less |
+| Captive nut M3 | Hex 5.5 mm AF + 0.2 mm to 0.3 mm clearance, slot from the side | Make a bridge above the nut, or pause the print and put the nut in |
+| Through bolt M3 | Ø 3.4 mm clearance | Counterbore Ø 6.5 mm |
+| Printed threads | Only M8 or larger, coarse pitch, 0.2 mm clearance | For structural parts, inserts are better |
 
-Bolt clamping pushes **across layers** if the bolt axis is Z. Use washers and modest torque.
+If the bolt axis is Z, the clamp force of the bolt pushes **across the layers**. Use washers and a low torque.
 
-## Strength features
+## Features for strength
 
-- Fillet load-bearing inside corners (≥ 1 mm, better ≥ half the wall) to cut stress concentration 2–3×.
-- Ribs over thick walls: rib thickness ≈ 0.6–1 × wall, height ≤ 3 × wall, fillet the root.
-- Increase perimeters before infill: 4–6 perimeters gives most of the strength of solid.
-- Avoid thin sections that would print as gap fill (between 0.45 and 0.9 mm). Make them 0.9 or ≥ 1.35.
-- Put layer lines **parallel** to bending stress. A part that must carry load in all directions needs a tougher material (PETG/PC) or a design change.
+- Fillet inner corners that hold a load (1 mm or more, or half of the wall thickness or more). This decreases the stress concentration by 2 to 3 times.
+- Use ribs, not thick walls. Rib thickness: approximately 0.6 to 1 × wall. Rib height: 3 × wall or less. Fillet the bottom of the rib.
+- Add perimeters before you add infill. 4 to 6 perimeters give most of the strength of a solid part.
+- Do not make thin sections that the slicer prints as gap fill (between 0.45 mm and 0.9 mm). Make them 0.9 mm, or 1.35 mm or more.
+- Put the layer lines **parallel** to the bending stress. If a part must hold loads in all directions, use a tougher material (PETG or PC) or change the design.
 
 ## Warping and adhesion
 
-| Material | Tendency | Countermeasures |
+| Material | Risk | Procedure to prevent it |
 |---|---|---|
-| PLA | Low | Clean sheet. Brim for tall/thin parts |
-| PETG | Low–medium | Textured sheet or release agent (sticks too hard to smooth PEI) |
-| ASA | High | Brim 5–8 mm, enclosure/draft shield, rounded corners, no drafts |
+| PLA | Low | Clean sheet. Brim for tall or thin parts |
+| PETG | Low to medium | Textured sheet or release agent (PETG bonds too strongly to smooth PEI) |
+| ASA | High | Brim 5 mm to 8 mm, enclosure or draft shield, rounded corners, no air flow |
 | PC Blend | High | Brim, enclosure, glue stick on smooth PEI, 110 °C bed |
 
-Large flat parts: round the corners (R ≥ 5 mm), add "mouse ears" (Ø 10–15 mm, 0.2–0.4 mm discs) at corners.
+Large flat parts: round the corners (R 5 mm or more). Add "mouse ears" (discs with Ø 10 mm to 15 mm and 0.2 mm to 0.4 mm thickness) at the corners.
 
-## Large parts and splitting
+## Large parts in sections
 
-- Bed limit 250 × 210 × 220 mm. Diagonal placement gains a little in XY.
-- Split along low-stress faces. Join with alignment pins (Ø 5 mm, 0.15 mm clearance), dovetails, bolts and inserts, or glue (PETG/ASA/PC: solvent or CA). PrusaSlicer's Cut tool (GUI) adds connectors automatically.
-- Each piece must still be oriented for its own loads.
+- The bed limit is 250 × 210 × 220 mm. A diagonal position gives a little more length in XY.
+- Divide the part along faces with low stress. Connect the sections with alignment pins (Ø 5 mm, 0.15 mm clearance), dovetails, bolts and inserts, or adhesive (PETG, ASA, PC: solvent or CA). The Cut tool of PrusaSlicer (GUI) adds connectors automatically.
+- Each section must have its own orientation for its loads.
 
-## Surface finish
+## Surface quality
 
-- Top faces are cleanest. Faces against support are rough. Vertical walls show layer lines.
-- Shallow slopes (< 20° from horizontal) show stair-stepping. Use smaller layers (0.10–0.15 mm) or variable layer height (GUI).
-- The seam position (aligned/rear) controls the vertical zipper line. Put it at an inside or back corner.
+- Top faces are the cleanest. Faces on supports are rough. Vertical walls show layer lines.
+- Shallow slopes (less than 20° from horizontal) show steps. Use thinner layers (0.10 mm to 0.15 mm) or variable layer height (GUI).
+- The seam position (aligned or rear) sets the position of the vertical seam line. Put it at an inner corner or at the rear.
 
-## Pre-slice checklist
+## Checklist before you slice
 
-- [ ] Units mm, bbox matches intent, fits 250 × 210 × 220
-- [ ] Watertight, single body (or intentionally several)
-- [ ] Orientation chosen for strength first; `build_dir` passed to FEA
-- [ ] Bed-face chamfers, no downward fillets, holes OK for their orientation
-- [ ] Walls in multiples of 0.45 mm, ≥ 0.9 mm (structural ≥ 1.8 mm)
-- [ ] Clearances on every mating feature; inserts sized
-- [ ] Material picked for temperature/UV/creep; exported `.3mf`
+- [ ] The units are mm, the bbox agrees with the design, and the part is not larger than 250 × 210 × 220
+- [ ] The mesh is watertight, with one body (or many bodies, if you want them)
+- [ ] You selected the orientation for strength first, and you gave `build_dir` to the FEA
+- [ ] Chamfers on the bed face, no fillets that point down, holes that are correct for their orientation
+- [ ] Walls are multiples of 0.45 mm and 0.9 mm or more (structural: 1.8 mm or more)
+- [ ] Clearances on all mating features, holes for inserts at the correct dimension
+- [ ] You selected the material for temperature, UV and creep, and you exported a `.3mf` file

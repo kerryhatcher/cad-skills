@@ -1,0 +1,562 @@
+# Technical nouns and technical verbs for the cad-skills documentation (ASD-STE100 Issue 9, Rules 1.5 to 1.13).
+# Use these terms with one meaning each, and do not use synonyms for them (Rules 1.8 and 1.11).
+# Add a new term here before you use it in the documentation.
+# Checker: https://github.com/EmilioGambaSDB/asd-ste100-checker
+#   ste100 check --glossary ste-glossary.yaml --text-type description FILE.txt
+name: cad-skills
+technical_nouns:
+  - word: "3MF"
+    inflections: ["3MFs"]
+  - word: "ABS"
+    inflections: ["ABSs"]
+  - word: "adhesion"
+    inflections: ["adhesions"]
+  - word: "agent"
+    inflections: ["agents"]
+  - word: "anisotropy"
+    inflections: ["anisotropies"]
+  - word: "API"
+    inflections: ["APIs"]
+  - word: "AppImage"
+    inflections: ["AppImages"]
+  - word: "argument"
+    inflections: ["arguments"]
+  - word: "ASA"
+    inflections: ["ASAs"]
+  - word: "assembly"
+    inflections: ["assemblies"]
+  - word: "axis"
+    inflections: ["axises"]
+  - word: "bbox"
+    inflections: ["bboxes"]
+  - word: "beam"
+    inflections: ["beams"]
+  - word: "bed"
+    inflections: ["beds"]
+  - word: "bgcode"
+    inflections: ["bgcodes"]
+  - word: "body"
+    inflections: ["bodies"]
+  - word: "bolt"
+    inflections: ["bolts"]
+  - word: "boolean"
+    inflections: ["booleans"]
+  - word: "boss"
+    inflections: ["bosses"]
+  - word: "boundary"
+    inflections: ["boundaries"]
+  - word: "boundary condition"
+    inflections: ["boundary conditions"]
+  - word: "bounding box"
+    inflections: ["bounding boxes"]
+  - word: "BREP"
+    inflections: ["BREPs"]
+  - word: "bridge"
+    inflections: ["bridges"]
+  - word: "brim"
+    inflections: ["brims"]
+  - word: "buckling"
+    inflections: ["bucklings"]
+  - word: "bundle"
+    inflections: ["bundles"]
+  - word: "CAD"
+    inflections: ["CADs"]
+  - word: "CadQuery"
+    inflections: ["CadQueries"]
+  - word: "CalculiX"
+    inflections: ["CalculiXs"]
+  - word: "cantilever"
+    inflections: ["cantilevers"]
+  - word: "centroid"
+    inflections: ["centroids"]
+  - word: "chain"
+    inflections: ["chains"]
+  - word: "chamfer"
+    inflections: ["chamfers"]
+  - word: "CI"
+    inflections: ["CIs"]
+  - word: "Claude"
+    inflections: ["Claudes"]
+  - word: "clearance"
+    inflections: ["clearances"]
+  - word: "CLI"
+    inflections: ["CLIs"]
+  - word: "Codex"
+    inflections: ["Codexes"]
+  - word: "comment"
+    inflections: ["comments"]
+  - word: "compound"
+    inflections: ["compounds"]
+  - word: "compression"
+    inflections: ["compressions"]
+  - word: "computer"
+    inflections: ["computers"]
+  - word: "configuration"
+    inflections: ["configurations"]
+  - word: "constraint"
+    inflections: ["constraints"]
+  - word: "counterbore"
+    inflections: ["counterbores"]
+  - word: "countersink"
+    inflections: ["countersinks"]
+  - word: "creep"
+    inflections: ["creeps"]
+  - word: "Cursor"
+    inflections: ["Cursors"]
+  - word: "cutter"
+    inflections: ["cutters"]
+  - word: "datadir"
+    inflections: ["datadirs"]
+  - word: "default"
+    inflections: ["defaults"]
+  - word: "deflection"
+    inflections: ["deflections"]
+  - word: "dependency"
+    inflections: ["dependencies"]
+  - word: "design"
+    inflections: ["designs"]
+  - word: "dimension"
+    inflections: ["dimensions"]
+  - word: "directory"
+    inflections: ["directories"]
+  - word: "displacement"
+    inflections: ["displacements"]
+  - word: "docstring"
+    inflections: ["docstrings"]
+  - word: "documentation"
+    inflections: ["documentations"]
+  - word: "DXF"
+    inflections: ["DXFs"]
+  - word: "edge"
+    inflections: ["edges"]
+  - word: "element"
+    inflections: ["elements"]
+  - word: "emboss"
+    inflections: ["embosses"]
+  - word: "enclosure"
+    inflections: ["enclosures"]
+  - word: "engrave"
+    inflections: ["engraves"]
+  - word: "envelope"
+    inflections: ["envelopes"]
+  - word: "extrusion"
+    inflections: ["extrusions"]
+  - word: "face"
+    inflections: ["faces"]
+  - word: "factor"
+    inflections: ["factors"]
+  - word: "fatigue"
+    inflections: ["fatigues"]
+  - word: "FEA"
+    inflections: ["FEAs"]
+  - word: "feature"
+    inflections: ["features"]
+  - word: "FEM"
+    inflections: ["FEMs"]
+  - word: "filament"
+    inflections: ["filaments"]
+  - word: "file"
+    inflections: ["files"]
+  - word: "fillet"
+    inflections: ["fillets"]
+  - word: "firmware"
+    inflections: ["firmwares"]
+  - word: "fit"
+    inflections: ["fits"]
+  - word: "flatpak"
+    inflections: ["flatpaks"]
+  - word: "format"
+    inflections: ["formats"]
+  - word: "FreeCAD"
+    inflections: ["FreeCADs"]
+  - word: "G-code"
+    inflections: ["G-codes"]
+  - word: "gear"
+    inflections: ["gears"]
+  - word: "geometry"
+    inflections: ["geometries"]
+  - word: "Git"
+    inflections: ["Gits"]
+  - word: "GitHub"
+    inflections: ["GitHubs"]
+  - word: "GLB"
+    inflections: ["GLBs"]
+  - word: "glTF"
+    inflections: ["glTFs"]
+  - word: "gmsh"
+    inflections: ["gmshes"]
+  - word: "GUI"
+    inflections: ["GUIs"]
+  - word: "gusset"
+    inflections: ["gussets"]
+  - word: "header"
+    inflections: ["headers"]
+  - word: "hinge"
+    inflections: ["hinges"]
+  - word: "hole"
+    inflections: ["holes"]
+  - word: "image"
+    inflections: ["images"]
+  - word: "infill"
+    inflections: ["infills"]
+  - word: "insert"
+    inflections: ["inserts"]
+  - word: "interference"
+    inflections: ["interferences"]
+  - word: "interlayer"
+    inflections: ["interlayers"]
+  - word: "iso"
+    inflections: ["isos"]
+  - word: "Jessie"
+    inflections: ["Jessies"]
+  - word: "JSON"
+    inflections: ["JSONs"]
+  - word: "kernel"
+    inflections: ["kernels"]
+  - word: "language"
+    inflections: ["languages"]
+  - word: "layer"
+    inflections: ["layers"]
+  - word: "library"
+    inflections: ["libraries"]
+  - word: "license"
+    inflections: ["licenses"]
+  - word: "line"
+    inflections: ["lines"]
+  - word: "linear"
+    inflections: ["linears"]
+  - word: "Linux"
+    inflections: ["Linuxes"]
+  - word: "load"
+    inflections: ["loads"]
+  - word: "location"
+    inflections: ["locations"]
+  - word: "loft"
+    inflections: ["lofts"]
+  - word: "macOS"
+    inflections: ["macOSs"]
+  - word: "Markdown"
+    inflections: ["Markdowns"]
+  - word: "material"
+    inflections: ["materials"]
+  - word: "mesh"
+    inflections: ["meshes"]
+  - word: "message"
+    inflections: ["messages"]
+  - word: "metadata"
+    inflections: ["metadatas"]
+  - word: "MK4"
+    inflections: ["MK4s"]
+  - word: "MK4S"
+    inflections: ["MK4Ss"]
+  - word: "mode"
+    inflections: ["modes"]
+  - word: "model"
+    inflections: ["models"]
+  - word: "modulus"
+    inflections: ["moduluses"]
+  - word: "moment"
+    inflections: ["moments"]
+  - word: "multimethod"
+    inflections: ["multimethods"]
+  - word: "node"
+    inflections: ["nodes"]
+  - word: "Node.js"
+    inflections: ["Node.jses"]
+  - word: "normal"
+    inflections: ["normals"]
+  - word: "nozzle"
+    inflections: ["nozzles"]
+  - word: "npm"
+    inflections: ["npms"]
+  - word: "npx"
+    inflections: ["npxes"]
+  - word: "nut"
+    inflections: ["nuts"]
+  - word: "OCCT"
+    inflections: ["OCCTs"]
+  - word: "OCP"
+    inflections: ["OCPs"]
+  - word: "OpenCascade"
+    inflections: ["OpenCascades"]
+  - word: "OpenCode"
+    inflections: ["OpenCodes"]
+  - word: "OpenGL"
+    inflections: ["OpenGLs"]
+  - word: "orientation"
+    inflections: ["orientations"]
+  - word: "origin"
+    inflections: ["origins"]
+  - word: "overhang"
+    inflections: ["overhangs"]
+  - word: "parameter"
+    inflections: ["parameters"]
+  - word: "parametric"
+    inflections: ["parametrics"]
+  - word: "ParaView"
+    inflections: ["ParaViews"]
+  - word: "part"
+    inflections: ["parts"]
+  - word: "PEP"
+    inflections: ["PEPs"]
+  - word: "perimeter"
+    inflections: ["perimeters"]
+  - word: "PETG"
+    inflections: ["PETGs"]
+  - word: "PLA"
+    inflections: ["PLAs"]
+  - word: "plane"
+    inflections: ["planes"]
+  - word: "plate"
+    inflections: ["plates"]
+  - word: "PNG"
+    inflections: ["PNGs"]
+  - word: "pocket"
+    inflections: ["pockets"]
+  - word: "preset"
+    inflections: ["presets"]
+  - word: "print"
+    inflections: ["prints"]
+  - word: "printability"
+    inflections: ["printabilities"]
+  - word: "printer"
+    inflections: ["printers"]
+  - word: "profile"
+    inflections: ["profiles"]
+  - word: "project"
+    inflections: ["projects"]
+  - word: "Prusa"
+    inflections: ["Prusas"]
+  - word: "PrusaLink"
+    inflections: ["PrusaLinks"]
+  - word: "Prusament"
+    inflections: ["Prusaments"]
+  - word: "PrusaSlicer"
+    inflections: ["PrusaSlicers"]
+  - word: "Python"
+    inflections: ["Pythons"]
+  - word: "quadratic"
+    inflections: ["quadratics"]
+  - word: "radius"
+    inflections: ["radiuses"]
+  - word: "raft"
+    inflections: ["rafts"]
+  - word: "regression"
+    inflections: ["regressions"]
+  - word: "release"
+    inflections: ["releases"]
+  - word: "repository"
+    inflections: ["repositories"]
+  - word: "resolution"
+    inflections: ["resolutions"]
+  - word: "rib"
+    inflections: ["ribs"]
+  - word: "rotation"
+    inflections: ["rotations"]
+  - word: "rule"
+    inflections: ["rules"]
+  - word: "safety factor"
+    inflections: ["safety factors"]
+  - word: "scikit-fem"
+    inflections: ["scikit-fems"]
+  - word: "screw"
+    inflections: ["screws"]
+  - word: "script"
+    inflections: ["scripts"]
+  - word: "seam"
+    inflections: ["seams"]
+  - word: "section"
+    inflections: ["sections"]
+  - word: "selector"
+    inflections: ["selectors"]
+  - word: "setting"
+    inflections: ["settings"]
+  - word: "shear"
+    inflections: ["shears"]
+  - word: "shell"
+    inflections: ["shells"]
+  - word: "signature"
+    inflections: ["signatures"]
+  - word: "sketch"
+    inflections: ["sketches"]
+  - word: "skill"
+    inflections: ["skills"]
+  - word: "skirt"
+    inflections: ["skirts"]
+  - word: "slicer"
+    inflections: ["slicers"]
+  - word: "slot"
+    inflections: ["slots"]
+  - word: "snap-fit"
+    inflections: ["snap-fits"]
+  - word: "snippet"
+    inflections: ["snippets"]
+  - word: "solid"
+    inflections: ["solids"]
+  - word: "solver"
+    inflections: ["solvers"]
+  - word: "stack"
+    inflections: ["stacks"]
+  - word: "standoff"
+    inflections: ["standoffs"]
+  - word: "static"
+    inflections: ["statics"]
+  - word: "STEP"
+    inflections: ["STEPs"]
+  - word: "STL"
+    inflections: ["STLs"]
+  - word: "strain"
+    inflections: ["strains"]
+  - word: "strength"
+    inflections: ["strengths"]
+  - word: "stress"
+    inflections: ["stresses"]
+  - word: "support"
+    inflections: ["supports"]
+  - word: "SVG"
+    inflections: ["SVGs"]
+  - word: "sweep"
+    inflections: ["sweeps"]
+  - word: "tag"
+    inflections: ["tags"]
+  - word: "template"
+    inflections: ["templates"]
+  - word: "tension"
+    inflections: ["tensions"]
+  - word: "tessellation"
+    inflections: ["tessellations"]
+  - word: "test"
+    inflections: ["tests"]
+  - word: "tetrahedra"
+    inflections: ["tetrahedras"]
+  - word: "tetrahedron"
+    inflections: ["tetrahedrons"]
+  - word: "text"
+    inflections: ["texts"]
+  - word: "theory"
+    inflections: ["theories"]
+  - word: "thread"
+    inflections: ["threads"]
+  - word: "tolerance"
+    inflections: ["tolerances"]
+  - word: "torsion"
+    inflections: ["torsions"]
+  - word: "TPU"
+    inflections: ["TPUs"]
+  - word: "user"
+    inflections: ["users"]
+  - word: "uv"
+    inflections: ["uvs"]
+  - word: "valid"
+    inflections: ["valids"]
+  - word: "validity"
+    inflections: ["validities"]
+  - word: "vector"
+    inflections: ["vectors"]
+  - word: "version"
+    inflections: ["versions"]
+  - word: "vertex"
+    inflections: ["vertexes"]
+  - word: "view"
+    inflections: ["views"]
+  - word: "volume"
+    inflections: ["volumes"]
+  - word: "VTU"
+    inflections: ["VTUs"]
+  - word: "wall"
+    inflections: ["walls"]
+  - word: "warning"
+    inflections: ["warnings"]
+  - word: "washer"
+    inflections: ["washers"]
+  - word: "Windows"
+    inflections: ["Windowses"]
+  - word: "wire"
+    inflections: ["wires"]
+  - word: "workplane"
+    inflections: ["workplanes"]
+  - word: "YAML"
+    inflections: ["YAMLs"]
+  - word: "yield"
+    inflections: ["yields"]
+technical_verbs:
+  - word: "build"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["builds", "builded"]
+  - word: "chamfer"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["chamfers", "chamfered"]
+  - word: "commit"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["commits", "commited"]
+  - word: "download"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["downloads", "downloaded"]
+  - word: "export"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["exports", "exported"]
+  - word: "extrude"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["extrudes", "extruded"]
+  - word: "fillet"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["fillets", "filleted"]
+  - word: "import"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["imports", "imported"]
+  - word: "install"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["installs", "installed"]
+  - word: "merge"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["merges", "merged"]
+  - word: "mesh"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["meshes", "meshed"]
+  - word: "parse"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["parses", "parsed"]
+  - word: "print"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["prints", "printed"]
+  - word: "push"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["pushes", "pushed"]
+  - word: "render"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["renders", "rendered"]
+  - word: "resolve"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["resolves", "resolved"]
+  - word: "run"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["runs", "runed"]
+  - word: "slice"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["slices", "sliced"]
+  - word: "tessellate"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["tessellates", "tessellated"]
+  - word: "upload"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["uploads", "uploaded"]

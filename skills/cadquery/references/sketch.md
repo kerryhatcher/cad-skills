@@ -1,28 +1,28 @@
-# Sketch Reference
+# Sketch
 
-`cq.Sketch` builds 2D faces for extrude/revolve/loft/sweep/cut. It is often cleaner than chaining 2D Workplane calls: shapes combine with boolean **modes**, selections let you fillet/chamfer 2D corners, and the result is reusable.
+`cq.Sketch` makes 2D faces for extrude, revolve, loft, sweep and cut. It is frequently cleaner than a chain of 2D Workplane calls. Shapes join with boolean **modes**. Selections let you fillet or chamfer 2D corners. You can use the result again.
 
-Key differences from Workplane:
-- **No history** — modifications happen in place; use `.copy()` to branch.
-- **Selections persist** until `.reset()`. Forgetting `reset()` makes the next op apply at the selected vertices/edges.
-- Methods are **multimethods**: pass arguments positionally (`arc((0,0), (1,1), (2,0))`), never as keywords for the positional parameters.
+Important differences from Workplane:
+- **No history:** the changes occur in the sketch. To make a different version, use `.copy()`.
+- **Selections stay** until `.reset()`. If you do not call `reset()`, the next operation occurs at the selected vertices or edges.
+- The methods are **multimethods**. Give the arguments by position (`arc((0,0), (1,1), (2,0))`). Do not give positional parameters as keywords.
 
-## Three ways to build
+## Three methods to make a sketch
 
-### 1. Face-based (most common)
+### 1. From faces (the most frequent method)
 
-Combine primitive faces with `mode`:
+Join primitive faces with `mode`:
 
 | mode | Effect |
 |---|---|
-| `"a"` (default) | add / fuse |
+| `"a"` (default) | add (fuse) |
 | `"s"` | subtract |
 | `"i"` | intersect |
-| `"r"` | replace existing faces |
-| `"c"` | construction only (needs `tag=`), used for locating |
+| `"r"` | replace the faces that are there |
+| `"c"` | construction only (`tag=` is necessary), for the location of other items |
 
 Primitives: `rect(w, h, angle=0)`, `circle(r)`, `ellipse(a1, a2, angle=0)`, `trapezoid(w, h, a1, a2=None, angle=0)`, `slot(w, h, angle=0)`, `regularPolygon(r, n, angle=0)`, `polygon(pts, angle=0)`, `face(shape_or_sketch)`.
-Locations: `push([(x, y), ...])`, `rarray(xs, ys, nx, ny)`, `parray(r, a1, da, n, rotate=True)`, `distribute(n, start=0, stop=1, rotate=True)` (along selected edges/wires).
+Locations: `push([(x, y), ...])`, `rarray(xs, ys, nx, ny)`, `parray(r, a1, da, n, rotate=True)`, `distribute(n, start=0, stop=1, rotate=True)` (along the selected edges or wires).
 
 ```python
 import cadquery as cq
@@ -57,9 +57,9 @@ s = (
 result = cq.Workplane("XY").placeSketch(s).extrude(3)
 ```
 
-### 2. Edge-based
+### 2. From edges
 
-Place edges, then `assemble()` into a face. Needed for custom outlines.
+Put the edges, then make a face with `assemble()`. Use this method for custom outlines.
 
 ```python
 import cadquery as cq
@@ -81,9 +81,9 @@ result = cq.Workplane("XY").placeSketch(s).extrude(5)
 
 Edge methods: `segment(p1, p2)` / `segment(p2)` / `segment(length, angle)`, `arc(p1, p2, p3)` / `arc(p2, p3)` / `arc(center, r, start_angle, sweep_angle)`, `spline(pts, tangents=None, periodic=False)`, `bezier(pts)`, `close()`, `assemble(mode="a", tag=None)`.
 
-### 3. Constraint-based (experimental)
+### 3. From constraints (experimental)
 
-Only segments and arcs. Tag each edge, add constraints, `solve()`, then `assemble()`.
+Only segments and arcs. Put a tag on each edge, add the constraints, call `solve()`, then call `assemble()`.
 
 ```python
 import cadquery as cq
@@ -102,25 +102,25 @@ s = (
 result = cq.Workplane("XY").placeSketch(s).extrude(1)
 ```
 
-| Constraint | Arity | Argument |
+| Constraint | Number of objects | Argument |
 |---|---|---|
 | `Fixed` | 1 | `None` |
-| `FixedPoint` | 1 | `None` (arc centre) or `0..1` position on the entity |
+| `FixedPoint` | 1 | `None` (arc center) or `0..1` position on the object |
 | `Coincident` | 2 | `None` |
-| `Angle` | 2 | angle (deg) between tangents |
+| `Angle` | 2 | angle (degrees) between the tangents |
 | `Length` | 1 | length |
 | `Distance` | 2 | `(None or 0..1, None or 0..1, distance)` |
 | `Radius` | 1 | radius (arcs) |
 | `Orientation` | 1 | `(x, y)` direction (segments) |
-| `ArcAngle` | 1 | angular span (arcs) |
+| `ArcAngle` | 1 | angle of the arc |
 
-Check the solver status with `s._solve_status` if a result looks wrong. For production models prefer explicit math in face/edge-based sketches.
+If a result looks incorrect, examine the solver status with `s._solve_status`. For final models, use explicit calculations in sketches from faces or edges.
 
-## Selection inside a sketch
+## Selection in a sketch
 
-`faces()`, `edges()`, `wires()`, `vertices()` accept the usual selector strings (and `tag=`). Selection-dependent ops: `fillet(r)`, `chamfer(d)`, `offset`, `distribute`, `delete()`, and any primitive (placed at each selected location). Always `.reset()` before the next unrelated step.
+`faces()`, `edges()`, `wires()` and `vertices()` accept the usual selector strings (and `tag=`). Some operations use the selection: `fillet(r)`, `chamfer(d)`, `offset`, `distribute`, `delete()`, and all primitives (the sketch puts them at each selected location). Always call `.reset()` before the next step that is not related.
 
-## Using sketches with Workplane
+## How to use sketches with a Workplane
 
 ```python
 import cadquery as cq
@@ -156,9 +156,9 @@ loft = cq.Workplane("XY").placeSketch(s1, s2.moved(z=25)).loft()
 result = loft
 ```
 
-Operations that accept placed sketches: `extrude`, `twistExtrude`, `revolve`, `sweep`, `loft`, `cutBlind`, `cutThruAll`. Loft uses outer wires only (inner wires silently ignored).
+These operations accept placed sketches: `extrude`, `twistExtrude`, `revolve`, `sweep`, `loft`, `cutBlind`, `cutThruAll`. Loft uses only the outer wires (it ignores the inner wires and gives no error).
 
-## Combining & offsetting
+## Join and offset
 
 ```python
 import cadquery as cq
@@ -178,7 +178,7 @@ result = (
 )
 ```
 
-## Import / export
+## Import and export
 
 ```python
 # notest
@@ -186,9 +186,9 @@ s = cq.Sketch().importDXF("profile.dxf", tol=1e-6)   # DXF -> sketch faces
 s.export("profile.dxf")                               # also .svg / .step ...
 ```
 
-## Gotchas
+## Frequent problems
 
-- A circle contributes one *seam vertex*, so `vertices()` after adding/subtracting circles also selects that point (a rect minus a circle has 5 vertices) — fillet corners before adding circles, or select via `tag=`.
-- `clean()` after many `mode="a"` ops removes internal edges; needed before offset/fillet in some cases.
-- `rect(w, h)` is centred; there is no `centered=` argument. Use `push([(x, y)])` first to move it.
-- `moved(...)` returns a moved copy; `located(loc)` sets an absolute location.
+- A circle adds one *seam vertex*. Thus, after you add or subtract circles, `vertices()` also selects that point (a rectangle minus a circle has 5 vertices). Fillet the corners before you add circles, or select with `tag=`.
+- After many `mode="a"` operations, `clean()` removes the internal edges. Some offset and fillet operations need this step.
+- The center of `rect(w, h)` is at the location. There is no `centered=` argument. To move the rectangle, first use `push([(x, y)])`.
+- `moved(...)` gives a moved copy. `located(loc)` sets an absolute location.

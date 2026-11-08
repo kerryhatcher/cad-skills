@@ -1,6 +1,6 @@
 ---
 name: prusaslicer
-description: Use when slicing a model into G-code for a Prusa printer (MK4, MK4S, MK3.9, CORE One, MINI) with PrusaSlicer — choosing print/filament profiles, layer height, perimeters, infill, supports, brim, temperatures, Prusament or Jessie filament settings, binary .bgcode, print time/filament estimates, running the PrusaSlicer command line (CLI) headless, inspecting an existing .gcode/.bgcode, or sending a job to the printer via PrusaLink.
+description: Use this skill to slice a model into G-code for a Prusa printer (MK4, MK4S, MK3.9, CORE One, MINI) with PrusaSlicer. Topics are print and filament profiles, layer height, perimeters, infill, supports, brim and temperatures. Other topics are Prusament and Jessie filament settings, binary .bgcode, and estimates of print time and filament. Use it to run the PrusaSlicer command line (CLI) with no GUI, or to examine a .gcode or .bgcode file. Also use it to send a print to the printer through PrusaLink.
 license: MIT
 metadata:
   author: Kerry Hatcher
@@ -8,131 +8,156 @@ metadata:
   prusaslicer-version: "2.9"
 ---
 
-# Slicing with PrusaSlicer (Prusa MK4 / MK4S)
+# Slicing with PrusaSlicer (Prusa MK4 and MK4S)
 
 ## Overview
 
-`scripts/slice.py` drives the PrusaSlicer CLI with **Prusa's official system profiles** and verifies the result. It resolves the profile bundle (`PrusaResearch.ini`, following `inherits` chains and compatibility conditions) into one flat config and slices with `--load`. It then reads the G-code back (ASCII or binary `.bgcode`) to confirm printer model, nozzle, temperatures and every override really landed. It reports time, filament and slicer warnings.
+`scripts/slice.py` runs the PrusaSlicer CLI with **the Prusa system profiles**, and makes sure that the result is correct. It does these steps:
 
-**Core principle: never trust that the CLI used the profile you named.** `prusa-slicer --printer-profile "Original Prusa MK4 ..."` silently falls back to a generic RepRap printer (200 °C PLA, no MK4 start G-code) unless the GUI previously "installed" those presets. The MK4 then refuses the file or prints it wrong. Always slice through `slice.py`, or check `printer_model` and the temperatures in the output.
+1. It reads the profile bundle (`PrusaResearch.ini`). It uses the `inherits` chains and the compatibility conditions.
+2. It writes one flat configuration file and slices with `--load`.
+3. It reads the G-code (ASCII or binary `.bgcode`). It makes sure that the printer model, the nozzle, the temperatures and all your settings are in the G-code.
+4. It shows the print time, the filament and the slicer warnings.
+
+**Primary rule: do not think that the CLI used the profile that you specified.** `prusa-slicer --printer-profile "Original Prusa MK4 ..."` operates correctly only if the GUI installed these presets before. If not, the CLI uses a generic RepRap printer (200 °C PLA, no MK4 start G-code). It shows no error. Then the MK4 does not accept the file, or it prints the part incorrectly. Always slice with `slice.py`, or examine `printer_model` and the temperatures in the output.
 
 ## Language: Simplified Technical English
 
-Write in ASD-STE100 Simplified Technical English (STE) when you use or change this skill. This applies to documentation, code comments, docstrings, CLI help text, error messages, commit messages and all messages to the user.
+Write in ASD-STE100 Simplified Technical English (STE) when you use or change this skill. This rule applies to documentation, code comments, docstrings, CLI help text, error messages, commit messages and all messages to the user.
 
-- Use approved STE words with one meaning each. Technical names and technical verbs are permitted.
-- Use the active voice. Use the imperative for instructions. Use simple present, simple past or simple future.
-- Write one topic in each sentence. Maximum 20 words in a procedure step, 25 words in a description.
-- Do not use phrasal verbs, idioms, or noun clusters of more than three words.
-- Write a warning or caution as a command before the step, then give the reason.
-- Do not change code, commands, file names, setting keys or quoted output. Copy them exactly.
+- Use approved STE words with one meaning each. You can use technical nouns and technical verbs.
+- Use the active voice. Use the imperative for instructions. Use the simple present, simple past or simple future tense.
+- Write one topic in each sentence. Use a maximum of 20 words in a procedure step, and 25 words in a description.
+- Do not use phrasal verbs, idioms, semicolons, or noun clusters of more than three words.
+- Write a WARNING or CAUTION as a command before the step. Then give the risk.
+- Do not change code, commands, file names, configuration keys or quoted output. Copy them without changes.
 
-The full rules and examples are in `AGENTS.md` at the root of the cad-skills repository.
+`AGENTS.md` at the root of the cad-skills repository gives all the rules and examples.
 
 ## Environment
 
-- PrusaSlicer ≥ 2.8 (tested 2.9.7). Linux: `flatpak install flathub com.prusa3d.PrusaSlicer` (Prusa no longer ships Linux AppImages). macOS/Windows: installer from prusa3d.com. Or set `PRUSA_SLICER=/path/to/prusa-slicer`.
-- The script is pure Python stdlib: `uv run <skill-dir>/scripts/slice.py ...` (`<skill-dir>` = folder of this SKILL.md).
-- `slice.py find` shows which slicer and profile bundle it found (it prefers the newest bundle: the GUI's auto-updated copy over the installed one).
+- PrusaSlicer 2.8 or a more recent version (tested with 2.9.7).
+  - Linux: `flatpak install flathub com.prusa3d.PrusaSlicer`. Prusa does not supply Linux AppImages.
+  - macOS and Windows: use the installer from prusa3d.com.
+  - As an alternative, set `PRUSA_SLICER=/path/to/prusa-slicer`.
+- The script uses only the Python standard library: `uv run <skill-dir>/scripts/slice.py ...` (`<skill-dir>` is the directory of this SKILL.md).
+- `slice.py find` shows the slicer and the profile bundle that it found. It uses the most recent bundle. The GUI updates its copy of the bundle, and this copy is usually more recent than the installed copy.
 
-## Workflow
+## Procedure
 
-1. **Input**: an oriented, checked model from the `print-prep` skill (`.3mf` or `.stl`; STEP and OBJ also work). The slicer does not re-orient. Rotate with `--rotate/--rotate-x/--rotate-y` if needed.
-2. **Pick presets** (they must be compatible with the printer):
+1. **Input:** use a turned and examined model from the `print-prep` skill (`.3mf` or `.stl`). STEP and OBJ files are also possible. The slicer does not turn the part. If necessary, use `--rotate`, `--rotate-x` or `--rotate-y`.
+2. **Select the presets.** The presets must be compatible with the printer:
    ```bash
    uv run <skill-dir>/scripts/slice.py profiles --printer MK4 --print "0.20mm STRUCTURAL" --filter jessie
    ```
-3. **Slice**, with strength settings from the analysis:
+3. **Slice the part,** with the strength settings from the analysis:
    ```bash
    uv run <skill-dir>/scripts/slice.py slice part.3mf --printer MK4 \
        --filament "Jessie PETG" --print "0.20mm STRUCTURAL" \
        --perimeters 4 --infill 40% --set fill_pattern=gyroid -o out/part.bgcode
    ```
-4. **Read the report**: `verification: OK` is required (exit ≠ 0 otherwise). Check `estimated_time` and `filament_used_g`. `SLICER:` lines such as *"Detected print stability issues: Floating bridge anchors, Long bridging extrusions…"* mean add supports (`--supports organic`), re-orient, or fix the geometry, then re-slice.
-5. **Deliver**: give the user the `.bgcode` path (USB stick, or PrusaLink upload, below) and the `.ini` written beside it, which reproduces the slice exactly.
+4. **Read the report:**
+   - The report must show `verification: OK`. If not, the exit status is not 0.
+   - Examine `estimated_time` and `filament_used_g`.
+   - `SLICER:` lines can show problems, for example *"Detected print stability issues: Floating bridge anchors, Long bridging extrusions…"*. Then add supports (`--supports organic`), turn the part, or change the geometry. Then slice again.
+5. **Give the results to the user:**
+   - The path of the `.bgcode` file (for a USB drive, or for PrusaLink, below).
+   - The `.ini` file next to it. This file gives the same slice again.
 
-Never start a print or upload to a printer without the user's explicit go-ahead.
+Do not start a print or send a file to a printer before the user tells you to do it.
 
 ## Printer, print and filament presets
 
 | Alias (`--printer`) | Preset | Notes |
 |---|---|---|
-| `MK4` (default), `MK4IS` | Original Prusa MK4 Input Shaper 0.4 nozzle | Stock MK4 on firmware ≥ 6 (input shaper is standard) |
+| `MK4` (default), `MK4IS` | Original Prusa MK4 Input Shaper 0.4 nozzle | Standard MK4 with firmware 6 or more recent (input shaping is standard) |
 | `MK4 0.6`, `MK4 HF0.6` | …Input Shaper 0.6 / HF0.6 nozzle | Other nozzles |
-| `MK4S` | Original Prusa MK4S HF0.4 nozzle | MK4S ships with the 0.4 high-flow nozzle |
+| `MK4S` | Original Prusa MK4S HF0.4 nozzle | The MK4S comes with the 0.4 mm high-flow nozzle |
 | `MK4S 0.4` | Original Prusa MK4S 0.4 nozzle | MK4S with a standard nozzle |
-| full name | any `profiles` entry | e.g. `"Original Prusa MK4 Input Shaper 0.25 nozzle"` |
+| full name | each entry from `profiles` | for example, `"Original Prusa MK4 Input Shaper 0.25 nozzle"` |
 
-**Get the printer right.** The G-code starts with `M862.3 P "MK4IS"` / `"MK4S"` and a nozzle check (`M862.1 … F1` for high-flow). The printer warns or stops on a mismatch.
+**Use the correct printer.** The G-code starts with `M862.3 P "MK4IS"` or `"MK4S"` and a nozzle check (`M862.1 … F1` for high-flow). If the printer model or the nozzle is different, the printer shows a warning or stops.
 
-Print presets for MK4 0.4: `0.10mm FAST DETAIL`, `0.15mm SPEED|STRUCTURAL`, `0.20mm SPEED|STRUCTURAL` (MK4S adds 0.25/0.28 on HF). **STRUCTURAL** = slower perimeters (80/45 mm/s vs 170) for better layer bonding and accuracy. Use it for functional parts. SPEED is for prototypes and looks. The default here is `0.20mm STRUCTURAL`.
+Print presets for the MK4 with a 0.4 mm nozzle: `0.10mm FAST DETAIL`, `0.15mm SPEED|STRUCTURAL`, `0.20mm SPEED|STRUCTURAL`. The MK4S adds 0.25 mm and 0.28 mm presets for the HF nozzle. **STRUCTURAL** uses lower perimeter speeds: 80/45 mm/s, not 170 mm/s. These speeds give better layer bonds and better precision. Use it for functional parts. Use SPEED for prototypes and for parts that must only look good. The default of this skill is `0.20mm STRUCTURAL`.
 
-Filament presets (MK4: `@PGIS`/`@PG`/`@MK4`; MK4S: `@MK4S HF0.4`): the prefix is enough: `"Prusament PLA"`, `"Prusament PLA Blend"`, `"Prusament PETG"`, `"Prusament ASA"`, `"Prusament PC Blend"`, `"Jessie PLA"`, `"Jessie PETG"`.
+Filament presets (MK4: `@PGIS`, `@PG` or `@MK4`. MK4S: `@MK4S HF0.4`): the first part of the name is sufficient. Examples: `"Prusament PLA"`, `"Prusament PLA Blend"`, `"Prusament PETG"`, `"Prusament ASA"`, `"Prusament PC Blend"`, `"Jessie PLA"`, `"Jessie PETG"`.
 
-| Filament (MK4 0.4) | Nozzle 1st/other °C | Bed 1st/other °C | Fan % | Max flow mm³/s |
+| Filament (MK4, 0.4 mm) | Nozzle, first layer / other layers (°C) | Bed, first layer / other layers (°C) | Fan (%) | Maximum flow (mm³/s) |
 |---|---|---|---|---|
 | Prusament PLA | 230 / 225 | 60 / 60 | 100 | 15 |
 | Prusament PLA Blend | 230 / 225 | 60 / 60 | 100 | 7.5 |
 | Jessie PLA | 230 / 220 | 60 / 60 | 100 | 12 |
-| Prusament PETG | 250 / 250 | 85 / 90 | 30–60 | 12 |
-| Jessie PETG | 245 / 245 | 85 / 90 | 30–50 | 12 |
+| Prusament PETG | 250 / 250 | 85 / 90 | 30 to 60 | 12 |
+| Jessie PETG | 245 / 245 | 85 / 90 | 30 to 50 | 12 |
 | Prusament ASA | 260 / 260 | 105 / 110 | 20 | 15 |
 | Prusament PC Blend | 275 / 275 | 110 / 115 | 20 (off by default) | 12 |
 
 ## Settings for strength (functional parts)
 
-| Goal | Flag / `--set` | Typical |
+| Goal | Option or `--set` | Typical value |
 |---|---|---|
-| Stronger walls (biggest lever) | `--perimeters N` | 4–6 (default 2) |
-| Stronger/stiffer core | `--infill 40%` + `--set fill_pattern=gyroid` (or `cubic`) | 25–60%. 100% only for small, highly loaded parts |
-| Thicker skins | `--set top_solid_layers=7 --set bottom_solid_layers=5` | defaults 5/4 |
-| Better layer adhesion | `--set temperature=<+5..10> --set first_layer_temperature=...` | stay within the filament range |
-| Less cooling (PETG/ASA) | `--set max_fan_speed=30 --set min_fan_speed=15` | |
-| Supports | `--supports organic` / `grid` / `snug` / `buildplate` / `none` | organic for curved overhangs |
-| Bed adhesion / warping | `--brim 5` | ASA, PC, tall/narrow parts |
-| Finer layers | `--print "0.15mm STRUCTURAL"` | better Z strength and detail, ~30% slower |
-| Plain-text G-code | `--ascii` | for reading/diffing. MK4 prefers `.bgcode` |
+| Stronger walls (largest effect) | `--perimeters N` | 4 to 6 (default 2) |
+| Stronger and stiffer core | `--infill 40%` and `--set fill_pattern=gyroid` (or `cubic`) | 25% to 60%. Use 100% only for small parts with very high loads |
+| Thicker skins | `--set top_solid_layers=7 --set bottom_solid_layers=5` | defaults 5 and 4 |
+| Better layer adhesion | `--set temperature=<+5..10> --set first_layer_temperature=...` | Stay in the temperature range of the filament |
+| Less cooling (PETG, ASA) | `--set max_fan_speed=30 --set min_fan_speed=15` | |
+| Supports | `--supports organic` / `grid` / `snug` / `buildplate` / `none` | `organic` for curved overhangs |
+| Bed adhesion, warping | `--brim 5` | ASA, PC, tall or narrow parts |
+| Thinner layers | `--print "0.15mm STRUCTURAL"` | Better Z strength and smaller features, approximately 30% slower |
+| G-code as text | `--ascii` | To read or compare G-code. The MK4 uses `.bgcode` by default |
 
-Any key from `prusa-slicer --help-fff` works with `--set key=value`. Full list with explanations: `references/settings.md`.
+All keys from `prusa-slicer --help-fff` operate with `--set key=value`. For the full list with explanations, refer to `references/settings.md`.
 
-## Inspecting G-code
+## How to examine G-code
 
 ```bash
 uv run <skill-dir>/scripts/slice.py info out/part.bgcode            # summary
 uv run <skill-dir>/scripts/slice.py info out/part.bgcode --keys perimeters fill_density printer_model
 ```
 
-Reads the metadata and embedded config of `.bgcode` (binary, deflate blocks) and `.gcode`.
+The command reads the metadata and the embedded configuration of `.bgcode` files (binary, deflate blocks) and `.gcode` files.
 
-## Sending to the printer (PrusaLink), only when asked
+## Send a file to the printer (PrusaLink), only when the user tells you
 
 ```bash
 curl -fsS -X PUT -H "X-Api-Key: $PRUSALINK_KEY" -H "Overwrite: ?0" -H "Print-After-Upload: ?0" \
      --data-binary @out/part.bgcode "http://$PRINTER_IP/api/v1/files/usb/part.bgcode"   # 201 = ok, 409 = exists
 ```
 
-The API key is in the printer menu: Settings → Network → PrusaLink. `Print-After-Upload: ?1` starts the print, so **confirm with the user first** and make sure the bed is clear. Prusa Connect (cloud) is an alternative via the web UI.
+The API key is in the printer menu: Settings → Network → PrusaLink.
 
-## Common mistakes
+WARNING: Do not use `Print-After-Upload: ?1` before the user agrees and the bed is clear. This header starts the print immediately. The moving printer can cause injury, and the nozzle can hit loose parts.
 
-| Mistake | Symptom | Fix |
+Prusa Connect (cloud) is an alternative, through the web interface.
+
+## Frequent errors
+
+| Error | Symptom | Repair |
 |---|---|---|
-| Raw CLI with `--printer-profile` names | `printer_settings_id = - default FFF -`, 200 °C, MK4 rejects/mis-prints | Use `slice.py` (verifies) |
-| MK4S file on an MK4 (or HF vs standard nozzle) | Printer model/nozzle warning at start | Correct `--printer` alias |
-| 3MF from another tool lands off the bed | "All objects are outside of the print volume" | `slice.py` centres single objects by default. `--center X,Y` to place |
-| Expecting the slicer to orient | Supports everywhere / weak part | Orient in `print-prep` first |
-| Ignoring "stability issues" messages | Spaghetti, detached islands | Supports, re-orient, or change geometry |
-| `fill_density=40` without `%` | Interpreted oddly | `--infill 40` (adds `%`) or `--set fill_density=40%` |
-| PETG on smooth PEI without release agent | Sheet damage | Textured sheet or glue stick |
-| Old profile bundle | Missing new filaments/printers | Open the GUI once (updates `vendor/`), or `--bundle path` |
+| Raw CLI with `--printer-profile` names | `printer_settings_id = - default FFF -`, 200 °C. The MK4 does not accept the file, or prints it incorrectly | Use `slice.py` (it examines the output) |
+| MK4S file on an MK4 (or HF nozzle and standard nozzle) | Warning about the printer model or the nozzle at the start | Use the correct `--printer` alias |
+| 3MF from a different tool is off the bed | "All objects are outside of the print volume" | `slice.py` puts a single object at the bed center by default. Use `--center X,Y` for a different position |
+| You think that the slicer turns the part | Supports in all areas, or a weak part | Turn the part in `print-prep` first |
+| You ignore "stability issues" messages | Spaghetti, loose islands | Add supports, turn the part, or change the geometry |
+| `fill_density=40` without `%` | The slicer can read the value incorrectly | `--infill 40` (adds `%`) or `--set fill_density=40%` |
+| PETG on smooth PEI with no release agent | Damage to the sheet | Use a textured sheet or glue stick |
+| Profile bundle that is not current | New filaments or printers are missing | Open the GUI one time (it updates `vendor/`), or use `--bundle path` |
 
 ## Reference files
 
-| File | When |
+| File | Contents |
 |---|---|
-| `references/settings.md` | Key print/filament/printer config keys, what they do, strength vs speed vs quality trade-offs |
-| `references/cli.md` | Raw CLI usage, flatpak sandbox paths, profile bundle internals, binary G-code, troubleshooting |
+| `references/settings.md` | Important configuration keys for print, filament and printer, their function, and the balance of strength, speed and quality |
+| `references/cli.md` | Raw CLI, flatpak sandbox paths, the structure of the profile bundle, binary G-code, troubleshooting |
 
-## Bundled tools
+## Tools in this skill
 
-`scripts/slice.py`: `find`, `profiles [--printer --print --filter --json]`, `config -o x.ini`, `slice inputs… [--printer --print --filament --set k=v --perimeters --infill --supports --brim --layer-height --ascii --rotate* --scale --duplicate --merge --center --json]`, `info file`. Exit 0 = sliced and verified. 1 = slicing failed or mismatch. 2 = PrusaSlicer not installed.
+`scripts/slice.py` has these subcommands:
+
+- `find`
+- `profiles [--printer --print --filter --json]`
+- `config -o x.ini`
+- `slice inputs… [--printer --print --filament --set k=v --perimeters --infill --supports --brim --layer-height --ascii --rotate* --scale --duplicate --merge --center --json]`
+- `info file`
+
+Exit status 0: sliced, and the output is correct. Exit status 1: the slice did not complete, or the output is not correct. Exit status 2: PrusaSlicer is not installed.

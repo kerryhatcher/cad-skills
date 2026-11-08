@@ -1,10 +1,10 @@
-# Free-Function API, Shapes & Geometry
+# Free-function API, shapes and geometry
 
-Below the fluent `Workplane` sits the **Shape** layer (`cq.Solid`, `cq.Face`, `cq.Edge`, …) and the **free-function API** in `cadquery.func`: stateless functions that take shapes and return new shapes. No hidden stack, no pending wires — more verbose but fully explicit. Good for: generated geometry, surfaces, many instances, performance-sensitive code, and anything awkward to express as a chain.
+Below the fluent `Workplane` is the **Shape** layer (`cq.Solid`, `cq.Face`, `cq.Edge`, …) and the **free-function API** in `cadquery.func`. These functions have no state: they accept shapes and give new shapes. There is no hidden stack and there are no pending wires. The code is longer, but fully explicit. Use this API for generated geometry, surfaces, many instances, code that must be fast, and shapes that are difficult to make with a chain.
 
-Topology hierarchy: `Vertex → Edge → Wire → Face → Shell → Solid → CompSolid → Compound`.
+Topology sequence: `Vertex → Edge → Wire → Face → Shell → Solid → CompSolid → Compound`.
 
-## Tutorial example
+## Example
 
 ```python
 from cadquery.func import circle, loft, fill, cap, solid
@@ -26,12 +26,12 @@ result = s.moved((-3 * r, 0, 0), (3 * r, 0, 0))          # two copies -> Compoun
 
 | Function | Result |
 |---|---|
-| `segment(p1, p2)`, `polyline(*pts)`, `polygon(*pts)` | edge / wire / closed wire |
-| `circle(r)`, `ellipse(r1, r2)`, `rect(w, h)` | closed edge / wire (in XY, centred) |
+| `segment(p1, p2)`, `polyline(*pts)`, `polygon(*pts)` | edge, wire, closed wire |
+| `circle(r)`, `ellipse(r1, r2)`, `rect(w, h)` | closed edge or wire (in XY, center at the origin) |
 | `spline(pts, tgts=None, periodic=False)` | edge |
-| `plane(w, l)` / `plane()` | finite / infinite planar face |
-| `box(w, l, h)`, `cylinder(d, h)`, `sphere(d)`, `torus(d1, d2)`, `cone(d, h)` / `cone(d1, d2, h)` | solids — **func primitives take diameters** (unlike `Workplane.cylinder(height, radius)`); position with `.moved()` |
-| `text(txt, size)` / `text(txt, size, spine, planar=False)` / `text(txt, size, spine, base)` | text faces, along a curve, or projected onto a surface |
+| `plane(w, l)` / `plane()` | finite or infinite planar face |
+| `box(w, l, h)`, `cylinder(d, h)`, `sphere(d)`, `torus(d1, d2)`, `cone(d, h)` / `cone(d1, d2, h)` | Solids. **The func primitives use diameters** (but `Workplane.cylinder(height, radius)` uses a radius). Use `.moved()` to set the position |
+| `text(txt, size)` / `text(txt, size, spine, planar=False)` / `text(txt, size, spine, base)` | Text faces, text along a curve, or text projected onto a surface |
 | `vertex(x, y, z)` | vertex |
 
 ```python
@@ -48,15 +48,15 @@ assert abs(cyl.BoundingBox().xlen - 2) < 1e-6          # diameter 2, not radius
 
 ## Construction
 
-| Function | Builds |
+| Function | Result |
 |---|---|
 | `wire(*edges)` | wire from edges |
-| `face(outer_wire, *inner_wires)` | planar face (holes from inner wires) |
+| `face(outer_wire, *inner_wires)` | planar face (the inner wires make holes) |
 | `shell(*faces, tol=1e-6, ctx=None)` | sewn shell |
-| `solid(*faces_or_shells)` / `solid(outer_list, inner=[...])` | solid from closed faces/shell (inner = voids) |
-| `compound(*shapes)` | compound (also accepts a list) |
-| `fill(edges_or_wire, constraints=[])` | (non-planar) filling surface |
-| `cap(edges, ctx_shape, constraints)` | G1/G2 cap matching a context surface |
+| `solid(*faces_or_shells)` / `solid(outer_list, inner=[...])` | solid from closed faces or a shell (inner = cavities) |
+| `compound(*shapes)` | compound (it also accepts a list) |
+| `fill(edges_or_wire, constraints=[])` | fill surface (can be non-planar) |
+| `cap(edges, ctx_shape, constraints)` | G1/G2 cap that agrees with a context surface |
 | `offset2D(wire, d, kind="arc")` | planar wire offset |
 
 ## Operations
@@ -64,18 +64,18 @@ assert abs(cyl.BoundingBox().xlen - 2) < 1e-6          # diameter 2, not radius
 | Function | Notes |
 |---|---|
 | `extrude(shape, (dx, dy, dz))` | edge→face, wire→shell, face→solid |
-| `revolve(shape, p, d, a=360)` | about axis through `p` along `d` |
-| `loft(*sections, cap=False, ruled=False, continuity="C2")` | sections = wires/edges/faces |
-| `sweep(profile_or_list, path, aux=None, cap=False, transition="transformed")` | list of profiles = multisection |
-| `fuse(a, b, ...)`, `cut(a, b)`, `intersect(a, b)`, `split(a, tool)` | also operators `+`, `-`, `*`, `/` |
-| `fillet(shape, edges, r)`, `chamfer(shape, edges, d)` | edges from selection on the shape |
+| `revolve(shape, p, d, a=360)` | about the axis through `p` along `d` |
+| `loft(*sections, cap=False, ruled=False, continuity="C2")` | sections = wires, edges or faces |
+| `sweep(profile_or_list, path, aux=None, cap=False, transition="transformed")` | a list of profiles gives a multisection sweep |
+| `fuse(a, b, ...)`, `cut(a, b)`, `intersect(a, b)`, `split(a, tool)` | also the operators `+`, `-`, `*`, `/` |
+| `fillet(shape, edges, r)`, `chamfer(shape, edges, d)` | select the edges on the shape |
 | `fillet2D(face, vertices, r)`, `chamfer2D(face, vertices, d)` | 2D corners |
-| `hollow(solid, faces, t)` / `hollow(solid, t)` | shell with removed faces / closed hollow |
-| `draft(ctx, base_face, faces, angle)` | add draft to faces relative to a neutral base face |
-| `prism(...)` | local prism feature (boss/pocket) on a face |
-| `offset(shape, t, cap=True, both=False)` | thicken a face/shell into a solid |
-| `clean(shape)`, `check(shape)` | merge coplanar faces / validity |
-| `project`, `imprint`, `closest`, `isSubshape`, `setThreads` | misc |
+| `hollow(solid, faces, t)` / `hollow(solid, t)` | shell with removed faces / closed hollow solid |
+| `draft(ctx, base_face, faces, angle)` | adds draft to faces, relative to a neutral base face |
+| `prism(...)` | local prism feature (boss or pocket) on a face |
+| `offset(shape, t, cap=True, both=False)` | makes a solid from a face or a shell with a thickness |
+| `clean(shape)`, `check(shape)` | merges coplanar faces / examines validity |
+| `project`, `imprint`, `closest`, `isSubshape`, `setThreads` | other functions |
 
 ```python
 from cadquery.func import rect, face, circle, spline, extrude, sweep, loft, revolve, fill, compound
@@ -106,15 +106,15 @@ lower = (c1 / f1).solids("<Z")  # split by a face, keep the lower solid
 result = compound(u, d.moved(x=3), i.moved(x=6), lower.moved(x=9))
 ```
 
-**Performance**: booleans are the slowest operation. Never fuse in a loop — collect tools in one `compound(...)` and cut once: `base - compound(*tools)`.
+**Speed:** booleans are the slowest operation. Do not fuse in a loop. Put the cutters in one `compound(...)` and cut one time: `base - compound(*tools)`.
 
 ## Selection on shapes
 
-Shapes support selector strings and set algebra directly:
+Shapes accept selector strings and set algebra directly:
 
-- Plural (return a Shape/Compound): `vertices()`, `edges()`, `wires()`, `faces()`, `shells()`, `solids()`.
-- Singular (return exactly one or **raise**): `vertex()`, `edge()`, `wire()`, `face()`, `shell()`, `solid()` — great as assertions.
-- Combine: `a & b` (intersection), `a | b` (union), `a % b` (difference) on selections; `ancestors(shape, kind)`, `siblings(shape, kind)`.
+- Plural methods (they give a Shape or a Compound): `vertices()`, `edges()`, `wires()`, `faces()`, `shells()`, `solids()`.
+- Singular methods (they give exactly one object, or **raise** an error): `vertex()`, `edge()`, `wire()`, `face()`, `shell()`, `solid()`. These are good as assertions.
+- Operators on selections: `a & b` (intersection), `a | b` (union), `a % b` (difference). Also `ancestors(shape, kind)` and `siblings(shape, kind)`.
 
 ```python
 from cadquery.func import box, fillet
@@ -127,9 +127,9 @@ assert len(rounded.Faces()) == 10
 result = rounded
 ```
 
-## Placement
+## Position
 
-`move()` (in place) / `moved()` (copy). Arguments: a `Location`, a tuple `(x, y, z)`, keywords `x=, y=, z=, rx=, ry=, rz=` (degrees), or **several** locations/tuples → a Compound of copies (pattern).
+`move()` (moves the shape) / `moved()` (moves a copy). Arguments: a `Location`, a tuple `(x, y, z)`, the keywords `x=, y=, z=, rx=, ry=, rz=` (degrees), or **many** locations or tuples. Many locations give a Compound of copies (a pattern).
 
 ```python
 from cadquery.func import sphere, cylinder, compound
@@ -142,7 +142,7 @@ result = compound(s, c.moved(x=3))
 
 ## History (experimental)
 
-Pass `history=History()` and `name="..."` to supported ops, then query generated/modified faces by op name: `hist["hollow"].generated()`, `.modified()`, `.last()`. Lets you select faces created by a specific operation instead of by position. API may change — check with `scripts/cq_api.py func.History`.
+Give `history=History()` and `name="..."` to operations that accept them. Then query the generated or modified faces by operation name: `hist["hollow"].generated()`, `.modified()`, `.last()`. This lets you select the faces that a specified operation made, not faces at a position. The API can change. Examine it with `scripts/cq_api.py func.History`.
 
 ## Geometry classes
 
@@ -160,9 +160,9 @@ bb = cq.Workplane().box(2, 3, 4).val().BoundingBox()   # .xmin .xmax .xlen .cent
 result = cq.Workplane(p2).rect(2, 1).extrude(1)
 ```
 
-## Shape measurement & checks
+## Measurements and checks of shapes
 
-| Call | Returns |
+| Call | Result |
 |---|---|
 | `s.isValid()` | BRep check |
 | `s.Volume()`, `s.Area()`, `edge.Length()` | |
@@ -172,10 +172,10 @@ result = cq.Workplane(p2).rect(2, 1).extrude(1)
 | `s.geomType()` | `"PLANE"`, `"CYLINDER"`, `"LINE"`, `"CIRCLE"`, … |
 | `face.normalAt(pt=None)` | `Vector` |
 | `s1.distance(s2)` | minimum distance |
-| `s.fix()` | attempt shape healing |
-| `s.toSplines()`, `s.toNURBS()` | approximate / exact B-spline conversion |
+| `s.fix()` | tries to repair the shape |
+| `s.toSplines()`, `s.toNURBS()` | approximate or exact conversion to B-splines |
 
-## Mixing with the fluent API
+## How to use this API with the fluent API
 
 ```python
 import cadquery as cq
@@ -189,4 +189,4 @@ wp2 = cq.Workplane().box(10, 10, 10).newObject([tool]).toPending().cutThruAll()
 result = wp2
 ```
 
-Drop to raw OCCT through `shape.wrapped` (a `TopoDS_Shape`) and `from OCP.<Package> import <Class>`; wrap results back with `cq.Shape.cast(topods)`.
+To use OCCT directly, use `shape.wrapped` (a `TopoDS_Shape`) and `from OCP.<Package> import <Class>`. To change the results back to CadQuery shapes, use `cq.Shape.cast(topods)`.

@@ -1,8 +1,8 @@
-# Assemblies Reference
+# Assemblies
 
-`cq.Assembly` groups parts (Workplanes or Shapes) with names, locations, colours, and optional constraints. Children are positioned **relative to their parent**. Export keeps the tree, names, and colours (STEP, XBF/XML, glTF).
+`cq.Assembly` puts parts (Workplanes or Shapes) in groups, with names, locations, colors and optional constraints. The position of each child is **relative to its parent**. The export keeps the tree, the names and the colors (STEP, XBF/XML, glTF).
 
-## Building
+## How to make an assembly
 
 ```python
 import cadquery as cq
@@ -24,9 +24,13 @@ assy.add(sub, name="feet")
 result = assy
 ```
 
-`add(obj, loc=None, name=None, color=None, material=None, metadata=None)` — `obj` may be a Workplane, Shape, or Assembly (when adding an Assembly, `loc`/`name`/`color` override the sub-assembly's own). Pass these as keywords. Names must be unique among siblings; nested children are addressed `"feet/foot0"` in `assy.objects`.
+`add(obj, loc=None, name=None, color=None, material=None, metadata=None)`:
 
-Same part many times? Add the **same Workplane object** repeatedly with different `loc` — exporters share the geometry (smaller STEP files).
+- `obj` can be a Workplane, a Shape or an Assembly. If you add an Assembly, `loc`, `name` and `color` replace the values of the sub-assembly.
+- Give these arguments as keywords.
+- The names of the children of one parent must be different. In `assy.objects`, the name of a nested child is `"feet/foot0"`.
+
+Do you use the same part many times? Add the **same Workplane object** many times, each with a different `loc`. The exporters use one copy of the geometry (smaller STEP files).
 
 ## Locations
 
@@ -44,13 +48,13 @@ placed = part.moved(combo)
 result = placed
 ```
 
-- `parent.loc * child.loc` = global placement of the child.
-- To move something in **world** coordinates after solving, pre-multiply: `obj.loc = cq.Location((0, 0, dz)) * obj.loc`.
-- `loc.toTuple()` → `((x, y, z), (rx, ry, rz))` degrees, handy for reporting.
+- `parent.loc * child.loc` = the global position of the child.
+- To move an object in **world** coordinates after the solver, multiply on the left: `obj.loc = cq.Location((0, 0, dz)) * obj.loc`.
+- `loc.toTuple()` → `((x, y, z), (rx, ry, rz))` in degrees. This is useful for reports.
 
 ## Constraints
 
-Instead of computing locations, declare relationships and call `solve()`. The solver moves children to minimise all constraint costs.
+You do not have to calculate the locations. Declare the relations between parts, and call `solve()`. The solver moves the children to make the total constraint cost as small as possible.
 
 ```python
 import cadquery as cq
@@ -82,40 +86,47 @@ assert abs(x + 20) < 1e-3 and abs(y) < 1e-3 and abs(z - 8) < 1e-3   # pin centre
 result = assy
 ```
 
-### Referencing geometry
+### How to refer to geometry
 
 | Form | Meaning |
 |---|---|
-| `"name"` | the whole part (its centre for Point-type costs) |
-| `"name?tag"` | object tagged on the part's Workplane (`wp.faces(">Z").tag("top")`) |
-| `"name@faces@>Z"` | selector applied to the part: `@faces@`, `@edges@`, `@vertices@` + selector string |
-| `constrain("a", shape_a, "b", shape_b, "Kind")` | explicit `cq.Shape`s (use `.val()`), for selections strings can't express |
+| `"name"` | the full part (its center for Point-type costs) |
+| `"name?tag"` | an object with a tag on the Workplane of the part (`wp.faces(">Z").tag("top")`) |
+| `"name@faces@>Z"` | a selector applied to the part: `@faces@`, `@edges@`, `@vertices@` and a selector string |
+| `constrain("a", shape_a, "b", shape_b, "Kind")` | explicit `cq.Shape` objects (use `.val()`), for selections that strings cannot express |
 
-### Constraint kinds
+### Constraint types
 
-| Kind | Args | Effect / `param` |
+| Type | Arguments | Effect / `param` |
 |---|---|---|
-| `Point` | 2 | centres coincide; `param` = distance between them (no direction) |
-| `Axis` | 2 | angle between normals/directions; `param` deg, **default 180** (facing each other). `param=0` = same direction (pin through a hole) |
+| `Point` | 2 | The centers are at the same position. `param` = distance between them (no direction) |
+| `Axis` | 2 | Angle between the normals or directions. `param` in degrees, **default 180** (the faces point to each other). `param=0` = same direction (pin through a hole) |
 | `Plane` | 2 | `Point` + `Axis`. **`param` is the Axis angle**, not an offset |
-| `PointInPlane` | 2 | centre of 1st lies in the plane of the 2nd; `param` = offset along that plane's normal |
-| `PointOnLine` | 2 | centre of 1st lies on the line of the 2nd; `param` = offset |
-| `Fixed` | 1 | part does not move |
-| `FixedPoint` | 1 | centre fixed at `param=(x, y, z)` |
-| `FixedRotation` | 1 | rotation fixed at `param=(rx, ry, rz)` deg |
-| `FixedAxis` | 1 | normal/tangent fixed to `param=(x, y, z)` |
+| `PointInPlane` | 2 | The center of the first object is in the plane of the second. `param` = offset along the normal of that plane |
+| `PointOnLine` | 2 | The center of the first object is on the line of the second. `param` = offset |
+| `Fixed` | 1 | The part does not move |
+| `FixedPoint` | 1 | The center stays at `param=(x, y, z)` |
+| `FixedRotation` | 1 | The rotation stays at `param=(rx, ry, rz)` degrees |
+| `FixedAxis` | 1 | The normal or tangent stays along `param=(x, y, z)` |
 
-Direction extraction for Axis: planar **Face** → outward normal; **circular Edge** → circle axis (its sense follows the edge orientation — hard to predict, so verify); other **Edge** → tangent at start. Anything else raises `ValueError`. Prefer faces for Axis constraints when you can.
+How the Axis constraint gets a direction:
 
-### Getting constraints right
+- Planar **Face**: the outward normal.
+- **Circular Edge**: the axis of the circle. Its direction agrees with the edge orientation, which is difficult to know before. Examine the result.
+- Other **Edge**: the tangent at the start.
+- All other objects cause a `ValueError`.
 
-1. **Ground one part** with `Fixed` (or give it a fixed location) — otherwise everything floats.
-2. **Count degrees of freedom**: each free part has 6. `Plane` removes 5 (rotation about the shared normal stays free!). Add an `Axis` between two side faces (`param=0` or 180) or `FixedRotation` to lock it.
-3. Under-constrained systems "solve" without error but put parts somewhere arbitrary; initial `loc` values bias the result. Over-constrained/contradictory ones converge to a compromise.
-4. Selectors in `"name@faces@..."` are evaluated on the part **in its own coordinates**, before placement.
-5. After `solve()`, **verify**: `inspect_model.py assy.py --interference`, check each part's reported translation/rotation and look at the render.
+If possible, use faces for Axis constraints.
 
-Mating example that locks all six DOF:
+### How to make constraints correct
+
+1. **Fix one part** with `Fixed` (or give it a fixed location). If not, all parts are free to move.
+2. **Count the degrees of freedom.** Each free part has 6. `Plane` removes 5 (the rotation about the shared normal stays free). To stop this rotation, add an `Axis` constraint between two side faces (`param=0` or 180), or add `FixedRotation`.
+3. The solver gives no error for under-constrained systems, but the parts go to positions that you cannot predict. The initial `loc` values change the result. For over-constrained or contradictory systems, the solver gives a compromise.
+4. The solver applies the selectors in `"name@faces@..."` to the part **in the coordinates of the part**, before the part moves.
+5. After `solve()`, **examine the result**: run `inspect_model.py assy.py --interference`. Examine the translation and rotation of each part, and examine the render.
+
+Example of mates that stop all six degrees of freedom:
 
 ```python
 import cadquery as cq
@@ -137,11 +148,11 @@ assert abs(lid_loc[0][2] - 20) < 1e-3 and all(abs(a) < 1e-3 for a in lid_loc[1])
 result = assy
 ```
 
-## Colours
+## Colors
 
-`cq.Color("red")` (OCCT names, lowercase, e.g. `"goldenrod"`, `"lightgray"`, `"steelblue"`, `"gray50"`; some CSS names like `"silver"`, `"grey"`, `"crimson"` are **not** valid → `ValueError: Unknown color name`), or `cq.Color(r, g, b, a=1)` with 0–1 floats (always safe). Colour sub-shapes for export: `assy.addSubshape(part.faces(">Z").val(), name="top", color=cq.Color("red"), layer="L1")`.
+`cq.Color("red")` uses OCCT names in lower case, for example `"goldenrod"`, `"lightgray"`, `"steelblue"`, `"gray50"`. Some CSS names, such as `"silver"`, `"grey"` and `"crimson"`, are **not** correct and cause `ValueError: Unknown color name`. `cq.Color(r, g, b, a=1)` with floats from 0 to 1 always operates. To give colors to sub-shapes for export: `assy.addSubshape(part.faces(">Z").val(), name="top", color=cq.Color("red"), layer="L1")`.
 
-## Inspect & iterate
+## Examine the assembly and change it
 
 ```python
 import cadquery as cq
@@ -167,4 +178,4 @@ cq.exporters.export(assy.toCompound(), "out.stl")    # single mesh for printing
 loaded = cq.Assembly.load("out.xbf")                 # STEP/XBF/XML import (new assembly)
 ```
 
-See `import-export.md` for format details.
+Refer to `import-export.md` for more data about the formats.

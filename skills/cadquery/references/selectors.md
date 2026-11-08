@@ -1,32 +1,32 @@
-# Selectors Reference
+# Selectors
 
-Selectors filter the objects returned by `vertices()`, `edges()`, `wires()`, `faces()`, `shells()`, `solids()` on a Workplane, Sketch, or Shape. Strings are shortcuts for selector classes in `cq.selectors`.
+Selectors filter the objects that `vertices()`, `edges()`, `wires()`, `faces()`, `shells()` and `solids()` give on a Workplane, Sketch or Shape. The strings are short forms of the selector classes in `cq.selectors`.
 
 ## String syntax
 
-Axis can be `X`, `Y`, `Z`, or any vector `(1, -1, 0)` written inline: `">(1,-1,0)"`.
+The axis can be `X`, `Y`, `Z`, or a vector such as `(1, -1, 0)` in the string: `">(1,-1,0)"`.
 
 | Selector | Faces | Edges | Vertices | Class |
 |---|---|---|---|---|
-| `+Z` / `-X` | normal points +Z / −X | edge direction +Z / −X (lines only) | – | `DirectionSelector` |
-| `\|Z` | normal parallel to Z (top **and** bottom) | edges parallel to Z (lines only) | – | `ParallelDirSelector` |
-| `#Z` | normal perpendicular to Z (the sides) | edges perpendicular to Z | – | `PerpendicularDirSelector` |
-| `>Z` / `<Z` | farthest in +Z / −Z (by centre) | farthest in +Z / −Z | farthest | `DirectionMinMaxSelector` |
-| `>Z[n]` / `<Z[n]` | n-th face **normal to Z** sorted along Z (`[0]` = first, `[-1]` = last, `[-2]` = 2nd farthest) | n-th **parallel** edge | – | `DirectionNthSelector` |
-| `>>Z[n]` / `<<Z[n]` | n-th by centre position along Z, any orientation | n-th edge by centre | n-th vertex | `CenterNthSelector` |
+| `+Z` / `-X` | the normal points to +Z / −X | the edge direction is +Z / −X (lines only) | – | `DirectionSelector` |
+| `\|Z` | the normal is parallel to Z (top **and** bottom) | edges parallel to Z (lines only) | – | `ParallelDirSelector` |
+| `#Z` | the normal is perpendicular to Z (the sides) | edges perpendicular to Z | – | `PerpendicularDirSelector` |
+| `>Z` / `<Z` | farthest in +Z / −Z (by center) | farthest in +Z / −Z | farthest | `DirectionMinMaxSelector` |
+| `>Z[n]` / `<Z[n]` | the n-th face **normal to Z**, in sequence along Z (`[0]` = first, `[-1]` = last, `[-2]` = second farthest) | the n-th **parallel** edge | – | `DirectionNthSelector` |
+| `>>Z[n]` / `<<Z[n]` | the n-th face by center position along Z, all orientations | the n-th edge by center | the n-th vertex | `CenterNthSelector` |
 | `%PLANE` | face geometry type | – | – | `TypeSelector` |
 | `%LINE` / `%CIRCLE` | – | edge geometry type | – | `TypeSelector` |
 
-Face types: `PLANE, CYLINDER, CONE, SPHERE, TORUS, BEZIER, BSPLINE, REVOLUTION, EXTRUSION, OFFSET`. Edge types: `LINE, CIRCLE, ELLIPSE, HYPERBOLA, PARABOLA, BEZIER, BSPLINE, OFFSET`. Matching is case-insensitive.
+Face types: `PLANE, CYLINDER, CONE, SPHERE, TORUS, BEZIER, BSPLINE, REVOLUTION, EXTRUSION, OFFSET`. Edge types: `LINE, CIRCLE, ELLIPSE, HYPERBOLA, PARABOLA, BEZIER, BSPLINE, OFFSET`. Upper case and lower case give the same result.
 
-**Warnings**
-- Direction selectors (`+Z`, `|Z`, `#Z`, `>Z[n]`) ignore non-linear edges; curved faces are judged at their centre of mass. Use `%CIRCLE`, `>>`/`<<`, or `BoxSelector` for arcs.
-- `>Z` returns **all** objects tied for farthest (e.g. two coplanar top faces) — not necessarily one.
-- An empty result is not an error until the next operation fails (`Fillets requires that edges be selected`, or `.val()` returning a `Vector`). Check with `len(wp.vals())`.
+**Important**
+- Direction selectors (`+Z`, `|Z`, `#Z`, `>Z[n]`) ignore edges that are not straight. For curved faces, they use the center of mass. For arcs, use `%CIRCLE`, `>>`/`<<` or `BoxSelector`.
+- `>Z` gives **all** objects that are at the same farthest position (for example, two coplanar top faces). It does not always give one object.
+- An empty result causes an error only in the next operation (`Fillets requires that edges be selected`, or `.val()` gives a `Vector`). Examine the count with `len(wp.vals())`.
 
-## Combining
+## How to use selectors together
 
-Operators: `and`, `or`, `not`, `exc` (except / set difference), with parentheses.
+Operators: `and`, `or`, `not`, `exc` (except, set difference), with parentheses.
 
 ```python
 import cadquery as cq
@@ -60,7 +60,7 @@ assert abs(mid.val().Center().z - 10) < 1e-6
 result = mid.workplane().pushPoints([(-7.5, 0)]).hole(3)
 ```
 
-## Selector objects (when strings aren't enough)
+## Selector objects (if strings are not sufficient)
 
 ```python
 import cadquery as cq
@@ -85,9 +85,9 @@ combo = part.edges(sel.DirectionMinMaxSelector(cq.Vector(0, 0, 1)) - sel.TypeSel
 result = part.edges(sel.BoxSelector((-25, -15, 4), (25, 15, 6))).chamfer(0.5)
 ```
 
-Other classes: `AreaNthSelector`, `CenterNthSelector`, `DirectionNthSelector`, `ParallelDirSelector`, `PerpendicularDirSelector`, `NearestToShapeSelector`, `StringSyntaxSelector`, `SumSelector`, `SubtractSelector`, `AndSelector`, `InverseSelector`. List them with `uv run scripts/cq_api.py selectors`.
+Other classes: `AreaNthSelector`, `CenterNthSelector`, `DirectionNthSelector`, `ParallelDirSelector`, `PerpendicularDirSelector`, `NearestToShapeSelector`, `StringSyntaxSelector`, `SumSelector`, `SubtractSelector`, `AndSelector`, `InverseSelector`. To see them all, run `uv run scripts/cq_api.py selectors`.
 
-## Python-level filtering
+## Filters in Python
 
 ```python
 import cadquery as cq
@@ -113,9 +113,9 @@ result = box
 assert len(faces_of_edge.vals()) == 2
 ```
 
-## Selecting on `Shape` / `Sketch` objects
+## Selection on `Shape` and `Sketch` objects
 
-Shapes support the same selector strings and set operators:
+Shapes accept the same selector strings and set operators:
 
 ```python
 import cadquery as cq
@@ -125,9 +125,9 @@ top_and_bottom_wires = solid.faces(">Z or <Z").wires()
 result = solid
 ```
 
-## Debugging selections
+## How to find selection problems
 
-1. Print counts: `print(len(wp.faces(">Z").vals()))`.
-2. Print centres/types: `[ (e.geomType(), e.Center().toTuple()) for e in wp.edges(sel).vals() ]`.
-3. Render the selection alone: put `wp.edges(sel)` in `show_object(...)` or a separate `inspect_model.py` run.
-4. Prefer **tags** over re-deriving a selection after geometry changes.
+1. Print the counts: `print(len(wp.faces(">Z").vals()))`.
+2. Print the centers and types: `[ (e.geomType(), e.Center().toTuple()) for e in wp.edges(sel).vals() ]`.
+3. Render only the selection: put `wp.edges(sel)` in `show_object(...)`, or use a different `inspect_model.py` run.
+4. Use **tags**. Do not make the selection again after the geometry changes.
