@@ -3,23 +3,23 @@
 # requires-python = ">=3.10,<3.14"
 # dependencies = ["trimesh>=4", "rtree", "scipy", "numpy", "matplotlib", "networkx", "lxml", "cadquery"]
 # ///
-"""FDM printability check and print-orientation search (Prusa MK4 defaults).
+"""FDM printability check and search for the print orientation (Prusa MK4 defaults).
 
-Input: STL / 3MF / OBJ / PLY mesh, STEP, or a CadQuery .py script.
+Input: STL, 3MF, OBJ or PLY mesh, STEP, or a CadQuery .py script.
 
 Checks
-  * mesh health: watertight, consistent winding, positive volume, bodies,
-    degenerate faces -- the things that make a slicer guess
-  * build-volume fit (MK4/MK4S: 250 x 210 x 220 mm)
-  * per orientation: height, bed-contact area, overhang area beyond the
+  * Mesh health: watertight, constant winding, positive volume, bodies,
+    degenerate faces. A slicer must guess if these are not correct.
+  * Fit in the build volume (MK4/MK4S: 250 x 210 x 220 mm).
+  * For each orientation: height, bed contact area, overhang area above the
     threshold, estimated support volume, tip-over ratio, and (with
-    --load-axis) how much the main load pulls across the layers
-  * thin walls / small features via inward ray casting (local thickness)
+    --load-axis) the fraction of the primary load that pulls across the layers.
+  * Thin walls and small features, with ray casting into the part (local thickness).
 
-Outputs a ranked orientation table, optionally the re-oriented mesh
-(-o part_oriented.stl / .3mf, placed on z=0) and a PNG overhang map.
-The chosen orientation's build direction *in the original model
-coordinates* is printed so it can be passed to fea.py --build-dir.
+Output: a table of the orientations from best to worst. Optional: the turned mesh
+(-o part_oriented.stl / .3mf, on z=0) and a PNG overhang map.
+The tool shows the build direction of the selected orientation *in the initial model
+coordinates*. Give this value to fea.py --build-dir.
 
 Examples
   uv run printability.py part.stl
@@ -27,7 +27,7 @@ Examples
   uv run printability.py part.step --overhang 50 --nozzle 0.6 --json
   uv run printability.py part.stl --orientation "rx=90" -o out/part_rx90.stl
 
-Exit status: 0 ok, 3 = problems found (non-manifold, does not fit, thin walls), 1/2 = error.
+Exit status: 0 = no problems, 3 = the tool found problems (non-manifold, does not fit, thin walls), 1 or 2 = error.
 """
 
 from __future__ import annotations
@@ -64,14 +64,14 @@ def load_mesh(path: Path, params: dict, tol: float) -> trimesh.Trimesh:
         res = cqgi.parse(path.read_text()).build(build_parameters=params) if params else \
             cqgi.parse(path.read_text()).build()
         if not res.success:
-            sys.exit(f"model script failed: {res.exception}")
+            sys.exit(f"the model script failed: {res.exception}")
         objs = [r.shape for r in res.results]
         if not objs:
             ns = {"__name__": "__prep__", "show_object": lambda *a, **k: None, "debug": lambda *a, **k: None}
             exec(compile(path.read_text(), str(path), "exec"), ns)
             objs = [ns[n] for n in ("result", "part", "model") if n in ns][:1]
         if not objs:
-            sys.exit("script produced nothing (show_object(...) or `result`)")
+            sys.exit("the script made no shape (use show_object(...) or `result`)")
         obj = objs[0]
         if isinstance(obj, cq.Assembly):
             obj = obj.toCompound()
@@ -79,7 +79,7 @@ def load_mesh(path: Path, params: dict, tol: float) -> trimesh.Trimesh:
             obj = cq.Compound.makeCompound([v for v in obj.vals() if isinstance(v, cq.Shape)])
         shape = obj
     else:
-        sys.exit(f"unsupported input {path}")
+        sys.exit(f"this input type is not supported: {path}")
     tmp = Path(tempfile.mkdtemp()) / "m.stl"
     cq.exporters.export(shape, str(tmp), tolerance=tol, angularTolerance=0.1)
     return trimesh.load(str(tmp), force="mesh")
@@ -109,7 +109,7 @@ def mesh_health(m: trimesh.Trimesh) -> dict:
 
 
 def rot_from_spec(spec: str) -> np.ndarray:
-    """'rx=90,ry=0,rz=45' -> 4x4 (applied x, then y, then z)."""
+    """'rx=90,ry=0,rz=45' -> 4x4 matrix (the tool applies x, then y, then z)."""
     T = np.eye(4)
     for part in spec.split(","):
         if not part.strip():
@@ -139,7 +139,7 @@ def evaluate(m: trimesh.Trimesh, T: np.ndarray, overhang_deg: float, load_axis, 
     ext = mm.extents
     on_bed = (n[:, 2] < -0.999) & (c[:, 2] < bed_tol)
     bed_area = float(a[on_bed].sum())
-    # overhang angle measured from vertical (0 = wall, 90 = flat ceiling)
+    # overhang angle from vertical (0 = wall, 90 = flat ceiling)
     down = n[:, 2] < 0
     ang = np.degrees(np.arcsin(np.clip(-n[:, 2], 0, 1)))
     over = down & (ang > overhang_deg) & ~on_bed
@@ -151,21 +151,21 @@ def evaluate(m: trimesh.Trimesh, T: np.ndarray, overhang_deg: float, load_axis, 
             origins = c[over] - np.array([0, 0, 1e-3])
             dirs = np.tile([0, 0, -1.0], (len(origins), 1))
             locs, idx_ray, _ = mm.ray.intersects_location(origins, dirs, multiple_hits=False)
-            drop = c[over][:, 2].copy()  # default: down to the bed
+            drop = c[over][:, 2].copy()  # default: the distance down to the bed
             if len(idx_ray):
                 drop[idx_ray] = origins[idx_ray, 2] - locs[:, 2]
             support_vol = float((proj[over] * drop).sum())
         else:
             support_vol = float((proj[over] * c[over][:, 2]).sum())
     flat_ceiling = float(a[down & (ang > 85) & ~on_bed].sum())
-    # tip-over / adhesion: height vs. smallest footprint dimension
+    # tip-over risk and adhesion: height compared with the smallest footprint dimension
     footprint = min(ext[0], ext[1])
     tip_ratio = float(ext[2] / max(footprint, 1e-6))
     load_across = None
     if load_axis is not None:
         v = T[:3, :3] @ load_axis
-        load_across = float(abs(v[2]) / np.linalg.norm(v))  # 1 = load pulls straight across layers
-    # build direction expressed in the ORIGINAL model coordinates
+        load_across = float(abs(v[2]) / np.linalg.norm(v))  # 1 = the load pulls straight across the layers
+    # build direction in the INITIAL model coordinates
     bdir = np.linalg.inv(T[:3, :3]) @ np.array([0, 0, 1.0])
     return dict(height=round(float(ext[2]), 2), extents=np.round(ext, 2).tolist(),
                 bed_contact_mm2=round(bed_area, 1), overhang_mm2=round(over_area, 1),
@@ -186,7 +186,7 @@ def score(r: dict, vol: float, weights: dict) -> float:
 
 
 def thickness_check(m: trimesh.Trimesh, min_wall: float, samples: int = 4000, seed: int = 0) -> dict:
-    """Local wall thickness by casting rays inward from sampled surface points."""
+    """Calculate the local wall thickness. Cast rays into the part from sample points on the surface."""
     rng = np.random.default_rng(seed)
     pts, fidx = trimesh.sample.sample_surface(m, samples, seed=seed) if "seed" in \
         trimesh.sample.sample_surface.__code__.co_varnames else trimesh.sample.sample_surface(m, samples)
@@ -217,7 +217,7 @@ def render(results: list[dict], path: Path, top: int = 3):
     fig = plt.figure(figsize=(5 * len(sel), 5))
     for k, r in enumerate(sel):
         mm = r["_mesh"]
-        # subdivide long sliver triangles so matplotlib's painter sort works
+        # divide long thin triangles, so that the depth sort of matplotlib is correct
         v, f, idx = trimesh.remesh.subdivide_to_size(mm.vertices, mm.faces, max_edge=mm.scale / 25,
                                                      max_iter=12, return_index=True)
         mm = trimesh.Trimesh(v, f, process=False)
@@ -235,7 +235,7 @@ def render(results: list[dict], path: Path, top: int = 3):
         ax.view_init(elev=20, azim=-60)
         ax.set_title(f"#{k + 1} {r['name']}  score {r['score']}\nsupport {r['support_volume_mm3']:.0f} mm3, "
                      f"h {r['height']} mm, bed {r['bed_contact_mm2']:.0f} mm2", fontsize=9)
-    fig.suptitle("green = on bed, red = overhang needing support", fontsize=10)
+    fig.suptitle("green = on the bed, red = overhang that must have support", fontsize=10)
     fig.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=90)
@@ -250,16 +250,16 @@ def main(argv=None):
     ap.add_argument("--printer", default="MK4", choices=sorted(BEDS))
     ap.add_argument("--nozzle", type=float, default=0.4)
     ap.add_argument("--overhang", type=float, default=50.0,
-                    help="max unsupported overhang, deg from vertical (50 = PrusaSlicer support_material_threshold 40)")
-    ap.add_argument("--min-wall", type=float, help="flag walls thinner than this (default 2 x line width)")
-    ap.add_argument("--load-axis", help="main load/tension direction in model coords (x, y, z or vector); "
-                                        "orientations that pull layers apart are penalised")
-    ap.add_argument("--orientation", help="evaluate only this rotation, e.g. 'rx=90,rz=45'")
-    ap.add_argument("--stable", type=int, default=6, help="also try N most stable resting poses")
+                    help="maximum overhang with no support, degrees from vertical (50 = PrusaSlicer support_material_threshold 40)")
+    ap.add_argument("--min-wall", type=float, help="show walls that are thinner than this value (default 2 x line width)")
+    ap.add_argument("--load-axis", help="direction of the primary load or tension in model coordinates (x, y, z or vector). "
+                                        "Orientations where the load pulls the layers apart get a worse score")
+    ap.add_argument("--orientation", help="calculate only this rotation, for example 'rx=90,rz=45'")
+    ap.add_argument("--stable", type=int, default=6, help="also calculate the N most stable positions on the bed")
     ap.add_argument("--weights", default="support=1,height=0.2,bed=1,tip=0.5,strength=2")
-    ap.add_argument("--tolerance", type=float, default=0.02, help="tessellation tolerance for STEP/.py")
+    ap.add_argument("--tolerance", type=float, default=0.02, help="tessellation tolerance for STEP and .py input")
     ap.add_argument("--no-thickness", action="store_true")
-    ap.add_argument("-o", "--output", help="write best (or --orientation) mesh: .stl or .3mf")
+    ap.add_argument("-o", "--output", help="write the mesh of the best orientation (or of --orientation): .stl or .3mf")
     ap.add_argument("--png")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
@@ -268,14 +268,14 @@ def main(argv=None):
     health = mesh_health(m)
     problems = []
     if not health["watertight"]:
-        problems.append("mesh is not watertight (holes/non-manifold edges): slicer will guess. Re-export "
-                        "from CAD, or repair (trimesh: fill_holes / PrusaSlicer: Fix by Windows repair)")
+        problems.append("the mesh is not watertight (holes or non-manifold edges): the slicer must guess. Export "
+                        "again from CAD, or repair the mesh (trimesh: fill_holes, PrusaSlicer: Fix by Windows repair)")
     if not health["winding_consistent"]:
-        problems.append("inconsistent face winding (flipped normals)")
+        problems.append("the face winding is not constant (flipped normals)")
     if health["bodies"] > 1:
-        problems.append(f"{health['bodies']} separate bodies: intended? (print-in-place / multi-part plate)")
+        problems.append(f"{health['bodies']} separate bodies: is this correct? (print-in-place, or many parts on one plate)")
     if health["degenerate_faces"]:
-        problems.append(f"{health['degenerate_faces']} degenerate (zero-area) faces")
+        problems.append(f"{health['degenerate_faces']} degenerate faces (area 0)")
     if not health["watertight"]:
         m.fill_holes()
         trimesh.repair.fix_normals(m)
@@ -313,8 +313,8 @@ def main(argv=None):
     results.sort(key=lambda r: r["score"])
     best = results[0]
     if not best["fits_bed"]:
-        problems.append(f"does not fit the {args.printer} build volume {bx}x{by}x{bz} in any tried "
-                        f"orientation: split the part (PrusaSlicer cut tool / model a joint)")
+        problems.append(f"does not fit the {args.printer} build volume {bx}x{by}x{bz} in the calculated "
+                        f"orientations: divide the part (PrusaSlicer cut tool, or make a joint in the model)")
 
     th = None
     if not args.no_thickness and m.is_watertight:
@@ -322,10 +322,10 @@ def main(argv=None):
         th = thickness_check(m, min_wall)
         if th["min_thickness_mm"] is not None and th["min_thickness_mm"] < args.nozzle:
             problems.append(f"features thinner than the nozzle ({th['min_thickness_mm']} mm < {args.nozzle}) "
-                            "will not print at all")
+                            "will not print")
         elif th["thin_fraction"] > 0.01:
             problems.append(f"{th['thin_fraction']:.1%} of the surface has walls < {min_wall} mm "
-                            "(fewer than 2 perimeters: weak, may become gap fill)")
+                            "(less than 2 perimeters: weak, the slicer can print them as gap fill)")
 
     if args.output:
         out = Path(args.output)
@@ -347,7 +347,7 @@ def main(argv=None):
         h = health
         print(f"mesh: {h['faces']} faces, watertight={h['watertight']}, winding_ok={h['winding_consistent']}, "
               f"bodies={h['bodies']}, volume={h['volume_mm3']} mm3")
-        print(f"\norientations (overhang > {args.overhang:g} deg from vertical needs support; lower score = better)")
+        print(f"\norientations (an overhang > {args.overhang:g} deg from vertical must have support. A lower score is better)")
         hdr = f"{'#':>2} {'orientation':22s} {'score':>6} {'height':>7} {'bed mm2':>8} {'overh mm2':>9} " \
               f"{'support mm3':>11} {'tip':>5} {'load-x-layers':>13} {'fits':>5}  build dir (model)"
         print(hdr)
@@ -364,7 +364,7 @@ def main(argv=None):
         for p in problems:
             print(f"PROBLEM: {p}")
         if args.output:
-            print(f"oriented mesh -> {args.output} (centred, on z=0)")
+            print(f"oriented mesh -> {args.output} (centered, on z=0)")
         if args.png:
             print(f"png -> {args.png}")
     return 3 if problems else 0

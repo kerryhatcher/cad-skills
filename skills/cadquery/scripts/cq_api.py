@@ -3,17 +3,17 @@
 # requires-python = ">=3.10"
 # dependencies = ["cadquery"]
 # ///
-"""Look up the CadQuery API of the *installed* version (signatures + docstrings).
+"""Show the CadQuery API of the *installed* version (signatures and docstrings).
 
-Use this instead of guessing parameter names -- CadQuery's API changes between
-releases and the online docs track the development branch.
+Use this tool. Do not guess parameter names. The CadQuery API changes between
+releases, and the online documentation is for the development version.
 
-  uv run scripts/cq_api.py Workplane              # list methods with one-line summaries
-  uv run scripts/cq_api.py Workplane.hole         # full signature + docstring
+  uv run scripts/cq_api.py Workplane              # list of methods with one-line summaries
+  uv run scripts/cq_api.py Workplane.hole         # full signature and docstring
   uv run scripts/cq_api.py Sketch.slot Assembly.constrain
   uv run scripts/cq_api.py func                   # cadquery.func free functions
   uv run scripts/cq_api.py func.sweep
-  uv run scripts/cq_api.py --search fillet        # find names containing 'fillet'
+  uv run scripts/cq_api.py --search fillet        # find names that contain 'fillet'
   uv run scripts/cq_api.py --version
 """
 
@@ -50,8 +50,8 @@ def resolve(path: str):
     else:
         raise AttributeError(f"unknown name {head!r}")
     for p in parts[1:]:
-        # look in the class __dict__ (MRO) first so multimethod objects are not
-        # collapsed into a single bound function
+        # First look in the class __dict__ (MRO). Then multimethod objects stay
+        # complete and do not become one bound function.
         raw = None
         if inspect.isclass(obj):
             for klass in obj.__mro__:
@@ -63,7 +63,7 @@ def resolve(path: str):
 
 
 def tidy(text: str) -> str:
-    """Shorten noisy type annotations so signatures stay readable."""
+    """Make long type annotations shorter, so that the signatures are easy to read."""
     text = re.sub(r"\bcadquery\.(occ_impl\.)?(\w+\.)*(?=[A-Z])", "", text)
     text = re.sub(r"\bOCP\.(\w+\.)*(?=[A-Z])", "", text)
     text = text.replace("Union[int, float]", "Real").replace("~T", "T")
@@ -76,8 +76,8 @@ def summary(obj) -> str:
 
 
 def sig(obj) -> str:
-    # multimethod-dispatched callables expose several signatures
-    if isinstance(obj, dict) and obj:  # multimethod: one entry per overload
+    # Multimethod callables have many signatures.
+    if isinstance(obj, dict) and obj:  # Multimethod: one entry for each overload.
         lines = []
         for f in obj.values():
             try:
@@ -85,7 +85,7 @@ def sig(obj) -> str:
             except (TypeError, ValueError):
                 pass
         if lines:
-            return "Overloads (pass these positionally -- keywords break dispatch):\n" + \
+            return "Overloads (give the arguments by position, because keywords stop the dispatch):\n" + \
                 "\n".join(lines)
     try:
         return f"  {tidy(str(inspect.signature(obj)))}"

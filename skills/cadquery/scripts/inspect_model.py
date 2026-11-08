@@ -3,16 +3,16 @@
 # requires-python = ">=3.10"
 # dependencies = ["cadquery"]
 # ///
-"""Build a CadQuery model script, report on it, export it, and render previews.
+"""Build a CadQuery model script, show data about it, export it, and render previews.
 
-The model script is executed through CadQuery's CQGI layer, so:
-  * ``show_object(obj, name=...)`` calls are collected (preferred), and
-  * if nothing is shown, a top-level ``result`` (or ``assy``/``part``/``model``)
-    variable is used instead.
-  * code under ``if __name__ == "__main__":`` is NOT executed.
-  * top-level constant assignments (``width = 40``) can be overridden with --set.
+The tool runs the model script through the CQGI layer of CadQuery:
+  * It collects the ``show_object(obj, name=...)`` calls (the preferred method).
+  * If the script shows nothing, the tool uses a top-level ``result`` variable
+    (or ``assy``, ``part``, ``model``).
+  * It does NOT run the code under ``if __name__ == "__main__":``.
+  * You can change top-level constant assignments (``width = 40``) with --set.
 
-Examples (run from anywhere; uv installs cadquery on the fly):
+Examples (run them from all directories. uv installs cadquery when necessary):
 
   uv run scripts/inspect_model.py model.py
   uv run scripts/inspect_model.py model.py --set width=60 --set holes=6
@@ -20,8 +20,8 @@ Examples (run from anywhere; uv installs cadquery on the fly):
   uv run scripts/inspect_model.py model.py --png out/preview.png --views
   uv run scripts/inspect_model.py model.py --interference --json
 
-Exit status is non-zero if the script fails, produces nothing, or any shape is
-invalid (BRep check fails) -- so it doubles as a CI/verification gate.
+The exit status is not 0 if the script fails, makes no shape, or makes a shape
+that is not valid (the BRep check fails). Thus you can also use the tool as a CI check.
 """
 
 from __future__ import annotations
@@ -48,12 +48,12 @@ def parse_set(values: list[str]) -> dict:
     params = {}
     for item in values:
         if "=" not in item:
-            sys.exit(f"--set expects name=value, got {item!r}")
+            sys.exit(f"--set must have the form name=value. The tool received {item!r}")
         k, v = item.split("=", 1)
         try:
             params[k.strip()] = ast.literal_eval(v)
         except (ValueError, SyntaxError):
-            params[k.strip()] = v  # treat as string
+            params[k.strip()] = v  # use the value as a string
     return params
 
 
@@ -65,11 +65,11 @@ def build(path: Path, params: dict):
         known = ", ".join(sorted(model.metadata.parameters)) or "(none)"
         sys.exit(
             f"Unknown parameter(s) {sorted(unknown)}. "
-            f"Overridable top-level constants: {known}"
+            f"You can change these top-level constants: {known}"
         )
 
-    # Make relative paths inside the script (e.g. importDXF("x.dxf")) resolve
-    # next to the script, and let it import sibling modules.
+    # Relative paths in the script (for example importDXF("x.dxf")) must point to the
+    # directory of the script. The script can then also import modules from that directory.
     old_cwd = os.getcwd()
     os.chdir(path.parent.resolve())
     sys.path.insert(0, str(path.parent.resolve()))
@@ -94,7 +94,7 @@ def build(path: Path, params: dict):
                 objs = [(n, env[n])]
                 break
     if not objs:
-        # CQGI does not expose the namespace in all versions; re-run plainly.
+        # Some CQGI versions do not give the namespace. Run the script again without CQGI.
         ns: dict = {"__name__": "__cqgi__", "show_object": lambda *a, **k: None,
                     "debug": lambda *a, **k: None, "cq": cq}
         ns.update(params)
@@ -109,8 +109,8 @@ def build(path: Path, params: dict):
                 break
     if not objs:
         sys.exit(
-            "Script produced no output: call show_object(obj) or assign a "
-            f"top-level variable named one of {FALLBACK_NAMES}."
+            "The script made no shape. Call show_object(obj), or set a "
+            f"top-level variable with one of these names: {FALLBACK_NAMES}."
         )
     return objs, model.metadata.parameters
 
@@ -119,7 +119,7 @@ def build(path: Path, params: dict):
 # Reporting
 # --------------------------------------------------------------------------- #
 def to_shape(obj):
-    """Return a cq.Shape (Compound for multi-object workplanes) or None."""
+    """Give a cq.Shape (a Compound for workplanes with many objects), or None."""
     if isinstance(obj, cq.Shape):
         return obj
     if isinstance(obj, cq.Workplane):
@@ -168,7 +168,7 @@ def shape_report(shape: cq.Shape) -> dict:
         except Exception:
             pass
         if any(s.Volume() < 0 for s in solids):
-            rep["warning"] = "negative solid volume (inverted orientation)"
+            rep["warning"] = "negative solid volume (the orientation is inverted)"
     elif shape.Faces():
         rep["area"] = r(shape.Area())
     return rep
@@ -183,7 +183,7 @@ def assembly_report(assy: cq.Assembly, check_interference: bool) -> dict:
         shp = to_shape(sub.obj)
         if shp is None:
             continue
-        # global location = product of locations down the tree
+        # global location = product of the locations from the root to this item
         loc = cq.Location()
         node = sub
         chain = []
@@ -213,10 +213,10 @@ def assembly_report(assy: cq.Assembly, check_interference: bool) -> dict:
                 if not _bbox_overlap(a.BoundingBox(), b.BoundingBox()):
                     continue
                 try:
-                    # Touching parts yield zero-thickness faces whose Volume()
-                    # is not 0 -- only real solids in the common part count.
+                    # Parts that touch give faces with a thickness of 0, but their Volume()
+                    # is not 0. Thus count only the solids in the common part.
                     v = sum(abs(s.Volume()) for s in a.intersect(b).Solids())
-                except Exception as e:  # boolean failure is itself informative
+                except Exception as e:  # a boolean failure also gives useful data
                     clashes.append({"a": na, "b": nb, "error": str(e)})
                     continue
                 if v > 1e-6:
@@ -240,7 +240,7 @@ def report(objs, check_interference: bool) -> list[dict]:
             shp = to_shape(obj)
             if shp is None:
                 rep = {"type": type(obj).__name__, "valid": False,
-                       "error": "no shape on the stack (did you forget extrude()/a 3D op?)"}
+                       "error": "no shape on the stack (is an extrude() or a different 3D operation missing?)"}
             else:
                 rep = shape_report(shp)
                 if isinstance(obj, cq.Workplane) and len(obj.vals()) > 1:
@@ -294,7 +294,7 @@ def export(objs, outputs: list[str], tolerance: float, ang_tol: float):
             if isinstance(obj, cq.Sketch):
                 obj.export(str(target))
             elif ext in ASSY_EXT or isinstance(obj, cq.Assembly) and ext in (".step", ".stp"):
-                # assembly-only formats (or STEP of an assembly: keeps names/colours)
+                # formats only for assemblies (or STEP of an assembly: keeps the names and colors)
                 assy = obj if isinstance(obj, cq.Assembly) else \
                     cq.Assembly().add(to_shape(obj), name=name)
                 assy.export(str(target), ASSY_EXT.get(ext) or "STEP",
@@ -306,14 +306,14 @@ def export(objs, outputs: list[str], tolerance: float, ang_tol: float):
             print(f"exported {target}")
 
 
-# extensions cq.exporters.export cannot infer on its own
+# extensions that cq.exporters.export cannot identify
 SHAPE_EXT = {".stp": "STEP", ".json": "TJS", ".wrl": "VRML", ".bin": "BIN"}
-# formats only available through Assembly.export
+# formats that only Assembly.export can write
 ASSY_EXT = {".gltf": "GLTF", ".glb": "GLTF", ".xml": "XML", ".xbf": "XBF", ".vtkjs": "VTKJS"}
 
 
 VIEWS = {
-    # name: (direction from target to camera, view-up)
+    # name: (direction from the target to the camera, view-up vector)
     "iso": ((1, -1, 1), (0, 0, 1)),
     "front": ((0, -1, 0), (0, 0, 1)),
     "back": ((0, 1, 0), (0, 0, 1)),
@@ -324,16 +324,16 @@ VIEWS = {
 }
 
 
-DEFAULT_COLOR = (0.85, 0.65, 0.13, 1.0)  # goldenrod; assemblies keep their own colors
+DEFAULT_COLOR = (0.85, 0.65, 0.13, 1.0)  # goldenrod. Assemblies keep their colors
 
 
 def _render_one(assy: cq.Assembly, target: Path, view: str, size: int):
-    """Off-screen VTK render of one view, camera fitted to the whole model."""
+    """Render one view off-screen with VTK. The camera shows the full model."""
     from cadquery.occ_impl.assembly import toVTKAssy
     from vtkmodules.vtkRenderingCore import (vtkRenderer, vtkRenderWindow,
                                              vtkWindowToImageFilter, vtkMapper)
     from vtkmodules.vtkIOImage import vtkPNGWriter
-    import vtkmodules.vtkRenderingOpenGL2  # noqa: F401  (registers the GL backend)
+    import vtkmodules.vtkRenderingOpenGL2  # noqa: F401  (this import registers the GL backend)
     import vtkmodules.vtkInteractionStyle  # noqa: F401
 
     ren = vtkRenderer()
@@ -356,7 +356,7 @@ def _render_one(assy: cq.Assembly, target: Path, view: str, size: int):
     cam.SetPosition(*d)
     cam.SetViewUp(*up)
     cam.SetParallelProjection(view != "iso")
-    ren.ResetCamera()  # keeps the view direction, fits everything
+    ren.ResetCamera()  # keeps the view direction and shows all of the model
     cam.Zoom(0.95)
     ren.ResetCameraClippingRange()
     win.Render()
@@ -404,7 +404,7 @@ def _svg_fallback(shapes, target: Path, d):
     comp = cq.Compound.makeCompound(shapes)
     cq.exporters.export(comp, str(target), opt={"projectionDir": d, "showHidden": False,
                                                 "width": 600, "height": 600})
-    print(f"wrote SVG fallback {target} (no display? try: xvfb-run -a uv run ...)")
+    print(f"wrote SVG fallback {target} (no display? Use: xvfb-run -a uv run ...)")
 
 
 # --------------------------------------------------------------------------- #
@@ -413,26 +413,26 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("script", type=Path, help="CadQuery model script (.py)")
     ap.add_argument("--set", action="append", default=[], metavar="NAME=VALUE",
-                    help="override a top-level constant (repeatable)")
+                    help="change a top-level constant (you can use this option many times)")
     ap.add_argument("-o", "--output", action="append", default=[],
-                    help="export path (repeatable); format from extension: step stp stl 3mf "
+                    help="export path (you can use this option many times). The extension sets the format: step stp stl 3mf "
                          "amf svg dxf vrml wrl vtp json(threejs) brep glb gltf xml xbf")
     ap.add_argument("--tolerance", type=float, default=0.01,
-                    help="mesh linear tolerance for STL/3MF/glTF (default 0.01)")
+                    help="linear tolerance of the mesh for STL, 3MF and glTF (default 0.01)")
     ap.add_argument("--angular-tolerance", type=float, default=0.1)
-    ap.add_argument("--png", help="render a PNG preview (needs a display; try xvfb-run -a)")
+    ap.add_argument("--png", help="render a PNG preview (if there is no display, use xvfb-run -a)")
     ap.add_argument("--views", action="store_true",
-                    help="with --png render iso/front/top/right as separate files")
+                    help="with --png, render the iso, front, top and right views as different files")
     ap.add_argument("--view", action="append", choices=sorted(VIEWS),
-                    help="specific view(s) to render with --png")
+                    help="the view or views to render with --png")
     ap.add_argument("--size", type=int, default=800, help="PNG size in px")
     ap.add_argument("--interference", action="store_true",
-                    help="for assemblies, report overlapping part volumes")
-    ap.add_argument("--json", action="store_true", help="machine-readable report")
+                    help="for assemblies, show the volumes where parts overlap")
+    ap.add_argument("--json", action="store_true", help="report in JSON format")
     args = ap.parse_args()
 
     if not args.script.exists():
-        sys.exit(f"no such file: {args.script}")
+        sys.exit(f"the file does not exist: {args.script}")
 
     overrides = parse_set(args.set)
     objs, params = build(args.script, overrides)

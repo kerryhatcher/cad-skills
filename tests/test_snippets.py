@@ -2,18 +2,18 @@
 # requires-python = ">=3.10"
 # dependencies = ["cadquery"]
 # ///
-"""Execute every ```python code block in the skills' Markdown files.
+"""Run each ```python code block in the Markdown files of the skills.
 
   uv run tests/test_snippets.py               # all skills
-  uv run tests/test_snippets.py -k recipes    # only files whose path contains 'recipes'
-  uv run tests/test_snippets.py -v            # list every block
+  uv run tests/test_snippets.py -k recipes    # only files with 'recipes' in their path
+  uv run tests/test_snippets.py -v            # show each block
 
 Rules:
-  * Each block runs in a fresh namespace inside a temp directory.
-  * A block whose first line contains `# notest` is skipped (fragments, CLI-only).
-  * If the block defines `result`, it must be a valid shape/workplane/assembly
-    with at least one solid or face, unless the block is marked `# noresult`.
-  * `show_object` and `debug` are provided as no-ops.
+  * Each block runs in a new namespace in a temporary directory.
+  * The test does not run a block that has `# notest` in its first line (parts of code, CLI only).
+  * If the block sets `result`, it must be a valid shape, workplane or assembly
+    with one solid or face or more. Exception: the block has the mark `# noresult`.
+  * `show_object` and `debug` are functions that do nothing.
 """
 
 from __future__ import annotations

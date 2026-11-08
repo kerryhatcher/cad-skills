@@ -3,19 +3,19 @@
 # requires-python = ">=3.10,<3.14"
 # dependencies = ["cadquery", "gmsh", "scikit-fem>=10", "meshio", "matplotlib", "pyamg"]
 # ///
-"""Linear-static FEA of a solid part, with FDM-aware strength checks.
+"""Linear static FEA of a solid part, with strength checks for FDM parts.
 
-Pipeline: CadQuery script / STEP / BREP -> gmsh tetra mesh -> scikit-fem
-(quadratic P2 tetrahedra, linear elasticity) -> displacement, von Mises,
+Sequence: CadQuery script, STEP or BREP -> gmsh tetrahedral mesh -> scikit-fem
+(quadratic P2 tetrahedra, linear elasticity) -> displacement, von Mises stress,
 stress normal to the print layers -> safety factors, PNG, VTU (ParaView).
 
-Selecting faces (for --fix / --force / --pressure). SEL is one of:
-  >Z  <X  %CYLINDER  ">Z and %PLANE"   any CadQuery face selector string
-  face:3  or  face:3,7,8               face indices from --list-faces
-  box:x0,y0,z0,x1,y1,z1               faces whose bounding box lies inside
-  near:x,y,z                           the single face closest to a point
-Append @xyz components to --fix to constrain only some (roller/symmetry):
-  --fix "<Z@z"   (fixed in Z only)
+Face selection (for --fix, --force, --pressure). SEL is one of these:
+  >Z  <X  %CYLINDER  ">Z and %PLANE"   a CadQuery face selector string
+  face:3  or  face:3,7,8               face numbers from --list-faces
+  box:x0,y0,z0,x1,y1,z1               faces with a bounding box in this box
+  near:x,y,z                           the one face nearest to a point
+Add @xyz components to --fix to hold only these directions (roller, symmetry):
+  --fix "<Z@z"   (fixed only in Z)
 
 Examples
   uv run fea.py bracket.py --list-faces
@@ -25,11 +25,12 @@ Examples
       --pressure "face:9=0.5" --sf-target 3 --json
   uv run fea.py beam.py --fix "<X" --force ">X=0,0,-10" --convergence
 
-Units: mm, N, MPa (N/mm^2). Forces are TOTAL newtons spread uniformly over the
-selected faces. Pressure is MPa, positive pushes into the surface.
+Units: mm, N, MPa (N/mm^2). A force is the TOTAL force in newtons. The tool divides it
+equally on the selected faces. The pressure is in MPa. A positive pressure pushes into the surface.
 
-Exit status: 0 = ran and safety factors >= --sf-target, 3 = ran but below
-target, 1/2 = error (bad input, unconstrained model, mesh failure).
+Exit status: 0 = the analysis is complete and the safety factors are >= --sf-target.
+3 = the analysis is complete, but a safety factor is below the target.
+1 or 2 = error (bad input, model not constrained, mesh failure).
 """
 
 from __future__ import annotations
@@ -46,18 +47,18 @@ from pathlib import Path
 
 import numpy as np
 
-# Printed-specimen properties (100 % infill, 0.2 mm layers). E and yield are
-# in-plane (along the extrusion); "z" is interlayer (across layers) tensile
-# strength. Prusament values: Prusa Polymers TDS (ISO 527-1 / Prusa method).
-# Jessie (Printed Solid) publishes no TDS: values are conservative estimates.
+# Properties of printed specimens (100 % infill, 0.2 mm layers). E and yield are
+# in-plane values (along the extrusion). "z" is the interlayer tensile strength
+# (across the layers). Prusament values: Prusa Polymers TDS (ISO 527-1, Prusa method).
+# Jessie (Printed Solid) does not publish a TDS. Thus its values are conservative estimates.
 MATERIALS = {
     "prusament-pla":      dict(E=2300, nu=0.35, yield_xy=51, z=17, hdt=55, rho=1.24, source="Prusament PLA TDS"),
     "prusament-pla-blend": dict(E=2300, nu=0.35, yield_xy=51, z=17, hdt=55, rho=1.24, source="Prusament PLA TDS (PLA/PLA Blend)"),
     "prusament-petg":     dict(E=1500, nu=0.38, yield_xy=47, z=18, hdt=68, rho=1.27, source="Prusament PETG TDS"),
     "prusament-asa":      dict(E=1600, nu=0.35, yield_xy=42, z=11, hdt=93, rho=1.07, source="Prusament ASA TDS"),
     "prusament-pc-blend": dict(E=1900, nu=0.37, yield_xy=63, z=21, hdt=113, rho=1.22, source="Prusament PC Blend TDS"),
-    "jessie-pla":         dict(E=2200, nu=0.35, yield_xy=45, z=14, hdt=55, rho=1.24, source="ESTIMATE - no Printed Solid TDS; coupon-test before relying on it"),
-    "jessie-petg":        dict(E=1500, nu=0.38, yield_xy=42, z=14, hdt=68, rho=1.27, source="ESTIMATE - no Printed Solid TDS; coupon-test before relying on it"),
+    "jessie-pla":         dict(E=2200, nu=0.35, yield_xy=45, z=14, hdt=55, rho=1.24, source="ESTIMATE - no Printed Solid TDS. Do a coupon test before you use it"),
+    "jessie-petg":        dict(E=1500, nu=0.38, yield_xy=42, z=14, hdt=68, rho=1.27, source="ESTIMATE - no Printed Solid TDS. Do a coupon test before you use it"),
     "generic-pla":        dict(E=2200, nu=0.35, yield_xy=40, z=12, hdt=52, rho=1.24, source="conservative generic"),
     "generic-petg":       dict(E=1400, nu=0.38, yield_xy=38, z=12, hdt=65, rho=1.27, source="conservative generic"),
     "generic-abs":        dict(E=1800, nu=0.35, yield_xy=33, z=10, hdt=85, rho=1.04, source="conservative generic"),
@@ -70,7 +71,7 @@ FALLBACK_NAMES = ("result", "part", "model", "assy", "assembly")
 
 
 # --------------------------------------------------------------------------- #
-# Geometry loading
+# Load the geometry
 # --------------------------------------------------------------------------- #
 def parse_set(values):
     out = {}
@@ -91,14 +92,14 @@ def load_shape(path: Path, params: dict):
     if suf == ".brep":
         return cq.Shape.importBrep(str(path))
     if suf in (".stl", ".3mf", ".obj"):
-        sys.exit("FEA needs exact solid geometry: pass the CadQuery .py or a STEP file, not a mesh.")
+        sys.exit("FEA must have exact solid geometry. Give the CadQuery .py file or a STEP file, not a mesh.")
     if suf != ".py":
-        sys.exit(f"unsupported input {path}")
+        sys.exit(f"this input type is not supported: {path}")
     from cadquery import cqgi
     model = cqgi.parse(path.read_text())
     res = model.build(build_parameters=params) if params else model.build()
     if not res.success:
-        raise SystemExit(f"model script failed: {res.exception}")
+        raise SystemExit(f"the model script failed: {res.exception}")
     objs = [r.shape for r in res.results]
     if not objs:
         ns = {"__name__": "__fea__", "show_object": lambda *a, **k: None, "debug": lambda *a, **k: None}
@@ -110,7 +111,7 @@ def load_shape(path: Path, params: dict):
             os.chdir(cwd)
         objs = [ns[n] for n in FALLBACK_NAMES if n in ns][:1]
     if not objs:
-        sys.exit("script produced nothing: call show_object(part) or define `result`")
+        sys.exit("the script made no shape: call show_object(part) or set `result`")
     obj = objs[0]
     if isinstance(obj, cq.Assembly):
         obj = obj.toCompound()
@@ -120,15 +121,15 @@ def load_shape(path: Path, params: dict):
     solids = obj.Solids()
     if len(solids) != 1:
         if len(solids) == 0:
-            sys.exit("no solid found in the model")
-        print(f"warning: {len(solids)} solids; fusing them (touching parts become one body)", file=sys.stderr)
+            sys.exit("the model has no solid")
+        print(f"warning: {len(solids)} solids. The tool fuses them (parts that touch become one body)", file=sys.stderr)
         fused = solids[0]
         for s in solids[1:]:
             fused = fused.fuse(s)
         obj = fused.clean()
         solids = obj.Solids()
         if len(solids) != 1:
-            sys.exit("model has several disconnected solids; analyse them separately")
+            sys.exit("the model has many solids that are not connected. Analyze each solid separately")
     return solids[0]
 
 
@@ -148,7 +149,7 @@ def face_info(shape):
 
 
 def select_faces(shape, sel: str) -> list[int]:
-    """Return face indices (into shape.Faces()) for a selector string."""
+    """Give the face numbers (in shape.Faces()) for a selector string."""
     import cadquery as cq
     faces = shape.Faces()
     sel = sel.strip()
@@ -156,7 +157,7 @@ def select_faces(shape, sel: str) -> list[int]:
         idx = [int(x) for x in sel[5:].split(",") if x.strip()]
         bad = [i for i in idx if i < 0 or i >= len(faces)]
         if bad:
-            sys.exit(f"face index out of range: {bad} (model has {len(faces)} faces)")
+            sys.exit(f"this face number is not in the model: {bad} (the model has {len(faces)} faces)")
         return idx
     if sel.startswith("box:"):
         x0, y0, z0, x1, y1, z1 = (float(v) for v in sel[4:].split(","))
@@ -172,15 +173,15 @@ def select_faces(shape, sel: str) -> list[int]:
         hashes = {c.hashCode() for c in chosen}
         hits = [i for i, f in enumerate(faces) if f.hashCode() in hashes or any(f.isSame(c) for c in chosen)]
     if not hits:
-        sys.exit(f"selector {sel!r} matched no faces; use --list-faces to see indices")
+        sys.exit(f"selector {sel!r} found no faces. Use --list-faces to see the face numbers")
     return hits
 
 
 # --------------------------------------------------------------------------- #
-# Meshing
+# Make the mesh
 # --------------------------------------------------------------------------- #
 def mesh_shape(shape, size: float, curv: int, quiet=True):
-    """Tet mesh with gmsh. Returns points (N,3), tets (M,4), {face_index: tris (K,3)}."""
+    """Make a tetrahedral mesh with gmsh. Gives points (N,3), tets (M,4), {face_index: tris (K,3)}."""
     import gmsh
     tmp = Path(tempfile.mkdtemp()) / "part.brep"
     shape.exportBrep(str(tmp))
@@ -197,7 +198,7 @@ def mesh_shape(shape, size: float, curv: int, quiet=True):
         gmsh.option.setNumber("Mesh.Optimize", 1)
         gmsh.model.mesh.generate(3)
 
-        # Match gmsh surfaces to CadQuery faces by centroid + area.
+        # Find the CadQuery face for each gmsh surface from the centroid and the area.
         cq_faces = shape.Faces()
         cq_c = np.array([[f.Center().x, f.Center().y, f.Center().z] for f in cq_faces])
         cq_a = np.array([f.Area() for f in cq_faces])
@@ -230,7 +231,7 @@ def mesh_shape(shape, size: float, curv: int, quiet=True):
     finally:
         gmsh.finalize()
     if not tets:
-        raise SystemExit("gmsh produced no tetrahedra (is the solid closed and valid?)")
+        raise SystemExit("gmsh made no tetrahedra (is the solid closed and valid?)")
     tets = np.vstack(tets)
     used = np.unique(tets)
     remap = np.full(len(pts), -1, dtype=np.int64)
@@ -244,7 +245,7 @@ def mesh_shape(shape, size: float, curv: int, quiet=True):
 def parse_vec(s: str) -> np.ndarray:
     v = np.array([float(x) for x in s.split(",")])
     if v.shape != (3,):
-        raise SystemExit(f"expected fx,fy,fz, got {s!r}")
+        raise SystemExit(f"the value must be fx,fy,fz. The tool received {s!r}")
     return v
 
 
@@ -265,7 +266,7 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
     from skfem.models.elasticity import lame_parameters, linear_elasticity
 
     m = MeshTet(pts.T.copy(), tets.T.copy())
-    # facet lookup: sorted node triple -> facet index
+    # facet table: sorted node triple -> facet number
     fac = np.sort(m.facets, axis=0).T
     bfac = m.boundary_facets()
     lut = {tuple(fac[i]): i for i in bfac}
@@ -280,7 +281,7 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
         return np.unique(np.array(out, dtype=np.int64))
 
     e = ElementVector(ElementTetP2())
-    ib = Basis(m, e, intorder=2)  # exact for P2 stiffness
+    ib = Basis(m, e, intorder=2)  # exact integration for P2 stiffness
     lam, mu = lame_parameters(mat["E"], mat["nu"])
     K = asm(linear_elasticity(lam, mu), ib)
     f = np.zeros(K.shape[0])
@@ -294,7 +295,7 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
     for kind, faces, val in bcs:
         fids = facets_for(faces)
         if len(fids) == 0:
-            raise SystemExit(f"no mesh facets on faces {faces} (mesh matching failed)")
+            raise SystemExit(f"no mesh facets on faces {faces} (the tool did not find the mesh faces)")
         fb = FacetBasis(m, e, facets=fids, intorder=4)
         area = asm(unit, FacetBasis(m, ElementTetP1(), facets=fids))
         if kind == "force":
@@ -328,7 +329,7 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
         D.append(dofs.all(names) if len(names) < 3 else dofs.all())
         marks["fixed"].append(fids)
     if not D:
-        raise SystemExit("no --fix given: the part is unconstrained")
+        raise SystemExit("no --fix option: the part is not constrained")
     D = np.unique(np.concatenate(D))
 
     ndof = K.shape[0]
@@ -337,7 +338,7 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
         import pyamg
         from scipy.sparse.linalg import cg
         A, b, x0, I = condense(K, f, D=D)
-        # rigid-body modes as near-null space: essential for AMG on elasticity
+        # rigid-body modes as near-null space: AMG must have them for elasticity
         X = ib.doflocs
         B = np.zeros((ndof, 6))
         comp = [ib.get_dofs().all(f"u^{c + 1}") for c in range(3)]
@@ -350,16 +351,16 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
         ml = pyamg.smoothed_aggregation_solver(A.tocsr(), B=B[I], symmetry="symmetric")
         xi, info = cg(A, b, M=ml.aspreconditioner(), rtol=1e-8, maxiter=3000)
         if info != 0:
-            raise SystemExit("iterative solver did not converge (under-constrained?)")
+            raise SystemExit("the iterative solver did not converge (is the model under-constrained?)")
         u = np.zeros(ndof)
         u[I] = xi
     else:
         u = sksolve(*condense(K, f, D=D))
     t_solve = time.time() - t0
     if not np.all(np.isfinite(u)):
-        raise SystemExit("solution is not finite: model is under-constrained (add --fix, check selectors)")
+        raise SystemExit("the solution is not finite: the model is under-constrained (add --fix, examine the selectors)")
 
-    reaction = (K @ u - f)[D]  # force the supports exert on the part
+    reaction = (K @ u - f)[D]  # force from the supports on the part
     rx = np.zeros(3)
     for c in range(3):
         sel = np.isin(D, ib.get_dofs().all(f"u^{c + 1}"))
@@ -380,7 +381,7 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
     sn = np.einsum("i,ijkl,j->kl", n, s, n)                # normal stress across layers
     tvec = np.einsum("ijkl,j->ikl", s, n)
     tau = np.sqrt(np.maximum((tvec ** 2).sum(0) - sn ** 2, 0))  # interlayer shear
-    # principal stresses (max principal) per qp
+    # principal stresses (maximum principal) at each quadrature point
     S = np.transpose(s, (2, 3, 0, 1))
     pmax = np.linalg.eigvalsh(S)[..., -1]
 
@@ -389,14 +390,14 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
     p1 = Basis(m, ElementTetP1(), intorder=2)
     nodal = {k: p1.project(v) for k, v in
              (("von_mises", vm), ("layer_normal", sn), ("layer_shear", tau), ("max_principal", pmax))}
-    # Elements more than one element size from any fixed/loaded face. Stresses
-    # right at idealised supports/loads are artefacts (Saint-Venant), so the
-    # design values below ignore them; the raw peaks are still reported.
+    # Elements at more than one element size from all fixed or loaded faces. The stresses
+    # at ideal supports and loads are not correct (Saint-Venant). Thus the design
+    # values below ignore them. The report also gives the raw peaks.
     from scipy.spatial import cKDTree
     bc_nodes = np.unique(np.concatenate([m.facets[:, f].ravel() for f in marks["fixed"] + marks["loaded"]]))
     dist, _ = cKDTree(m.p[:, bc_nodes].T).query(m.p.T)
     far = dist > size
-    if far.sum() < 0.2 * len(far):  # tiny part relative to mesh: fall back to all
+    if far.sum() < 0.2 * len(far):  # the part is very small relative to the mesh: use all elements
         far[:] = True
     return dict(mesh=m, u=disp, ndof=ndof, nfixed=len(D), t_solve=t_solve, applied=applied,
                 reaction=rx, vm=nodal["von_mises"], sn=nodal["layer_normal"], tau=nodal["layer_shear"],
@@ -405,7 +406,7 @@ def solve(pts, tets, tris, bcs, mat, bdir, size):
 
 
 def design_max(vals, far):
-    """Max over elements away from boundary-condition faces."""
+    """Maximum value of the elements that are away from the boundary-condition faces."""
     return float(vals[far].max())
 
 
@@ -480,24 +481,24 @@ def write_vtu(res, path: Path):
 # --------------------------------------------------------------------------- #
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("model", help="CadQuery .py, .step or .brep")
-    ap.add_argument("--set", action="append", default=[], metavar="NAME=VALUE", help="override script parameter")
-    ap.add_argument("--list-faces", action="store_true", help="print face indices/centres/normals and exit")
+    ap.add_argument("model", help="CadQuery .py, .step or .brep file")
+    ap.add_argument("--set", action="append", default=[], metavar="NAME=VALUE", help="change a script parameter")
+    ap.add_argument("--list-faces", action="store_true", help="show the face numbers, centers and normals, then stop")
     ap.add_argument("--list-materials", action="store_true")
     ap.add_argument("--material", default="prusament-pla")
-    ap.add_argument("--E", type=float, help="override Young's modulus [MPa]")
-    ap.add_argument("--nu", type=float, help="override Poisson's ratio")
-    ap.add_argument("--yield", dest="yield_", type=float, help="override in-plane yield [MPa]")
-    ap.add_argument("--z-strength", type=float, help="override interlayer tensile strength [MPa]")
+    ap.add_argument("--E", type=float, help="use this Young's modulus [MPa]")
+    ap.add_argument("--nu", type=float, help="use this Poisson's ratio")
+    ap.add_argument("--yield", dest="yield_", type=float, help="use this in-plane yield strength [MPa]")
+    ap.add_argument("--z-strength", type=float, help="use this interlayer tensile strength [MPa]")
     ap.add_argument("--fix", action="append", default=[], metavar="SEL[@xyz]")
     ap.add_argument("--force", action="append", default=[], metavar="SEL=fx,fy,fz", help="total force [N]")
     ap.add_argument("--pressure", action="append", default=[], metavar="SEL=p", help="pressure [MPa]")
-    ap.add_argument("--build-dir", default="z", help="print layer stacking direction in model coords: z, -y, x, or vector")
-    ap.add_argument("--size", type=float, help="max element size [mm] (default: smallest bbox side / 4, capped)")
-    ap.add_argument("--curvature", type=int, default=12, help="elements per 2*pi of curvature (0 = off)")
-    ap.add_argument("--sf-target", type=float, default=2.0, help="required safety factor (default 2)")
-    ap.add_argument("--convergence", action="store_true", help="solve at 3 mesh sizes and compare")
-    ap.add_argument("--png", help="write a 4-panel PNG (BCs, von Mises x2, layer-normal stress)")
+    ap.add_argument("--build-dir", default="z", help="direction of the print layer stack in model coordinates: z, -y, x, or vector")
+    ap.add_argument("--size", type=float, help="maximum element size [mm] (default: shortest bbox side / 4, with a limit)")
+    ap.add_argument("--curvature", type=int, default=12, help="elements for each 2*pi of curvature (0 = off)")
+    ap.add_argument("--sf-target", type=float, default=2.0, help="necessary safety factor (default 2)")
+    ap.add_argument("--convergence", action="store_true", help="solve with 3 mesh sizes and compare the results")
+    ap.add_argument("--png", help="write a PNG with 4 panels (BCs, von Mises x2, stress normal to the layers)")
     ap.add_argument("--vtu", help="write results for ParaView")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
@@ -510,7 +511,7 @@ def main(argv=None):
 
     shape = load_shape(Path(args.model), parse_set(args.set))
     if not shape.isValid():
-        print("warning: solid fails BRep validity check; meshing may fail", file=sys.stderr)
+        print("warning: the solid fails the BRep validity check. The mesh can fail", file=sys.stderr)
     if args.list_faces:
         bb = shape.BoundingBox()
         print(f"bbox x[{bb.xmin:.2f},{bb.xmax:.2f}] y[{bb.ymin:.2f},{bb.ymax:.2f}] z[{bb.zmin:.2f},{bb.zmax:.2f}]  "
@@ -522,7 +523,7 @@ def main(argv=None):
 
     key = ALIASES.get(args.material.lower(), args.material.lower())
     if key not in MATERIALS:
-        sys.exit(f"unknown material {args.material!r}; --list-materials")
+        sys.exit(f"unknown material {args.material!r}. Use --list-materials")
     mat = dict(MATERIALS[key])
     for k, v in (("E", args.E), ("nu", args.nu), ("yield_xy", args.yield_), ("z", args.z_strength)):
         if v is not None:
@@ -541,13 +542,13 @@ def main(argv=None):
         sel, _, p = s.rpartition("=")
         bcs.append(("pressure", select_faces(shape, sel), float(p)))
     if not any(b[0] == "fix" for b in bcs):
-        sys.exit("need at least one --fix")
+        sys.exit("give one --fix option or more")
     if not any(b[0] in ("force", "pressure") for b in bcs):
-        sys.exit("need at least one --force or --pressure")
+        sys.exit("give one --force or --pressure option or more")
     fixed_faces = {f for b in bcs if b[0] == "fix" for f in b[1]}
     loaded_faces = {f for b in bcs if b[0] != "fix" for f in b[1]}
     if fixed_faces & loaded_faces:
-        print(f"warning: faces {sorted(fixed_faces & loaded_faces)} are both fixed and loaded", file=sys.stderr)
+        print(f"warning: faces {sorted(fixed_faces & loaded_faces)} are fixed and loaded at the same time", file=sys.stderr)
 
     bdir = build_dir(args.build_dir)
     bb = shape.BoundingBox()
@@ -579,7 +580,7 @@ def main(argv=None):
     loc_sn = m.p[:, isn]
     sf_xy = mat["yield_xy"] / vm_rob if vm_rob > 0 else math.inf
     sf_z = mat["z"] / sn_rob if sn_rob > 0 else math.inf
-    sf_shear = (0.6 * mat["z"]) / tau_rob if tau_rob > 0 else math.inf  # interlayer shear ~ 0.6 x interlayer tensile (estimate)
+    sf_shear = (0.6 * mat["z"]) / tau_rob if tau_rob > 0 else math.inf  # interlayer shear strength ~ 0.6 x interlayer tensile strength (estimate)
     sf = min(sf_xy, sf_z, sf_shear)
     applied, reaction = res["applied"], res["reaction"]
     eq_err = float(np.linalg.norm(applied + reaction) / max(np.linalg.norm(applied), 1e-12))
@@ -587,25 +588,25 @@ def main(argv=None):
 
     notes = []
     if vm_max > 1.5 * vm_rob:
-        notes.append("raw peak von Mises (at a fixed/loaded face) is >1.5x the design value: idealised-support "
-                     "artefact. If the real support/load is that concentrated, model it more realistically.")
+        notes.append("the raw peak von Mises (at a fixed or loaded face) is >1.5x the design value. The ideal support "
+                     "causes this peak. If the actual support or load is that concentrated, make a more accurate model of it.")
     if args.convergence and len(runs) >= 2 and runs[-1]["vm_design"] > 1.15 * runs[-2]["vm_design"]:
-        notes.append("design stress keeps rising with refinement: a sharp re-entrant corner (singularity). "
-                     "Add a fillet there; a sharp-cornered value is meaningless.")
+        notes.append("the design stress continues to increase with a finer mesh: a sharp re-entrant corner (singularity). "
+                     "Add a fillet there. The value at a sharp corner has no meaning.")
     if eq_err > 0.02:
-        notes.append(f"equilibrium error {eq_err:.1%}: check loads/mesh")
+        notes.append(f"equilibrium error {eq_err:.1%}: examine the loads and the mesh")
     if r["max_disp"] > 0.05 * span:
-        notes.append("displacement > 5% of part size: linear analysis is inaccurate (large deflection); "
-                     "treat results as qualitative and stiffen the design")
+        notes.append("displacement > 5% of the part dimension: the linear analysis is not accurate (large deflection). "
+                     "Use the results only to compare designs, and make the design stiffer")
     if "ESTIMATE" in mat["source"]:
-        notes.append(f"{key}: no manufacturer data sheet; strengths are estimates - print and test coupons")
+        notes.append(f"{key}: no data sheet from the manufacturer. The strengths are estimates. Print and test coupons")
     if min(sf_z, sf_shear) < sf_xy:
-        notes.append("layer adhesion governs: reorient the part so layers are not pulled apart, "
-                     "or add perimeters / raise temperature")
+        notes.append("layer adhesion governs: turn the part so that the load does not pull the layers apart, "
+                     "or add perimeters, or increase the temperature")
     if args.convergence and len(runs) >= 2:
         d = abs(runs[-1]["vm_design"] - runs[-2]["vm_design"]) / max(runs[-1]["vm_design"], 1e-12)
-        notes.append(f"mesh convergence: design von Mises changed {d:.1%} on the last refinement "
-                     + ("(converged)" if d < 0.05 else "(NOT converged: refine further with --size)"))
+        notes.append(f"mesh convergence: the design von Mises stress changed {d:.1%} with the last refinement "
+                     + ("(converged)" if d < 0.05 else "(NOT converged: make the mesh finer with --size)"))
 
     report = dict(
         model=str(args.model), material=key, material_props=mat,

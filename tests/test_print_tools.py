@@ -4,13 +4,13 @@
 # ///
 """Regression tests for the structural-analysis, print-prep and prusaslicer tools.
 
-  uv run tests/test_print_tools.py            # all
-  uv run tests/test_print_tools.py fea        # only tests whose name contains 'fea'
+  uv run tests/test_print_tools.py            # all tests
+  uv run tests/test_print_tools.py fea        # only tests with 'fea' in their name
 
-Each tool runs through `uv run` exactly as an agent would. The PrusaSlicer
-profile tests use the installed bundle if found, else download
-PrusaResearch.ini from GitHub. The real slice test is skipped when
-PrusaSlicer is not installed.
+Each tool runs through `uv run`, as an agent runs it. The PrusaSlicer profile
+tests use the installed bundle if the tool finds it. If not, they download
+PrusaResearch.ini from GitHub. If PrusaSlicer is not installed, the test that
+slices a part does not run.
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ def close(a, b, rel):
 
 
 def test_fea_cantilever(tmp: Path):
-    """PLA cantilever 100x10x10, 10 N tip load: delta = 1.739 mm, root stress 6.0 MPa."""
+    """PLA cantilever 100x10x10, 10 N load at the tip: delta = 1.739 mm, root stress 6.0 MPa."""
     (tmp / "beam.py").write_text(BEAM)
     r = run(FEA, tmp / "beam.py", "--material", "prusament-pla", "--fix", "<X", "--force", ">X=0,0,-10",
             "--json", "--png", tmp / "beam.png", "--vtu", tmp / "beam.vtu")
@@ -66,7 +66,7 @@ def test_fea_cantilever(tmp: Path):
 
 
 def test_fea_layer_check(tmp: Path):
-    """Same beam printed standing up (layers across the bending stress) must be governed by layers."""
+    """The same beam, printed vertical (layers across the bending stress): the layers must govern."""
     (tmp / "beam.py").write_text(BEAM)
     r = run(FEA, tmp / "beam.py", "--material", "pla", "--fix", "<X", "--force", ">X=0,0,-10",
             "--build-dir", "x", "--sf-target", "5", "--json", ok=(3,))
@@ -88,7 +88,7 @@ def test_printability(tmp: Path):
     d = json.loads(r.stdout)
     assert d["health"]["watertight"] and d["health"]["bodies"] == 1
     assert d["best"]["fits_bed"] and d["best"]["load_across_layers"] == 0
-    assert d["best"]["height"] == 10.0  # lying flat beats standing up
+    assert d["best"]["height"] == 10.0  # a horizontal beam is better than a vertical beam
     assert (tmp / "beam.3mf").exists() and (tmp / "o.png").exists()
     big = tmp / "big.py"
     big.write_text(BEAM.replace("length = 100.0", "length = 400.0"))
