@@ -42,6 +42,7 @@ The bundled scripts carry their own PEP 723 headers, so `uv run <skill-dir>/scri
 4. **Check the numbers against the spec**: bbox equals the intended envelope? Volume dropped after a cut (if not, the cut missed)? Exactly 1 solid for a single part?
 5. **Stress parameters**: rebuild at min/max plausible values with `--set` to prove the model is really parametric.
 6. **Export**: `-o out/part.step` (CAD exchange, exact) and `-o out/part.stl` / `.3mf` (printing). Assemblies: `.step` keeps names/colours, `.glb` for viewing.
+7. **Going to print it?** Hand off to the companion skills if installed: `print-prep` (orientation, printability), `structural-analysis` (will it hold the load? FEA on this same `.py`), `prusaslicer` (G-code for a Prusa MK4/MK4S).
 
 Unsure of a method's arguments? Don't guess — query the installed version:
 `uv run <skill-dir>/scripts/cq_api.py Workplane.cboreHole` or `--search chamfer`.

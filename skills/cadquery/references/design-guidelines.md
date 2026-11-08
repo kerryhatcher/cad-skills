@@ -21,6 +21,8 @@ Rules of thumb for turning a CadQuery model into a part that can actually be mad
 
 ## FDM 3D printing
 
+For a part that will be printed, continue with the companion skills: **`print-prep`** (orientation, printability, DfAM details), **`structural-analysis`** (FEA + layer-adhesion strength check) and **`prusaslicer`** (slice for Prusa MK4/MK4S).
+
 | Feature | Guideline |
 |---|---|
 | Wall thickness | ≥ 2 × nozzle width (0.8 mm for 0.4 nozzle); 1.2–2.0 mm typical; structural ≥ 2.4 mm |
