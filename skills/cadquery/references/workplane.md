@@ -1,20 +1,20 @@
-# Workplane (Fluent API) Reference
+# Workplane (fluent API)
 
-`cq.Workplane` is the main modelling API. Each method returns a **new** Workplane; the chain forms a history (the "stack"). Check exact signatures for the installed version with `uv run scripts/cq_api.py Workplane.<method>`.
+`cq.Workplane` is the primary modeling API. Each method gives a **new** Workplane. The chain makes a history (the "stack"). To get the exact signatures for the installed version, run `uv run scripts/cq_api.py Workplane.<method>`.
 
 ## Contents
 - [Stack model](#stack-model)
-- [Creating & positioning workplanes](#creating--positioning-workplanes)
+- [Make and position workplanes](#make-and-position-workplanes)
 - [2D drawing](#2d-drawing)
-- [Points & patterns](#points--patterns)
+- [Points and patterns](#points-and-patterns)
 - [3D primitives](#3d-primitives)
-- [Profile → solid operations](#profile--solid-operations)
+- [Operations from profile to solid](#operations-from-profile-to-solid)
 - [Holes, pockets, features](#holes-pockets-features)
 - [Fillet, chamfer, shell](#fillet-chamfer-shell)
-- [Booleans & combine modes](#booleans--combine-modes)
-- [Transforms & mirroring](#transforms--mirroring)
-- [Stack navigation, tags, escaping the chain](#stack-navigation-tags-escaping-the-chain)
-- [Plugins: extending Workplane](#plugins-extending-workplane)
+- [Booleans and combine modes](#booleans-and-combine-modes)
+- [Transformations and mirrors](#transformations-and-mirrors)
+- [Stack navigation, tags, exit from the chain](#stack-navigation-tags-exit-from-the-chain)
+- [Plugins: how to extend Workplane](#plugins-how-to-extend-workplane)
 
 ## Stack model
 
@@ -26,12 +26,12 @@ Workplane
  └─ ctx       shared context: pendingWires, pendingEdges, tags, firstPoint
 ```
 
-- **Pending wires**: closed 2D shapes waiting to be consumed by `extrude`/`revolve`/`loft`/`sweep`/`cutBlind`/`cutThruAll`. `toPending()` turns selected wires/edges (e.g. from an import) into pending ones.
-- **Context solid**: the first solid found on the stack or up the parent chain. Additive ops fuse into it, subtractive ops cut it. `findSolid()` returns it.
-- **Implicit iteration**: if the stack has N points/vertices/faces, `circle()`, `rect()`, `hole()`, `workplane()`-relative ops are applied at each.
-- **Construction geometry**: `rect(..., forConstruction=True)` makes a wire you only use for its `vertices()`.
+- **Pending wires:** closed 2D shapes that `extrude`, `revolve`, `loft`, `sweep`, `cutBlind` or `cutThruAll` will use. `toPending()` changes selected wires or edges (for example, from an import) into pending wires.
+- **Context solid:** the first solid on the stack or in the parent chain above it. Operations that add material fuse into it. Operations that remove material cut it. `findSolid()` gives it.
+- **Automatic repetition:** the stack can have N points, vertices or faces. Then the tool applies `circle()`, `rect()`, `hole()` and operations relative to `workplane()` at each of them.
+- **Construction geometry:** `rect(..., forConstruction=True)` makes a wire that you use only for its `vertices()`.
 
-## Creating & positioning workplanes
+## Make and position workplanes
 
 ```python
 import cadquery as cq
@@ -54,40 +54,40 @@ on_vertex = base.faces(">Z").vertices("<XY").workplane(centerOption="CenterOfMas
 result = rot.rect(4, 4).extrude(3)
 ```
 
-`centerOption` (how the origin is chosen when creating a workplane from a face/vertex):
+`centerOption` (how the tool selects the origin when you make a workplane on a face or vertex):
 
 | Value | Origin |
 |---|---|
-| `"ProjectedOrigin"` (default) | Current origin (initially global `(0,0,0)`) projected onto the face plane |
-| `"CenterOfBoundBox"` | Centre of the selected objects' bounding box |
-| `"CenterOfMass"` | Centre of mass of the selected objects |
+| `"ProjectedOrigin"` (default) | The current origin (initially global `(0,0,0)`) projected onto the plane of the face |
+| `"CenterOfBoundBox"` | The center of the bounding box of the selected objects |
+| `"CenterOfMass"` | The center of mass of the selected objects |
 
-Pass `origin=(x, y, z)` to set it explicitly (global coords). After `.faces(">Z").workplane()` the local x axis is usually global +X, but for side faces it may not be — check by building, or set `.transformed()`.
+To set the origin explicitly (global coordinates), give `origin=(x, y, z)`. After `.faces(">Z").workplane()`, the local x axis is usually the global +X axis. But on side faces, this is possibly not true. Build the model and examine it, or use `.transformed()`.
 
-`copyWorkplane(other)` starts a fresh chain on another Workplane's plane: `cq.Workplane().copyWorkplane(base.faces(">Z").workplane())`.
+`copyWorkplane(other)` starts a new chain on the plane of a different Workplane: `cq.Workplane().copyWorkplane(base.faces(">Z").workplane())`.
 
 ## 2D drawing
 
-All coordinates are **local** to the current workplane. Closed shapes become pending wires automatically.
+All coordinates are **local** to the current workplane. Closed shapes automatically become pending wires.
 
 | Method | Notes |
 |---|---|
-| `rect(xLen, yLen, centered=True, forConstruction=False)` | `centered=(False, False)` → corner at current point |
+| `rect(xLen, yLen, centered=True, forConstruction=False)` | `centered=(False, False)` → corner at the current point |
 | `circle(radius)` | |
 | `ellipse(x_radius, y_radius, rotation_angle=0)` | |
-| `polygon(nSides, diameter, circumscribed=False)` | regular polygon (diameter of circumscribed circle) |
-| `slot2D(length, diameter, angle=0)` | obround / slot (overall length) |
-| `polyline(points, includeCurrent=False)` | open polyline; `.close()` to make it a wire |
-| `lineTo(x, y)`, `line(dx, dy)`, `hLine(d)`, `vLine(d)`, `hLineTo(x)`, `vLineTo(y)`, `polarLine(d, angle)`, `polarLineTo(r, angle)` | segment builders from current point |
-| `threePointArc(p1, p2)`, `radiusArc(end, r)`, `tangentArcPoint(end, relative=True)`, `sagittaArc(end, sag)` | arcs from current point (sign of `r`/`sag` picks side) |
+| `polygon(nSides, diameter, circumscribed=False)` | regular polygon (the diameter of the circumscribed circle) |
+| `slot2D(length, diameter, angle=0)` | slot (overall length). The length must be larger than the diameter |
+| `polyline(points, includeCurrent=False)` | open polyline. Use `.close()` to make a wire |
+| `lineTo(x, y)`, `line(dx, dy)`, `hLine(d)`, `vLine(d)`, `hLineTo(x)`, `vLineTo(y)`, `polarLine(d, angle)`, `polarLineTo(r, angle)` | segments from the current point |
+| `threePointArc(p1, p2)`, `radiusArc(end, r)`, `tangentArcPoint(end, relative=True)`, `sagittaArc(end, sag)` | arcs from the current point (the sign of `r` or `sag` selects the side) |
 | `spline(pts, tangents=None, periodic=False, includeCurrent=False)` | |
 | `parametricCurve(func, N=400, start=0, stop=1, makeWire=True)` | `func(t) -> (x, y[, z])` |
-| `close()` | closes with a line to the start point → pending wire |
-| `offset2D(d, kind="arc")` | offset pending/selected wires (+ out, − in) |
-| `mirrorX()`, `mirrorY()` | mirror the current *open* edges and join → closed wire |
-| `text(txt, fontsize, distance, combine="cut", halign, valign, font)` | 3D text (see below) |
+| `close()` | adds a line to the start point → pending wire |
+| `offset2D(d, kind="arc")` | offsets pending or selected wires (+ out, − in) |
+| `mirrorX()`, `mirrorY()` | mirrors the current *open* edges and joins them → closed wire |
+| `text(txt, fontsize, distance, combine="cut", halign, valign, font)` | 3D text (refer to the section below) |
 
-Nested closed wires extrude as a part with holes (outer minus inner):
+Nested closed wires extrude as a part with holes (outer wire minus inner wire):
 
 ```python
 import cadquery as cq
@@ -117,16 +117,16 @@ sym = (
 result = sym
 ```
 
-## Points & patterns
+## Points and patterns
 
-| Method | Puts on the stack |
+| Method | What it puts on the stack |
 |---|---|
-| `pushPoints([(x, y), ...])` or list of `cq.Location` | given points (local coords) |
+| `pushPoints([(x, y), ...])` or a list of `cq.Location` | the given points (local coordinates) |
 | `rarray(xSpacing, ySpacing, xCount, yCount, center=True)` | rectangular grid |
-| `polarArray(radius, startAngle, angle, count, fill=True, rotate=True)` | circular pattern; `rotate` orients each location |
+| `polarArray(radius, startAngle, angle, count, fill=True, rotate=True)` | circular pattern. `rotate` turns each location |
 | `.rect(w, h, forConstruction=True).vertices()` | 4 corners of a rectangle |
-| `.vertices()` / `.edges()` / `.faces()` | centres of selected entities |
-| `sketch().rarray(...)/parray(...)/distribute(...)` | patterns inside a Sketch |
+| `.vertices()` / `.edges()` / `.faces()` | the centers of the selected objects |
+| `sketch().rarray(...)/parray(...)/distribute(...)` | patterns in a Sketch |
 
 ```python
 import cadquery as cq
@@ -142,7 +142,7 @@ result = (
 )
 ```
 
-`each(callback)` / `eachpoint(shape_or_callback)` place arbitrary shapes at each stack item:
+`each(callback)` / `eachpoint(shape_or_callback)` put a shape at each item on the stack:
 
 ```python
 import cadquery as cq
@@ -155,31 +155,31 @@ result = pins
 
 ## 3D primitives
 
-All are centred on the current point by default; `centered=(bx, by, bz)` to change; combine with the context solid by default.
+By default, the center of all primitives is at the current point. Use `centered=(bx, by, bz)` to change this. By default, the primitives join the context solid.
 
-| Method | Signature (main args) |
+| Method | Signature (primary arguments) |
 |---|---|
 | `box` | `box(length, width, height, centered=True)` |
-| `cylinder` | `cylinder(height, radius, direct=(0,0,1), angle=360, centered=True)` — **height first** |
+| `cylinder` | `cylinder(height, radius, direct=(0,0,1), angle=360, centered=True)`. **The height is first** |
 | `sphere` | `sphere(radius, angle1=-90, angle2=90, angle3=360)` |
 | `wedge` | `wedge(dx, dy, dz, xmin, zmin, xmax, zmax)` |
-| `torus`, `cone` | via `cq.Solid.makeTorus(...)`, `cq.Solid.makeCone(r1, r2, h)` or `cadquery.func` |
+| `torus`, `cone` | use `cq.Solid.makeTorus(...)`, `cq.Solid.makeCone(r1, r2, h)` or `cadquery.func` |
 
-Repeated primitive at each point: `.rarray(10, 10, 2, 2).box(4, 4, 4)`.
+One primitive at each point: `.rarray(10, 10, 2, 2).box(4, 4, 4)`.
 
-## Profile → solid operations
+## Operations from profile to solid
 
-| Method | Key args | Notes |
+| Method | Important arguments | Notes |
 |---|---|---|
-| `extrude(until, combine=True, both=False, taper=None)` | `until`: distance, `"next"`, `"last"`, or a `Face` | negative = opposite the normal; `both=True` symmetric; `taper` in degrees |
+| `extrude(until, combine=True, both=False, taper=None)` | `until`: distance, `"next"`, `"last"`, or a `Face` | A negative value goes opposite to the normal. `both=True` is symmetric. `taper` is in degrees |
 | `cutBlind(until, both=False, taper=None)` | distance (usually **negative** on a face workplane) | |
-| `cutThruAll(clean=True, taper=0)` | | cuts through the whole context solid (both sides) |
-| `revolve(angleDegrees=360, axisStart=None, axisEnd=None)` | axis points in **local** coords | profile must not cross the axis |
+| `cutThruAll(clean=True, taper=0)` | | cuts through the full context solid (in the two directions) |
+| `revolve(angleDegrees=360, axisStart=None, axisEnd=None)` | the axis points are in **local** coordinates | the profile must not cross the axis |
 | `twistExtrude(distance, angleDegrees)` | | |
-| `loft(ruled=False, combine=True)` | needs ≥2 pending wires on different workplanes | |
-| `sweep(path, multisection=False, isFrenet=False, transition="right", normal=None, auxSpine=None)` | `path`: Workplane/Wire/Edge | `isFrenet=True` for helices |
-| `interpPlate(edges, pts, thickness)` | | N-sided surface patch |
-| `split(keepTop=False, keepBottom=False)` | after `.workplane()` | cut a solid with the workplane plane |
+| `loft(ruled=False, combine=True)` | 2 or more pending wires on different workplanes are necessary | |
+| `sweep(path, multisection=False, isFrenet=False, transition="right", normal=None, auxSpine=None)` | `path`: Workplane, Wire or Edge | use `isFrenet=True` for helices |
+| `interpPlate(edges, pts, thickness)` | | surface patch with N sides |
+| `split(keepTop=False, keepBottom=False)` | after `.workplane()` | cuts a solid with the plane of the workplane |
 
 ```python
 import cadquery as cq
@@ -216,10 +216,10 @@ result = cup
 
 | Method | Signature |
 |---|---|
-| `hole(diameter, depth=None)` | through-all if `depth=None`, drilled along −normal |
+| `hole(diameter, depth=None)` | through all if `depth=None`. The tool drills along −normal |
 | `cboreHole(diameter, cboreDiameter, cboreDepth, depth=None)` | counterbore |
-| `cskHole(diameter, cskDiameter, cskAngle, depth=None)` | countersink (82° imperial, 90° metric) |
-| `text(txt, fontsize, distance, combine="cut", ...)` | default **cuts**: use −distance to engrave; `combine="a"` + distance to emboss |
+| `cskHole(diameter, cskDiameter, cskAngle, depth=None)` | countersink (82° for inch screws, 90° for metric screws) |
+| `text(txt, fontsize, distance, combine="cut", ...)` | By default, it **cuts**: use −distance to engrave. Use `combine="a"` and +distance to emboss |
 
 ```python
 import cadquery as cq
@@ -241,9 +241,9 @@ result = (
 
 | Method | Notes |
 |---|---|
-| `fillet(radius)` | on selected edges (or all edges of selected solids) |
-| `chamfer(length, length2=None)` | asymmetric if `length2` given |
-| `shell(thickness, kind="arc")` | on selected faces → those faces are removed (opened). Negative = wall grows inward (keeps outer size). With no faces selected (on a solid) → closed hollow. |
+| `fillet(radius)` | on the selected edges (or on all edges of the selected solids) |
+| `chamfer(length, length2=None)` | asymmetric if you give `length2` |
+| `shell(thickness, kind="arc")` | The tool removes the selected faces (the part becomes open). A negative value adds the wall to the inner side (the outer dimensions stay the same). With no selected faces (on a solid), the result is a closed hollow solid. |
 
 ```python
 import cadquery as cq
@@ -256,9 +256,9 @@ result = (
 )
 ```
 
-Radius must fit: fillet radius < half the smallest adjacent face width, and < wall thickness after shelling. Fillet larger radii first.
+The radius must not be too large. The fillet radius must be less than half of the smallest adjacent face width. After a shell, it must be less than the wall thickness. Fillet the larger radii first.
 
-## Booleans & combine modes
+## Booleans and combine modes
 
 ```python
 import cadquery as cq
@@ -274,9 +274,9 @@ holes = a.cut(tools)
 result = holes
 ```
 
-`combine` on 3D ops: `True`/`"a"` fuse (default), `"cut"`/`"s"` subtract, `False` keep separate (result is just the new solid). `clean=True` (default) merges coplanar faces; pass `clean=False` if cleaning fails or is slow.
+`combine` on 3D operations: `True`/`"a"` fuses (default), `"cut"`/`"s"` subtracts, `False` keeps the new solid separated (the result is only the new solid). `clean=True` (default) merges coplanar faces. If the clean step fails or is slow, give `clean=False`.
 
-## Transforms & mirroring
+## Transformations and mirrors
 
 ```python
 import cadquery as cq
@@ -291,24 +291,24 @@ on_face = part.mirror(part.faces(">X"), union=True)       # mirror across a face
 result = both
 ```
 
-## Stack navigation, tags, escaping the chain
+## Stack navigation, tags, exit from the chain
 
-| Method | Purpose |
+| Method | Function |
 |---|---|
-| `end(n=1)` | go back n steps in the chain |
-| `first()`, `last()`, `item(i)` | narrow the selection |
-| `tag(name)` | name this point in the chain |
-| `faces(sel, tag=name)` / `edges(..., tag=)` | select from a tagged object instead of current |
-| `workplaneFromTagged(name)` | restore the tagged workplane |
-| `add(obj)`, `newObject(objs)` | push shapes/workplanes onto the stack |
-| `val()`, `vals()` | first object / all objects (exit the chain) |
+| `end(n=1)` | goes back n steps in the chain |
+| `first()`, `last()`, `item(i)` | make the selection smaller |
+| `tag(name)` | gives a name to this point in the chain |
+| `faces(sel, tag=name)` / `edges(..., tag=)` | selects from an object with a tag, not from the current object |
+| `workplaneFromTagged(name)` | gives the workplane with the tag again |
+| `add(obj)`, `newObject(objs)` | push shapes or workplanes onto the stack |
+| `val()`, `vals()` | first object / all objects (exit from the chain) |
 | `findSolid()` | the context solid |
 | `solids()`, `wires()`, `shells()`, `vertices()` | selection by type |
-| `filter(pred)`, `sort(key)`, `wp[i]`, `wp[a:b]` | Python-level selection |
-| `invoke(fn)` | call `fn(wp)` mid-chain (conditional features) |
-| `toPending()` | make selected wires/edges pending for the next 3D op |
-| `consolidateWires()` | join pending edges into wires |
-| `ctx`, `plane`, `objects`, `parent` | internals — handy for debugging |
+| `filter(pred)`, `sort(key)`, `wp[i]`, `wp[a:b]` | selection in Python |
+| `invoke(fn)` | calls `fn(wp)` in the chain (features with conditions) |
+| `toPending()` | makes the selected wires or edges pending for the next 3D operation |
+| `consolidateWires()` | joins pending edges into wires |
+| `ctx`, `plane`, `objects`, `parent` | internal data. Useful to find problems |
 
 ```python
 import cadquery as cq
@@ -325,9 +325,9 @@ result = (
 assert len(result.solids().vals()) == 1
 ```
 
-Note: `faces(sel, tag=...)` selects from the shape *as it was* when tagged, but the subsequent operation (`chamfer`) applies to the current context solid — the edges must still exist unchanged.
+Note: `faces(sel, tag=...)` selects from the shape *as it was* at the time of the tag. But the next operation (`chamfer`) applies to the current context solid. Thus the edges must stay in the solid with no change.
 
-## Plugins: extending Workplane
+## Plugins: how to extend Workplane
 
 ```python
 import cadquery as cq
@@ -348,4 +348,4 @@ result = (
 )
 ```
 
-Simpler and usually better: write plain functions `def feature(wp: cq.Workplane, ...) -> cq.Workplane` and use `.invoke(lambda wp: feature(wp, ...))`.
+A more simple method is usually better. Write functions `def feature(wp: cq.Workplane, ...) -> cq.Workplane`, and use `.invoke(lambda wp: feature(wp, ...))`.

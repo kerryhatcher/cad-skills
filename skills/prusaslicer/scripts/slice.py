@@ -3,23 +3,23 @@
 # requires-python = ">=3.10"
 # dependencies = []
 # ///
-"""Slice parts for Prusa printers (MK4 / MK4S by default) with the PrusaSlicer CLI.
+"""Slice parts for Prusa printers (MK4 or MK4S by default) with the PrusaSlicer CLI.
 
-Why this wrapper exists: `prusa-slicer --printer-profile NAME ...` silently falls
-back to "- default FFF -" (generic RepRap printer, 200 C PLA, no MK4 start
-G-code) unless the GUI has "installed" that printer and filament in its
-datadir. This script instead resolves the official Prusa vendor bundle
-(`PrusaResearch.ini`) itself -- following `inherits` chains -- into one flat
-config, slices with `--load`, then reads the result back and verifies that the
-printer model, nozzle, temperatures and settings really are what was asked for.
+The cause for this tool: if the GUI did not "install" the printer and the filament in
+its datadir, `prusa-slicer --printer-profile NAME ...` uses "- default FFF -" (a generic
+RepRap printer, 200 C PLA, no MK4 start G-code), and it shows no error. This script
+reads the Prusa vendor bundle (`PrusaResearch.ini`) itself. It follows the `inherits`
+chains and writes one flat configuration file. It slices with `--load`. Then it reads
+the result and makes sure that the printer model, the nozzle, the temperatures and
+the settings agree with the request.
 
 Subcommands
-  find                         locate PrusaSlicer and the Prusa profile bundle
-  profiles [--printer MK4S]    list printer presets, or the print/filament
-                               presets compatible with one printer
-  config   -o out.ini ...      write the flattened config only
-  slice    part.stl ...        slice -> .bgcode/.gcode, verify, report stats
-  info     file.bgcode         report stats/settings of an existing G-code file
+  find                         find PrusaSlicer and the Prusa profile bundle
+  profiles [--printer MK4S]    show the printer presets, or the print and filament
+                               presets that are compatible with one printer
+  config   -o out.ini ...      write only the flat configuration file
+  slice    part.stl ...        slice -> .bgcode or .gcode, examine, show data
+  info     file.bgcode         show the data and settings of a G-code file
 
 Examples
   uv run slice.py profiles
@@ -33,10 +33,10 @@ Examples
 Printer aliases: MK4 / MK4IS -> "Original Prusa MK4 Input Shaper 0.4 nozzle",
 MK4S -> "Original Prusa MK4S HF0.4 nozzle", "MK4S 0.4" -> "Original Prusa
 MK4S 0.4 nozzle", "MK4 0.6" -> "Original Prusa MK4 Input Shaper 0.6 nozzle" ...
-Print / filament names may be given as a prefix ("0.20mm STRUCTURAL",
-"Prusament PETG"); the compatible preset that matches is chosen.
+You can give the first part of a print or filament name ("0.20mm STRUCTURAL",
+"Prusament PETG"). The tool selects the compatible preset that agrees with it.
 
-Exit status is non-zero if slicing fails or verification finds a mismatch.
+The exit status is not 0 if the slice fails, or if the check finds a difference.
 """
 
 from __future__ import annotations
@@ -75,10 +75,10 @@ DEFAULT_NOZZLE = {"MK4S": "HF0.4", "MK3.9S": "HF0.4", "COREONE": "HF0.4"}
 
 
 # --------------------------------------------------------------------------- #
-# Locating PrusaSlicer and the vendor bundle
+# Find PrusaSlicer and the vendor bundle
 # --------------------------------------------------------------------------- #
 def find_slicer() -> list[str] | None:
-    """Return the command prefix that runs the PrusaSlicer CLI."""
+    """Give the command prefix that runs the PrusaSlicer CLI."""
     env = os.environ.get("PRUSA_SLICER")
     if env:
         return env.split() if " " in env and not Path(env).exists() else [env]
@@ -132,7 +132,7 @@ def _bundle_version(path: Path) -> tuple:
 
 
 def find_bundle(cmd: list[str] | None, explicit: str | None = None, vendor: str = "PrusaResearch") -> Path | None:
-    """Newest PrusaResearch.ini among user datadirs and the installation."""
+    """Find the most recent PrusaResearch.ini in the user datadirs and in the installation."""
     if explicit:
         return Path(explicit)
     home = Path.home()
@@ -166,7 +166,7 @@ def find_bundle(cmd: list[str] | None, explicit: str | None = None, vendor: str 
 
 
 # --------------------------------------------------------------------------- #
-# Vendor bundle parsing and inheritance
+# Read the vendor bundle and apply the inheritance
 # --------------------------------------------------------------------------- #
 def parse_bundle(path: Path) -> dict[str, dict[str, dict[str, str]]]:
     """{'printer': {name: {k: v}}, 'print': {...}, 'filament': {...}, ...}"""
@@ -189,10 +189,10 @@ def parse_bundle(path: Path) -> dict[str, dict[str, dict[str, str]]]:
 
 
 def resolve(kind_presets: dict[str, dict[str, str]], name: str, _seen=None) -> dict[str, str]:
-    """Flatten a preset: parents applied left to right, then its own keys."""
+    """Make a flat preset: apply the parents from left to right, then the keys of the preset."""
     _seen = _seen or set()
     if name in _seen:
-        raise ValueError(f"inheritance cycle at {name!r}")
+        raise ValueError(f"the inheritance has a loop at {name!r}")
     if name not in kind_presets:
         raise KeyError(name)
     own = kind_presets[name]
@@ -206,7 +206,7 @@ def resolve(kind_presets: dict[str, dict[str, str]], name: str, _seen=None) -> d
 
 
 # --------------------------------------------------------------------------- #
-# compatible_*_condition evaluator (PrusaSlicer's small expression language)
+# Calculator for compatible_*_condition (the small expression language of PrusaSlicer)
 # --------------------------------------------------------------------------- #
 _TOK = re.compile(r"""\s*(?:
     (?P<num>-?\d+(?:\.\d+)?) |
@@ -231,7 +231,7 @@ def _tokenize(src: str):
             continue
         m = _TOK.match(src, i)
         if not m:
-            raise ValueError(f"cannot parse condition at: {src[i:i+30]!r}")
+            raise ValueError(f"cannot read the condition at: {src[i:i+30]!r}")
         kind = m.lastgroup
         toks.append((kind, m.group(kind)))
         i = m.end()
@@ -293,7 +293,7 @@ def evaluate(cond: str, cfg: dict[str, str]) -> bool:
                 idx = int(float(take()[1]))
                 take()
             return _cfg_value(cfg, v, idx)
-        raise ValueError(f"unexpected token {v!r} in {cond!r}")
+        raise ValueError(f"token {v!r} is not correct in {cond!r}")
 
     def truthy(x):
         return bool(x) if not isinstance(x, str) else x not in ("", "0", "false")
@@ -345,7 +345,7 @@ def _fmt(x: float) -> str:
 
 
 # --------------------------------------------------------------------------- #
-# Preset selection
+# Select the presets
 # --------------------------------------------------------------------------- #
 def concrete(presets: dict) -> list[str]:
     return [n for n in presets if not n.startswith("*")]
@@ -366,11 +366,11 @@ def pick_printer(bundle, query: str) -> str:
     if len(hits) == 1:
         return hits[0]
     if not hits:
-        sys.exit(f"no printer preset matches {query!r}; run `slice.py profiles`")
+        sys.exit(f"no printer preset agrees with {query!r}. Run `slice.py profiles`")
     exact_end = [h for h in hits if h.lower().endswith(query.lower())]
     if len(exact_end) == 1:
         return exact_end[0]
-    sys.exit(f"printer {query!r} is ambiguous:\n  " + "\n  ".join(hits))
+    sys.exit(f"printer {query!r} agrees with more than one preset:\n  " + "\n  ".join(hits))
 
 
 def compatible(bundle, kind: str, printer_cfg: dict, print_cfg: dict | None = None) -> list[str]:
@@ -403,7 +403,7 @@ def pick_from(candidates: list[str], query: str | None, default: str | None, wha
     q = query.lower()
     hits = [c for c in candidates if c.lower().startswith(q)] or [c for c in candidates if q in c.lower()]
     if not hits:
-        sys.exit(f"no compatible {what} preset matches {query!r}. Compatible ones:\n  " +
+        sys.exit(f"no compatible {what} preset agrees with {query!r}. Compatible presets:\n  " +
                  "\n  ".join(candidates))
     return min(hits, key=len)
 
@@ -442,13 +442,13 @@ def write_ini(flat: dict[str, str], path: Path, names) -> None:
 
 
 # --------------------------------------------------------------------------- #
-# Reading results (.gcode and Prusa binary .bgcode)
+# Read the results (.gcode and Prusa binary .bgcode)
 # --------------------------------------------------------------------------- #
 BG_TYPES = {0: "file_meta", 1: "gcode", 2: "slicer_meta", 3: "printer_meta", 4: "print_meta", 5: "thumbnail"}
 
 
 def read_bgcode_meta(path: Path) -> dict[str, str]:
-    """Metadata of a Prusa binary G-code file (file/printer/print/slicer blocks)."""
+    """Read the metadata of a Prusa binary G-code file (file, printer, print and slicer blocks)."""
     data = path.read_bytes()
     if data[:4] != b"GCDE":
         raise ValueError("not a binary G-code file")
@@ -468,7 +468,7 @@ def read_bgcode_meta(path: Path) -> dict[str, str]:
             if comp == 1:
                 payload = zlib.decompress(payload)
             elif comp != 0:
-                continue  # heatshrink: not used for metadata in practice
+                continue  # heatshrink: Prusa does not use it for metadata
             for line in payload.decode("utf-8", "replace").splitlines():
                 k, sep, v = line.partition("=")
                 if sep:
@@ -529,20 +529,20 @@ def verify(meta: dict[str, str], flat: dict[str, str], overrides: dict[str, str]
         if want is None or got is None:
             continue
         if want.strip('"') != got.strip('"'):
-            problems.append(f"{key}: expected {want!r}, G-code has {got!r}")
+            problems.append(f"{key}: the request is {want!r}, the G-code has {got!r}")
     if meta.get("printer_settings_id", "").startswith("- default"):
-        problems.append("G-code was sliced with the generic default printer, not a Prusa profile")
+        problems.append("the slicer used the generic default printer, not a Prusa profile")
     return problems
 
 
 # --------------------------------------------------------------------------- #
-# Commands
+# Subcommands
 # --------------------------------------------------------------------------- #
 def load_bundle_or_die(args, cmd):
     path = find_bundle(cmd, args.bundle)
     if not path:
-        sys.exit("PrusaResearch.ini profile bundle not found. Install PrusaSlicer, run its "
-                 "Configuration Wizard once, or pass --bundle /path/to/PrusaResearch.ini")
+        sys.exit("cannot find the PrusaResearch.ini profile bundle. Install PrusaSlicer and run its "
+                 "Configuration Wizard one time, or give --bundle /path/to/PrusaResearch.ini")
     return path, parse_bundle(path)
 
 
@@ -566,11 +566,11 @@ def cmd_find(args):
     return 0
 
 
-INSTALL_HELP = """PrusaSlicer not found. Install it, then re-run `slice.py find`:
+INSTALL_HELP = """Cannot find PrusaSlicer. Install it, then run `slice.py find` again:
   Linux:   flatpak install flathub com.prusa3d.PrusaSlicer   (official Linux build)
   macOS:   https://www.prusa3d.com/page/prusaslicer_424/  (or brew install --cask prusaslicer)
-  Windows: installer from the same page (CLI is prusa-slicer-console.exe)
-Or set PRUSA_SLICER=/path/to/prusa-slicer."""
+  Windows: the installer from the same page (the CLI is prusa-slicer-console.exe)
+As an alternative, set PRUSA_SLICER=/path/to/prusa-slicer."""
 
 
 def cmd_profiles(args):
@@ -617,7 +617,7 @@ def parse_sets(items: list[str]) -> dict[str, str]:
     out = {}
     for it in items or []:
         if "=" not in it:
-            sys.exit(f"--set expects key=value, got {it!r}")
+            sys.exit(f"--set must have the form key=value. The tool received {it!r}")
         k, v = it.split("=", 1)
         out[k.strip().replace("-", "_")] = v.strip()
     return out
@@ -669,7 +669,7 @@ def cmd_slice(args):
     inputs = [Path(p).resolve() for p in args.inputs]
     for p in inputs:
         if not p.is_file():
-            sys.exit(f"input not found: {p}")
+            sys.exit(f"cannot find the input file: {p}")
     binary = flat.get("binary_gcode", "0").strip() == "1"
     ext = ".bgcode" if binary else ".gcode"
     out = Path(args.output) if args.output else inputs[0].with_suffix(ext)
@@ -687,7 +687,7 @@ def cmd_slice(args):
         sargs.append("--merge")
     center = args.center
     if not center and not (args.merge or len(inputs) > 1) and not args.keep_position:
-        # 3MF keeps its stored XY position; centre single objects on the bed
+        # A 3MF keeps its XY position. Put a single object at the center of the bed
         pts = [tuple(float(v) for v in c.split("x")) for c in flat.get("bed_shape", "").split(",") if "x" in c]
         if pts:
             xs, ys = zip(*pts)
@@ -745,53 +745,53 @@ def cmd_info(args):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--bundle", help="path to PrusaResearch.ini (default: newest found)")
+    ap.add_argument("--bundle", help="path to PrusaResearch.ini (default: the most recent bundle that the tool finds)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    f = sub.add_parser("find", help="locate PrusaSlicer and the profile bundle")
+    f = sub.add_parser("find", help="find PrusaSlicer and the profile bundle")
     f.add_argument("--json", action="store_true")
 
-    p = sub.add_parser("profiles", help="list printers, or presets compatible with --printer")
+    p = sub.add_parser("profiles", help="show the printers, or the presets that are compatible with --printer")
     p.add_argument("--printer")
-    p.add_argument("--print", help="print preset used to filter filaments (default: printer default)")
-    p.add_argument("--filter", help="substring filter")
+    p.add_argument("--print", help="print preset that filters the filaments (default: the default of the printer)")
+    p.add_argument("--filter", help="show only names that contain this text")
     p.add_argument("--json", action="store_true")
 
     def common(sp):
         sp.add_argument("--printer", default="MK4", help="printer preset or alias (default MK4)")
         sp.add_argument("--print", help='print preset or prefix (default "0.20mm STRUCTURAL")')
-        sp.add_argument("--filament", help='filament preset or prefix, e.g. "Prusament PETG"')
+        sp.add_argument("--filament", help='filament preset or prefix, for example "Prusament PETG"')
         sp.add_argument("--set", action="append", default=[], metavar="KEY=VALUE",
-                        help="override any config key (see prusa-slicer --help-fff)")
+                        help="set a configuration key (refer to prusa-slicer --help-fff)")
         sp.add_argument("--supports", choices=["none", "organic", "grid", "snug", "buildplate"])
-        sp.add_argument("--brim", type=float, help="brim width mm")
-        sp.add_argument("--infill", help="fill density, e.g. 40%%")
+        sp.add_argument("--brim", type=float, help="brim width in mm")
+        sp.add_argument("--infill", help="fill density, for example 40%%")
         sp.add_argument("--perimeters", type=int)
         sp.add_argument("--layer-height", type=float)
-        sp.add_argument("--ascii", action="store_true", help="plain .gcode instead of binary .bgcode")
+        sp.add_argument("--ascii", action="store_true", help="text .gcode, not binary .bgcode")
 
-    c = sub.add_parser("config", help="write the flattened config .ini")
+    c = sub.add_parser("config", help="write the flat configuration .ini file")
     common(c)
     c.add_argument("-o", "--output", required=True)
 
-    s = sub.add_parser("slice", help="slice STL/3MF/STEP/OBJ to G-code and verify")
+    s = sub.add_parser("slice", help="slice STL, 3MF, STEP or OBJ to G-code and examine the result")
     s.add_argument("inputs", nargs="+")
     common(s)
-    s.add_argument("-o", "--output", help="output .bgcode/.gcode (default next to input)")
-    s.add_argument("--save-config", help="where to write the flattened .ini (default next to output)")
-    s.add_argument("--merge", action="store_true", help="arrange several inputs on one plate")
-    s.add_argument("--center", help="X,Y bed position for the object centre (default: bed centre)")
-    s.add_argument("--keep-position", action="store_true", help="keep XY positions stored in a 3MF")
-    s.add_argument("--rotate", type=float, help="rotate about Z (deg)")
+    s.add_argument("-o", "--output", help="output .bgcode or .gcode (default: next to the input)")
+    s.add_argument("--save-config", help="path of the flat .ini file (default: next to the output)")
+    s.add_argument("--merge", action="store_true", help="put many inputs on one plate")
+    s.add_argument("--center", help="X,Y bed position for the center of the object (default: the center of the bed)")
+    s.add_argument("--keep-position", action="store_true", help="keep the XY positions from a 3MF")
+    s.add_argument("--rotate", type=float, help="turn about Z (degrees)")
     s.add_argument("--rotate-x", type=float)
     s.add_argument("--rotate-y", type=float)
-    s.add_argument("--scale", help="factor or percent")
+    s.add_argument("--scale", help="factor or percentage")
     s.add_argument("--duplicate", type=int, help="number of copies")
     s.add_argument("--json", action="store_true")
 
-    i = sub.add_parser("info", help="summarise an existing .gcode/.bgcode")
+    i = sub.add_parser("info", help="show the data of a .gcode or .bgcode file")
     i.add_argument("file")
-    i.add_argument("--keys", nargs="*", help="print just these config keys")
+    i.add_argument("--keys", nargs="*", help="show only these configuration keys")
     i.add_argument("--json", action="store_true")
 
     args = ap.parse_args(argv)

@@ -227,3 +227,5 @@ __marimo__/
 *.glb
 *.gltf
 out/
+ASD-STE100_ISSUE9.pdf
+*.dxf

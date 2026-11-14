@@ -2,13 +2,13 @@
 # requires-python = ">=3.10"
 # dependencies = ["cadquery>=2.5"]
 # ///
-"""Parametric box-with-lid assembly -- template for multi-part CadQuery models.
+"""Parametric assembly of a box and a lid. Template for CadQuery models with many parts.
 
-Units: millimetres. Each part is built by a function at its own origin; the
-assembly places parts with constraints (or explicit Locations) so that
-changing a parameter re-positions everything automatically.
+Units: millimeters. A function makes each part at its own origin. The assembly
+puts the parts in position with constraints (or explicit Locations). Thus, when
+you change a parameter, all parts move to their new positions automatically.
 
-Run / export:   uv run assembly.py           (writes assembly.step + assembly.glb)
+Run and export: uv run assembly.py           (writes assembly.step and assembly.glb)
 Inspect:        uv run <skill>/scripts/inspect_model.py assembly.py --interference --png a.png
 """
 
@@ -22,17 +22,17 @@ inner_w = 50.0
 inner_h = 30.0
 wall = 2.5
 lid_t = 2.5
-lip_h = 4.0  # lid lip that drops inside the box
-clearance = 0.3  # per side, lid lip to box wall
+lip_h = 4.0  # lip of the lid that goes into the box
+clearance = 0.3  # on each side, between the lid lip and the box wall
 fillet_r = 3.0
-explode = 0.0  # >0 lifts the lid for an exploded view
+explode = 0.0  # a value more than 0 lifts the lid for an exploded view
 
-assert fillet_r < min(inner_l, inner_w) / 2, "fillet radius too large"
-assert clearance > 0, "a zero-clearance fit makes the parts overlap"
+assert fillet_r < min(inner_l, inner_w) / 2, "the fillet radius is too large"
+assert clearance > 0, "a fit with a clearance of 0 makes the parts overlap"
 
 outer_l = inner_l + 2 * wall
 outer_w = inner_w + 2 * wall
-outer_h = inner_h + wall  # shell() makes the floor `wall` thick
+outer_h = inner_h + wall  # shell() makes a floor with the thickness `wall`
 
 
 # --------------------------------------------------------------------- parts
@@ -43,9 +43,9 @@ def make_box() -> cq.Workplane:
         .edges("|Z")
         .fillet(fillet_r)
         .faces(">Z")
-        .shell(-wall)  # open the top face, walls grow inward
+        .shell(-wall)  # opens the top face, and the walls go inward
     )
-    # Tag the rim so the assembly can mate to it by name.
+    # Put a tag on the rim. Then the assembly can mate to it by name.
     box.faces(">Z").tag("rim")
     return box
 
@@ -59,17 +59,17 @@ def make_lid() -> cq.Workplane:
         .edges("|Z")
         .fillet(fillet_r)
     )
-    # Tag the flat underside BEFORE adding the lip: tags live in the shared
-    # chain context, so the assembly can still mate to this exact plane.
+    # Put a tag on the flat bottom face BEFORE you add the lip. The tags are in the
+    # shared chain context. Thus the assembly can mate to this exact plane later.
     plate.faces("<Z").tag("underside")
     lid = (
         plate.faces("<Z")
         .workplane()
-        # Two nested closed wires extrude as a ring (outer minus inner).
-        # Do NOT use shell() here -- it would hollow the whole lid.
+        # Two nested closed wires extrude as a ring (outer wire minus inner wire).
+        # Do NOT use shell() here. It makes the full lid hollow.
         .rect(lip_l, lip_w)
         .rect(lip_l - 2 * wall, lip_w - 2 * wall)
-        .extrude(lip_h)  # along the face normal (-Z): lip hangs below
+        .extrude(lip_h)  # along the face normal (-Z): the lip is below the lid
     )
     return lid
 
@@ -84,18 +84,18 @@ assy = (
     .add(lid, name="lid", color=cq.Color(0.9, 0.9, 0.9, 0.6))
 )
 
-# Plane = Point (centres coincide) + Axis (normals opposite -> faces touch).
-# WARNING: for "Plane" the optional param is the Axis ANGLE in degrees, not an
-# offset. Leave it at the default (180 = mating faces) for a normal mate.
+# Plane = Point (the centers are at the same position) + Axis (opposite normals: the faces touch).
+# CAUTION: for "Plane", the optional param is the Axis ANGLE in degrees, not an
+# offset. For a usual mate, keep the default (180 = mating faces).
 assy.constrain("box?rim", "lid?underside", "Plane")
-# Plane leaves rotation about the shared normal free -- lock it with an Axis
-# constraint between two side faces (param=0 -> normals point the same way).
+# Plane does not stop the rotation about the shared normal. Stop it with an Axis
+# constraint between two side faces (param=0: the normals point in the same direction).
 assy.constrain("box@faces@>X", "lid@faces@>X", "Axis", param=0)
-assy.constrain("box", "Fixed")  # ground one part so the solver has a reference
+assy.constrain("box", "Fixed")  # fix one part, so that the solver has a reference
 assy.solve()
 
-# Exploded view: pre-multiplying applies the shift in WORLD coordinates
-# (post-multiplying would move along the lid's own, possibly rotated, axes).
+# Exploded view: multiply on the left to move in WORLD coordinates.
+# (Multiply on the right to move along the axes of the lid, which can be turned.)
 if explode:
     assy.objects["lid"].loc = cq.Location((0, 0, explode)) * assy.objects["lid"].loc
 
@@ -104,6 +104,6 @@ if "show_object" in globals():
 
 if __name__ == "__main__":
     out = Path(__file__).with_suffix("")
-    assy.export(f"{out}.step")  # names + colours preserved
-    assy.export(f"{out}.glb")  # web viewer / quick look
+    assy.export(f"{out}.step")  # keeps the names and colors
+    assy.export(f"{out}.glb")  # web viewer, fast view
     print(f"wrote {out}.step and {out}.glb")

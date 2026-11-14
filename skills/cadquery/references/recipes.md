@@ -1,6 +1,6 @@
-# Recipes (verified)
+# Recipes (tested)
 
-Complete, runnable examples of common modelling tasks. Every block is executed by `tests/test_snippets.py`, so it works on the pinned CadQuery version. Copy one, rename parameters, and adapt. Units: mm.
+Full examples for frequent modeling tasks. You can run each example. `tests/test_snippets.py` runs each block, thus each block operates on the pinned CadQuery version. Copy an example, change the parameter names, and change it for your part. Units: mm.
 
 ## Contents
 1. [Electronics enclosure with screw bosses and lid](#1-electronics-enclosure-with-screw-bosses-and-lid)
@@ -69,7 +69,7 @@ result = (
 assert base.val().isValid() and len(base.solids().vals()) == 1
 ```
 
-Notes: `faces("<Z").workplane(invert=True, offset=-wall)` puts a +Z-facing plane on the inner floor. `">Z[-2]"` selects the second-highest set of Z-normal faces — here the boss tops, because the rim is the highest.
+Notes: `faces("<Z").workplane(invert=True, offset=-wall)` puts a plane with a +Z normal on the inner floor. `">Z[-2]"` selects the second-highest set of faces with a Z normal. In this example, these are the tops of the bosses, because the rim is the highest.
 
 ## 2. Revolved part: knob with knurl and D-shaft bore
 
@@ -109,7 +109,7 @@ result = knob.faces("<Z").workplane().placeSketch(d_profile).cutBlind(-12)
 assert result.val().isValid()
 ```
 
-On the `"XZ"` workplane, local x = global X and local y = global **Z** (its normal is −Y), so profiles drawn there revolve nicely about local Y.
+On the `"XZ"` workplane, local x = global X and local y = global **Z** (its normal is −Y). Thus a profile on this workplane revolves correctly about the local Y axis.
 
 ## 3. Swept handle and pipe bend
 
@@ -135,7 +135,7 @@ result = pipe
 assert handle.val().isValid() and pipe.val().isValid()
 ```
 
-The profile must sit at the start of the path and be roughly perpendicular to it. Round the *section* in 2D (Sketch fillet) instead of filleting the swept solid's edges afterwards — 3D fillets on sweeps usually fail with `StdFail_NotDone`. For multiple sections use `sweep(path, multisection=True)` with several pending wires.
+The profile must be at the start of the path and approximately perpendicular to it. Round the *section* in 2D (Sketch fillet). Do not fillet the edges of the swept solid after the sweep. 3D fillets on sweeps usually fail with `StdFail_NotDone`. For many sections, use `sweep(path, multisection=True)` with many pending wires.
 
 ## 4. Helix: spring and external thread
 
@@ -170,7 +170,7 @@ result = rod
 assert spring.val().isValid() and rod.val().isValid()
 ```
 
-True threads are slow and fragile (helical booleans). For printed parts use cosmetic threads only when needed; otherwise model the minor-diameter hole and tap it, or use heat-set inserts. Keep the thread profile slightly overlapping the core (here `+0.01`) — coincident surfaces make the union fail.
+Accurate threads are slow, and they fail easily (helical booleans). For printed parts, use cosmetic threads only when necessary. As an alternative, make the hole at the minor diameter and tap it, or use heat-set inserts. The thread profile must overlap the core a little (here `+0.01`). If the surfaces are at the same position, the union fails.
 
 ## 5. Lofted duct transition (rect → round), hollow
 
@@ -189,7 +189,7 @@ result = duct
 assert result.val().isValid() and len(result.solids().vals()) == 1
 ```
 
-`outer.faces(">Z or <Z").shell(-wall)` is the obvious approach but fails (`StdFail_NotDone`) on most lofts — subtract an inner loft instead. Loft works best when sections have similar edge counts; for filleted rectangles use `cq.Sketch` sections with `placeSketch(s1, s2.moved(z=...))`.
+`outer.faces(">Z or <Z").shell(-wall)` looks like the correct method, but it fails (`StdFail_NotDone`) on most lofts. Subtract an inner loft. Loft operates best when the sections have similar numbers of edges. For rectangles with fillets, use `cq.Sketch` sections with `placeSketch(s1, s2.moved(z=...))`.
 
 ## 6. Involute spur gear
 
@@ -227,7 +227,7 @@ result = gear
 assert abs(result.val().BoundingBox().xlen - 2 * ra) < 0.2
 ```
 
-Rotating copies and fusing once as a compound is far faster than unioning inside the loop.
+To turn copies and fuse them one time as a compound is much faster than a union in the loop.
 
 ## 7. L-bracket with gusset and slots
 
@@ -273,7 +273,7 @@ result = bracket
 assert len(result.solids().vals()) == 1
 ```
 
-`NearestToPointSelector` is the most reliable way to grab one specific internal edge. Watch the slot placement on side faces: local axes of `faces("<X").workplane()` are not global X/Y — render and check.
+`NearestToPointSelector` is the most reliable method to select one specified internal edge. Be careful with the position of slots on side faces: the local axes of `faces("<X").workplane()` are not the global X and Y axes. Render the model and examine it.
 
 ## 8. Honeycomb vent pattern
 
@@ -307,7 +307,7 @@ result = (
 assert result.val().isValid()
 ```
 
-One `cutThruAll()` with many pending wires is a single boolean — fast. Avoid `for p in pts: wp = wp.cut(...)`.
+One `cutThruAll()` with many pending wires is one boolean, and it is fast. Do not use `for p in pts: wp = wp.cut(...)`.
 
 ## 9. Laser-cut finger-joint panel (2D → DXF)
 
@@ -334,7 +334,7 @@ result = panel
 assert result.val().isValid()
 ```
 
-Add kerf compensation by offsetting the sketch outward by half the kerf: `sk.copy().wires().offset(kerf / 2)`.
+To compensate for the kerf, offset the sketch outward by half of the kerf: `sk.copy().wires().offset(kerf / 2)`.
 
 ## 10. Embossed label and engraved text
 
@@ -348,7 +348,7 @@ result = embossed
 assert embossed.val().Volume() > plate.val().Volume() > engraved.val().Volume()
 ```
 
-`text()` defaults to `combine="cut"`: positive distance with the default does nothing visible. Font: `font="Arial"` or `fontPath="/path/to/font.ttf"`; `kind="bold"`; `halign`/`valign`.
+The default of `text()` is `combine="cut"`. With the default, a positive distance makes no visible change. Font: `font="Arial"` or `fontPath="/path/to/font.ttf"`. Also `kind="bold"`, `halign` and `valign`.
 
 ## 11. Pillow block bearing housing
 
@@ -374,7 +374,7 @@ result = (
 assert result.val().isValid()
 ```
 
-The classic pattern: construction rectangle → `vertices()` → hole op at each corner.
+The usual pattern: construction rectangle → `vertices()` → hole operation at each corner.
 
 ## 12. Hinge pair as an assembly
 
@@ -417,4 +417,4 @@ result = (
 )
 ```
 
-`faces("<X").workplane()` would fail here (the knuckles add curved faces at the minimum X) — an explicit cutter solid is more robust. Check moving-part clearances with `inspect_model.py hinge.py --interference`; for print-in-place hinges keep `gap` ≥ 0.3 mm.
+`faces("<X").workplane()` fails here, because the knuckles add curved faces at the minimum X. An explicit cutter solid operates better. Examine the clearances of the moving parts with `inspect_model.py hinge.py --interference`. For print-in-place hinges, keep `gap` at 0.3 mm or more.

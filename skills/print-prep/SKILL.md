@@ -1,19 +1,37 @@
 ---
 name: print-prep
-description: Use when getting a part ready to 3D print (FDM, Prusa MK4/MK4S by default) — checking an STL/3MF/STEP/CadQuery model is printable, mesh repair (watertight/manifold), fitting the build volume, choosing print orientation for strength vs supports vs surface finish, overhangs, bridges, thin walls, clearances/tolerances, holes, heat-set inserts, warping, splitting large parts, and picking PLA/PETG/ASA/PC. Use before slicing and after modelling.
+description: Use this skill to prepare a part for FDM 3D printing (by default on a Prusa MK4 or MK4S). It examines STL, 3MF, STEP or CadQuery models for printability. It finds mesh problems (watertight, manifold) and makes sure that the part is not too large for the build volume. It helps you select the print orientation for strength, supports and surface quality. It also gives rules for overhangs, bridges, thin walls, clearances, tolerances, holes and heat-set inserts. Other rules are for warping, large parts in sections, and PLA, PETG, ASA or PC. Use it after modeling and before slicing.
 license: MIT
 metadata:
   author: Kerry Hatcher
   version: "1.0.0"
 ---
 
-# Print Preparation (FDM, Prusa MK4)
+# Prepare a part for printing (FDM, Prusa MK4)
 
 ## Overview
 
-Bridges a finished CAD model and the slicer. `scripts/printability.py` checks mesh health and build-volume fit. It ranks orientations by support volume, height, bed contact, tip-over risk and **load-across-layers**, measures wall thickness by ray casting, and writes the re-oriented mesh to slice.
+This skill is the step between a finished CAD model and the slicer. `scripts/printability.py` does these tasks:
 
-**Core principle: orientation is a design decision, not a slicer afterthought.** It fixes the weak axis (layers), where supports scar the surface, and which faces come out accurate. Decide it from the part's job, then confirm strength with the `structural-analysis` skill using the same build direction.
+- It examines the mesh and makes sure that the part is not too large for the build volume.
+- It compares the orientations by support volume, height, bed contact area, tip-over risk and **load across the layers**.
+- It measures the wall thickness with ray casting.
+- It writes the turned mesh, which you can then slice.
+
+**Primary rule: the orientation is a design decision. The slicer does not make this decision for you.** The orientation sets the weak axis (across the layers). It also sets where the supports damage the surface, and which faces are accurate. Select the orientation from the function of the part. Then calculate the strength with the `structural-analysis` skill, with the same build direction.
+
+## Language: Simplified Technical English
+
+Write in ASD-STE100 Simplified Technical English (STE) when you use or change this skill. This rule applies to documentation, code comments, docstrings, CLI help text, error messages, commit messages and all messages to the user.
+
+- Use approved STE words with one meaning each. You can use technical nouns and technical verbs.
+- Use the active voice. Use the imperative for instructions. Use the simple present, simple past or simple future tense.
+- Write one topic in each sentence. Use a maximum of 20 words in a procedure step, and 25 words in a description.
+- Do not use phrasal verbs, idioms, semicolons, or noun clusters of more than three words.
+- Write a WARNING or CAUTION as a command before the step. Then give the risk.
+- Do not change code, commands, file names, configuration keys or quoted output. Copy them without changes.
+
+`AGENTS.md` at the root of the cad-skills repository gives all the rules and examples.
 
 ## Environment
 
@@ -21,87 +39,106 @@ Bridges a finished CAD model and the slicer. `scripts/printability.py` checks me
 uv run <skill-dir>/scripts/printability.py part.stl
 ```
 
-`<skill-dir>` = directory containing this SKILL.md. Accepts STL/3MF/OBJ/PLY, STEP, or a CadQuery `.py` (`--set name=value` overrides parameters).
+`<skill-dir>` is the directory that contains this SKILL.md. The tool accepts STL, 3MF, OBJ, PLY, STEP, or a CadQuery `.py` file. With a `.py` file, `--set name=value` changes the parameters.
 
-## Workflow
+## Procedure
 
-1. **Know the job**: loads and their directions, mating parts, which faces are cosmetic, environment (heat/UV/outdoor), filament (default Prusament or Jessie PLA/PETG; see material choice below).
-2. **Run the check**, giving the main tension or bending direction if the part is loaded:
+1. **Learn the function of the part:**
+   - The loads and their directions.
+   - The mating parts.
+   - The faces that must look good.
+   - The environment (heat, UV, outdoor use).
+   - The filament (default: Prusament or Jessie PLA or PETG). Refer to "Material selection" below.
+2. **Run the check.** If the part has a load, give the direction of the primary tension or bending load:
    ```bash
    uv run <skill-dir>/scripts/printability.py part.py --load-axis x \
        --png out/orient.png -o out/part.3mf
    ```
-   Read the PNG (green = bed contact, red = overhang needing support) and the table.
-3. **Fix problems it reports** (exit code 3): non-watertight mesh means re-export from CAD (STEP → STL from CadQuery is always closed). Not fitting means split it or check units (inches?). Thin walls mean thicken to ≥ 2 line widths (0.9 mm on a 0.4 nozzle).
-4. **Choose the orientation** using the priority list below. The ranked table is a starting point, not the answer. `--orientation "rx=90,rz=30"` evaluates and exports any specific rotation.
-5. **Design-for-FDM pass** on the CAD (see `references/dfam.md`): chamfer bed edges (elephant foot), teardrop or bridge horizontal holes, 45° chamfers instead of downward fillets, clearances, insert holes. Re-run.
-6. **Strength check**: pass the printed `build_dir_model` to `structural-analysis` → `fea.py --build-dir ...`.
-7. **Export** the oriented model (`-o part.3mf`, centred, on z=0) and hand it to the `prusaslicer` skill.
+   Read the PNG and the table. In the PNG, green shows bed contact and red shows overhangs that must have support.
+3. **Repair the problems that the tool shows** (exit status 3):
+   - If the mesh is not watertight, export it again from CAD. A STEP-to-STL export from CadQuery is always closed.
+   - If the part is too large, divide it into sections. Also make sure that the units are correct (inches?).
+   - If a wall is too thin, make it thicker. Use a minimum of 2 line widths (0.9 mm with a 0.4 mm nozzle).
+4. **Select the orientation** with the list of orientation rules below. The table is a start point, not the last answer. `--orientation "rx=90,rz=30"` calculates and exports a rotation that you specify.
+5. **Apply the FDM design rules** to the CAD model (refer to `references/dfam.md`):
+   - Chamfer the edges on the bed (elephant foot).
+   - Use a teardrop or a bridge shape for horizontal holes.
+   - Use 45° chamfers, not fillets, on edges that point down.
+   - Add clearances and the holes for inserts.
 
-## Orientation priority (for functional parts)
+   Then run the check again.
+6. **Calculate the strength.** Give the `build_dir_model` value from the report to `structural-analysis` (`fea.py --build-dir ...`).
+7. **Export the turned model** (`-o part.3mf`, at the center, on z=0). Then use the `prusaslicer` skill.
 
-1. **Strength**: the main tensile or bending stress runs **along** layers, never pulling them apart. Hooks, brackets, levers and snap-fit arms lie flat or on their side so the bending plane is in XY. `load-x-layers` in the table: 0 = load in-plane (good), 1 = straight across layers (bad).
-2. **Accuracy of critical features**: holes and bores that need to be round are vertical (axis = Z). Flat mating faces go on the bed or upward.
-3. **Bed adhesion and stability**: large flat face down. Tall and narrow (tip ratio > 3) needs a brim (5 mm) or reorienting.
-4. **Supports**: minimise supported area on functional/cosmetic faces. Supports under a face leave it rough.
-5. **Time**: lower height prints faster (layer count dominates).
+## Orientation rules, most important first (for functional parts)
 
-When 1 and 4 conflict, **strength wins**: supports are cheap, a delaminated part is not.
+1. **Strength.** The primary tensile or bending stress must go **along** the layers. It must not pull the layers apart. Put hooks, brackets, levers and snap-fit arms flat or on their side. Then the bending plane is in XY. The `load-x-layers` column shows: 0 = load in the layer plane (good), 1 = load straight across the layers (bad).
+2. **Precision of important features.** Make holes and bores vertical (axis = Z) if they must be circular. Put flat mating faces on the bed or up.
+3. **Bed adhesion and a stable part.** Put the largest flat face down. A tall and narrow part (tip ratio more than 3) must have a 5 mm brim, or a different orientation.
+4. **Supports.** Make the supported area on functional faces and on faces that you can see as small as possible. A face on supports becomes rough.
+5. **Time.** A lower part prints faster, because the number of layers has the largest effect.
 
-## Reading the report
+If rule 1 and rule 4 do not agree, **strength is more important**. Supports have a small cost, but a part with separated layers is not serviceable.
+
+## How to read the report
 
 | Column | Meaning |
 |---|---|
-| `height` | Z extent in that orientation, roughly proportional to print time |
-| `bed mm2` | Area touching the bed. < 50 mm² = adhesion risk (brim, or re-orient) |
-| `overh mm2` | Down-facing area steeper than `--overhang` (default 50° from vertical = PrusaSlicer's 40° support threshold) |
-| `support mm3` | Estimated support volume (overhang area × drop to bed or part below) |
-| `tip` | Height / smallest footprint side. > 3 is wobbly |
-| `load-x-layers` | Only with `--load-axis`: how much the load pulls across layers (0–1) |
-| `build dir (model)` | Layer stacking direction in original model coords. Pass to `fea.py --build-dir` |
-| wall thickness | Min and 5th percentile local thickness. Walls < 0.9 mm get < 2 perimeters |
+| `height` | Z dimension in that orientation. The print time increases approximately with the height |
+| `bed mm2` | The area that touches the bed. Less than 50 mm² gives a risk of bad adhesion (add a brim, or turn the part) |
+| `overh mm2` | The area that points down at an angle steeper than `--overhang`. The default (50° from vertical) agrees with the 40° support threshold of PrusaSlicer |
+| `support mm3` | Estimated support volume (overhang area × distance down to the bed or to the part) |
+| `tip` | Height divided by the shortest side of the footprint. More than 3 is not stable |
+| `load-x-layers` | Only with `--load-axis`: the fraction of the load that pulls across the layers (0 to 1) |
+| `build dir (model)` | The direction of the layer stack in the initial model coordinates. Give this value to `fea.py --build-dir` |
+| wall thickness | Minimum and 5th percentile of the local thickness. A wall less than 0.9 mm thick gets less than 2 perimeters |
 
-## MK4 / MK4S quick facts
+## MK4 and MK4S data
 
 | Item | Value |
 |---|---|
-| Build volume | 250 × 210 × 220 mm (use ≤ 245 × 205 for brim/skirt margin) |
-| Nozzle | 0.4 mm standard (MK4: brass. MK4S: 0.4 high-flow CHT). 0.25–0.8 available |
-| Line width / min wall | 0.45 mm / 0.9 mm (2 perimeters). Structural ≥ 1.8 mm (4 perimeters) |
-| Layer height | 0.05–0.30 mm. 0.20 mm default, 0.15 mm for detail/strength |
-| Bed | Smooth or satin/textured PEI sheets, 120 °C max. No enclosure stock (ASA/PC: enclosure or draft shield) |
-| Hotend max | 290 °C |
+| Build volume | 250 × 210 × 220 mm (use a maximum of 245 × 205 mm, to keep space for a brim or skirt) |
+| Nozzle | 0.4 mm standard (MK4: brass. MK4S: 0.4 mm high-flow CHT). Nozzles from 0.25 mm to 0.8 mm are available |
+| Line width and minimum wall | 0.45 mm and 0.9 mm (2 perimeters). For structural parts, 1.8 mm or more (4 perimeters) |
+| Layer height | 0.05 mm to 0.30 mm. The default is 0.20 mm. Use 0.15 mm for small features or strength |
+| Bed | Smooth, satin or textured PEI sheets, 120 °C maximum. The printer has no enclosure (for ASA and PC, use an enclosure or a draft shield) |
+| Maximum hotend temperature | 290 °C |
 
-## Material choice (Prusament / Jessie)
+## Material selection (Prusament and Jessie)
 
-| Need | Use |
+| Condition | Material |
 |---|---|
-| Indoor, stiff, easy, room temperature | PLA (Prusament PLA, Jessie PLA) |
-| Tough, snap-fits, warm (≤ 60 °C), outdoor-ish | PETG (Prusament PETG, Jessie PETG) |
-| Outdoor/UV, ≤ 85 °C | Prusament ASA (brim, enclosure helps) |
-| Strongest, hot (≤ 100 °C) | Prusament PC Blend (enclosure, brim, glue stick on smooth PEI) |
+| Indoor, stiff, easy to print, room temperature | PLA (Prusament PLA, Jessie PLA) |
+| Tough, snap-fits, warm (maximum 60 °C), some outdoor use | PETG (Prusament PETG, Jessie PETG) |
+| Outdoor and UV, maximum 85 °C | Prusament ASA (a brim and an enclosure help) |
+| Highest strength, hot (maximum 100 °C) | Prusament PC Blend (enclosure, brim, glue stick on smooth PEI) |
 
-PETG sticks too well to smooth PEI. Use the textured sheet or a release agent (glue stick or Windex film).
+PETG bonds too strongly to smooth PEI. Use the textured sheet or a release agent (glue stick or a layer of Windex).
 
-## Common mistakes
+## Frequent errors
 
-| Mistake | Consequence | Fix |
+| Error | Result | Repair |
 |---|---|---|
-| Hook/bracket printed upright (load across layers) | Snaps along a layer line at a fraction of its strength | Lay it on its side. Check `load-x-layers` |
-| Horizontal hole with round top | Drooping or support inside the hole | Teardrop or flat-top hole, or rotate so the axis is Z |
-| Fillet on bottom edges | Overhang that sags, plus elephant foot | 45° chamfer (0.5–1 mm) on bed edges |
-| Mating parts at nominal size | Won't fit | 0.2–0.3 mm/side sliding, 0.1 press (test coupon) |
-| Model in inches or metres | Tiny or huge part | Check bbox in mm before slicing |
-| Thin text/features < 0.45 mm | Vanish | ≥ 0.6 mm stroke, ≥ 0.4 mm depth |
-| Large flat ASA/PC part with no brim | Warps or lifts | Brim 5–8 mm, mouse ears, enclosure, rounded corners |
-| STL from a mesh-only source | Non-manifold, slicer guesses | Export from CAD, or repair and re-check |
+| Hook or bracket printed upright (load across the layers) | It breaks along a layer line at a small fraction of its strength | Put it on its side. Examine `load-x-layers` |
+| Horizontal hole with a circular top | The top of the hole sags, or the hole has support material in it | Use a teardrop or flat-top hole. As an alternative, turn the part until the axis is Z |
+| Fillet on the bottom edges | The overhang sags, and the elephant foot is larger | Use a 45° chamfer (0.5 mm to 1 mm) on the edges on the bed |
+| Mating parts at nominal dimension | The parts do not go together | Use 0.2 mm to 0.3 mm on each side for a sliding fit, 0.1 mm for a press fit (print a test coupon) |
+| Model in inches or meters | The part is very small or very large | Measure the bbox in mm before you slice |
+| Thin text or features (less than 0.45 mm) | The features are not in the print | Use a minimum stroke of 0.6 mm and a minimum depth of 0.4 mm |
+| Large flat ASA or PC part with no brim | The part warps or comes off the bed | Use a 5 mm to 8 mm brim, mouse ears, an enclosure and rounded corners |
+| STL from a source that has only a mesh | The mesh is not manifold, and the slicer must guess | Export from CAD, or repair the mesh and examine it again |
 
 ## Reference files
 
-| File | When |
+| File | Contents |
 |---|---|
-| `references/dfam.md` | Design-for-FDM rules: overhangs, bridges, holes, clearances, inserts, threads, text, warping, splitting, multi-part joints |
+| `references/dfam.md` | FDM design rules: overhangs, bridges, holes, clearances, inserts, threads, text, warping, parts in sections, joints between parts |
 
-## Bundled tools
+## Tools in this skill
 
-- `scripts/printability.py`: health, fit (`--printer MK4|MK4S|COREONE|MINI|XL`), orientation ranking (`--load-axis`, `--overhang`, `--weights`, `--stable N`, `--orientation`), wall thickness (`--min-wall`, `--nozzle`), `-o` oriented STL/3MF, `--png`, `--json`. Exit 0 ok, 3 problems found.
+- `scripts/printability.py`:
+  - Mesh health and fit (`--printer MK4|MK4S|COREONE|MINI|XL`).
+  - It compares the orientations (`--load-axis`, `--overhang`, `--weights`, `--stable N`, `--orientation`).
+  - Wall thickness (`--min-wall`, `--nozzle`).
+  - Output: turned STL or 3MF (`-o`), `--png`, `--json`.
+  - Exit status 0: no problems. Exit status 3: the tool found problems.
