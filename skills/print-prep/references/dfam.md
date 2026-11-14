@@ -32,7 +32,7 @@ The values are for a 0.4 mm nozzle, 0.45 mm line width, 0.2 mm layers, a calibra
 | Tight fit, location | 0.1 mm to 0.15 mm |
 | Sliding or turning fit | 0.2 mm to 0.3 mm |
 | Loose fit, print-in-place | 0.4 mm to 0.5 mm |
-| Vertical holes | Make the Ø approximately 0.1 mm to 0.15 mm smaller. By default, the hole compensation of the slicer is off |
+| Vertical holes | The printed hole is approximately 0.1 mm to 0.15 mm too small. Increase the modeled Ø by this value. By default, the hole compensation of the slicer is off |
 | Horizontal holes | The holes become a little elliptical in Z. Ream important holes, or make them vertical |
 
 The first layers become wider (elephant foot). The Prusa profiles compensate 0.2 mm (`elefant_foot_compensation`). But also chamfer the bed edges of mating faces by 0.4 mm to 0.5 mm.
