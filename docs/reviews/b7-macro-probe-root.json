@@ -1,0 +1,48 @@
+{
+  "source_sha256": "ade74723a60442ced804686e8784526c283f619064cccf17f842116cad0af328",
+  "cases": [
+    {
+      "name": "inline_macro",
+      "input": "%FSLAX46Y46*%\n%MOMM*%%AMRoundRect*1,1,10,0,0*%\n%ADD10RoundRect,0.1X0X0X0X0X0X0X0X0*%\n%LPD*%\nD10*\nX10000000Y10000000D03*\nX11000000Y10000000D03*\nM02*\n",
+      "observed": [
+        0,
+        {
+          "flashes": 2,
+          "pair_checks": 0,
+          "counts": {
+            "pass": 0,
+            "fail": 0,
+            "uncertain": 0,
+            "merged_opening": 0
+          },
+          "minimum_web_mm": null,
+          "result": "pass",
+          "listed_pairs": []
+        }
+      ],
+      "expected": "unsupported definition, exit 2; actual flashes are overlapping circles of diameter 10 mm"
+    },
+    {
+      "name": "space_macro",
+      "input": "%FSLAX46Y46*%\n%MOMM*%\n %AMRoundRect*1,1,10,0,0*%\n%ADD10RoundRect,0.1X0X0X0X0X0X0X0X0*%\n%LPD*%\nD10*\nX10000000Y10000000D03*\nX11000000Y10000000D03*\nM02*\n",
+      "observed": [
+        0,
+        {
+          "flashes": 2,
+          "pair_checks": 0,
+          "counts": {
+            "pass": 0,
+            "fail": 0,
+            "uncertain": 0,
+            "merged_opening": 0
+          },
+          "minimum_web_mm": null,
+          "result": "pass",
+          "listed_pairs": []
+        }
+      ],
+      "expected": "unsupported definition, exit 2; actual flashes are overlapping circles of diameter 10 mm"
+    }
+  ],
+  "source_after": "ade74723a60442ced804686e8784526c283f619064cccf17f842116cad0af328"
+}

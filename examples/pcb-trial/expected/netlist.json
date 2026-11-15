@@ -1,0 +1,8 @@
+{
+  "_comment": "The expected pin-to-net map. Net names are the label texts. The test also accepts one leading slash that KiCad adds to a local label.",
+  "J1.1": "VIN", "J1.2": "GND",
+  "R1.1": "VIN", "R1.2": "N_LED",
+  "D1.1": "GND", "D1.2": "N_LED",
+  "R2.1": "VIN", "R2.2": "N_RC",
+  "C1.1": "N_RC", "C1.2": "GND"
+}

@@ -1,0 +1,4 @@
+Found 12 violations
+Found 6 unconnected items
+Found 1 schematic parity issues
+Saved DRC Report to /work/out/diag_e3/diag_u3c/drc.json

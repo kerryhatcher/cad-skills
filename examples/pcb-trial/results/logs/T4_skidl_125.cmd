@@ -1,0 +1,1 @@
+RUN sh -c export KICAD10_SYMBOL_DIR=/usr/share/kicad/symbols KICAD10_FOOTPRINT_DIR=/usr/share/kicad/footprints; rm -rf out/sk1; cd /work && uv run --no-project --no-config --offline --python /opt/trial-venv/bin/python python skidl/circuit.py out/sk1

@@ -1,0 +1,1 @@
+RUN sh -c export KICAD10_SYMBOL_DIR=/usr/share/kicad/symbols KICAD10_FOOTPRINT_DIR=/usr/share/kicad/footprints; cd /work && uv run --no-project --no-config --offline --python /opt/trial-venv/bin/python python skidl/erc_probe.py out/t6_good good

@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kerryhatcher/cad-skills/contracts/board.schema.json",
+  "title": "Board record",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "cad-skills/board"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "circuit_source": {
+      "enum": [
+        "skidl",
+        "kicad_native"
+      ]
+    },
+    "assembly": {
+      "enum": [
+        "bare_board",
+        "pcba"
+      ]
+    },
+    "supplier": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "\\S",
+          "not": {
+            "pattern": "[\\u0000-\\u001f\\u007f]"
+          }
+        },
+        "service": {
+          "type": "string",
+          "pattern": "\\S",
+          "not": {
+            "pattern": "[\\u0000-\\u001f\\u007f]"
+          }
+        },
+        "profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "id",
+        "service",
+        "profile_sha256"
+      ]
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "variant": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "electrical_limits": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          }
+        },
+        "required": [
+          "value",
+          "unit"
+        ]
+      },
+      "propertyNames": {
+        "pattern": "\\S",
+        "not": {
+          "pattern": "[\\u0000-\\u001f\\u007f]"
+        }
+      }
+    },
+    "mechanical": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "thickness_mm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "width_mm",
+        "height_mm",
+        "thickness_mm"
+      ]
+    },
+    "coordinate_system": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "units": {
+          "const": "mm"
+        },
+        "origin": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x_mm": {
+              "type": "number"
+            },
+            "y_mm": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x_mm",
+            "y_mm"
+          ]
+        },
+        "x_axis": {
+          "enum": [
+            "right",
+            "left",
+            "up",
+            "down"
+          ]
+        },
+        "y_axis": {
+          "enum": [
+            "right",
+            "left",
+            "up",
+            "down"
+          ]
+        }
+      },
+      "required": [
+        "units",
+        "origin",
+        "x_axis",
+        "y_axis"
+      ]
+    },
+    "release_revision": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "restrictions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "source": {
+            "type": "string",
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "text",
+          "source"
+        ]
+      }
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "name",
+    "circuit_source",
+    "assembly",
+    "supplier",
+    "quantity",
+    "variant",
+    "electrical_limits",
+    "mechanical",
+    "coordinate_system",
+    "release_revision",
+    "restrictions"
+  ]
+}

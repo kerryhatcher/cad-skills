@@ -1,0 +1,16 @@
+{
+  "expected": 1,
+  "missing": [
+    {
+      "after": "\"22k\"",
+      "before": "\"10k\"",
+      "class": "footprint",
+      "field": "value",
+      "ident": "R2",
+      "op": "changed"
+    }
+  ],
+  "observed": 0,
+  "status": "different",
+  "unexpected": []
+}

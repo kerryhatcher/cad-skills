@@ -1,0 +1,39 @@
+{
+  "baseline (before removal)": [
+    [
+      "4b40f9a3-a36b-401f-934b-c5bfce32e707",
+      "/ca407196-c3e8-5fc0-b85c-f32de932b957",
+      [
+        125,
+        106,
+        180
+      ],
+      "F.Cu"
+    ]
+  ],
+  "removed state (gate3_removed1)": [],
+  "re-added (lp_readd_d1)": [
+    [
+      "4930f048-ace0-4c08-a3be-657096168f2a",
+      "/ca407196-c3e8-5fc0-b85c-f32de932b957",
+      [
+        132.545,
+        132.295,
+        0
+      ],
+      "F.Cu"
+    ]
+  ],
+  "delete-off (lp_removed1_delete_off)": [
+    [
+      "4b40f9a3-a36b-401f-934b-c5bfce32e707",
+      null,
+      [
+        125,
+        106,
+        180
+      ],
+      "F.Cu"
+    ]
+  ]
+}

@@ -1,0 +1,50 @@
+schema_id: cad-skills/export-settings
+schema_version: '1.0'
+format: rs274x
+units: mm
+x2: true
+gerber:
+  decimal_places: 6
+layers:
+- role: copper_top
+  kicad_layer: F.Cu
+  suffix: .gtl
+- role: copper_bottom
+  kicad_layer: B.Cu
+  suffix: .gbl
+- role: mask_top
+  kicad_layer: F.Mask
+  suffix: .gts
+- role: mask_bottom
+  kicad_layer: B.Mask
+  suffix: .gbs
+- role: silk_top
+  kicad_layer: F.Silkscreen
+  suffix: .gto
+- role: silk_bottom
+  kicad_layer: B.Silkscreen
+  suffix: .gbo
+- role: paste_top
+  kicad_layer: F.Paste
+  suffix: .gtp
+- role: paste_bottom
+  kicad_layer: B.Paste
+  suffix: .gbp
+- role: outline
+  kicad_layer: Edge.Cuts
+  suffix: .gm1
+drill:
+  format: excellon
+  zero_suppression: trailing
+  decimal_places: 4
+  plated_suffix: -PTH.drl
+  nonplated_suffix: -NPTH.drl
+  separate_files: true
+origin: absolute
+extensions:
+  pcba:
+    drill_units: in
+    fabrication_drawing:
+      kicad_layer: F.Fab
+      suffix: .gbr
+    job_file: board-job.gbrjob

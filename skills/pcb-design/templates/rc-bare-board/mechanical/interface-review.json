@@ -1,0 +1,26 @@
+{
+  "record": "pcb-design/interface-review",
+  "version": "1",
+  "board_sha256": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+  "interface_sha256": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc",
+  "prior_interface_sha256": null,
+  "reviewer": "template-author",
+  "examined": [
+    "/board_revision",
+    "/board_sha256",
+    "/connector_frames",
+    "/cutouts",
+    "/dimension_owners",
+    "/enclosure_clearance_mm",
+    "/geometry_tolerance_mm",
+    "/height_limits",
+    "/holes",
+    "/origin_mm",
+    "/outline",
+    "/schema_id",
+    "/schema_version",
+    "/thickness_mm",
+    "/units"
+  ],
+  "statement": "Self-review of the template outline and thickness. This is an acknowledgment, not machine proof."
+}

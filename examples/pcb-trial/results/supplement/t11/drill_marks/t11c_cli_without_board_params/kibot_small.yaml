@@ -1,0 +1,28 @@
+# Version 2. Version 1 had the incorrect option "map: none" (run T11_kibot_179, exit 7).
+# T11: KiBot configuration for the final trial board. The settings follow the contract settings of the T10 exports.
+kibot:
+  version: 1
+outputs:
+  - name: gerbers
+    type: gerber
+    dir: gerbers
+    layers: [F.Cu, B.Cu, F.Mask, B.Mask, F.Paste, B.Paste, F.Silkscreen, B.Silkscreen, Edge.Cuts]
+    options:
+      use_protel_extensions: false
+      gerber_precision: 4.6
+      drill_marks: small
+  - name: drill
+    type: excellon
+    dir: drill
+    options:
+      pth_and_npth_single_file: false
+      metric_units: true
+      zeros_format: SUPPRESS_LEADING
+  - name: pos
+    type: position
+    dir: pos
+    options:
+      format: CSV
+      units: millimeters
+      separate_files_for_front_and_back: false
+      only_smd: false

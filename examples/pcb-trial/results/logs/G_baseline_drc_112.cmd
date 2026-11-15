@@ -1,0 +1,1 @@
+RUN sh -c mkdir -p /tmp/t && cp native/trial.kicad_pro native/fp-lib-table /tmp/t/ && cp out/g/baseline.kicad_pcb /tmp/t/trial.kicad_pcb && cp native/trial.kicad_sch /tmp/t/ && kicad-cli pcb drc --severity-all --format json -o /tmp/t/drc.json /tmp/t/trial.kicad_pcb && cp /tmp/t/drc.json out/g/baseline_drc.json

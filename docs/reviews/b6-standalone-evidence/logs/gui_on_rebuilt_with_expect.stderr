@@ -1,0 +1,1 @@
+update.adapter_unavailable: The gui adapter is certified only for the measured image IDs. The image localhost/cad-skills-pcb:b6-rebuild has ID 032582d4298bfe68b07fde9942c5a92148de90b4a7fe911c095799ffc1eb2285. Use the manual route, or measure this image first.

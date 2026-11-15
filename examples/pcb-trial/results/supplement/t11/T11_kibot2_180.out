@@ -1,0 +1,6 @@
+CI/CD environment detected
+WARNING:(W181) Unable to map the SCH file to an UUID (kibot - kiplot.py:325)
+- '' (gerbers) [gerber]
+- '' (drill) [excellon]
+- '' (pos) [position]
+Found 1 unique warning/s (1 total)

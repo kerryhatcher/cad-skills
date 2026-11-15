@@ -1,0 +1,15 @@
+{
+  "differences": [
+    {
+      "op": "added",
+      "class": "footprint",
+      "ident": "D1",
+      "lib_id": "LED_SMD:LED_0603_1608Metric",
+      "value": "Green",
+      "pad_nets": {
+        "1": "/GND",
+        "2": "/N_LED"
+      }
+    }
+  ]
+}

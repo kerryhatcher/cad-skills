@@ -1,0 +1,14 @@
+Installed 6 packages in 4ms
+ok   test_lock_two_processes
+ok   test_lock_read_only_while_held
+ok   test_lock_interrupted_owner
+ok   test_lock_wrong_token_and_malformed
+ok   test_lock_released_on_failure
+ok   test_atomic_write_success_and_failures
+ok   test_atomic_write_symlink_and_confinement
+ok   test_publish_dir
+ok   test_publish_refuses_existing_lexical_destination
+ok   test_publish_order
+ok   test_ignore_rules
+
+11/11 passed

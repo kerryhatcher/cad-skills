@@ -41,7 +41,7 @@ The export function finds the type from these extensions: `.step .stl .3mf .amf 
 The geometry has no units. The convention is **millimeters**. STEP writes a unit header:
 
 ```python
-# notest
+# notest: uses export files that the example does not make
 part.export("part.step", unit="MM")                    # default: declare mm
 part.export("part_in.step", unit="MM", outputUnit="INCH")  # mm model written as inches (scaled)
 cq.importers.importStep("vendor.step", unit="MM")      # convert on import (default mm)
@@ -112,7 +112,7 @@ To give a name to a sub-shape for STEP: `assy.addSubshape(face, name="top", colo
 ## Import
 
 ```python
-# notest
+# notest: reads STEP and DXF files that the example does not make
 import cadquery as cq
 
 step = cq.importers.importStep("bracket.step")                 # Workplane (solids on stack)

@@ -1,0 +1,58 @@
+{
+  "label": "gate2_fpr1_replace_off",
+  "options_requested": {
+    "relink": "off",
+    "replace": "off",
+    "delete": "off"
+  },
+  "pcb_sha256_before": "259c44ac5a52fc22b92b9e348f3e2c6ab88c879d0d02cded8558464e83d566a6",
+  "windows": {
+    "after_start": [
+      "kicad",
+      "trial \u2014 KiCad 10.0"
+    ],
+    "dialog_open": [
+      "Update PCB from Schematic",
+      "kicad",
+      "trial \u2014 KiCad 10.0",
+      "trial \u2014 PCB Editor",
+      "trial \u2014 Schematic Editor"
+    ],
+    "after_save": [
+      "kicad",
+      "trial \u2014 KiCad 10.0",
+      "trial \u2014 PCB Editor",
+      "trial \u2014 Schematic Editor"
+    ]
+  },
+  "shots": [
+    "out/shots/gate2_fpr1_replace_off/01_dialog.png",
+    "out/shots/gate2_fpr1_replace_off/02_options.png",
+    "out/shots/gate2_fpr1_replace_off/03_after_update.png",
+    "out/shots/gate2_fpr1_replace_off/04_after_save.png"
+  ],
+  "first_run_setup": "dismissed with Escape and Return (default settings)",
+  "options_measured": {
+    "relink": {
+      "default": false,
+      "before": false,
+      "after": false
+    },
+    "replace": {
+      "default": true,
+      "before": true,
+      "after": false
+    },
+    "delete": {
+      "default": false,
+      "before": false,
+      "after": false
+    }
+  },
+  "kicad_exit": {
+    "state": "exited",
+    "code": 0
+  },
+  "pcb_sha256_after": "aa218ade2e61830c414dfe4f9cf1a82df0d8ab20747450d53d03b639a340d04c",
+  "pcb_changed": true
+}

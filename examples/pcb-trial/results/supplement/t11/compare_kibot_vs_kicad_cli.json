@@ -1,0 +1,22 @@
+[
+  {
+    "item": "gerber content trial-B_Cu.gbr",
+    "lines_only_in_kicad_cli": 6,
+    "lines_only_in_kibot": 0
+  },
+  {
+    "item": "gerber content trial-B_Mask.gbr",
+    "lines_only_in_kicad_cli": 2,
+    "lines_only_in_kibot": 0
+  },
+  {
+    "item": "gerber content trial-F_Cu.gbr",
+    "lines_only_in_kicad_cli": 6,
+    "lines_only_in_kibot": 0
+  },
+  {
+    "item": "gerber content trial-F_Mask.gbr",
+    "lines_only_in_kicad_cli": 2,
+    "lines_only_in_kibot": 0
+  }
+]

@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kerryhatcher/cad-skills/contracts/manifest.schema.json",
+  "title": "Package manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "cad-skills/manifest"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "release_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "kind": {
+      "enum": [
+        "bare_board",
+        "pcba"
+      ]
+    },
+    "board_revision": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "board_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "variant": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "supplier": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "\\S",
+          "not": {
+            "pattern": "[\\u0000-\\u001f\\u007f]"
+          }
+        },
+        "service": {
+          "type": "string",
+          "pattern": "\\S",
+          "not": {
+            "pattern": "[\\u0000-\\u001f\\u007f]"
+          }
+        },
+        "profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "id",
+        "service",
+        "profile_sha256"
+      ]
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "board_record",
+              "board",
+              "schematic",
+              "variants",
+              "supplier_profile",
+              "export_settings",
+              "toolchain",
+              "board_interface",
+              "waivers",
+              "parts",
+              "circuit_source",
+              "supplier_rules",
+              "supplier_settings",
+              "project_settings",
+              "design_rules"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "minLength": 64,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "role",
+          "path",
+          "sha256"
+        ]
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "copper",
+              "mask",
+              "silk",
+              "paste",
+              "outline",
+              "drill_plated",
+              "drill_nonplated",
+              "bom",
+              "placement",
+              "schematic_pdf",
+              "fabrication_drawing",
+              "assembly_drawing",
+              "test_record",
+              "firmware",
+              "stencil",
+              "panel",
+              "report",
+              "image",
+              "evidence"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "minLength": 64,
+            "maxLength": 64
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "layer": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          }
+        },
+        "required": [
+          "role",
+          "path",
+          "sha256",
+          "size_bytes"
+        ]
+      }
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "smd_parts": {
+          "type": "boolean"
+        },
+        "firmware": {
+          "type": "boolean"
+        },
+        "stencil": {
+          "type": "boolean"
+        },
+        "panel": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "smd_parts",
+        "firmware",
+        "stencil",
+        "panel"
+      ]
+    },
+    "drill_applicability": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "drill_plated",
+              "drill_nonplated"
+            ]
+          },
+          "condition": {
+            "enum": [
+              "no_plated_holes",
+              "no_nonplated_holes"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "input_role": {
+                "enum": [
+                  "board_interface"
+                ]
+              },
+              "check_id": {
+                "enum": [
+                  "fab.drill_split"
+                ]
+              }
+            },
+            "required": [],
+            "minProperties": 1,
+            "maxProperties": 1
+          }
+        },
+        "required": [
+          "role",
+          "condition"
+        ]
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "pending",
+              "unconfirmed"
+            ]
+          },
+          "evidence_path": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "\\S"
+          },
+          "evidence_sha256": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[0-9a-f]{64}$",
+            "minLength": 64,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "evidence_path",
+          "evidence_sha256"
+        ]
+      }
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "qualified",
+        "unqualified"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "text": {
+            "type": "string",
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "code",
+          "text"
+        ]
+      }
+    },
+    "tool_versions": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "\\S",
+        "not": {
+          "pattern": "[\\u0000-\\u001f\\u007f]"
+        }
+      },
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+        "allOf": [
+          {
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          {
+            "not": {
+              "enum": [
+                "latest",
+                "auto"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "release_id",
+    "kind",
+    "board_revision",
+    "board_sha256",
+    "variant",
+    "supplier",
+    "inputs",
+    "outputs",
+    "drill_applicability",
+    "checks",
+    "status",
+    "reasons",
+    "tool_versions"
+  ],
+  "if": {
+    "properties": {
+      "kind": {
+        "const": "pcba"
+      }
+    },
+    "required": [
+      "kind"
+    ]
+  },
+  "then": {
+    "required": [
+      "applicability"
+    ]
+  },
+  "else": {
+    "not": {
+      "required": [
+        "applicability"
+      ]
+    }
+  }
+}

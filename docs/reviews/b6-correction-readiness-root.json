@@ -1,0 +1,14 @@
+[
+  {
+    "case": "manual_missing_coverage",
+    "exit_code": 1,
+    "stdout": "check: not ready\n",
+    "stderr": "interface.review_stale: mechanical/board-interface.json: The interface is not ready.\n"
+  },
+  {
+    "case": "automatic_missing_expectation",
+    "exit_code": 1,
+    "stdout": "check: not ready\n",
+    "stderr": "interface.geometry_stale: mechanical/board-interface.json: The interface is not ready.\n"
+  }
+]

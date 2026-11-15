@@ -1,0 +1,201 @@
+{
+  "schema_id": "cad-skills/supplier-profile",
+  "schema_version": "1.0",
+  "id": "oshpark-two-layer-hhdc",
+  "revision": "2026-11-14",
+  "service": "OSH Park two-layer HHDC service",
+  "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+  "retrieved": "2026-11-14",
+  "evidence_sha256": "641310abcd61e5b6c588b8f12554990e07941399f3d6cefce07c5602e16f1471",
+  "content_sha256": "93f4cbb421a345728a464327e5ddf03c8b0e81f1a6f39505f42b1e36da07c134",
+  "units": "mil",
+  "limits": {
+    "board_max_height": {
+      "kind": "maximum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 22,
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "board_max_width": {
+      "kind": "maximum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 16,
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "board_min_edge": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.25,
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "edge_keepout": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 15,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "mask_web_min": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 4,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "min_annular_ring": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 5,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "min_drill": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 10,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "min_slot_size": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 20,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "min_space": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 6,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "min_trace": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 6,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "overlapping_drill_clearance": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 5,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "silk_line_min_short_text": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 3,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    },
+    "silk_line_recommended": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 5,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "retrieved": "2026-11-14"
+    }
+  },
+  "division": {
+    "kicad_dru": [
+      "min_trace",
+      "min_space",
+      "min_annular_ring",
+      "min_drill",
+      "edge_keepout"
+    ],
+    "project_settings": [],
+    "geometric_tests": [
+      "min_slot_size",
+      "mask_web_min",
+      "board_min_edge",
+      "board_max_width",
+      "board_max_height"
+    ],
+    "manual_evidence": [
+      "silk_line_min_short_text",
+      "silk_line_recommended",
+      "overlapping_drill_clearance"
+    ]
+  },
+  "extensions": {
+    "service.layers": {
+      "kind": "requirement",
+      "value": 2
+    },
+    "service.order_multiple": {
+      "kind": "requirement",
+      "value": 3
+    },
+    "service.copper": "2 oz",
+    "service.substrate": "180 Tg FR4 Ventec VT-47, core 4x 7628 Ventec VT-47, 28 mil (0.711mm) core",
+    "service.finished_thickness_source": {
+      "value": 32,
+      "unit": "mil"
+    },
+    "service.finished_thickness_display_mm": 0.8,
+    "service.via_construction_prohibited": [
+      "blind",
+      "buried",
+      "filled_plated_via_in_pad"
+    ],
+    "process.mask_alignment_max_mil": 3,
+    "process.drill_size_tolerance_max_mil": 2.5,
+    "process.drill_size_tolerance_typical_mil": 1.0,
+    "process.drill_position_tolerance_max_mil": 2,
+    "process.drill_position_tolerance_typical": "less than 1 mil",
+    "notes.max_drill": "Maximum Drill Size None; above 250mil larger milling tolerances. Process note, not a limit.",
+    "evidence_pages": {
+      "two-layer-hhdc": {
+        "sha256": "641310abcd61e5b6c588b8f12554990e07941399f3d6cefce07c5602e16f1471",
+        "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/"
+      }
+    },
+    "process.outline_cutter_diameter": {
+      "value": "0.068",
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "source_sha256": "641310abcd61e5b6c588b8f12554990e07941399f3d6cefce07c5602e16f1471",
+      "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
+    },
+    "process.cutout_cutter_diameter": {
+      "value": "0.040",
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer-hhdc/",
+      "source_sha256": "641310abcd61e5b6c588b8f12554990e07941399f3d6cefce07c5602e16f1471",
+      "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
+    }
+  }
+}

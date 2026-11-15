@@ -1,0 +1,20 @@
+{
+  "envs": {
+    "cadquery": {
+      "command": null
+    },
+    "pcb": {
+      "command": null,
+      "available": false
+    }
+  },
+  "skills": {
+    "cadquery": "cadquery",
+    "print-prep": "cadquery",
+    "prusaslicer": "cadquery",
+    "structural-analysis": "cadquery",
+    "pcb-design": "pcb",
+    "pcb-fab-package": "pcb",
+    "pcba-design": "pcb"
+  }
+}

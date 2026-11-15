@@ -1,0 +1,1 @@
+podman build --pull=never -t localhost/cad-skills-trial-uv:b5 -f /tmp/claude-1000/-mnt-storage-projects-cad-skills/31456ff4-3cc5-4474-895e-358d2be1c713/scratchpad/b5/trial/Containerfile.uv /tmp/claude-1000/-mnt-storage-projects-cad-skills/31456ff4-3cc5-4474-895e-358d2be1c713/scratchpad/b5/trial

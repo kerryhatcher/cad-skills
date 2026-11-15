@@ -1,0 +1,1 @@
+Error: crun: executable file `kicad-cli version` not found in $PATH: No such file or directory: OCI runtime attempted to invoke a command that was not found

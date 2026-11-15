@@ -1,0 +1,1 @@
+RUN uv run --no-project --no-config --offline --python /usr/bin/python3 python scripts/gui_update.py --project out/lp_removed1_delete_off --label lp_removed1_delete_off --replace on --delete off --relink off

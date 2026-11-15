@@ -1,0 +1,4 @@
+Found 0 violations
+Found 6 unconnected items
+Found 4 schematic parity issues
+Saved DRC Report to /work/out/diag_e3/u2same_A/drc.json

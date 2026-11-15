@@ -1,0 +1,9 @@
+{
+  "error_bound_basis": "derived from 6-decimal Gerber coordinates, not measured",
+  "error_bound_mm": 3e-06,
+  "exit": 2,
+  "gerber_sha256": "872b14c6862c31a17f08dc55e01f7eb593834e8176082fbba5900007f84e392c",
+  "limit_mil": 4.0,
+  "limit_mm": 0.1016,
+  "unsupported": "object 0 is a Region; only flashes are supported"
+}

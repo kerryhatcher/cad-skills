@@ -1,0 +1,1 @@
+RUN sh scripts/drc_boards.sh out/drc_native gate_none gate2_reorder gate2_value gate2_addc2 gate2_removed1 gate2_fpr1 gate2_fpr1_replace_off probe_rename_relink_on probe_rename_relink_off

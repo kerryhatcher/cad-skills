@@ -1,0 +1,284 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-14T06:42:17",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.5",
+    "schematic_parity": [],
+    "source": "trial.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [GND] of D1 on F.Cu",
+                    "pos": {
+                        "x": 216.2675,
+                        "y": 217.435
+                    },
+                    "uuid": "6a1fb200-8d06-4462-8ad8-336ced44cd64"
+                },
+                {
+                    "description": "PTH pad 2 [GND] of J1",
+                    "pos": {
+                        "x": 217.305,
+                        "y": 213.835
+                    },
+                    "uuid": "8041af3c-cb78-40d0-819c-8facbe632295"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 2 [GND] of J1",
+                    "pos": {
+                        "x": 217.305,
+                        "y": 213.835
+                    },
+                    "uuid": "8041af3c-cb78-40d0-819c-8facbe632295"
+                },
+                {
+                    "description": "Pad 2 [GND] of C1 on F.Cu",
+                    "pos": {
+                        "x": 213.78,
+                        "y": 210.255
+                    },
+                    "uuid": "ccd1881b-c4be-45af-8af3-e1fe86265777"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 2 [N_LED] of R1 on F.Cu",
+                    "pos": {
+                        "x": 213.83,
+                        "y": 212.765
+                    },
+                    "uuid": "fa1c7fe6-e77d-4a05-9b93-2264a61cd541"
+                },
+                {
+                    "description": "Pad 2 [N_LED] of D1 on F.Cu",
+                    "pos": {
+                        "x": 217.8425,
+                        "y": 217.435
+                    },
+                    "uuid": "f8bd77a4-1f71-4706-861e-b7081c665ac2"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [VIN] of R1 on F.Cu",
+                    "pos": {
+                        "x": 212.18,
+                        "y": 212.765
+                    },
+                    "uuid": "eb6ef4ac-b940-46b6-a114-745d50c89dd9"
+                },
+                {
+                    "description": "Pad 1 [VIN] of R2 on F.Cu",
+                    "pos": {
+                        "x": 212.18,
+                        "y": 215.275
+                    },
+                    "uuid": "4f2c287d-c5be-4466-8b86-1ef266d3ec73"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 1 [VIN] of J1",
+                    "pos": {
+                        "x": 217.305,
+                        "y": 211.295
+                    },
+                    "uuid": "73251241-e3cd-483b-b09f-6548e138f805"
+                },
+                {
+                    "description": "Pad 1 [VIN] of R1 on F.Cu",
+                    "pos": {
+                        "x": 212.18,
+                        "y": 212.765
+                    },
+                    "uuid": "eb6ef4ac-b940-46b6-a114-745d50c89dd9"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [N_RC] of C1 on F.Cu",
+                    "pos": {
+                        "x": 212.23,
+                        "y": 210.255
+                    },
+                    "uuid": "1b8cfbe7-28e2-48b1-91e5-562dcbe855e1"
+                },
+                {
+                    "description": "Pad 2 [N_RC] of R2 on F.Cu",
+                    "pos": {
+                        "x": 213.83,
+                        "y": 215.275
+                    },
+                    "uuid": "74606dd1-0510-45a2-8259-e70af849aa51"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Board has malformed outline (no edges found on Edge.Cuts layer)",
+            "items": [
+                {
+                    "description": "PCB",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "05a49f2b-94d1-4b44-907b-556e3520f8c2"
+                }
+            ],
+            "severity": "error",
+            "type": "invalid_outline"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R2",
+                    "pos": {
+                        "x": 213.005,
+                        "y": 213.845
+                    },
+                    "uuid": "ca834244-1e36-4e50-b837-cb2d33daefef"
+                },
+                {
+                    "description": "Pad 1 [VIN] of R1 on F.Cu",
+                    "pos": {
+                        "x": 212.18,
+                        "y": 212.765
+                    },
+                    "uuid": "eb6ef4ac-b940-46b6-a114-745d50c89dd9"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R2",
+                    "pos": {
+                        "x": 213.005,
+                        "y": 213.845
+                    },
+                    "uuid": "ca834244-1e36-4e50-b837-cb2d33daefef"
+                },
+                {
+                    "description": "Pad 2 [N_LED] of R1 on F.Cu",
+                    "pos": {
+                        "x": 213.83,
+                        "y": 212.765
+                    },
+                    "uuid": "fa1c7fe6-e77d-4a05-9b93-2264a61cd541"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R1",
+                    "pos": {
+                        "x": 213.005,
+                        "y": 211.335
+                    },
+                    "uuid": "7ca81c35-dc70-4d72-946e-217423bb0604"
+                },
+                {
+                    "description": "Pad 1 [N_RC] of C1 on F.Cu",
+                    "pos": {
+                        "x": 212.23,
+                        "y": 210.255
+                    },
+                    "uuid": "1b8cfbe7-28e2-48b1-91e5-562dcbe855e1"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R1",
+                    "pos": {
+                        "x": 213.005,
+                        "y": 211.335
+                    },
+                    "uuid": "7ca81c35-dc70-4d72-946e-217423bb0604"
+                },
+                {
+                    "description": "Pad 2 [GND] of C1 on F.Cu",
+                    "pos": {
+                        "x": 213.78,
+                        "y": 210.255
+                    },
+                    "uuid": "ccd1881b-c4be-45af-8af3-e1fe86265777"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}

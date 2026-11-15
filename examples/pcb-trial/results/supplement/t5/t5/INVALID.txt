@@ -1,0 +1,1 @@
+INVALID: the defective schematic of this run has the script defect that is named in scripts/make_defective_sch.py. Kept as history.

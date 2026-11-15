@@ -1,0 +1,44 @@
+{
+  "differences": [
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "R1",
+      "field": "lib_id",
+      "before": "Resistor_SMD:R_0603_1608Metric",
+      "after": "Resistor_SMD:R_0805_2012Metric"
+    },
+    {
+      "op": "changed",
+      "class": "pad",
+      "ident": "R1.1",
+      "field": "at",
+      "before": [
+        -0.825,
+        0,
+        0
+      ],
+      "after": [
+        -0.9125,
+        0,
+        0
+      ]
+    },
+    {
+      "op": "changed",
+      "class": "pad",
+      "ident": "R1.2",
+      "field": "at",
+      "before": [
+        0.825,
+        0,
+        0
+      ],
+      "after": [
+        0.9125,
+        0,
+        0
+      ]
+    }
+  ]
+}

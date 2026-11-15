@@ -1,0 +1,58 @@
+ok   55: --check-only refuses a manifest alias with exit 2 before any fetch
+ok   53: a destination that is a hard link to the manifest exits 2 before any fetch and keeps all inputs
+ok   54: a destination that is a hard link to a profile exits 2 before any fetch and keeps all inputs
+ok   49: a destination that is the manifest, written as ./sources.yaml, exits 2 before any fetch and keeps all inputs
+ok   50: a normalized manifest alias with .. exits 2 before any fetch and keeps all inputs
+ok   56: a normal guidance destination is not refused and is written with exit 0
+ok   51: a destination that is a bound profile, written with ./, exits 2 before any fetch and keeps the profile
+ok   52: a destination under supplier/profiles that no entry binds exits 2 before any fetch
+ok   31: a run where every entry is skipped exits 0 and reports no entry fetched
+ok   36: a retrieved value that is not a real date exits 2
+ok   9: an absolute path and a .. path are refused with exit 2 before any fetch
+ok   26: a wrong schema or schema_version exits 2 before any fetch
+ok   1: a match writes DIR/<path> and exits 0
+ok   2: --check-only with a match writes nothing and exits 0
+ok   37: a profile_binding with .. exits 2
+ok   39: a bound entry whose sha256 differs from the profile evidence exits 2 before any fetch
+ok   13: a profile_binding outside supplier/profiles is refused with exit 2
+ok   43: a profile_binding that is not a direct child of supplier/profiles exits 2
+ok   38: a bound entry whose path is not under supplier/pages exits 2 before any fetch
+ok   46: a bound page whose path does not end in .html exits 2 before any fetch
+ok   4: a null hash reports candidate, writes nothing, and exits 1
+ok   41: a candidate hash and an invalid magic report both statuses, write nothing, and exit 1
+ok   3: a changed hash writes nothing, reports changed, exits 1, and leaves the manifest and profile unchanged
+ok   40: a changed hash and an invalid magic report both statuses, write nothing, and exit 1
+ok   23: --check-only with a candidate writes nothing and exits 1
+ok   35: --check-only with a differing --dest reads nothing there, writes nothing, and exits by the outcomes
+ok   14: a --dest that differs from the manifest root is refused with exit 2 for a write
+ok   10: a duplicate resolved destination is refused with exit 2 before any fetch
+ok   18: a duplicate id, or a magic token pdf, exits 2 before any fetch
+ok   12: an empty manifest is refused with exit 2
+ok   5: a fetch failure exits 3 and writes nothing
+ok   21: an exclude-full-copy entry with a candidate hash is not written and exits 1
+ok   20: an exclude-full-copy entry that matches is written to DIR/<path> and exits 0
+ok   24: an http URL is refused with exit 2 before any fetch
+ok   27: a missing required key or an unknown key exits 2 before any fetch
+ok   19: a changed license_state does not change the outcome; the match writes and exits 0
+ok   7: a link at the destination file is refused with exit 2, the target keeps its bytes, and nothing is fetched
+ok   8: a link at a parent directory of DIR/<path> is refused with exit 2, and nothing is written outside the root
+ok   6: a magic mismatch exits 1 and writes nothing
+ok   30: a match and a fetch failure write the match, report partial, and exit 3
+ok   16: one fetch failure and one changed entry exit 3 and report both outcomes
+ok   32: a non-2xx response is a fetch failure: exit 3 and nothing written
+ok   34: magic null writes a matching entry with magic status not-tested
+ok   42: the OLE2 token matches an OLE compound-file header, is ok, and is written
+ok   17: a changed entry in a multi-entry run reports partial, names the written entries, and exits 1
+ok   33: a post-replace failure is a write error with exit 3, the new bytes stay, and no rollback is claimed
+ok   29: a pre-replace write failure keeps the old bytes, leaves no new file, and exits 3
+ok   47: a profile link that resolves into supplier/pages is refused with exit 2 before any read or fetch
+ok   45: a profile link to a file outside the root is refused with exit 2 before any read or fetch
+ok   48: a directory link from supplier/profiles into supplier/pages is refused with exit 2 before any read or fetch
+ok   25: a 3xx response is a fetch failure, and a 200 response returns its bytes
+ok   44: the five release profile entries pass validation offline; each page key resolves in its profile
+ok   15: an exclude-local-evidence entry is skipped, is not fetched, and exits 0 when the others match
+ok   28: an invalid type (a short sha256) exits 2 before any fetch
+ok   11: an unknown --entry ID is refused with exit 2 before any fetch
+ok   22: a valid profile_binding matches, writes to DIR/<path>, exits 0, and leaves the profile unchanged
+
+56/56 passed

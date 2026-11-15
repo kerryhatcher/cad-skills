@@ -1,0 +1,30 @@
+Installed 6 packages in 5ms
+ok   The board min_space at 5.9 mil gives fail.
+ok   The independent min_space threshold agrees at 5.9 mil.
+{"board_sha256": "ef5dc8de13ab2c189d016d9efa16c8274823e49e585151346c50f195aeaa8edf", "condition": "min_space", "hits": [{"description": "Clearance violation (rule 'supplier_min_space' clearance 0.1524 mm; actual 0.1499 mm)", "items": [{"description": "Track [N2] on F.Cu, length 10.0000 mm", "pos": {"x": 5.0, "y": 5.34986}, "uuid": "62b6b0b5-33c4-4e5a-929f-8eee4638e64d"}, {"description": "Track [N1] on F.Cu, length 10.0000 mm", "pos": {"x": 5.0, "y": 5.0}, "uuid": "665e0636-939e-4f69-9944-7f2eab05b9b1"}], "severity": "error", "type": "clearance"}], "independent_gap_mm": "0.14986", "mil": "5.9", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+ok   The board min_space at 6 mil gives pass.
+ok   The independent min_space threshold agrees at 6 mil.
+{"board_sha256": "d29d19f5cfcc11713ccefaeb1f9b92d09f8015dcc884a0dff2a18da76e8cd948", "condition": "min_space", "hits": [], "independent_gap_mm": "0.1524", "mil": "6", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+ok   The board min_space at 6.1 mil gives pass.
+ok   The independent min_space threshold agrees at 6.1 mil.
+{"board_sha256": "fc559b1f91695d3adc0017221ae1d113035238d68463d7af37d2ba447a954397", "condition": "min_space", "hits": [], "independent_gap_mm": "0.15494", "mil": "6.1", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+ok   The board min_annular_ring at 4.9 mil gives fail.
+ok   The independent min_annular_ring threshold agrees at 4.9 mil.
+{"board_sha256": "67fd849b28281f9a9fd41f83c93a1c1c8b5cde4f369b4dc888e8a38c8ece4b61", "condition": "min_annular_ring", "hits": [{"description": "Annular width (rule 'supplier_min_annular_ring' min annular width 0.1270 mm; actual 0.1245 mm)", "items": [{"description": "Via [N1] on F.Cu - B.Cu", "pos": {"x": 10.0, "y": 10.0}, "uuid": "590c1eaa-9676-4d4d-bf65-0280d8c03c09"}], "severity": "error", "type": "annular_width"}], "independent_gap_mm": "0.12446", "mil": "4.9", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+ok   The board min_annular_ring at 5 mil gives pass.
+ok   The independent min_annular_ring threshold agrees at 5 mil.
+{"board_sha256": "81c898d03e08f095843005dd31a9bdfacbfc372d36197fb2538817a996ad016d", "condition": "min_annular_ring", "hits": [], "independent_gap_mm": "0.1270", "mil": "5", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+ok   The board min_annular_ring at 5.1 mil gives pass.
+ok   The independent min_annular_ring threshold agrees at 5.1 mil.
+{"board_sha256": "b6abdacf69617cc02e861a629fac97fbed89166b8ff52fb38d4872fbc8e18ac9", "condition": "min_annular_ring", "hits": [], "independent_gap_mm": "0.12954", "mil": "5.1", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+ok   The board edge_keepout at 14.9 mil gives fail.
+ok   The independent edge_keepout threshold agrees at 14.9 mil.
+{"board_sha256": "ba750f8c8e4c10d452eb7f44c9f69b96b62db1ba6af9a458119498b47f536a24", "condition": "edge_keepout", "hits": [{"description": "Board edge clearance violation (rule 'supplier_edge_keepout' clearance 0.3810 mm; actual 0.3785 mm)", "items": [{"description": "Rectangle on Edge.Cuts", "pos": {"x": 0.0, "y": 0.0}, "uuid": "cbb85913-b413-4c25-bbbb-f9352102c572"}, {"description": "Track [N1] on F.Cu, length 10.0000 mm", "pos": {"x": 0.47846, "y": 5.0}, "uuid": "fb12a3b4-3173-43b6-8e53-917d17bb1356"}], "severity": "error", "type": "copper_edge_clearance"}], "independent_gap_mm": "0.37846", "mil": "14.9", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+ok   The board edge_keepout at 15 mil gives pass.
+ok   The independent edge_keepout threshold agrees at 15 mil.
+{"board_sha256": "dc766f745876b178e310e0a1a5fefe56e5ea2a6c456461b51bfbaa16b691f4df", "condition": "edge_keepout", "hits": [], "independent_gap_mm": "0.3810", "mil": "15", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+ok   The board edge_keepout at 15.1 mil gives pass.
+ok   The independent edge_keepout threshold agrees at 15.1 mil.
+{"board_sha256": "b4e3f3ed5389dbec8184caeb76b887352f98693fdfb263f25e286e128558dc4b", "condition": "edge_keepout", "hits": [], "independent_gap_mm": "0.38354", "mil": "15.1", "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}}
+
+18/18 passed

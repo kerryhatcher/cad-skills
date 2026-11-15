@@ -131,4 +131,38 @@ Frequent replacements:
 - Run the tests before you commit:
   - `uv run tests/test_snippets.py` (all Python blocks in the skill documents)
   - `uv run tests/test_print_tools.py` (FEA, printability and PrusaSlicer tools)
+  - `uv run tests/test_pcb_tools.py` (record contracts in `contracts/`)
+  - `uv run tests/test_project_io.py` (project lock, confined paths and package publication)
+  - `uv run tests/test_skill_packages.py` (skill checks, schema copies and snippet routing)
 - Each skill must operate alone. A skill must not use a file from a different skill.
+
+For changes to the local release tools, run the applicable tests:
+
+- `uv run tests/test_release_packaging.py` examines supplier manifests and distribution exclusions.
+- `uv run tests/test_release_harness.py` exercises the matrix, budget rules and scores with local stubs.
+- `uv run tests/test_release_isolation.py` exercises the supported local boundary and adapter stubs.
+- `uv run tests/test_artifact_fixtures.py` examines the retained A1 and A2 evidence.
+- `uv run tests/test_artifact_expectations.py` compares the A1, A2 and A3 expectations with fixture bytes and altered temporary copies.
+
+Keep provider evaluations separate from CI. The lead must authorize the matrix and provider calls before an evaluation.
+Do not treat local stub results as live-provider evidence.
+Keep supplier full copies out of distribution. `docs/release-licensing.md` states the distribution decisions.
+
+## Herdr messages
+
+Start each Herdr message with this prefix:
+
+`[$date - $time] To: $agent-name; From: $agent-name - `
+
+- Use the current UTC date and time.
+- Use `YYYY-MM-DD` for the date and `HH:MM:SS UTC` for the time.
+- Replace the first `$agent-name` with the recipient's name.
+- Replace the second `$agent-name` with the sender's name.
+- Apply this rule to task requests, status messages, findings, and review results.
+- Use these team names: `skill-dev-lead`, `claude-skill-dev`, `codex-skill-dev`, and `pi-skill-dev`.
+
+Example:
+
+```text
+[2026-11-14 - 04:29:27 UTC] To: skill-dev-lead; From: pi-skill-dev - The review is complete.
+```

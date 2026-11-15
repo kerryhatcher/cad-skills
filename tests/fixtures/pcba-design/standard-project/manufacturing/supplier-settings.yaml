@@ -1,0 +1,18 @@
+schema_id: pcba-design/supplier-settings
+schema_version: '1.0'
+placement:
+  units:
+    status: unconfirmed
+    sample_value: mil
+  origin:
+    status: unconfirmed
+  axes:
+    status: unconfirmed
+  side_view:
+    status: unconfirmed
+  rotation_direction:
+    status: unconfirmed
+  zero_orientation:
+    status: unconfirmed
+  midpoint_mapping:
+    status: unconfirmed

@@ -1,0 +1,10 @@
+{
+  "differences": [
+    {
+      "op": "removed",
+      "class": "footprint",
+      "ident": "D1",
+      "uuid": "4b40f9a3-a36b-401f-934b-c5bfce32e707"
+    }
+  ]
+}

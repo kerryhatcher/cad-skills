@@ -1,0 +1,51 @@
+{
+  "artifact": {
+    "path": "reports/assembly-neutral.json",
+    "sha256": "8b3438271d9b14401b119104aaee59b1652dd7ee2b8dbeca8de05ee25dec25fd"
+  },
+  "check_id": "asm.variant_agreement",
+  "inputs": [
+    {
+      "path": "board.yaml",
+      "sha256": "da6773bf8fc75debc19fe0471aa8305fb411b77dd236c2359bdff6710019874a"
+    },
+    {
+      "path": "components/cap-100n.yaml",
+      "sha256": "6d92bae75baf73304a9e5ed0d5dca93ab58ccc2e64fb9a8c7925fc4040ff593e"
+    },
+    {
+      "path": "components/header-2.yaml",
+      "sha256": "2546128f2893a074f06cb31978f58f3897d41c8c43ca5d4c3d10722b610ed2e9"
+    },
+    {
+      "path": "components/led-green.yaml",
+      "sha256": "449962943f98cd6a3db980d3274e92a93a60000510bcde89c0f997f7414c7faa"
+    },
+    {
+      "path": "components/parts-map.yaml",
+      "sha256": "0d26cc93458dd2d743f24d12901e8e92da04d36175e551c82b60066404144e08"
+    },
+    {
+      "path": "components/resistor-10k.yaml",
+      "sha256": "11bef0c36e83db32be23df9e0db5b8465d8e18c4b490ab70c8e6d4c1c7f308d5"
+    },
+    {
+      "path": "components/testpoint.yaml",
+      "sha256": "3c09b1bace014af514a78adc5a6d869403b1bda04b7410930670c35e29f3a81a"
+    },
+    {
+      "path": "variants.yaml",
+      "sha256": "6ce057427c1d130cb5ef00fcd913a36cbb23927ff38274cea95517653759ad36"
+    }
+  ],
+  "method": "tool",
+  "notes": "rows=12 differing=0",
+  "observed_on": "2026-11-15",
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "status": "pass",
+  "tool": {
+    "name": "pcba-design",
+    "version": "1.0"
+  }
+}

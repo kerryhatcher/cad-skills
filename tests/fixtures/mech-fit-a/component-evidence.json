@@ -1,0 +1,62 @@
+{
+  "components": [
+    {
+      "body_length_mm": 4.0,
+      "body_length_source": "project-authored declared test proxy; no datasheet or detailed-fit claim",
+      "connector_envelope": {
+        "height_mm": 3.0,
+        "width_mm": 9.0
+      },
+      "evidence": "proxy",
+      "footprint": "frame-only (no footprint)",
+      "height_mm": 3.0,
+      "insertion_depth_mm": 4.0,
+      "insertion_vector_local": {
+        "x": 1.0,
+        "y": 0.0
+      },
+      "kicad_center_mm": {
+        "x": 160.0,
+        "y": 112.0
+      },
+      "limit_kind": "top_mm",
+      "limit_mm": 10.0,
+      "model": "none",
+      "owner": "mechanical",
+      "part_revision": "B11-frame-1",
+      "ref": "CN1",
+      "rotation_deg": 0,
+      "side": "top",
+      "source": "fixture-source.json",
+      "source_sha256": null,
+      "source_sha256_rule": "null is allowed only for proxy and unconfirmed evidence (F3)"
+    },
+    {
+      "envelope_mm": {
+        "x": 8.0,
+        "y": 4.0,
+        "z": 2.8
+      },
+      "evidence": "proxy",
+      "footprint": "proxy box",
+      "height_mm": 2.8,
+      "kicad_center_mm": {
+        "x": 130.0,
+        "y": 120.0
+      },
+      "limit_kind": "bottom_mm",
+      "limit_mm": 4.0,
+      "model": "none",
+      "owner": "mechanical",
+      "pad_frame": "placed-file",
+      "part_revision": "B11-proxy-1",
+      "ref": "B1",
+      "rotation_deg": 90,
+      "side": "bottom",
+      "source": "fixture-source.json",
+      "source_sha256": null,
+      "source_sha256_rule": "null is allowed only for proxy and unconfirmed evidence (F3)"
+    }
+  ],
+  "record": "mech-component-evidence/1"
+}

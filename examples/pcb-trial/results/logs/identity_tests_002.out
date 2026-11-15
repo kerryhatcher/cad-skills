@@ -1,0 +1,11 @@
+ok   test_real_saved_output_is_read_in_full
+ok   test_expected_difference_is_exact
+ok   test_unauthorized_move
+ok   test_uuid_change
+ok   test_pad_net_change
+ok   test_unrelated_track_deletion
+ok   test_added_footprint_lists_pad_nets
+ok   test_unknown_top_level_form_stops_the_reader
+ok   test_cli_exit_codes
+
+9/9 passed

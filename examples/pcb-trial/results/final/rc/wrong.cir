@@ -1,0 +1,11 @@
+RC step response of the trial circuit
+V1 in 0 PULSE(0 3.3 0 1n 1n 1 2)
+R2 in out 10000
+C1 out 0 2.2e-07
+.tran 1u 5m
+.control
+run
+meas tran vtau FIND v(out) AT=0.001
+print vtau
+.endc
+.end

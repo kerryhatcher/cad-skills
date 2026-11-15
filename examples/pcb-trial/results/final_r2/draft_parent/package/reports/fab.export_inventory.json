@@ -1,0 +1,22 @@
+[
+  {
+    "check": "board.plot_settings",
+    "status": "pass",
+    "detail": "saved {'drillshape': ['0'], 'usegerberattributes': ['no'], 'usegerberadvancedattributes': ['no']}, expected {'drillshape': '0', 'usegerberattributes': 'no', 'usegerberadvancedattributes': 'no'}"
+  },
+  {
+    "check": "gerber.layer_set",
+    "status": "pass",
+    "detail": "found ['trial-B_Cu.gbr', 'trial-B_Mask.gbr', 'trial-B_Paste.gbr', 'trial-B_Silkscreen.gbr', 'trial-Edge_Cuts.gbr', 'trial-F_Cu.gbr', 'trial-F_Mask.gbr', 'trial-F_Paste.gbr', 'trial-F_Silkscreen.gbr']"
+  },
+  {
+    "check": "gerber.no_active_attributes",
+    "status": "pass",
+    "detail": ""
+  },
+  {
+    "check": "placement.rows",
+    "status": "pass",
+    "detail": "expected {'J1': (105.0, -112.5, 0.0), 'R1': (115.0, -106.0, 0.0), 'D1': (125.0, -106.0, 180.0), 'R2': (115.0, -118.0, 0.0), 'C1': (125.0, -118.0, 0.0), 'MH1': (103.0, -103.0, 0.0), 'MH2': (137.0, -122.0, 0.0)}, got [('C1', 125.0, -118.0, 0.0, 'top'), ('D1', 125.0, -106.0, 180.0, 'top'), ('J1', 105.0, -112.5, 0.0, 'top'), ('MH1', 103.0, -103.0, 0.0, 'top'), ('MH2', 137.0, -122.0, 0.0, 'top'), ('R1', 115.0, -106.0, 0.0, 'top'), ('R2', 115.0, -118.0, 0.0, 'top')]"
+  }
+]

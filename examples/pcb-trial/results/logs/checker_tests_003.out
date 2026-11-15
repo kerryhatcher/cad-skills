@@ -1,0 +1,14 @@
+ok   test_nominal
+ok   test_duplicate_reference_counts_raw_instances
+ok   test_missing_expected_reference_has_no_traceback
+ok   test_missing_mandatory_instance_data
+ok   test_duplicate_pin_membership
+ok   test_double_leading_slash_is_not_normalized
+ok   test_changed_embedded_pin_definition
+ok   test_changed_instance_orientation
+ok   test_sidecar_does_not_decide
+ok   test_malformed_inputs_give_a_report
+ok   test_fresh_export_changed_definition
+ok   test_fresh_export_renamed_label
+
+12/12 passed, 0 unavailable

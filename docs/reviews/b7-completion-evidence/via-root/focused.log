@@ -1,0 +1,31 @@
+Installed 6 packages in 3ms
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   The declared process standard_through gives pass.
+ok   The report binds the board and declaration for standard_through.
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   The declared process unconfirmed gives pending.
+ok   The report binds the board and declaration for unconfirmed.
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   The declared process None gives pending.
+ok   The report binds the board and declaration for None.
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   The declared process filled_plated_via_in_pad gives fail.
+ok   The report binds the board and declaration for filled_plated_via_in_pad.
+ok   An unknown declaration refuses with exit 2.
+ok   The measured buried span fails before the absent design result.
+ok   The buried refusal preserves the source and writes no success binding.
+ok   A package cannot use the buried precondition as a complete result.
+ok   The measured blind span fails before the absent design result.
+ok   The blind refusal preserves the source and writes no success binding.
+ok   A package cannot use the blind precondition as a complete result.
+ok   A measured zero count makes the condition not applicable.
+
+16/16 passed

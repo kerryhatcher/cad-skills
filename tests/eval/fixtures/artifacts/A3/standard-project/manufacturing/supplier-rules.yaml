@@ -1,0 +1,15 @@
+schema_id: pcba-design/supplier-rules
+schema_version: '1.0'
+service: Turnkey PRO
+gerber:
+  format: rs274x
+drill:
+  format: excellon
+  units: in
+  origin: absolute
+  zero_suppression: trailing
+  decimal_places: 4
+  separate_files: true
+plane_interpretation:
+  status: unconfirmed
+  notes: The plane interpretation is not confirmed.

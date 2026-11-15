@@ -1,0 +1,211 @@
+{
+  "arcs": {},
+  "footprints": {
+    "0b64f6a3-c0e8-4ddc-94c6-49dafbe32dfc": {
+      "at": [
+        132.505,
+        132.255,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Capacitor_SMD:C_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.775,
+            0,
+            0
+          ],
+          "net": "Net-(C1-Pad1)",
+          "uuid": "d3ad97cf-ad67-4291-992c-e6dd9d90dcf5"
+        },
+        "2": {
+          "at": [
+            0.775,
+            0,
+            0
+          ],
+          "net": "GND",
+          "uuid": "f00bfa03-2827-4c71-bc2f-31c3e52f21a0"
+        }
+      },
+      "path": "/b514d237-c153-5f6d-afe2-53badf97a864",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Unpolarized capacitor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded"
+      },
+      "reference": "C1",
+      "value": "100n"
+    },
+    "0eb14fab-16c5-4f50-8163-a38d508f8aa6": {
+      "at": [
+        132.505,
+        134.765,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.825,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "ee5c65c3-3603-41a3-8257-6b2faaf51e1d"
+        },
+        "2": {
+          "at": [
+            0.825,
+            0,
+            0
+          ],
+          "net": "Net-(D1-A)",
+          "uuid": "d06cb104-fa89-471a-b2bf-e93127fc126f"
+        }
+      },
+      "path": "/91628e47-8f83-5ba1-abed-4cb134d83eea",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded"
+      },
+      "reference": "R1",
+      "value": "1k"
+    },
+    "6fd4478a-c931-4a75-a8db-550667e6c1c4": {
+      "at": [
+        132.505,
+        137.275,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.825,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "37e7d45c-ff3a-4b22-b8c0-37be91e5b0c5"
+        },
+        "2": {
+          "at": [
+            0.825,
+            0,
+            0
+          ],
+          "net": "Net-(C1-Pad1)",
+          "uuid": "60db2f33-9b61-4f7e-b650-34cd347d096a"
+        }
+      },
+      "path": "/91c587b0-c855-58aa-84a9-2ba4ce88549e",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded"
+      },
+      "reference": "R2",
+      "value": "10k"
+    },
+    "c0f78166-bc3f-4657-8df1-993574ddfdf9": {
+      "at": [
+        136.805,
+        133.295,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "pads": {
+        "1": {
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "1ba29de0-2165-4a04-972e-ebacd86bd6fd"
+        },
+        "2": {
+          "at": [
+            0,
+            2.54,
+            0
+          ],
+          "net": "GND",
+          "uuid": "330d3b02-abeb-4925-96dd-844323709826"
+        }
+      },
+      "path": "/d7608689-a7d2-514c-aa16-0f8bde5cf213",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)",
+        "KiLib_Generator": "connector/pin_header_socket"
+      },
+      "reference": "J1",
+      "value": "Power"
+    },
+    "feeea292-b436-4767-8988-4563b5dab921": {
+      "at": [
+        136.555,
+        139.435,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "LED_SMD:LED_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.7875,
+            0,
+            0
+          ],
+          "net": "GND",
+          "uuid": "e2b2996a-afbd-4e6d-bc75-379471318262"
+        },
+        "2": {
+          "at": [
+            0.7875,
+            0,
+            0
+          ],
+          "net": "Net-(D1-A)",
+          "uuid": "acca58a4-2970-41e0-8e92-c9e3dcf59044"
+        }
+      },
+      "path": "/730dc923-5f42-5190-a58b-2dbed3a5d5b0",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Light emitting diode",
+        "KiLib_Generator": "SMD_2terminal_chip_molded"
+      },
+      "reference": "D1",
+      "value": "Green"
+    }
+  },
+  "forms_seen": [
+    "embedded_fonts",
+    "footprint",
+    "general",
+    "generator",
+    "generator_version",
+    "gr_rect",
+    "layers",
+    "paper",
+    "setup",
+    "version"
+  ],
+  "graphics": {
+    "a5b1ad8e-bbc5-5be3-810f-1b4356774158": {
+      "class": "gr_rect",
+      "text": "(gr_rect (start 100 100) (end 140 125) (stroke (width 0.05) (type default)) (fill no) (layer \"Edge.Cuts\"))"
+    }
+  },
+  "segments": {},
+  "vias": {},
+  "zones": {}
+}

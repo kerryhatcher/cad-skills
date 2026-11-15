@@ -1,0 +1,1 @@
+RUN ngspice -v

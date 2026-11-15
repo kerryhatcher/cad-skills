@@ -1,0 +1,32 @@
+{
+  "expected": 3,
+  "missing": [
+    {
+      "after": "\"Resistor_SMD:R_0805_2012Metric\"",
+      "before": "\"Resistor_SMD:R_0603_1608Metric\"",
+      "class": "footprint",
+      "field": "lib_id",
+      "ident": "R1",
+      "op": "changed"
+    },
+    {
+      "after": "[-0.9125, 0, 0]",
+      "before": "[-0.825, 0, 0]",
+      "class": "pad",
+      "field": "at",
+      "ident": "R1.1",
+      "op": "changed"
+    },
+    {
+      "after": "[0.9125, 0, 0]",
+      "before": "[0.825, 0, 0]",
+      "class": "pad",
+      "field": "at",
+      "ident": "R1.2",
+      "op": "changed"
+    }
+  ],
+  "observed": 0,
+  "status": "different",
+  "unexpected": []
+}

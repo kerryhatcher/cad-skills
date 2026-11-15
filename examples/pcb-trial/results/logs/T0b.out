@@ -1,0 +1,117 @@
+[1/2] STEP 1/1: FROM ghcr.io/astral-sh/uv@sha256:e85be844203885286c60ffad8a858d48afb6c5a5c237ca0e67f12e74b8f174b1 AS uv
+--> ee2b4db50bca
+[2/2] STEP 1/6: FROM ghcr.io/inti-cmnb/kicad10_auto_full@sha256:96e75f885b15617c6b38aef11db7856a93f4367cab7a0b6c2b30465557619330
+[2/2] STEP 2/6: COPY --from=uv /uv /usr/local/bin/uv
+--> Using cache 5a445339421b8c398e56fed5384c9b949ace78b69fd5fd2fe146be4ffd943925
+--> 5a445339421b
+[2/2] STEP 3/6: RUN apt-get update && apt-get install -y --no-install-recommends ngspice=44.2+ds-1 && rm -rf /var/lib/apt/lists/*
+Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+Get:4 http://deb.debian.org/debian trixie/contrib amd64 Packages [53.9 kB]
+Get:5 http://deb.debian.org/debian trixie/non-free amd64 Packages [100 kB]
+Get:6 http://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
+Get:7 http://deb.debian.org/debian trixie-updates/main amd64 Packages [1108 B]
+Get:8 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [303 kB]
+Get:9 http://deb.debian.org/debian-security trixie-security/contrib amd64 Packages [3152 B]
+Get:10 https://ppa.launchpadcontent.net/kicad/kicad-10.0-nightly/ubuntu questing InRelease [20.0 kB]
+Ign:10 https://ppa.launchpadcontent.net/kicad/kicad-10.0-nightly/ubuntu questing InRelease
+Get:11 https://ppa.launchpadcontent.net/kicad/kicad-10.0-releases/ubuntu questing InRelease [20.0 kB]
+Ign:11 https://ppa.launchpadcontent.net/kicad/kicad-10.0-releases/ubuntu questing InRelease
+Get:12 https://ppa.launchpadcontent.net/kicad/kicad-10.0-nightly/ubuntu questing/main amd64 Packages [2180 B]
+Get:13 https://ppa.launchpadcontent.net/kicad/kicad-10.0-releases/ubuntu questing/main amd64 Packages [4008 B]
+Fetched 10.4 MB in 1s (10.4 MB/s)
+Reading package lists...
+W: OpenPGP signature verification failed: https://ppa.launchpadcontent.net/kicad/kicad-10.0-nightly/ubuntu questing InRelease: Sub-process /usr/bin/sqv returned an error code (1), error message is: Missing key FDA854F61C4D0D9572BB95E5245D5502FAD7A805, which is needed to verify signature.
+W: OpenPGP signature verification failed: https://ppa.launchpadcontent.net/kicad/kicad-10.0-releases/ubuntu questing InRelease: Sub-process /usr/bin/sqv returned an error code (1), error message is: Missing key FDA854F61C4D0D9572BB95E5245D5502FAD7A805, which is needed to verify signature.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Suggested packages:
+  ngspice-doc
+The following NEW packages will be installed:
+  ngspice
+0 upgraded, 1 newly installed, 0 to remove and 164 not upgraded.
+Need to get 4227 kB of archives.
+After this operation, 29.7 MB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian trixie/main amd64 ngspice amd64 44.2+ds-1 [4227 kB]
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+debconf: unable to initialize frontend: Teletype
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Noninteractive
+Fetched 4227 kB in 0s (27.1 MB/s)
+Selecting previously unselected package ngspice.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 57671 files and directories currently installed.)
+Preparing to unpack .../ngspice_44.2+ds-1_amd64.deb ...
+Unpacking ngspice (44.2+ds-1) ...
+Setting up ngspice (44.2+ds-1) ...
+--> b2731833711a
+[2/2] STEP 4/6: COPY requirements.lock /opt/trial/requirements.lock
+--> 4b2f2d4b9ac1
+[2/2] STEP 5/6: RUN uv venv --python /usr/bin/python3 --system-site-packages /opt/trial-venv
+Using CPython 3.13.5 interpreter at: /usr/bin/python3
+Creating virtual environment at: /opt/trial-venv
+--> a6e352d28728
+[2/2] STEP 6/6: RUN uv pip sync --python /opt/trial-venv/bin/python --require-hashes /opt/trial/requirements.lock
+Using Python 3.13.5 environment at: /opt/trial-venv
+Resolved 29 packages in 224ms
+Downloading pygments (1.2MiB)
+Downloading numpy (15.9MiB)
+Downloading pillow (6.8MiB)
+Downloading h5py (5.2MiB)
+Downloading kiwisolver (1.4MiB)
+Downloading fonttools (5.2MiB)
+Downloading matplotlib (9.4MiB)
+   Building kinet2pcb==1.1.4
+   Building hierplace==1.1.0
+ Downloaded pygments
+ Downloaded kiwisolver
+   Building skidl==3.0.0
+ Downloaded h5py
+ Downloaded fonttools
+ Downloaded pillow
+      Built hierplace==1.1.0
+ Downloaded matplotlib
+ Downloaded numpy
+      Built kinet2pcb==1.1.4
+      Built skidl==3.0.0
+Prepared 29 packages in 2.23s
+Installed 29 packages in 28ms
+ + cffi==2.1.1
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + deprecation==2.1.0
+ + diskcache==5.6.3
+ + fonttools==4.68.0
+ + graphviz==0.21
+ + h5py==3.16.0
+ + hierplace==1.1.0
+ + inspice==1.7.0.7
+ + kinet2pcb==1.1.4
+ + kiwisolver==1.5.1
+ + markdown-it-py==4.3.0
+ + matplotlib==3.11.2
+ + mdurl==0.1.2
+ + numpy==2.5.4
+ + packaging==26.3
+ + pillow==13.0.0
+ + ply==3.11
+ + pycparser==3.12
+ + pygments==2.21.0
+ + pyparsing==3.3.3
+ + python-dateutil==4.0.0
+ + pyyaml==6.0.3
+ + rich==15.0.0
+ + schematizer==0.2.0
+ + simp-sexp==0.3.2
+ + skidl==3.0.0
+ + tzdata==2026.6
+[2/2] COMMIT localhost/cad-skills-trial:b5
+--> d881df4ef3e2
+Successfully tagged localhost/cad-skills-trial:b5
+d881df4ef3e2ec76995f4070596550db118b23e7f6db9017f09a418c44c4b1c2

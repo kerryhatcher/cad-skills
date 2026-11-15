@@ -1,0 +1,2 @@
+Installed 6 packages in 11ms
+facts 26 pages 1

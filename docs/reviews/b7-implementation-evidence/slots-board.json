@@ -1,0 +1,21 @@
+{
+  "classes": {
+    "npth": {
+      "extra_in_export": [],
+      "matched": [
+        "pad MH2."
+      ],
+      "missing_in_export": [],
+      "near_circular": [],
+      "status": "pass"
+    },
+    "pth": {
+      "extra_in_export": [],
+      "matched": [],
+      "missing_in_export": [],
+      "near_circular": [],
+      "status": "pass"
+    }
+  },
+  "tolerance_nm": 501
+}

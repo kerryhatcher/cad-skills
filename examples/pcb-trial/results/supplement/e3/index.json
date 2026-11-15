@@ -1,0 +1,347 @@
+[
+  {
+    "run": "vz_none",
+    "source": "saved board of the via/zone/arc test, schematic = native schematic (matching source)",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "via_dangling",
+      "track_dangling"
+    ],
+    "unconnected_items": 8,
+    "parity": [],
+    "hashes": {
+      "trial.kicad_pcb": "b47ed208e6d09d3bff65609546ccd0cd105623dd955fd7aeb07dac3812605d78",
+      "trial.kicad_sch": "a07579562689394465aea162c87d6a4d00d241162579c584d83b78bfa8e6fd98"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "vz_value",
+    "source": "as vz_none, edit: R2 value 22k",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "via_dangling",
+      "track_dangling"
+    ],
+    "unconnected_items": 8,
+    "parity": [],
+    "hashes": {
+      "trial.kicad_pcb": "197d73b3702fdd47eadfbc2816724c107d704c089aaa61a6ff7065359829ff41",
+      "trial.kicad_sch": "d153341985d619e9cc9d36e29c4ccbf9c74e2b735f6111ebe143669f4d5df605"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "u2same_A",
+    "source": "U2 same-source board A, schematic = SKiDL run g (matching source)",
+    "kicad_cli_exit": 5,
+    "violations": [],
+    "unconnected_items": 6,
+    "parity": [
+      {
+        "type": "net_conflict",
+        "description": "Pad net (Net-(C1-Pad1)) doesn't match net given by schematic (N_RC)",
+        "items": [
+          "Pad 1 [Net-(C1-Pad1)] of C1 on F.Cu"
+        ]
+      },
+      {
+        "type": "net_conflict",
+        "description": "Pad net (Net-(D1-A)) doesn't match net given by schematic (N_LED)",
+        "items": [
+          "Pad 2 [Net-(D1-A)] of D1 on F.Cu"
+        ]
+      },
+      {
+        "type": "net_conflict",
+        "description": "Pad net (Net-(D1-A)) doesn't match net given by schematic (N_LED)",
+        "items": [
+          "Pad 2 [Net-(D1-A)] of R1 on F.Cu"
+        ]
+      },
+      {
+        "type": "net_conflict",
+        "description": "Pad net (Net-(C1-Pad1)) doesn't match net given by schematic (N_RC)",
+        "items": [
+          "Pad 2 [Net-(C1-Pad1)] of R2 on F.Cu"
+        ]
+      }
+    ],
+    "hashes": {
+      "trial.kicad_pcb": "c23688be0772596b4ba2b88ac7e2055804fbbb6b578229113e83aa9105726209",
+      "trial.kicad_sch": "9df067602bd3609accb6a84e17ba6e55c183480f6f34423ae7130a02a253c312"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "u2same_B",
+    "source": "U2 same-source board B, schematic = SKiDL run h (matching source)",
+    "kicad_cli_exit": 5,
+    "violations": [],
+    "unconnected_items": 5,
+    "parity": [
+      {
+        "type": "net_conflict",
+        "description": "Pad net (Net-(D1-A)) doesn't match net given by schematic (N_LED)",
+        "items": [
+          "Pad 2 [Net-(D1-A)] of D1 on F.Cu"
+        ]
+      },
+      {
+        "type": "net_conflict",
+        "description": "Pad net (Net-(D1-A)) doesn't match net given by schematic (N_LED)",
+        "items": [
+          "Pad 2 [Net-(D1-A)] of R1 on F.Cu"
+        ]
+      },
+      {
+        "type": "net_conflict",
+        "description": "Pad net (unconnected-(R2-Pad1)) doesn't match net given by schematic (N_RC)",
+        "items": [
+          "Pad 1 [unconnected-(R2-Pad1)] of R2 on F.Cu"
+        ]
+      },
+      {
+        "type": "net_conflict",
+        "description": "Pad net (unconnected-(R2-Pad2)) doesn't match net given by schematic (N_RC)",
+        "items": [
+          "Pad 2 [unconnected-(R2-Pad2)] of R2 on F.Cu"
+        ]
+      }
+    ],
+    "hashes": {
+      "trial.kicad_pcb": "8df2f693f35f7e340859ebe508092e5481f4b096985ab3af31b3dd553e85091c",
+      "trial.kicad_sch": "d557318d1dcbade8790472ba2120941b025f90cab7bfeeb8da5f2dd844886cf0"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "diag_u3a",
+    "source": "U3 state A (netlist run g on an empty board). Schematic = SKiDL run g. Expected parity: none",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "invalid_outline",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper"
+    ],
+    "unconnected_items": 6,
+    "parity": [],
+    "hashes": {
+      "trial.kicad_pcb": "ab7a5459f8ff0cbe34c89420773b7725d5c06348425c80abecb9e84d696c2b10",
+      "trial.kicad_sch": "9df067602bd3609accb6a84e17ba6e55c183480f6f34423ae7130a02a253c312"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "diag_u3b",
+    "source": "U3 state B (netlist run h = same bytes as g). Schematic = run g. Expected parity: none",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "invalid_outline",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper"
+    ],
+    "unconnected_items": 6,
+    "parity": [],
+    "hashes": {
+      "trial.kicad_pcb": "ab7a5459f8ff0cbe34c89420773b7725d5c06348425c80abecb9e84d696c2b10",
+      "trial.kicad_sch": "9df067602bd3609accb6a84e17ba6e55c183480f6f34423ae7130a02a253c312"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "diag_u3b_h",
+    "source": "U3 state B with the literal source schematic of run h (wrong wiring in the SKiDL schematic)",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "invalid_outline",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper"
+    ],
+    "unconnected_items": 6,
+    "parity": [
+      {
+        "type": "net_conflict",
+        "description": "Pad net (VIN) doesn't match net given by schematic (N_RC)",
+        "items": [
+          "PTH pad 1 [VIN] of J1"
+        ]
+      },
+      {
+        "type": "net_conflict",
+        "description": "Pad net (VIN) doesn't match net given by schematic (N_RC)",
+        "items": [
+          "Pad 1 [VIN] of R1 on F.Cu"
+        ]
+      },
+      {
+        "type": "net_conflict",
+        "description": "Pad net (VIN) doesn't match net given by schematic (N_RC)",
+        "items": [
+          "Pad 1 [VIN] of R2 on F.Cu"
+        ]
+      }
+    ],
+    "hashes": {
+      "trial.kicad_pcb": "ab7a5459f8ff0cbe34c89420773b7725d5c06348425c80abecb9e84d696c2b10",
+      "trial.kicad_sch": "d557318d1dcbade8790472ba2120941b025f90cab7bfeeb8da5f2dd844886cf0"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "diag_u3c",
+    "source": "U3 sentinel state C. Schematic = run g. Expected: one extra footprint C2, no pad nets",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "solder_mask_bridge",
+      "solder_mask_bridge",
+      "invalid_outline",
+      "courtyards_overlap",
+      "clearance",
+      "clearance",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper"
+    ],
+    "unconnected_items": 6,
+    "parity": [
+      {
+        "type": "extra_footprint",
+        "description": "Extra footprint",
+        "items": [
+          "Footprint C2"
+        ]
+      }
+    ],
+    "hashes": {
+      "trial.kicad_pcb": "902bb900dc947bdcd061acabe502dfd2503018e120a95b2011a2b0214b289338",
+      "trial.kicad_sch": "9df067602bd3609accb6a84e17ba6e55c183480f6f34423ae7130a02a253c312"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "diag_u3f",
+    "source": "U3 restore with delete on (F). Expected parity: none",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "invalid_outline",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper"
+    ],
+    "unconnected_items": 6,
+    "parity": [],
+    "hashes": {
+      "trial.kicad_pcb": "ab7a5459f8ff0cbe34c89420773b7725d5c06348425c80abecb9e84d696c2b10",
+      "trial.kicad_sch": "9df067602bd3609accb6a84e17ba6e55c183480f6f34423ae7130a02a253c312"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "diag_u3g",
+    "source": "U3 default restore (G). Expected: one extra footprint C2 (path null)",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "solder_mask_bridge",
+      "solder_mask_bridge",
+      "invalid_outline",
+      "courtyards_overlap",
+      "clearance",
+      "clearance",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper",
+      "silk_over_copper"
+    ],
+    "unconnected_items": 6,
+    "parity": [
+      {
+        "type": "extra_footprint",
+        "description": "Extra footprint",
+        "items": [
+          "Footprint C2"
+        ]
+      }
+    ],
+    "hashes": {
+      "trial.kicad_pcb": "ab714c6f3e99dd73bd2d8b676ac4d576a19fd32e9b0502ecea4bdbd13feebcfc",
+      "trial.kicad_sch": "9df067602bd3609accb6a84e17ba6e55c183480f6f34423ae7130a02a253c312"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "lp_removed1_delete_off",
+    "source": "D1 removal, delete OFF. Schematic = native schematic without D1",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "lib_footprint_mismatch"
+    ],
+    "unconnected_items": 2,
+    "parity": [
+      {
+        "type": "extra_footprint",
+        "description": "Extra footprint",
+        "items": [
+          "Footprint D1"
+        ]
+      }
+    ],
+    "hashes": {
+      "trial.kicad_pcb": "6a00cd5d5d7b77c001722932a3da99bec1218aa898dd5e1157cce6c5278f30d4",
+      "trial.kicad_sch": "b447093e59b689d3fd7ea4f9d2924ef308236eb7c7dbce62d7d2debf7473d181"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "lp_readd_d1",
+    "source": "remove then re-add D1. Schematic = native schematic",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "track_dangling"
+    ],
+    "unconnected_items": 3,
+    "parity": [],
+    "hashes": {
+      "trial.kicad_pcb": "8d7851cdb419b290a5100a2df6803ba4a26d93da42df14dbd7ca5e842af143d0",
+      "trial.kicad_sch": "a07579562689394465aea162c87d6a4d00d241162579c584d83b78bfa8e6fd98"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  },
+  {
+    "run": "lp_sheet_r2",
+    "source": "R2 moved to sub-sheet. Schematics = trial.kicad_sch and sub.kicad_sch",
+    "kicad_cli_exit": 5,
+    "violations": [
+      "lib_footprint_mismatch"
+    ],
+    "unconnected_items": 4,
+    "parity": [
+      {
+        "type": "duplicate_footprints",
+        "description": "Duplicate footprints",
+        "items": [
+          "Footprint R2",
+          "Footprint R2"
+        ]
+      }
+    ],
+    "hashes": {
+      "trial.kicad_pcb": "257a7166a0431f23132066577e65ad64f00e08f43f24ec541985ef64fdfa3537",
+      "sub.kicad_sch": "b4f13ed1f4a211e1c109b508e52eea9b9e24173534cbbd05774d2dd55293b582",
+      "trial.kicad_sch": "0db999bcaa705ef0c66c402fc4ef1b3af4e68bbddada56b4a2224df6ce985856"
+    },
+    "command": "kicad-cli pcb drc --schematic-parity --exit-code-violations --severity-all --format json (scripts/diag_drc.sh, step DIAG_drc_186)"
+  }
+]

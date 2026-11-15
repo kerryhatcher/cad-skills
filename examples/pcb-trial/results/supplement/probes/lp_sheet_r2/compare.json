@@ -1,0 +1,27 @@
+{
+  "expected": 0,
+  "missing": [],
+  "observed": 2,
+  "status": "different",
+  "unexpected": [
+    {
+      "class": "footprint",
+      "ident": "R2",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "op": "added",
+      "pad_nets": {
+        "1": "/VIN",
+        "2": "/N_RC"
+      },
+      "value": "10k"
+    },
+    {
+      "after": "null",
+      "before": "\"/f370ddd7-a092-5fac-ad18-4f36d331793a\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "R2",
+      "op": "changed"
+    }
+  ]
+}

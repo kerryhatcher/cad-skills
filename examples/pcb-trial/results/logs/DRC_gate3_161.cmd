@@ -1,0 +1,1 @@
+RUN sh scripts/drc_boards.sh out/drc_gate3 gate3_none gate3_reorder gate3_value gate3_addc2 gate3_removed1 gate3_fpr1 gate3_fpr1_replace_off

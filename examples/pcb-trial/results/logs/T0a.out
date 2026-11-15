@@ -1,0 +1,2 @@
+error: Failed to discover managed Python installations
+  Caused by: Failed to find any common binaries to determine libc from: /bin/sh, /usr/bin/env, /bin/dash, /bin/ls

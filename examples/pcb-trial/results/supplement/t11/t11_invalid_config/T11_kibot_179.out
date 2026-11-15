@@ -1,0 +1,4 @@
+CI/CD environment detected
+WARNING:(W181) Unable to map the SCH file to an UUID (kibot - kiplot.py:325)
+- '' (gerbers) [gerber]
+ERROR:In section 'drill' (excellon): Option `map` must be any of ['hpgl', 'ps', 'gerber', 'dxf', 'svg', 'pdf', 'None'] not `none` (kibot.gs - gs.py:935)

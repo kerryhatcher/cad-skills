@@ -1,0 +1,25 @@
+{
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "check_id": "fab.export_inventory",
+  "status": "pass",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "ce5e0f3bd6a68b69ffe3a4982f3d88e66d828e8c5570bcc1bba00d63850c1973"
+    },
+    {
+      "path": "manufacturing/export.yaml",
+      "sha256": "4963eecfe98e038ff6fea73db91bb0f90879a356d6e876368e4b465445ddcc7a"
+    }
+  ],
+  "artifact": {
+    "path": "reports/fab.export_inventory.json",
+    "sha256": "bf942736d7cbce862400589005d82c3bb6bd5c78baf860daae284ad1de1b2279"
+  },
+  "method": "tool",
+  "tool": {
+    "name": "check_exports.py",
+    "version": "b5-trial"
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "case": "duplicate_key",
+    "result": "assertion.malformed, exit 1"
+  },
+  {
+    "case": "newline_measurement",
+    "result": "assertion.malformed, exit 1"
+  },
+  {
+    "case": "large_integer",
+    "result": "assertion.malformed, exit 1"
+  }
+]

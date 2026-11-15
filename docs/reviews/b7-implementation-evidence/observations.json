@@ -1,0 +1,233 @@
+{
+  "schema_id": "pcb-fab-package/source-observations",
+  "schema_version": 1,
+  "release_id": "trial-1",
+  "profile_sha256": "9f2da9b0e01dff82c3864b77297d32598c55040f3b7261c3e4423b4f81762690",
+  "pages": [
+    {
+      "page_id": "two-layer",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "stored_path": "supplier/pages/two-layer.html",
+      "stored_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+      "live_path": "out/fab/source-review/live/two-layer.html",
+      "live_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+      "retrieved": "2026-11-14"
+    }
+  ],
+  "observations": [
+    {
+      "key": "board_max_height",
+      "observed_value": 22,
+      "observed_unit": "in",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "board_max_width",
+      "observed_value": 16,
+      "observed_unit": "in",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "board_min_edge",
+      "observed_value": 0.25,
+      "observed_unit": "in",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "edge_keepout",
+      "observed_value": 15,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "mask_web_min",
+      "observed_value": 4,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "min_annular_ring",
+      "observed_value": 5,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "min_drill",
+      "observed_value": 10,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "min_slot_size",
+      "observed_value": 20,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "min_space",
+      "observed_value": 6,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "min_trace",
+      "observed_value": 6,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "overlapping_drill_clearance",
+      "observed_value": 5,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "silk_line_min_short_text",
+      "observed_value": 3,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "silk_line_recommended",
+      "observed_value": 5,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "service.layers",
+      "observed_value": 2,
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "service.order_multiple",
+      "observed_value": 3,
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "service.copper",
+      "observed_value": "1 oz",
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "service.substrate",
+      "observed_value": "175Tg FR4 (Kingboard KB6167F)",
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "service.finished_thickness_source",
+      "observed_value": 63,
+      "observed_unit": "mil",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "service.finished_thickness_display_mm",
+      "observed_value": 1.6,
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "service.via_construction_prohibited",
+      "observed_value": [
+        "blind",
+        "buried",
+        "filled_plated_via_in_pad"
+      ],
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "process.mask_alignment_max_mil",
+      "observed_value": 3,
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "process.drill_size_tolerance_max_mil",
+      "observed_value": 2.5,
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "process.drill_size_tolerance_typical_mil",
+      "observed_value": 1.0,
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "process.drill_position_tolerance_max_mil",
+      "observed_value": 2,
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "process.drill_position_tolerance_typical",
+      "observed_value": "less than 1 mil",
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    },
+    {
+      "key": "notes.max_drill",
+      "observed_value": "Maximum Drill Size None; above 250mil larger milling tolerances. Process note, not a limit.",
+      "observed_unit": "",
+      "observed_condition": "service page statement",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "reviewer_reading": "read from the stored page"
+    }
+  ],
+  "reviewer": "R. Reviewer",
+  "statement": "Read from the stored supplier page."
+}

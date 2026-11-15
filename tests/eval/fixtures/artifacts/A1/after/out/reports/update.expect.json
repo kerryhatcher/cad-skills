@@ -1,0 +1,12 @@
+{
+  "differences": [
+    {
+      "after": "20k",
+      "before": "10k",
+      "class": "footprint",
+      "field": "value",
+      "ident": "R2",
+      "op": "changed"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+{"exit": 0, "result": "pass"}
+{"exit": 0, "tolerance_nm": 501}

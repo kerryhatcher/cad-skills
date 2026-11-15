@@ -1,0 +1,1 @@
+sh -c uv run contracts/validate.py --project examples/pcb-trial/results/final_r2/draft_parent/project --package examples/pcb-trial/results/final_r2/draft_parent/package --json > examples/pcb-trial/results/final_r2/draft_parent/validate_report.json

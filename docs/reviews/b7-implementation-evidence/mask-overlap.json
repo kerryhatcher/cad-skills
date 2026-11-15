@@ -1,0 +1,9 @@
+{
+  "error_bound_basis": "derived from 6-decimal Gerber coordinates, not measured",
+  "error_bound_mm": 3e-06,
+  "exit": 2,
+  "gerber_sha256": "10948509a4a7fb69db11924fb90da30712fffe68cfb4b074458ace56c3879be7",
+  "limit_mil": 4.0,
+  "limit_mm": 0.1016,
+  "unsupported": "overlapping cluster: objects 0 and 1 overlap by 0.100000 mm"
+}

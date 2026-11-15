@@ -181,7 +181,7 @@ result = (
 ## Import and export
 
 ```python
-# notest
+# notest: reads and writes a DXF file that the example does not make
 s = cq.Sketch().importDXF("profile.dxf", tol=1e-6)   # DXF -> sketch faces
 s.export("profile.dxf")                               # also .svg / .step ...
 ```

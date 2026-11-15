@@ -1,0 +1,119 @@
+{
+  "expected": 0,
+  "missing": [],
+  "observed": 12,
+  "status": "different",
+  "unexpected": [
+    {
+      "after": "null",
+      "before": "\"/698b6cb8-f1ed-5be2-8785-fc2ba0af67df\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "MH2",
+      "op": "changed"
+    },
+    {
+      "after": "null",
+      "before": "\"/71927b8f-6adc-5bdb-9cba-83dad0114310\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "C1",
+      "op": "changed"
+    },
+    {
+      "class": "footprint",
+      "ident": "C1",
+      "lib_id": "Capacitor_SMD:C_0603_1608Metric",
+      "op": "added",
+      "pad_nets": {
+        "1": "N_RC",
+        "2": "N_LED"
+      },
+      "value": "100n"
+    },
+    {
+      "after": "null",
+      "before": "\"/fa74369b-3d7b-5819-8d60-765fc9b7e2b0\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "J1",
+      "op": "changed"
+    },
+    {
+      "after": "null",
+      "before": "\"/ca407196-c3e8-5fc0-b85c-f32de932b957\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "D1",
+      "op": "changed"
+    },
+    {
+      "class": "footprint",
+      "ident": "R1",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "op": "added",
+      "pad_nets": {
+        "1": "VIN",
+        "2": "Net-(D1-A)"
+      },
+      "value": "1k"
+    },
+    {
+      "after": "null",
+      "before": "\"/37ce133d-d933-5b39-b491-574cf2d6ec40\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "MH1",
+      "op": "changed"
+    },
+    {
+      "after": "null",
+      "before": "\"/ae753bad-44a9-5d7a-bf97-fe4a1ffbee4b\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "R1",
+      "op": "changed"
+    },
+    {
+      "class": "footprint",
+      "ident": "J1",
+      "lib_id": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "op": "added",
+      "pad_nets": {
+        "1": "VIN",
+        "2": "N_LED"
+      },
+      "value": "Power"
+    },
+    {
+      "class": "footprint",
+      "ident": "D1",
+      "lib_id": "LED_SMD:LED_0603_1608Metric",
+      "op": "added",
+      "pad_nets": {
+        "1": "N_LED",
+        "2": "Net-(D1-A)"
+      },
+      "value": "Green"
+    },
+    {
+      "after": "null",
+      "before": "\"/f370ddd7-a092-5fac-ad18-4f36d331793a\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "R2",
+      "op": "changed"
+    },
+    {
+      "class": "footprint",
+      "ident": "R2",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "op": "added",
+      "pad_nets": {
+        "1": "VIN",
+        "2": "unconnected-(R2-Pad2)"
+      },
+      "value": "10k"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "angle_tolerance_deg": 0.1,
+  "aux_axis_origin_kicad_mm": {
+    "x": 103.7,
+    "y": 118.2
+  },
+  "board_revision": "B11-A",
+  "connector_frames": [
+    {
+      "id": "CN1",
+      "insertion_depth_mm": 4.0,
+      "rotation_deg": 0,
+      "side": "top",
+      "x": 160.0,
+      "y": 112.0
+    }
+  ],
+  "dimension_owners": {
+    "connector_frames": "mechanical",
+    "height_limits": "mechanical",
+    "holes": "mechanical",
+    "outline": "mechanical",
+    "thickness": "mechanical"
+  },
+  "electrical_release_id": "b11-electrical-input-r1",
+  "enclosure": {
+    "clearance_mm": 0.5,
+    "wall": "outline offset by clearance, chamfer included"
+  },
+  "finished_envelope": {
+    "bottom_surface_z_mm": -0.045,
+    "label": "FINISHED BOARD ENVELOPE",
+    "stackup_source": "fixture-source.json",
+    "top_surface_z_mm": 1.555,
+    "z_origin_mm": 0
+  },
+  "fixture_id": "mech-fit-a",
+  "geometry_tolerance_mm": 0.01,
+  "height_limits_mm": {
+    "bottom_mm": 4.0,
+    "top_mm": 10.0
+  },
+  "holes": [
+    {
+      "diameter_mm": 3.2,
+      "id": "H1",
+      "plated": false,
+      "x": 110.0,
+      "y": 130.0
+    },
+    {
+      "diameter_mm": 2.5,
+      "id": "H2",
+      "plated": false,
+      "x": 152.5,
+      "y": 103.5
+    },
+    {
+      "diameter_mm": 3.0,
+      "id": "H3",
+      "plated": true,
+      "x": 118.0,
+      "y": 106.0
+    }
+  ],
+  "outline_kicad_mm": [
+    [
+      100,
+      100
+    ],
+    [
+      160,
+      100
+    ],
+    [
+      160,
+      136
+    ],
+    [
+      106,
+      136
+    ],
+    [
+      100,
+      130
+    ]
+  ],
+  "parts": [
+    {
+      "envelope_mm": {
+        "x": 8.0,
+        "y": 4.0,
+        "z": 2.8
+      },
+      "kicad_center_mm": {
+        "x": 130.0,
+        "y": 120.0
+      },
+      "placement_source": "fixture-source.json parts (section 4 of the accepted interface)",
+      "ref": "B1",
+      "rotation_deg": 90,
+      "side": "bottom"
+    }
+  ],
+  "release_id": "b11-mech-fit-a-r1",
+  "stackup": {
+    "copper_bottom_mm": 0.035,
+    "copper_top_mm": 0.035,
+    "core_mm": 1.51,
+    "mask_bottom_mm": 0.01,
+    "mask_top_mm": 0.01,
+    "thickness_mm": 1.6
+  },
+  "target_origin_mm": {
+    "x": 0,
+    "y": 0
+  },
+  "test_variants": {
+    "CN2": {
+      "id": "CN2",
+      "insertion_depth_mm": 4.0,
+      "kicad_center_mm": {
+        "x": 150.0,
+        "y": 128.0
+      },
+      "placement_source": "fixture-source.json test_variants (Q7 bounded trial geometry, section 9.3)",
+      "rotation_deg": 30,
+      "side": "bottom"
+    },
+    "release_allowed": false,
+    "test_only": true
+  }
+}

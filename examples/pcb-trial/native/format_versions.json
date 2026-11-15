@@ -1,0 +1,6 @@
+{
+  "generator": "cad_skills_trial_native",
+  "schematic_version": 20260306,
+  "pcb_version": 20260206,
+  "evidence": "kicad-cli sch upgrade --force and pcb upgrade --force on a stub, KiCad 10.0.5"
+}

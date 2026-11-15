@@ -1,0 +1,45 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1150 >>
+stream
+0.5 w 50.00 420.00 160.00 100.00 re S
+BT /F1 14 Tf 50 780.00 Td (FABRICATION DRAWING) Tj ET
+BT /F1 11 Tf 50 758.00 Td (Release: design-run) Tj ET
+BT /F1 11 Tf 50 739.00 Td (Units: mm) Tj ET
+BT /F1 11 Tf 50 720.00 Td (Overall size: 40.000 mm x 25.000 mm) Tj ET
+BT /F1 11 Tf 50 701.00 Td (Holes: 6 \(diameters mm: 0.3, 1.0, 3.2\)) Tj ET
+BT /F1 11 Tf 50 682.00 Td (Copper layers: F.Cu, B.Cu; stackup: 2-layer) Tj ET
+BT /F1 11 Tf 50 663.00 Td (Profile: oshpark-two-layer \(source: stored supplier page\)) Tj ET
+BT /F1 11 Tf 50 644.00 Td (Process: min trace 6 mil, min space 6 mil, min drill 10 mil, mask web min 4 mil) Tj ET
+BT /F1 11 Tf 50 625.00 Td (Substrate: 175Tg FR4 \(Kingboard KB6167F\); finished thickness 1.6 mm; copper 1 oz) Tj ET
+BT /F1 9 Tf 50 606.00 Td (Board SHA-256: befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f) Tj ET
+BT /F1 9 Tf 50 589.00 Td (Profile SHA-256: e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9) Tj ET
+BT /F1 9 Tf 50 572.00 Td (Facts SHA-256: 01c135b8e378ec7c561bfc9f45b52c5ed4eb771473ce8aea57748aee93747b48) Tj ET
+BT /F1 9 Tf 50.00 406.00 Td (Outline drawn to scale: 4 pt per mm) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001443 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1513
+%%EOF

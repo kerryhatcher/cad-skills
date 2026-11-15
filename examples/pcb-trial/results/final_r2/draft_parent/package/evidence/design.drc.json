@@ -1,0 +1,21 @@
+{
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "check_id": "design.drc",
+  "status": "pass",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "56f794242345dd3950d5bd066bea6f2a1d1740c5adfc7152651667210297bd94"
+    }
+  ],
+  "artifact": {
+    "path": "reports/design.drc.json",
+    "sha256": "0010f445fb496ce078b0e1f5fe444e3b6e1add8b2566ed0c315a0d9055994014"
+  },
+  "method": "tool",
+  "tool": {
+    "name": "kicad-cli",
+    "version": "10.0.5"
+  }
+}

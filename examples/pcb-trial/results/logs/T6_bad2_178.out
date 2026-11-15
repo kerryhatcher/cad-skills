@@ -1,0 +1,18 @@
+/opt/trial-venv/lib/python3.13/site-packages/skidl/utilities.py:585: SyntaxWarning: invalid escape sequence '\s'
+  >>> split_unquoted('\s+', 'hello world "foo bar" test')
+WARNING: KICAD6_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD8_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD9_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD7_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+ERC WARNING: No pins attached to net N_LED.
+ERC WARNING: No drivers for net N_LED.
+ERC WARNING: Unconnected pin: PASSIVE pin 2/ of R/R1.
+ERC WARNING: Unconnected pin: PASSIVE pin 2/A of LED/D1.
+ERC INFO: 4 warnings found while running ERC.
+ERC INFO: 0 errors found while running ERC.
+

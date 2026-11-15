@@ -1,0 +1,1 @@
+{"exit": 2, "result": "overlapping cluster: objects 0 and 1 overlap by 0.100000 mm"}

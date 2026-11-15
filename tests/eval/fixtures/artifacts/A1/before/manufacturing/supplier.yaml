@@ -1,0 +1,64 @@
+schema_id: cad-skills/supplier-profile
+schema_version: '1.0'
+id: example-two-layer
+revision: '1'
+service: Example two-layer service
+source_url: https://example.com/services/two-layer
+retrieved: '2026-11-13'
+evidence_sha256: d31236c667d34d79c38ed5670fc887a88eb7711d7762c77e134ad4403085b8d5
+content_sha256: b37b37495cbab698f921e7b229585ea890cefd7298f3615cd15cec02bb00fb77
+units: mil
+limits:
+  min_trace:
+    kind: minimum
+    scope: fabrication
+    value_kind: number
+    value: 6
+    unit: mil
+    source_url: https://example.com/services/two-layer
+    retrieved: '2026-11-13'
+  min_drill:
+    kind: minimum
+    scope: fabrication
+    value_kind: number
+    value: 10
+    unit: mil
+    source_url: https://example.com/services/two-layer
+    retrieved: '2026-11-13'
+  silkscreen_width:
+    kind: recommendation
+    scope: fabrication
+    value_kind: text
+    value: Use the recommended width. A smaller width is conditional.
+    source_url: https://example.com/services/two-layer
+    retrieved: '2026-11-13'
+  min_pad_spacing:
+    kind: minimum
+    scope: assembly
+    value_kind: number
+    value: 8
+    unit: mil
+    source_url: https://example.com/services/assembly
+    retrieved: '2026-11-13'
+  trace_margin:
+    kind: recommendation
+    scope: margin
+    value_kind: number
+    value: 1
+    unit: mil
+    source_url: https://example.com/project/margins
+    retrieved: '2026-11-13'
+  stackup_tolerance:
+    kind: unconfirmed
+    scope: fabrication
+division:
+  kicad_dru:
+  - min_trace
+  - min_drill
+  project_settings:
+  - stackup_tolerance
+  - trace_margin
+  geometric_tests: []
+  manual_evidence:
+  - silkscreen_width
+  - min_pad_spacing

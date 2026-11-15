@@ -1,0 +1,35 @@
+{
+  "expected": 1,
+  "missing": [
+    {
+      "after": "\"C9\"",
+      "before": "\"C1\"",
+      "class": "footprint",
+      "field": "reference",
+      "ident": "C1",
+      "op": "changed"
+    }
+  ],
+  "observed": 2,
+  "status": "different",
+  "unexpected": [
+    {
+      "after": "null",
+      "before": "\"/71927b8f-6adc-5bdb-9cba-83dad0114310\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "C1",
+      "op": "changed"
+    },
+    {
+      "class": "footprint",
+      "ident": "C9",
+      "lib_id": "Capacitor_SMD:C_0603_1608Metric",
+      "op": "added",
+      "pad_nets": {
+        "1": "/N_RC",
+        "2": "/GND"
+      }
+    }
+  ]
+}

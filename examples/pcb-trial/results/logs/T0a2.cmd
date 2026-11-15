@@ -1,0 +1,1 @@
+podman run --pull=never --rm -v /tmp/claude-1000/-mnt-storage-projects-cad-skills/31456ff4-3cc5-4474-895e-358d2be1c713/scratchpad/b5/trial:/work:Z localhost/cad-skills-trial-uv:b5 uv pip compile /work/requirements.in --python /usr/bin/python3 --python-version 3.13.5 --generate-hashes --no-header -o /work/requirements.lock

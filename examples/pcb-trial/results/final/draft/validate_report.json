@@ -1,0 +1,83 @@
+{
+  "report_schema_version": "1.0",
+  "status": "pass",
+  "exit_code": 0,
+  "tool_versions": {
+    "python": "3.13.15",
+    "jsonschema": "4.26.0",
+    "pyyaml": "6.0.3"
+  },
+  "inputs": [
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/board.yaml",
+      "sha256": "0050b9c38081b7ca78d52a88e3bf7ff1eed864607696efa5de01a68cba97bffb"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/kicad/board.kicad_pcb",
+      "sha256": "ce5e0f3bd6a68b69ffe3a4982f3d88e66d828e8c5570bcc1bba00d63850c1973"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/kicad/board.kicad_sch",
+      "sha256": "a07579562689394465aea162c87d6a4d00d241162579c584d83b78bfa8e6fd98"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/variants.yaml",
+      "sha256": "dac762520decab3c79c6dee30324cee097957d8c24a27ec799230103ddab7223"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/manufacturing/supplier.yaml",
+      "sha256": "4792667b1d0ca99df781509dbc14a18cf7b3374b07a9bc813e2c7d4d6a737cf9"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/manufacturing/export.yaml",
+      "sha256": "4963eecfe98e038ff6fea73db91bb0f90879a356d6e876368e4b465445ddcc7a"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/toolchain.lock.json",
+      "sha256": "0819fffda96003d7a5934425f37e22c9cb380da947b4fb33304f2c81d9b8d442"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/mechanical/board-interface.json",
+      "sha256": "9c070e5eee735d6556c890a98f68f0815fa75590ddaa52d2311ff5cda50eadc5"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/project/manufacturing/waivers.yaml",
+      "sha256": "c37ff31f346298e1ca678d2befd7350718c6f39c6f5ea766a9c8532d27450279"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/package/manifest.json",
+      "sha256": "6e7738f2211473e9f0c7061e78513b6f00902141838895f0464f548c95057d14"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/package/evidence/design.erc.json",
+      "sha256": "cf303df7bcd436cb616c5818d2192597c1c644bdda9518318b794a764e1faf96"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/package/evidence/design.drc.json",
+      "sha256": "12cf0d08c297ba7aea27ce3d6045a925f4f7d20da42f742b86de02a5eea9cdf9"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/package/evidence/design.parity.json",
+      "sha256": "90376b59db9b6e32a5e101ed818877c07732d60de9295603586fa16726641a09"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/package/evidence/fab.profile_evidence.json",
+      "sha256": "dc211abcc6237c56e32aa8eda00521b327723b34c10b7ea5017da2ea7db81d5d"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/package/evidence/fab.export_inventory.json",
+      "sha256": "c1353da6ef9a9691c8b78474fbbfd132f449e6f271c1d25c5c4c2bf194a61c38"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/package/evidence/fab.layer_order.json",
+      "sha256": "10e0bba577cf1434ceffabfe7f90c304ada430693030c7921034665911508692"
+    },
+    {
+      "path": "examples/pcb-trial/results/final/draft/package/evidence/fab.drill_split.json",
+      "sha256": "92008bda4d945d02592be8fa79378013c6c43c4efe7b6030203a325c279dd108"
+    }
+  ],
+  "findings": [],
+  "unprocessed": [],
+  "outputs": []
+}

@@ -1,0 +1,48 @@
+{
+  "expected": 0,
+  "missing": [],
+  "observed": 5,
+  "status": "different",
+  "unexpected": [
+    {
+      "after": "\"N_RC\"",
+      "before": "\"Net-(C1-Pad1)\"",
+      "class": "pad",
+      "field": "net",
+      "ident": "C1.1",
+      "op": "changed"
+    },
+    {
+      "after": "\"N_RC\"",
+      "before": "\"VIN\"",
+      "class": "pad",
+      "field": "net",
+      "ident": "R1.1",
+      "op": "changed"
+    },
+    {
+      "after": "\"unconnected-(R2-Pad1)\"",
+      "before": "\"VIN\"",
+      "class": "pad",
+      "field": "net",
+      "ident": "R2.1",
+      "op": "changed"
+    },
+    {
+      "after": "\"unconnected-(R2-Pad2)\"",
+      "before": "\"Net-(C1-Pad1)\"",
+      "class": "pad",
+      "field": "net",
+      "ident": "R2.2",
+      "op": "changed"
+    },
+    {
+      "after": "\"N_RC\"",
+      "before": "\"VIN\"",
+      "class": "pad",
+      "field": "net",
+      "ident": "J1.1",
+      "op": "changed"
+    }
+  ]
+}

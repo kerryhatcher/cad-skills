@@ -1,0 +1,20 @@
+{
+  "empty": [],
+  "expected": [
+    "board-B_Cu.gbl",
+    "board-B_Mask.gbs",
+    "board-B_Paste.gbp",
+    "board-B_Silkscreen.gbo",
+    "board-Edge_Cuts.gm1",
+    "board-F_Cu.gtl",
+    "board-F_Fab.gbr",
+    "board-F_Mask.gts",
+    "board-F_Paste.gtp",
+    "board-F_Silkscreen.gto",
+    "board-NPTH.drl",
+    "board-PTH.drl",
+    "board-job.gbrjob"
+  ],
+  "extra": [],
+  "missing": []
+}

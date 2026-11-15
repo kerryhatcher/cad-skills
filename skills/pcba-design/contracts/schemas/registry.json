@@ -1,0 +1,65 @@
+{
+  "registry_format": "1.0",
+  "records": {
+    "cad-skills/board": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "board.schema.json"
+      }
+    },
+    "cad-skills/board-interface": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "board-interface.schema.json"
+      }
+    },
+    "cad-skills/evidence": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "evidence.schema.json"
+      }
+    },
+    "cad-skills/export-settings": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "export-settings.schema.json"
+      }
+    },
+    "cad-skills/manifest": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "manifest.schema.json"
+      }
+    },
+    "cad-skills/part": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "part.schema.json"
+      }
+    },
+    "cad-skills/supplier-profile": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "supplier-profile.schema.json"
+      }
+    },
+    "cad-skills/toolchain-lock": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "toolchain-lock.schema.json"
+      }
+    },
+    "cad-skills/variants": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "variants.schema.json"
+      }
+    },
+    "cad-skills/waivers": {
+      "latest": "1.0",
+      "schemas": {
+        "1.0": "waivers.schema.json"
+      }
+    }
+  }
+}

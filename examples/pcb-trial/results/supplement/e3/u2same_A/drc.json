@@ -1,0 +1,237 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-14T06:42:06",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.5",
+    "schematic_parity": [
+        {
+            "description": "Pad net (Net-(C1-Pad1)) doesn't match net given by schematic (N_RC)",
+            "items": [
+                {
+                    "description": "Pad 1 [Net-(C1-Pad1)] of C1 on F.Cu",
+                    "pos": {
+                        "x": 131.73,
+                        "y": 132.255
+                    },
+                    "uuid": "d3ad97cf-ad67-4291-992c-e6dd9d90dcf5"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Pad net (Net-(D1-A)) doesn't match net given by schematic (N_LED)",
+            "items": [
+                {
+                    "description": "Pad 2 [Net-(D1-A)] of D1 on F.Cu",
+                    "pos": {
+                        "x": 137.3425,
+                        "y": 139.435
+                    },
+                    "uuid": "acca58a4-2970-41e0-8e92-c9e3dcf59044"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Pad net (Net-(D1-A)) doesn't match net given by schematic (N_LED)",
+            "items": [
+                {
+                    "description": "Pad 2 [Net-(D1-A)] of R1 on F.Cu",
+                    "pos": {
+                        "x": 133.33,
+                        "y": 134.765
+                    },
+                    "uuid": "d06cb104-fa89-471a-b2bf-e93127fc126f"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        },
+        {
+            "description": "Pad net (Net-(C1-Pad1)) doesn't match net given by schematic (N_RC)",
+            "items": [
+                {
+                    "description": "Pad 2 [Net-(C1-Pad1)] of R2 on F.Cu",
+                    "pos": {
+                        "x": 133.33,
+                        "y": 137.275
+                    },
+                    "uuid": "60db2f33-9b61-4f7e-b650-34cd347d096a"
+                }
+            ],
+            "severity": "warning",
+            "type": "net_conflict"
+        }
+    ],
+    "source": "trial.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [Net-(C1-Pad1)] of C1 on F.Cu",
+                    "pos": {
+                        "x": 131.73,
+                        "y": 132.255
+                    },
+                    "uuid": "d3ad97cf-ad67-4291-992c-e6dd9d90dcf5"
+                },
+                {
+                    "description": "Pad 2 [Net-(C1-Pad1)] of R2 on F.Cu",
+                    "pos": {
+                        "x": 133.33,
+                        "y": 137.275
+                    },
+                    "uuid": "60db2f33-9b61-4f7e-b650-34cd347d096a"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [GND] of D1 on F.Cu",
+                    "pos": {
+                        "x": 135.7675,
+                        "y": 139.435
+                    },
+                    "uuid": "e2b2996a-afbd-4e6d-bc75-379471318262"
+                },
+                {
+                    "description": "PTH pad 2 [GND] of J1",
+                    "pos": {
+                        "x": 136.805,
+                        "y": 135.835
+                    },
+                    "uuid": "330d3b02-abeb-4925-96dd-844323709826"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 2 [GND] of J1",
+                    "pos": {
+                        "x": 136.805,
+                        "y": 135.835
+                    },
+                    "uuid": "330d3b02-abeb-4925-96dd-844323709826"
+                },
+                {
+                    "description": "Pad 2 [GND] of C1 on F.Cu",
+                    "pos": {
+                        "x": 133.28,
+                        "y": 132.255
+                    },
+                    "uuid": "f00bfa03-2827-4c71-bc2f-31c3e52f21a0"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [VIN] of R1 on F.Cu",
+                    "pos": {
+                        "x": 131.68,
+                        "y": 134.765
+                    },
+                    "uuid": "ee5c65c3-3603-41a3-8257-6b2faaf51e1d"
+                },
+                {
+                    "description": "Pad 1 [VIN] of R2 on F.Cu",
+                    "pos": {
+                        "x": 131.68,
+                        "y": 137.275
+                    },
+                    "uuid": "37e7d45c-ff3a-4b22-b8c0-37be91e5b0c5"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 1 [VIN] of J1",
+                    "pos": {
+                        "x": 136.805,
+                        "y": 133.295
+                    },
+                    "uuid": "1ba29de0-2165-4a04-972e-ebacd86bd6fd"
+                },
+                {
+                    "description": "Pad 1 [VIN] of R1 on F.Cu",
+                    "pos": {
+                        "x": 131.68,
+                        "y": 134.765
+                    },
+                    "uuid": "ee5c65c3-3603-41a3-8257-6b2faaf51e1d"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 2 [Net-(D1-A)] of R1 on F.Cu",
+                    "pos": {
+                        "x": 133.33,
+                        "y": 134.765
+                    },
+                    "uuid": "d06cb104-fa89-471a-b2bf-e93127fc126f"
+                },
+                {
+                    "description": "Pad 2 [Net-(D1-A)] of D1 on F.Cu",
+                    "pos": {
+                        "x": 137.3425,
+                        "y": 139.435
+                    },
+                    "uuid": "acca58a4-2970-41e0-8e92-c9e3dcf59044"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": []
+}

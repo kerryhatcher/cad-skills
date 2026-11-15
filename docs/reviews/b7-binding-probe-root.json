@@ -1,0 +1,57 @@
+{
+  "source_sha256": "ade74723a60442ced804686e8784526c283f619064cccf17f842116cad0af328",
+  "source_after": "ade74723a60442ced804686e8784526c283f619064cccf17f842116cad0af328",
+  "original_input": "%FSLAX46Y46*%\n%MOMM*%\n%ADD10C,0.6*%\n%LPD*%\nD10*\nX10000000Y10000000D03*\nX10704140Y10000000D03*\nM02*\n",
+  "changed_input": "%FSLAX46Y46*%\n%MOMM*%\n%ADD10C,0.6*%\n%LPD*%\nD10*\nX10000000Y10000000D03*\nX10699060Y10000000D03*\nM02*\n",
+  "observed_exit": 0,
+  "reported": {
+    "counts": {
+      "fail": 0,
+      "merged_opening": 0,
+      "pass": 0,
+      "uncertain": 0
+    },
+    "error_bound_basis": "derived from 6-decimal Gerber coordinates, not measured",
+    "error_bound_mm": 3e-06,
+    "exit": 0,
+    "flashes": 2,
+    "gerber_sha256": "7bacd29048dff6339c2c3c6ee96c670ddd116c128fd0dc9d27cc043d1932b296",
+    "limit_mil": 4.0,
+    "limit_mm": 0.1016,
+    "listed_pairs": [],
+    "minimum_web_mm": null,
+    "pair_checks": 0,
+    "result": "pass"
+  },
+  "actual_changed_input_result": [
+    1,
+    {
+      "flashes": 2,
+      "pair_checks": 1,
+      "counts": {
+        "pass": 0,
+        "fail": 1,
+        "uncertain": 0,
+        "merged_opening": 0
+      },
+      "minimum_web_mm": 0.09905999999999937,
+      "minimum_pair": [
+        0,
+        1
+      ],
+      "result": "fail",
+      "listed_pairs": [
+        {
+          "objects": [
+            0,
+            1
+          ],
+          "web_mm": 0.09905999999999937,
+          "decision": "fail"
+        }
+      ]
+    }
+  ],
+  "original_sha256": "5b7d1ee5d14179b98f4c85a4f89c98214819e9e5cb4bfb428562e98e59751cf3",
+  "changed_sha256": "7bacd29048dff6339c2c3c6ee96c670ddd116c128fd0dc9d27cc043d1932b296"
+}

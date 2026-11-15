@@ -1,0 +1,4 @@
+Found 2 violations
+Found 8 unconnected items
+Found 0 schematic parity issues
+Saved DRC Report to /work/out/diag_e3/vz_none/drc.json

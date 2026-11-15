@@ -1,0 +1,21 @@
+{
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "check_id": "design.erc",
+  "status": "pass",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_sch",
+      "sha256": "a07579562689394465aea162c87d6a4d00d241162579c584d83b78bfa8e6fd98"
+    }
+  ],
+  "artifact": {
+    "path": "reports/design.erc.json",
+    "sha256": "e10f7f8e7c578ec448ed495003c1a19cd98560868fa3ad90651ad6d454bbbe16"
+  },
+  "method": "tool",
+  "tool": {
+    "name": "kicad-cli",
+    "version": "10.0.5"
+  }
+}

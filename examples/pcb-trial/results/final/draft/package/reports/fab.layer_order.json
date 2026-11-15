@@ -1,0 +1,7 @@
+[
+  {
+    "check": "gerber.layer_set",
+    "status": "pass",
+    "detail": "found ['trial-B_Cu.gbr', 'trial-B_Mask.gbr', 'trial-B_Paste.gbr', 'trial-B_Silkscreen.gbr', 'trial-Edge_Cuts.gbr', 'trial-F_Cu.gbr', 'trial-F_Mask.gbr', 'trial-F_Paste.gbr', 'trial-F_Silkscreen.gbr']"
+  }
+]

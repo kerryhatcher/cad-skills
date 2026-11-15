@@ -1,0 +1,201 @@
+{
+  "schema_id": "cad-skills/supplier-profile",
+  "schema_version": "1.0",
+  "id": "oshpark-two-layer",
+  "revision": "2026-11-14",
+  "service": "OSH Park two-layer service",
+  "source_url": "https://docs.oshpark.com/services/two-layer/",
+  "retrieved": "2026-11-14",
+  "evidence_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+  "content_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
+  "units": "mil",
+  "limits": {
+    "board_max_height": {
+      "kind": "maximum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 22,
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "board_max_width": {
+      "kind": "maximum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 16,
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "board_min_edge": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.25,
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "edge_keepout": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 15,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "mask_web_min": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 4,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "min_annular_ring": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 5,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "min_drill": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 10,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "min_slot_size": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 20,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "min_space": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 6,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "min_trace": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 6,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "overlapping_drill_clearance": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 5,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "silk_line_min_short_text": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 3,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    },
+    "silk_line_recommended": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 5,
+      "unit": "mil",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "retrieved": "2026-11-14"
+    }
+  },
+  "division": {
+    "kicad_dru": [
+      "min_trace",
+      "min_space",
+      "min_annular_ring",
+      "min_drill",
+      "edge_keepout"
+    ],
+    "project_settings": [],
+    "geometric_tests": [
+      "min_slot_size",
+      "mask_web_min",
+      "board_min_edge",
+      "board_max_width",
+      "board_max_height"
+    ],
+    "manual_evidence": [
+      "silk_line_min_short_text",
+      "silk_line_recommended",
+      "overlapping_drill_clearance"
+    ]
+  },
+  "extensions": {
+    "service.layers": {
+      "kind": "requirement",
+      "value": 2
+    },
+    "service.order_multiple": {
+      "kind": "requirement",
+      "value": 3
+    },
+    "service.copper": "1 oz",
+    "service.substrate": "175Tg FR4 (Kingboard KB6167F)",
+    "service.finished_thickness_source": {
+      "value": 63,
+      "unit": "mil"
+    },
+    "service.finished_thickness_display_mm": 1.6,
+    "service.via_construction_prohibited": [
+      "blind",
+      "buried",
+      "filled_plated_via_in_pad"
+    ],
+    "process.mask_alignment_max_mil": 3,
+    "process.drill_size_tolerance_max_mil": 2.5,
+    "process.drill_size_tolerance_typical_mil": 1.0,
+    "process.drill_position_tolerance_max_mil": 2,
+    "process.drill_position_tolerance_typical": "less than 1 mil",
+    "notes.max_drill": "Maximum Drill Size None; above 250mil larger milling tolerances. Process note, not a limit.",
+    "evidence_pages": {
+      "two-layer": {
+        "sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_url": "https://docs.oshpark.com/services/two-layer/"
+      }
+    },
+    "process.outline_cutter_diameter": {
+      "value": "0.068",
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+      "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
+    },
+    "process.cutout_cutter_diameter": {
+      "value": "0.040",
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/two-layer/",
+      "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+      "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "hashes": [
+    {
+      "path": "skills/pcb-fab-package/scripts/fab.py",
+      "matches": true
+    },
+    {
+      "path": "skills/pcb-fab-package/scripts/inspect_mask.py",
+      "matches": true
+    },
+    {
+      "path": "tests/test_pcb_fab_package.py",
+      "matches": true
+    }
+  ],
+  "directory": "/tmp/b7-report-link-fixed-root-7s76aj0s",
+  "exit": 2,
+  "link_unchanged": true,
+  "target_absent": true,
+  "stderr": "fab: the report path exists; give a fresh report path\n"
+}

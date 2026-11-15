@@ -1,0 +1,158 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-14T10:50:23",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.5",
+    "schematic_parity": [],
+    "source": "board.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Track width (rule 'min_track_probe' min width 1.0000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [/N_RC] on F.Cu, length 8.4000 mm",
+                    "pos": {
+                        "x": 115.825,
+                        "y": 118.0
+                    },
+                    "uuid": "9024f436-90ab-541e-847d-e2efb7de6a0d"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'min_track_probe' min width 1.0000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [/GND] on F.Cu, length 1.7250 mm",
+                    "pos": {
+                        "x": 125.775,
+                        "y": 118.0
+                    },
+                    "uuid": "a51d4b47-013f-5747-99d2-e0343f237c04"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'min_track_probe' min width 1.0000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [/GND] on F.Cu, length 1.7125 mm",
+                    "pos": {
+                        "x": 125.7875,
+                        "y": 106.0
+                    },
+                    "uuid": "f53557ec-dcf2-5d20-9ba5-3c34940fd7be"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'min_track_probe' min width 1.0000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [/VIN] on F.Cu, length 6.0000 mm",
+                    "pos": {
+                        "x": 114.175,
+                        "y": 118.0
+                    },
+                    "uuid": "4507dd19-4675-57ae-affe-b19358d9aac8"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'min_track_probe' min width 1.0000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [/VIN] on F.Cu, length 9.1750 mm",
+                    "pos": {
+                        "x": 105.0,
+                        "y": 106.0
+                    },
+                    "uuid": "5b9d0831-8b6f-5eb7-a375-6f8592dd030e"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'min_track_probe' min width 1.0000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [/VIN] on F.Cu, length 6.5000 mm",
+                    "pos": {
+                        "x": 105.0,
+                        "y": 112.5
+                    },
+                    "uuid": "d9bcb0a0-5537-5fbb-9cab-9a90eb85d250"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'min_track_probe' min width 1.0000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [/VIN] on F.Cu, length 9.1750 mm",
+                    "pos": {
+                        "x": 114.175,
+                        "y": 112.0
+                    },
+                    "uuid": "f5f68c27-3a88-5c92-9379-83b4d7d5c73a"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'min_track_probe' min width 1.0000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [/N_LED] on F.Cu, length 8.3875 mm",
+                    "pos": {
+                        "x": 115.825,
+                        "y": 106.0
+                    },
+                    "uuid": "98ddb7a1-9b0d-5983-a380-7281244ba7d8"
+                }
+            ],
+            "severity": "error",
+            "type": "track_width"
+        }
+    ]
+}

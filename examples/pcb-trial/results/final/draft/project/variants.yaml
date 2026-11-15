@@ -1,0 +1,18 @@
+{
+  "schema_id": "cad-skills/variants",
+  "schema_version": "1.0",
+  "variants": [
+    {
+      "id": "base",
+      "references": {
+        "J1": "populate",
+        "R1": "populate",
+        "R2": "populate",
+        "C1": "populate",
+        "D1": "populate",
+        "MH1": "exclude_from_assembly",
+        "MH2": "exclude_from_assembly"
+      }
+    }
+  ]
+}

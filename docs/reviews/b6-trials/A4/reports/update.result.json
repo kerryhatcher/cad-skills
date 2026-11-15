@@ -1,0 +1,19 @@
+{
+  "binding_sha256": "92b3ccc8b044990292f8cd157d3ebe99cb7ec86eaeb6b61f9f10d077a8a519ed",
+  "exit_code": 0,
+  "findings": [],
+  "identity": "equal",
+  "operation": "update",
+  "options": {
+    "delete": "off",
+    "relink": "off",
+    "replace": "off"
+  },
+  "record": "pcb-design/result",
+  "state": "ready",
+  "status": "pass",
+  "tool_exit": 0,
+  "unwaived": [],
+  "version": "1",
+  "waived": []
+}

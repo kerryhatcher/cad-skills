@@ -1,0 +1,1 @@
+INVALID: config version 1 had a bad option (exit 7). Only the gerbers existed.

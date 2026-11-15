@@ -1,0 +1,2 @@
+702c9d567855595f5f3703a1c224961475b527d87a903ce232f6bb4757332a4b  /tmp/drc_gate3_value/trial.kicad_pcb
+d153341985d619e9cc9d36e29c4ccbf9c74e2b735f6111ebe143669f4d5df605  /tmp/drc_gate3_value/trial.kicad_sch

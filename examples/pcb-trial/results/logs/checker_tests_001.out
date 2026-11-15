@@ -1,0 +1,14 @@
+FAIL test_nominal: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_duplicate_reference_counts_raw_instances: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_missing_expected_reference_has_no_traceback: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_missing_mandatory_instance_data: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_duplicate_pin_membership: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_double_leading_slash_is_not_normalized: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_changed_embedded_pin_definition: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_changed_instance_orientation: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_sidecar_does_not_decide: TypeError: '<' not supported between instances of 'bool' and 'str'
+FAIL test_malformed_inputs_give_a_report: TypeError: '<' not supported between instances of 'bool' and 'str'
+ok   test_fresh_export_changed_definition
+ok   test_fresh_export_renamed_label
+
+2/12 passed, 0 unavailable

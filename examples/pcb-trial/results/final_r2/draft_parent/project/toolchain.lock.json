@@ -1,0 +1,26 @@
+{
+  "schema_id": "cad-skills/toolchain-lock",
+  "schema_version": "1.0",
+  "python": "3.13",
+  "execution": "container",
+  "container": {
+    "image": "localhost/cad-skills-trial:b5",
+    "digest": "sha256:d881df4ef3e2ec76995f4070596550db118b23e7f6db9017f09a418c44c4b1c2"
+  },
+  "tools": {
+    "kicad": {
+      "used": true,
+      "version": "10.0.5",
+      "source_url": "https://www.kicad.org/",
+      "license": "GPL-3.0-or-later"
+    },
+    "ngspice": {
+      "used": true,
+      "version": "44.2",
+      "source_url": "https://ngspice.sourceforge.io/",
+      "license": "BSD-3-Clause"
+    }
+  },
+  "libraries": [],
+  "models": []
+}

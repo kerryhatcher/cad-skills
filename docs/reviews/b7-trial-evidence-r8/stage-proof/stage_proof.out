@@ -1,0 +1,9 @@
+segment nm start 115825000 118000000 end 124225000 118000000 marker nm 120025000 118000000
+source: drc exit 0
+source: track_width total=8 active=7 excluded=1 all_violations=8
+source: drc.json sha256 a3b444c948f3cf08b1d1aec12c52a9545c4b6ce4124df4225b18c7a20e47fdcd  board.kicad_pro sha256 5734b501a9f94048c398b2425d207337eadc792b1d12ad9fb8d7e9d4682a8f1e  board.kicad_dru sha256 c3e649bd919dca7f004603732aa0765ffe5305ffc07766889dc2a51f9bd96904
+staged: drc exit 0
+staged: track_width total=8 active=8 excluded=0 all_violations=8
+staged: drc.json sha256 6712b302dd6b473b68114f80e709315c7f9e4cbfaaa56b589eb17c28b5347385  board.kicad_pro sha256 fa3c624cb93d3b8ee1ad16eab27f17d68827fa7057cfbce6a5efc0147d6d0104  board.kicad_dru sha256 c3e649bd919dca7f004603732aa0765ffe5305ffc07766889dc2a51f9bd96904
+source file kept entry: True
+staged file cleared entry: True

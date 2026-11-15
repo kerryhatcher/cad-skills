@@ -1,0 +1,3 @@
+A_exit=0
+B_exit=0
+C_exit=0

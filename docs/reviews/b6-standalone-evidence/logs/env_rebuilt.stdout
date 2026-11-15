@@ -1,0 +1,29 @@
+{
+  "image": "localhost/cad-skills-pcb:b6-rebuild",
+  "image_id": "032582d4298bfe68b07fde9942c5a92148de90b4a7fe911c095799ffc1eb2285",
+  "lock": {
+    "digest": "sha256:032582d4298bfe68b07fde9942c5a92148de90b4a7fe911c095799ffc1eb2285",
+    "image": "localhost/cad-skills-pcb:b6-rebuild"
+  },
+  "lock_matches_image": true,
+  "podman": true,
+  "status": "measured",
+  "tools": {
+    "kicad-cli": {
+      "exit": 0,
+      "version": "10.0.5"
+    },
+    "ngspice": {
+      "exit": 0,
+      "version": "ngspice-44.2"
+    },
+    "pcbnew": {
+      "exit": 0,
+      "version": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1"
+    },
+    "uv": {
+      "exit": 0,
+      "version": "uv 0.12.5 (x86_64-unknown-linux-musl)"
+    }
+  }
+}

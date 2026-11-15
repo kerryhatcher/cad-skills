@@ -1,0 +1,129 @@
+./kicad/include/properties/property.h(607): assert "m_choices.GetCount() > 0" failed in PROPERTY_ENUM(): No enum choices defined
+./kicad/include/properties/property.h(607): assert "m_choices.GetCount() > 0" failed in PROPERTY_ENUM(): No enum choices defined
+./kicad/include/properties/property.h(607): assert "m_choices.GetCount() > 0" failed in PROPERTY_ENUM(): No enum choices defined
+{
+ "copper_layers": [
+  "F.Cu",
+  "B.Cu"
+ ],
+ "footprints": [
+  {
+   "ref": "C1",
+   "rot": 0.0,
+   "side": "top",
+   "x": 125.0,
+   "y": 118.0
+  },
+  {
+   "ref": "D1",
+   "rot": 180.0,
+   "side": "top",
+   "x": 125.0,
+   "y": 106.0
+  },
+  {
+   "ref": "J1",
+   "rot": 0.0,
+   "side": "top",
+   "x": 105.0,
+   "y": 112.5
+  },
+  {
+   "ref": "MH1",
+   "rot": 0.0,
+   "side": "top",
+   "x": 103.0,
+   "y": 103.0
+  },
+  {
+   "ref": "MH2",
+   "rot": 45.0,
+   "side": "top",
+   "x": 137.0,
+   "y": 122.0
+  },
+  {
+   "ref": "R1",
+   "rot": 0.0,
+   "side": "top",
+   "x": 115.0,
+   "y": 106.0
+  },
+  {
+   "ref": "R2",
+   "rot": 0.0,
+   "side": "top",
+   "x": 115.0,
+   "y": 118.0
+  }
+ ],
+ "holes": [
+  {
+   "attr": "pth",
+   "diameter": 1.0,
+   "kind": "pad",
+   "object": "pad J1.1",
+   "x": 105.0,
+   "y": 112.5
+  },
+  {
+   "attr": "pth",
+   "diameter": 1.0,
+   "kind": "pad",
+   "object": "pad J1.2",
+   "x": 105.0,
+   "y": 115.04
+  },
+  {
+   "attr": "npth",
+   "diameter": 3.2,
+   "kind": "pad",
+   "object": "pad MH1.",
+   "x": 103.0,
+   "y": 103.0
+  },
+  {
+   "attr": "pth",
+   "diameter": 0.3,
+   "kind": "via",
+   "object": "via 2ef3b910-7b1d-5ece-8898-a1004dc84af3",
+   "x": 127.5,
+   "y": 106.0
+  },
+  {
+   "attr": "pth",
+   "diameter": 0.3,
+   "kind": "via",
+   "object": "via 5bccdeb7-881b-5267-8420-41cb886b2c15",
+   "x": 127.5,
+   "y": 118.0
+  }
+ ],
+ "kicad": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1",
+ "outline": {
+  "height": 25.05,
+  "width": 40.05,
+  "x": 99.975,
+  "y": 99.975
+ },
+ "slots": [
+  {
+   "attr": "npth",
+   "endpoints_mm": [
+    [
+     136.575736,
+     122.424264
+    ],
+    [
+     137.424264,
+     121.575736
+    ]
+   ],
+   "kind": "slot",
+   "major_mm": 3.2,
+   "minor_mm": 2.0,
+   "object": "pad MH2.",
+   "rot_deg": 45.0
+  }
+ ]
+}

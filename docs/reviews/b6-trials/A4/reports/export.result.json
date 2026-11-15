@@ -1,0 +1,75 @@
+{
+  "binding_sha256": "db3876de4a37c31d239f4c60f20350bb91a1dfa3810b1a46d9bdfe018604cfef",
+  "exit_code": 0,
+  "findings": [
+    {
+      "check": "export.plot_settings",
+      "detail": "saved {'usegerberattributes': ['no'], 'usegerberadvancedattributes': ['no'], 'drillshape': ['0']}",
+      "status": "pass"
+    },
+    {
+      "check": "export.file_set",
+      "detail": "expected ['board-B_Cu.gbr', 'board-B_Mask.gbr', 'board-B_Paste.gbr', 'board-B_Silkscreen.gbr', 'board-Edge_Cuts.gbr', 'board-F_Cu.gbr', 'board-F_Mask.gbr', 'board-F_Paste.gbr', 'board-F_Silkscreen.gbr'], found ['board-B_Cu.gbr', 'board-B_Mask.gbr', 'board-B_Paste.gbr', 'board-B_Silkscreen.gbr', 'board-Edge_Cuts.gbr', 'board-F_Cu.gbr', 'board-F_Mask.gbr', 'board-F_Paste.gbr', 'board-F_Silkscreen.gbr']",
+      "status": "pass"
+    },
+    {
+      "check": "export.gerber_attributes",
+      "detail": "active attributes in []",
+      "status": "pass"
+    },
+    {
+      "check": "export.file_function",
+      "detail": "",
+      "status": "pass"
+    },
+    {
+      "check": "export.drill_header_plated",
+      "detail": "expected FORMAT={3:3/ absolute / metric / suppress leading zeros}",
+      "status": "pass"
+    },
+    {
+      "check": "export.drill_holes_plated",
+      "detail": "expected [(0.3, 127.5, -118.0), (0.3, 127.5, -106.0), (1.0, 105.0, -115.04), (1.0, 105.0, -112.5)], got [(0.3, 127.5, -118.0), (0.3, 127.5, -106.0), (1.0, 105.0, -115.04), (1.0, 105.0, -112.5)]",
+      "status": "pass"
+    },
+    {
+      "check": "export.drill_header_nonplated",
+      "detail": "expected FORMAT={3:3/ absolute / metric / suppress leading zeros}",
+      "status": "pass"
+    },
+    {
+      "check": "export.drill_holes_nonplated",
+      "detail": "expected [(3.2, 103.0, -103.0), (3.2, 137.0, -122.0)], got [(3.2, 103.0, -103.0), (3.2, 137.0, -122.0)]",
+      "status": "pass"
+    },
+    {
+      "check": "export.placement_rows",
+      "detail": "expected [('C1', 125.0, -118.0, 0.0, 'top'), ('D1', 125.0, -106.0, 180.0, 'top'), ('J1', 105.0, -112.5, 0.0, 'top'), ('MH1', 103.0, -103.0, 0.0, 'top'), ('MH2', 137.0, -122.0, 0.0, 'top'), ('R1', 115.0, -106.0, 0.0, 'top'), ('R2', 115.0, -118.0, 0.0, 'top')], got [('C1', 125.0, -118.0, 0.0, 'top'), ('D1', 125.0, -106.0, 180.0, 'top'), ('J1', 105.0, -112.5, 0.0, 'top'), ('MH1', 103.0, -103.0, 0.0, 'top'), ('MH2', 137.0, -122.0, 0.0, 'top'), ('R1', 115.0, -106.0, 0.0, 'top'), ('R2', 115.0, -118.0, 0.0, 'top')]",
+      "status": "pass"
+    }
+  ],
+  "operation": "export",
+  "outputs": {
+    "export/board-B_Cu.gbr": "861159636ef80a2223efee256676ea2917d5854d10912dd50f6c6faf21afd734",
+    "export/board-B_Mask.gbr": "16bb7b9c4f42f002a50cf38701b81ddd273cbef962d7e999ccc64e6612c05e6f",
+    "export/board-B_Paste.gbr": "84584f42ad5d715373bfca280189b59ab70b51d5bbb83edbe1c7526586b02e59",
+    "export/board-B_Silkscreen.gbr": "2a97f459c937ab27c4bbcd9bdb8a228a41e09233056665585a319811725ff18d",
+    "export/board-Edge_Cuts.gbr": "a5130be98c357bca4fb39ec7bb8a1b3781499330b066cec556aed7269532e8dc",
+    "export/board-F_Cu.gbr": "f74a3412811bf696e9fe96b7f3f5413945ede8f6ac5fcebdd6568451c5d034a1",
+    "export/board-F_Mask.gbr": "7915592da85dbf74a45d292a270773ec086b54b288cc9f06c797f53fbcb819c1",
+    "export/board-F_Paste.gbr": "26517bfed52ae4ba3be1be7f0fb4e0f797d7be81d41046d6dac8e974a8a8964c",
+    "export/board-F_Silkscreen.gbr": "36f44a099d3d6eb2dfa116f7822a253914e712b33c870aa594260c2869bf6614",
+    "export/board-NPTH.drl": "4da02c19d6ac164efb2d436ccc677579de42ac377f3c9a658a251436a4d0a585",
+    "export/board-PTH.drl": "2ea087b36ecc7b74fdc5bee1ada869d1800bc06fa834a814bad0a8de58a826b7",
+    "export/board-job.gbrjob": "347dc1a0eedcaab36c8609f79f36bcd0271e7dd45c7d3757e521d74979997688",
+    "export/board-pos.csv": "139ad2d04a92d9ce263251d9cd3ab14e920a0e535276aa82e0442e52faba44ea",
+    "export/drill-report.txt": "42dd0efeacd1cafbc33ed2c8a8c90c14ef489239f2290c239f12ebf2c4c4ac6b"
+  },
+  "published": "out/export/1e4e9f04f4c6-1",
+  "record": "pcb-design/result",
+  "status": "pass",
+  "tool_exit": 0,
+  "unwaived": [],
+  "version": "1",
+  "waived": []
+}

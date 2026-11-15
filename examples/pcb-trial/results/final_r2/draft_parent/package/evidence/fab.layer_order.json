@@ -1,0 +1,25 @@
+{
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "check_id": "fab.layer_order",
+  "status": "pass",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "56f794242345dd3950d5bd066bea6f2a1d1740c5adfc7152651667210297bd94"
+    },
+    {
+      "path": "manufacturing/export.yaml",
+      "sha256": "4963eecfe98e038ff6fea73db91bb0f90879a356d6e876368e4b465445ddcc7a"
+    }
+  ],
+  "artifact": {
+    "path": "reports/fab.layer_order.json",
+    "sha256": "414a725786840b7d090a24b97e0d988cdf81a5182f011e1f5276b5065036409a"
+  },
+  "method": "tool",
+  "tool": {
+    "name": "check_exports.py",
+    "version": "b5-trial"
+  }
+}

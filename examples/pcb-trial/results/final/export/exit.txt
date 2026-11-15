@@ -1,0 +1,6 @@
+gerbers=0
+drill=0
+pos=0
+step=0
+schpdf=0
+fabpdf=0

@@ -1,0 +1,10 @@
+m39/out/board-F_Mask.gts
+  Flash aperture=CircleAperture
+  Flash aperture=CircleAperture
+  objects=2
+m39merge/out/board-F_Mask.gts
+  Region aperture=None
+    region_points=25
+  Region aperture=None
+    region_points=25
+  objects=2

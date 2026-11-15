@@ -1,0 +1,23 @@
+{
+  "artifact": {
+    "path": "reports/drc.json",
+    "sha256": "a319318b68ea74db5c011fe37c04a21d8a435937776903da24949bc573376106"
+  },
+  "check_id": "design.drc",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e"
+    }
+  ],
+  "method": "tool",
+  "notes": "violations=15 unconnected=16",
+  "observed_on": "2026-11-15",
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "status": "fail",
+  "tool": {
+    "name": "kicad-cli",
+    "version": "10.0.5"
+  }
+}

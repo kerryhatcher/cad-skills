@@ -1,0 +1,13 @@
+{
+  "mismatches": [],
+  "open": [
+    "plane_interpretation",
+    "axes",
+    "midpoint_mapping",
+    "origin",
+    "rotation_direction",
+    "side_view",
+    "units",
+    "zero_orientation"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "workflow_sha256": "05ad9a5ab565d1eb0ef18d6d9a8b0e4575e869c9d9f7cb344de33811e82435d4",
+  "temporary_project": "/tmp/b7-copy-root-g8s2lan0/project",
+  "baseline_exit": 0,
+  "baseline_status": "qualified",
+  "injection_count": 1,
+  "changed_copy_exit": 0,
+  "changed_copy_status": "qualified",
+  "reasons": [],
+  "source_restored": true,
+  "published_injected_bytes": true,
+  "source_sha256": "d14d20de4337b0451d2ea490811668954af973de1bedf672a723a7b69263629c",
+  "published_sha256": "00964a242ed54123908c6971b8a9164428469d377fe2ae66a81406dcbd5e75d0"
+}

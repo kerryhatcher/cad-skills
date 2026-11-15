@@ -1,0 +1,21 @@
+{
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "check_id": "fab.profile_evidence",
+  "status": "pending",
+  "inputs": [
+    {
+      "path": "manufacturing/supplier.yaml",
+      "sha256": "4792667b1d0ca99df781509dbc14a18cf7b3374b07a9bc813e2c7d4d6a737cf9"
+    }
+  ],
+  "artifact": {
+    "path": "reports/fab.profile_evidence.txt",
+    "sha256": "e23373a091a5338c2d477a9e7b532fe0d3f8b417cbcc755958a599c0fc1bffb9"
+  },
+  "method": "tool",
+  "tool": {
+    "name": "check_exports.py",
+    "version": "b5-trial"
+  }
+}
