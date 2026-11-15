@@ -1,0 +1,19 @@
+{
+  "expected": 1,
+  "missing": [
+    {
+      "class": "footprint",
+      "ident": "C2",
+      "lib_id": "Capacitor_SMD:C_0603_1608Metric",
+      "op": "added",
+      "pad_nets": {
+        "1": "/N_RC",
+        "2": "/GND"
+      },
+      "value": "100n"
+    }
+  ],
+  "observed": 0,
+  "status": "different",
+  "unexpected": []
+}

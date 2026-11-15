@@ -1,0 +1,43 @@
+schema_id: cad-skills/export-settings
+schema_version: '1.0'
+format: rs274x
+units: mm
+x2: false
+gerber:
+  decimal_places: 6
+layers:
+- role: copper_top
+  kicad_layer: F.Cu
+  suffix: -F_Cu.gbr
+- role: copper_bottom
+  kicad_layer: B.Cu
+  suffix: -B_Cu.gbr
+- role: mask_top
+  kicad_layer: F.Mask
+  suffix: -F_Mask.gbr
+- role: mask_bottom
+  kicad_layer: B.Mask
+  suffix: -B_Mask.gbr
+- role: silk_top
+  kicad_layer: F.Silkscreen
+  suffix: -F_Silkscreen.gbr
+- role: silk_bottom
+  kicad_layer: B.Silkscreen
+  suffix: -B_Silkscreen.gbr
+- role: paste_top
+  kicad_layer: F.Paste
+  suffix: -F_Paste.gbr
+- role: paste_bottom
+  kicad_layer: B.Paste
+  suffix: -B_Paste.gbr
+- role: outline
+  kicad_layer: Edge.Cuts
+  suffix: -Edge_Cuts.gbr
+drill:
+  format: excellon
+  zero_suppression: leading
+  decimal_places: 3
+  plated_suffix: -PTH.drl
+  nonplated_suffix: -NPTH.drl
+  separate_files: true
+origin: absolute

@@ -1,0 +1,131 @@
+{
+ "board": "out/b6probe/tht.kicad_pcb",
+ "kicad": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1",
+ "copper_layers": [
+  "F.Cu",
+  "B.Cu"
+ ],
+ "footprints": [
+  {
+   "ref": "C1",
+   "x": 125.0,
+   "y": 118.0,
+   "rot": 180.0,
+   "side": "bottom"
+  },
+  {
+   "ref": "D1",
+   "x": 125.0,
+   "y": 106.0,
+   "rot": 180.0,
+   "side": "top"
+  },
+  {
+   "ref": "J1",
+   "x": 105.0,
+   "y": 112.5,
+   "rot": 90.0,
+   "side": "bottom"
+  },
+  {
+   "ref": "MH1",
+   "x": 103.0,
+   "y": 103.0,
+   "rot": 0.0,
+   "side": "top"
+  },
+  {
+   "ref": "MH2",
+   "x": 137.0,
+   "y": 122.0,
+   "rot": 0.0,
+   "side": "top"
+  },
+  {
+   "ref": "R1",
+   "x": 115.0,
+   "y": 106.0,
+   "rot": 0.0,
+   "side": "top"
+  },
+  {
+   "ref": "R2",
+   "x": 115.0,
+   "y": 118.0,
+   "rot": 0.0,
+   "side": "top"
+  }
+ ],
+ "holes": [
+  {
+   "kind": "pad",
+   "ref": "J1",
+   "pad": "1",
+   "attr": "pth",
+   "x": 105.0,
+   "y": 112.5,
+   "dx": 1.0,
+   "dy": 1.0,
+   "slot": false
+  },
+  {
+   "kind": "pad",
+   "ref": "J1",
+   "pad": "2",
+   "attr": "pth",
+   "x": 102.46,
+   "y": 112.5,
+   "dx": 1.0,
+   "dy": 1.0,
+   "slot": false
+  },
+  {
+   "kind": "pad",
+   "ref": "MH1",
+   "pad": "",
+   "attr": "npth",
+   "x": 103.0,
+   "y": 103.0,
+   "dx": 3.2,
+   "dy": 3.2,
+   "slot": false
+  },
+  {
+   "kind": "pad",
+   "ref": "MH2",
+   "pad": "",
+   "attr": "npth",
+   "x": 137.0,
+   "y": 122.0,
+   "dx": 3.2,
+   "dy": 3.2,
+   "slot": false
+  },
+  {
+   "kind": "via",
+   "x": 127.5,
+   "y": 106.0,
+   "dx": 0.3,
+   "dy": 0.3,
+   "slot": false,
+   "attr": "pth",
+   "span": [
+    "F.Cu",
+    "B.Cu"
+   ]
+  },
+  {
+   "kind": "via",
+   "x": 127.5,
+   "y": 118.0,
+   "dx": 0.3,
+   "dy": 0.3,
+   "slot": false,
+   "attr": "pth",
+   "span": [
+    "F.Cu",
+    "B.Cu"
+   ]
+  }
+ ]
+}

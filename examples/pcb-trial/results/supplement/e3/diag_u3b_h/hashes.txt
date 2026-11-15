@@ -1,0 +1,2 @@
+ab7a5459f8ff0cbe34c89420773b7725d5c06348425c80abecb9e84d696c2b10  trial.kicad_pcb
+d557318d1dcbade8790472ba2120941b025f90cab7bfeeb8da5f2dd844886cf0  trial.kicad_sch

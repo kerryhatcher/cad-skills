@@ -1,0 +1,30 @@
+# T11 corrected KiBot configuration (new file; trial.kibot.yaml stays as history).
+# Neutral X2 state, as in the saved board plot settings of the corrected final revision (x2 false in the contract).
+# KiBot defaults both X2 options to true. KiBot sets no drill marks for Gerbers (out_gerber.py calls SetDrillMarksType(0)).
+kibot:
+  version: 1
+outputs:
+  - name: gerbers
+    type: gerber
+    dir: gerbers
+    layers: [F.Cu, B.Cu, F.Mask, B.Mask, F.Paste, B.Paste, F.Silkscreen, B.Silkscreen, Edge.Cuts]
+    options:
+      use_protel_extensions: false
+      gerber_precision: 4.6
+      use_gerber_x2_attributes: false
+      use_gerber_net_attributes: false
+  - name: drill
+    type: excellon
+    dir: drill
+    options:
+      pth_and_npth_single_file: false
+      metric_units: true
+      zeros_format: SUPPRESS_LEADING
+  - name: pos
+    type: position
+    dir: pos
+    options:
+      format: CSV
+      units: millimeters
+      separate_files_for_front_and_back: false
+      only_smd: false

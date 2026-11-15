@@ -1,0 +1,14 @@
+[
+  {
+    "case": "manual_missing_coverage",
+    "exit_code": 0,
+    "stdout": "check: ready\n",
+    "stderr": ""
+  },
+  {
+    "case": "automatic_missing_expectation",
+    "exit_code": 0,
+    "stdout": "check: ready\n",
+    "stderr": ""
+  }
+]

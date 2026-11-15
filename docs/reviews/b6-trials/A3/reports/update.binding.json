@@ -1,0 +1,56 @@
+{
+  "closure": {
+    "board.yaml": "ca89b76156545fa36890a1552880bb49df977984f428433dd6205cfa62f741fd",
+    "kicad/board.kicad_pcb": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+    "kicad/board.kicad_pro": "fa0616f9cd2c2d5f8f09754d4d7b7b46ebd6c12a500f16be095005c4bcfdc3ee",
+    "kicad/board.kicad_sch": "2af374d9433c56c86a9a5c3258fa0339b136a024cf2d888f9163e55af601822e",
+    "kicad/fp-lib-table": "0c050ebfb4cc1da7401fa11c9b6350d084d526f57bb73e1de602171387b96ce4",
+    "manufacturing/export.yaml": "e9ae3ee89c0b088f7468e5d002a7f47967358f1b922443bcb09eed99b2c22235",
+    "manufacturing/supplier.yaml": "35ba04c61b4c95bb28a997205801597db363ea1ec0ff1a51fec09dc78b282609",
+    "manufacturing/waivers.yaml": "ea5bbc9e8d942845487a965c110f8a9cf95063cd7c0640c92d76a6145e617b53",
+    "mechanical/board-interface.json": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc",
+    "toolchain.lock.json": "104e23fc50127689d6c94a8ffabd43c3ed3d23d4444e0173f5deeb5e508b8b79",
+    "variants.yaml": "e293a931f41f3b3181fa000ebf203c68a90feac2439b40820647b3f2614c1c3e"
+  },
+  "operation": "update",
+  "options": {
+    "command": [
+      "/usr/bin/python3",
+      "/worker/gui_update.py",
+      "--project",
+      "/work/kicad",
+      "--name",
+      "board",
+      "--label",
+      "update",
+      "--shots",
+      "/work/out/gui-shots",
+      "--relink",
+      "off",
+      "--replace",
+      "off",
+      "--delete",
+      "off"
+    ],
+    "options": {
+      "delete": "off",
+      "relink": "off",
+      "replace": "off"
+    }
+  },
+  "raw_file": "out/reports/raw/update-fd6e719e3747affed1f0fd0332fa93a3784cfd5c51ed6917887a2ed3af8bc147.json",
+  "raw_sha256": "fd6e719e3747affed1f0fd0332fa93a3784cfd5c51ed6917887a2ed3af8bc147",
+  "record": "pcb-design/binding",
+  "runtime": {
+    "image": "localhost/cad-skills-pcb:b6",
+    "image_id": "b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f"
+  },
+  "tool_exit": 0,
+  "tool_versions": {
+    "kicad-cli": "10.0.5",
+    "ngspice": "ngspice-44.2",
+    "pcbnew": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1",
+    "uv": "uv 0.12.5 (x86_64-unknown-linux-musl)"
+  },
+  "version": "1"
+}

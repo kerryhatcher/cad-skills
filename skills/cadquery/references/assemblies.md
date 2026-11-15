@@ -168,7 +168,7 @@ result = compound
 ## Export
 
 ```python
-# notest
+# notest: writes many export files and needs the variable assy from an earlier block
 assy.export("out.step")                              # names, colours, tree
 assy.export("out.step", mode="fused")                # one fused solid, keeps colours of faces
 assy.export("out.glb")                               # binary glTF (web viewers); .gltf = text

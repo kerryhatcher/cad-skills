@@ -1,0 +1,83 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-14T06:35:22",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.5",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/c8208b3a-2e8e-5af9-989b-713a3ea6e6cb",
+            "violations": [
+                {
+                    "description": "Pin not connected",
+                    "items": [
+                        {
+                            "description": "Symbol J1 Pin 1 [Pin_1, Passive, Line]",
+                            "pos": {
+                                "x": 0.4572,
+                                "y": 0.508
+                            },
+                            "uuid": "f4c6a24a-7cc3-5aee-944b-95eaf6dd9b0d"
+                        }
+                    ],
+                    "severity": "error",
+                    "type": "pin_not_connected"
+                },
+                {
+                    "description": "Pin not connected",
+                    "items": [
+                        {
+                            "description": "Symbol R1 Pin 1 [Passive, Line]",
+                            "pos": {
+                                "x": 1.016,
+                                "y": 0.4699
+                            },
+                            "uuid": "500b7e50-f762-563e-b23f-2578fe340cdc"
+                        }
+                    ],
+                    "severity": "error",
+                    "type": "pin_not_connected"
+                },
+                {
+                    "description": "Pin not connected",
+                    "items": [
+                        {
+                            "description": "Symbol R2 Pin 1 [Passive, Line]",
+                            "pos": {
+                                "x": 1.016,
+                                "y": 0.9779
+                            },
+                            "uuid": "eface94e-86a2-59c3-839b-325649d95b97"
+                        }
+                    ],
+                    "severity": "error",
+                    "type": "pin_not_connected"
+                }
+            ]
+        }
+    ],
+    "source": "bad.kicad_sch"
+}

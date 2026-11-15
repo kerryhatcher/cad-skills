@@ -1,0 +1,9 @@
+{
+  "workflow_sha256": "efe3f47659a121e617b483ea9d77eb57e9c599370b1f3ac55264528ee4830441",
+  "temporary_project": "/tmp/b7-snapshot-root-852zsdid",
+  "recorded_board_sha256": "45c0b761a6c6640319e6cddeb492718532f70161ed9174c75ca7f1158c508b2f",
+  "staged_board_sha256": "45c0b761a6c6640319e6cddeb492718532f70161ed9174c75ca7f1158c508b2f",
+  "before_equals_after": true,
+  "recorded_hash_matches_staged_bytes": true,
+  "scope": "stage_project only; no KiCad run or package qualification claim"
+}

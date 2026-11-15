@@ -1,0 +1,22 @@
+schema_id: cad-skills/variants
+schema_version: "1.0"
+variants:
+  - id: base
+    references:
+      R1: populate
+      R2: populate
+      C1: populate
+      D1: populate
+      J1: populate
+      TP1: exclude_from_assembly
+  - id: no-led
+    references:
+      R1: populate
+      R2: populate
+      C1: populate
+      D1: dnp
+      J1: populate
+      TP1: exclude_from_assembly
+    hand_installed:
+      - reference: J1
+        reason: The connector is soldered by hand after assembly.

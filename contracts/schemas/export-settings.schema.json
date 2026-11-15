@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kerryhatcher/cad-skills/contracts/export-settings.schema.json",
+  "title": "Export settings",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "cad-skills/export-settings"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "format": {
+      "const": "rs274x"
+    },
+    "units": {
+      "const": "mm"
+    },
+    "x2": {
+      "type": "boolean"
+    },
+    "gerber": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decimal_places": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 6
+        }
+      },
+      "required": [
+        "decimal_places"
+      ]
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "copper_top",
+              "copper_bottom",
+              "copper_inner",
+              "mask_top",
+              "mask_bottom",
+              "silk_top",
+              "silk_bottom",
+              "paste_top",
+              "paste_bottom",
+              "outline"
+            ]
+          },
+          "kicad_layer": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "suffix": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          }
+        },
+        "required": [
+          "role",
+          "kicad_layer",
+          "suffix"
+        ]
+      }
+    },
+    "drill": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "const": "excellon"
+        },
+        "zero_suppression": {
+          "enum": [
+            "leading",
+            "trailing",
+            "none"
+          ]
+        },
+        "decimal_places": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 6
+        },
+        "plated_suffix": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]+$",
+          "not": {
+            "pattern": "[\\u0000-\\u001f\\u007f]"
+          }
+        },
+        "nonplated_suffix": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]+$",
+          "not": {
+            "pattern": "[\\u0000-\\u001f\\u007f]"
+          }
+        },
+        "separate_files": {
+          "const": true
+        }
+      },
+      "required": [
+        "format",
+        "zero_suppression",
+        "decimal_places",
+        "plated_suffix",
+        "nonplated_suffix",
+        "separate_files"
+      ]
+    },
+    "origin": {
+      "enum": [
+        "absolute",
+        "board"
+      ]
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "format",
+    "units",
+    "x2",
+    "gerber",
+    "layers",
+    "drill",
+    "origin"
+  ]
+}

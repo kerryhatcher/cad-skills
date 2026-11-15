@@ -1,0 +1,4 @@
+Found 1 violations
+Found 4 unconnected items
+Found 1 schematic parity issues
+Saved DRC Report to /work/out/diag_e3/lp_sheet_r2/drc.json

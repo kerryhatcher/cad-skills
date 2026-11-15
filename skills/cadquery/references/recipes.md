@@ -1,6 +1,6 @@
 # Recipes (tested)
 
-Full examples for frequent modeling tasks. You can run each example. `tests/test_snippets.py` runs each block, thus each block operates on the pinned CadQuery version. Copy an example, change the parameter names, and change it for your part. Units: mm.
+Full examples for frequent modeling tasks. You can run each example. The repository test suite runs each block, thus each block operates on the pinned CadQuery version. Copy an example, change the parameter names, and change it for your part. Units: mm.
 
 ## Contents
 1. [Electronics enclosure with screw bosses and lid](#1-electronics-enclosure-with-screw-bosses-and-lid)

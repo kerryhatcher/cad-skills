@@ -1,0 +1,8 @@
+{
+  "_comment": "Pin connection points in library coordinates (x, y), written by hand from the installed symbol libraries. The sheet position of a pin is (symbol x + x, symbol y - y).",
+  "Device:R": {"1": [0, 3.81], "2": [0, -3.81]},
+  "Device:C": {"1": [0, 3.81], "2": [0, -3.81]},
+  "Device:LED": {"1": [-3.81, 0], "2": [3.81, 0]},
+  "Connector_Generic:Conn_01x02": {"1": [-5.08, 0], "2": [-5.08, -2.54]},
+  "Mechanical:MountingHole": {}
+}

@@ -1,0 +1,100 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-14T06:24:15",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.5",
+    "schematic_parity": [],
+    "source": "trial.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 2 [/GND] of J1",
+                    "pos": {
+                        "x": 105.0,
+                        "y": 115.04
+                    },
+                    "uuid": "17545fd4-f85e-4452-80b6-9aca05956410"
+                },
+                {
+                    "description": "Pad 2 [/GND] of C1 on F.Cu",
+                    "pos": {
+                        "x": 125.775,
+                        "y": 118.0
+                    },
+                    "uuid": "3efa69b9-b8f4-41d5-88e9-fdf252a72962"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 2 [/GND] of C1 on F.Cu",
+                    "pos": {
+                        "x": 125.775,
+                        "y": 118.0
+                    },
+                    "uuid": "3efa69b9-b8f4-41d5-88e9-fdf252a72962"
+                },
+                {
+                    "description": "Pad 1 [/GND] of D1 on F.Cu",
+                    "pos": {
+                        "x": 125.7875,
+                        "y": 106.0
+                    },
+                    "uuid": "420a7152-f1e5-40e5-95e0-9c5eb3687f39"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Footprint 'LED_0603_1608Metric' does not match copy in library 'LED_SMD'",
+            "items": [
+                {
+                    "description": "Footprint D1",
+                    "pos": {
+                        "x": 125.0,
+                        "y": 106.0
+                    },
+                    "uuid": "4b40f9a3-a36b-401f-934b-c5bfce32e707"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "case": "duplicate_key",
+    "result": "accepted"
+  },
+  {
+    "case": "newline_measurement",
+    "result": "accepted"
+  },
+  {
+    "case": "large_integer",
+    "result": "uncaught OverflowError: int too large to convert to float"
+  }
+]

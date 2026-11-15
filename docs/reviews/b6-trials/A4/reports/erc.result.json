@@ -1,0 +1,12 @@
+{
+  "binding_sha256": "d148c56b5e09160be2a1cc998826ae8b8c6f3ba1a2ee68886059b990d22f7b6a",
+  "exit_code": 0,
+  "findings": [],
+  "operation": "erc",
+  "record": "pcb-design/result",
+  "status": "pass",
+  "tool_exit": 0,
+  "unwaived": [],
+  "version": "1",
+  "waived": []
+}

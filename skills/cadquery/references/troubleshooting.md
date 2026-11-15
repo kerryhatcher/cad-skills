@@ -5,7 +5,7 @@
 1. **Divide the chain into parts.** Change a long fluent chain into named steps. Examine each step (`print(len(wp.vals()), wp.val().isValid())`). Remove features from the end, one at a time (make them comments), until the build is satisfactory.
 2. **Examine the selection, not only the result.** Use `show_object(wp.edges(sel))`, or print the centers and the types:
    `[(e.geomType(), e.Center().toTuple()) for e in wp.edges(sel).vals()]`.
-3. **Measure** after each feature: bbox, volume, number of solids (`scripts/inspect_model.py`). If a feature did not change the volume, the feature did not occur.
+3. **Measure** after each feature: bbox, volume, number of solids (`../scripts/inspect_model.py`). If a feature did not change the volume, the feature did not occur.
 4. **Render** (`--png`, `--views`) and examine the images. Orthographic views (`--view front/top/right`) show features that are in an incorrect position.
 5. **Examine the API of the installed version:** `scripts/cq_api.py Workplane.<method>`. The online documentation is for the development version.
 6. **Change the parameters** (`--set`) to find the value where the build breaks. Add an `assert` statement for that value.

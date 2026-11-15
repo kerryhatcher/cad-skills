@@ -227,5 +227,21 @@ __marimo__/
 *.glb
 *.gltf
 out/
+!skills/pcb-design/templates/rc-bare-board/out/
+skills/pcb-design/templates/rc-bare-board/out/*
+!skills/pcb-design/templates/rc-bare-board/out/history/
+skills/pcb-design/templates/rc-bare-board/out/history/*
+!skills/pcb-design/templates/rc-bare-board/out/history/interfaces/
+skills/pcb-design/templates/rc-bare-board/out/history/interfaces/*
+!skills/pcb-design/templates/rc-bare-board/out/history/interfaces/*.json
 ASD-STE100_ISSUE9.pdf
 *.dxf
+
+# cad-skills project state and KiCad local state
+.cad-skills.lock
+.cad-skills-tmp-*
+*.kicad_prl
+fp-info-cache
+*-backups/
+_autosave-*
+*.lck

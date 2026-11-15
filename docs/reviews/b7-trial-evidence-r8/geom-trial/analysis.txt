@@ -1,0 +1,9 @@
+flashes: 12
+pair 1-2 exact_gap_mm=0.650000 exact_gap_mil=25.5906 approx_q16_mm=0.650000
+pair 5-6 exact_gap_mm=0.700000 exact_gap_mil=27.5591 approx_q16_mm=0.700000
+pair 3-4 exact_gap_mm=0.840000 exact_gap_mil=33.0709 approx_q16_mm=0.840000
+pair 8-9 exact_gap_mm=0.850000 exact_gap_mil=33.4646 approx_q16_mm=0.850000
+pair 10-11 exact_gap_mm=0.850000 exact_gap_mil=33.4646 approx_q16_mm=0.850000
+pair 3-7 exact_gap_mm=7.126110 exact_gap_mil=280.5555 approx_q16_mm=7.127242
+pair 1-11 exact_gap_mm=7.550000 exact_gap_mil=297.2441 approx_q16_mm=7.550000
+pair 6-9 exact_gap_mm=7.550000 exact_gap_mil=297.2441 approx_q16_mm=7.550000

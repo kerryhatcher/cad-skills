@@ -1,0 +1,12 @@
+{
+  "source_sha256": "ade74723a60442ced804686e8784526c283f619064cccf17f842116cad0af328",
+  "source_after": "ade74723a60442ced804686e8784526c283f619064cccf17f842116cad0af328",
+  "flashes": 2200,
+  "input_bytes": 52553,
+  "shape": "0.1 mm circles, one column, 0.3 mm center spacing",
+  "elapsed_seconds": 1.4319999490107875,
+  "result": [
+    "Unsupported",
+    "more than 2000000 candidate pairs"
+  ]
+}

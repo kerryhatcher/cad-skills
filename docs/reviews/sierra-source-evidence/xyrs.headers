@@ -1,0 +1,14 @@
+HTTP/2 200 
+cache-control: public, max-age=14515200
+content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+last-modified: Thu, 06 Jan 2022 14:14:46 GMT
+accept-ranges: bytes
+etag: "3fb274c273d81:0"
+server: IIS
+x-xss-protection: 1; mode=block
+x-content-type-options: nosniff
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+content-security-policy: frame-ancestors 'self';object-src
+date: Sat, 14 Nov 2026 11:09:18 GMT
+content-length: 11859
+

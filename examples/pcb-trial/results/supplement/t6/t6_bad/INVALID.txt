@@ -1,0 +1,1 @@
+INVALID: the first script version read a count attribute that does not exist (traceback).

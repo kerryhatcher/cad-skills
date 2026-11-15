@@ -1,0 +1,16 @@
+{
+  "expected": 0,
+  "missing": [],
+  "observed": 1,
+  "status": "different",
+  "unexpected": [
+    {
+      "after": "null",
+      "before": "\"/b514d237-c153-5f6d-afe2-53badf97a8ff\"",
+      "class": "footprint",
+      "field": "path",
+      "ident": "C2",
+      "op": "changed"
+    }
+  ]
+}

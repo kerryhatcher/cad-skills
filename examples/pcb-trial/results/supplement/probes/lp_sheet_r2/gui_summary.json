@@ -1,0 +1,58 @@
+{
+  "label": "lp_sheet_r2",
+  "options_requested": {
+    "relink": "off",
+    "replace": "on",
+    "delete": "off"
+  },
+  "pcb_sha256_before": "259c44ac5a52fc22b92b9e348f3e2c6ab88c879d0d02cded8558464e83d566a6",
+  "windows": {
+    "after_start": [
+      "kicad",
+      "trial \u2014 KiCad 10.0"
+    ],
+    "dialog_open": [
+      "Update PCB from Schematic",
+      "kicad",
+      "trial \u2014 KiCad 10.0",
+      "trial \u2014 PCB Editor",
+      "trial \u2014 Schematic Editor"
+    ],
+    "after_save": [
+      "kicad",
+      "sub [trial/sub] \u2014 Schematic Editor",
+      "trial \u2014 KiCad 10.0",
+      "trial \u2014 PCB Editor"
+    ]
+  },
+  "shots": [
+    "out/shots/lp_sheet_r2/01_dialog.png",
+    "out/shots/lp_sheet_r2/02_options.png",
+    "out/shots/lp_sheet_r2/03_after_update.png",
+    "out/shots/lp_sheet_r2/04_after_save.png"
+  ],
+  "first_run_setup": "dismissed with Escape and Return (default settings)",
+  "options_measured": {
+    "relink": {
+      "default": false,
+      "before": false,
+      "after": false
+    },
+    "replace": {
+      "default": true,
+      "before": true,
+      "after": true
+    },
+    "delete": {
+      "default": false,
+      "before": false,
+      "after": false
+    }
+  },
+  "kicad_exit": {
+    "state": "exited",
+    "code": 0
+  },
+  "pcb_sha256_after": "257a7166a0431f23132066577e65ad64f00e08f43f24ec541985ef64fdfa3537",
+  "pcb_changed": true
+}

@@ -1,0 +1,290 @@
+{
+  "schema_id": "cad-skills/manifest",
+  "schema_version": "1.0",
+  "release_id": "b5-trial-draft",
+  "kind": "bare_board",
+  "board_revision": "A",
+  "board_sha256": "ce5e0f3bd6a68b69ffe3a4982f3d88e66d828e8c5570bcc1bba00d63850c1973",
+  "variant": "base",
+  "supplier": {
+    "id": "none-selected",
+    "service": "No supplier selected",
+    "profile_sha256": "11c979a4013b1d7016fc3c70a76a45da1113896070e430ac68e744f792beef4d"
+  },
+  "inputs": [
+    {
+      "role": "board_record",
+      "path": "board.yaml",
+      "sha256": "0050b9c38081b7ca78d52a88e3bf7ff1eed864607696efa5de01a68cba97bffb"
+    },
+    {
+      "role": "board",
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "ce5e0f3bd6a68b69ffe3a4982f3d88e66d828e8c5570bcc1bba00d63850c1973"
+    },
+    {
+      "role": "schematic",
+      "path": "kicad/board.kicad_sch",
+      "sha256": "a07579562689394465aea162c87d6a4d00d241162579c584d83b78bfa8e6fd98"
+    },
+    {
+      "role": "variants",
+      "path": "variants.yaml",
+      "sha256": "dac762520decab3c79c6dee30324cee097957d8c24a27ec799230103ddab7223"
+    },
+    {
+      "role": "supplier_profile",
+      "path": "manufacturing/supplier.yaml",
+      "sha256": "4792667b1d0ca99df781509dbc14a18cf7b3374b07a9bc813e2c7d4d6a737cf9"
+    },
+    {
+      "role": "export_settings",
+      "path": "manufacturing/export.yaml",
+      "sha256": "4963eecfe98e038ff6fea73db91bb0f90879a356d6e876368e4b465445ddcc7a"
+    },
+    {
+      "role": "toolchain",
+      "path": "toolchain.lock.json",
+      "sha256": "0819fffda96003d7a5934425f37e22c9cb380da947b4fb33304f2c81d9b8d442"
+    },
+    {
+      "role": "board_interface",
+      "path": "mechanical/board-interface.json",
+      "sha256": "9c070e5eee735d6556c890a98f68f0815fa75590ddaa52d2311ff5cda50eadc5"
+    },
+    {
+      "role": "waivers",
+      "path": "manufacturing/waivers.yaml",
+      "sha256": "c37ff31f346298e1ca678d2befd7350718c6f39c6f5ea766a9c8532d27450279"
+    }
+  ],
+  "outputs": [
+    {
+      "role": "copper",
+      "path": "gerber/board-F_Cu.gbr",
+      "sha256": "da12f7ee17ee0c43c996de203eebd85ced53b944c2300dcd47e9de5d688b735e",
+      "size_bytes": 3115,
+      "layer": "F.Cu"
+    },
+    {
+      "role": "copper",
+      "path": "gerber/board-B_Cu.gbr",
+      "sha256": "ac5d1d27136a1e8974740ac1e980c0dbe9f184b999cfbc6e0ecedeb0d3386a43",
+      "size_bytes": 8212,
+      "layer": "B.Cu"
+    },
+    {
+      "role": "mask",
+      "path": "gerber/board-F_Mask.gbr",
+      "sha256": "ffcff58f2620ea671b70331247c5d905b1c66531134d495f4d8c57b1d7571bec",
+      "size_bytes": 2069,
+      "layer": "F.Mask"
+    },
+    {
+      "role": "mask",
+      "path": "gerber/board-B_Mask.gbr",
+      "sha256": "74193f984e09586bade8b0908772096d5a76c1be25791261d4f2453aa2227216",
+      "size_bytes": 918,
+      "layer": "B.Mask"
+    },
+    {
+      "role": "silk",
+      "path": "gerber/board-F_Silkscreen.gbr",
+      "sha256": "e4f7acb89e7b14c8d88fa899782e9b62421833de71d2d3ba4a203fad3c9784bb",
+      "size_bytes": 7284,
+      "layer": "F.Silkscreen"
+    },
+    {
+      "role": "silk",
+      "path": "gerber/board-B_Silkscreen.gbr",
+      "sha256": "1731fcf4a60a27e96f4ebbfd072c5e05cfc21d1dba95165f92f8d0eb02acc3d4",
+      "size_bytes": 543,
+      "layer": "B.Silkscreen"
+    },
+    {
+      "role": "paste",
+      "path": "gerber/board-F_Paste.gbr",
+      "sha256": "a56f0e1ac5eea8991a03765e1128c1f22ba73d1a76175e5253acf065c2ab2714",
+      "size_bytes": 1693,
+      "layer": "F.Paste"
+    },
+    {
+      "role": "paste",
+      "path": "gerber/board-B_Paste.gbr",
+      "sha256": "b40db603adfb7c6a76344b31473745feab25b7562b40373a510ab1f7cea432da",
+      "size_bytes": 542,
+      "layer": "B.Paste"
+    },
+    {
+      "role": "outline",
+      "path": "gerber/board-Edge_Cuts.gbr",
+      "sha256": "24cec59b28f6ab403b09658d990a3b40bd7919b22d537ff19bc81b5b241195cc",
+      "size_bytes": 702,
+      "layer": "Edge.Cuts"
+    },
+    {
+      "role": "drill_plated",
+      "path": "gerber/board-PTH.drl",
+      "sha256": "e342212297eef9a3b86d07efb9c3e474bbb87b594884e70dcf98709d6a13ca78",
+      "size_bytes": 548
+    },
+    {
+      "role": "drill_nonplated",
+      "path": "gerber/board-NPTH.drl",
+      "sha256": "1f18fe07320f7ee95d321ce8301623bc19570587e6e558608e345d8f391a2ee6",
+      "size_bytes": 470
+    },
+    {
+      "role": "schematic_pdf",
+      "path": "docs/schematic.pdf",
+      "sha256": "fc07d71fc87c6b8b9dc61183d4e5abd2a9b38812c7d2fed746b73dd9d2675cce",
+      "size_bytes": 38935
+    },
+    {
+      "role": "fabrication_drawing",
+      "path": "docs/fabrication.pdf",
+      "sha256": "2fdff1aee7fa44ef195651bafd606c8b480587b6d0f3b06d331cec5ebf74e8b3",
+      "size_bytes": 38329
+    },
+    {
+      "role": "report",
+      "path": "reports/design.erc.json",
+      "sha256": "e10f7f8e7c578ec448ed495003c1a19cd98560868fa3ad90651ad6d454bbbe16",
+      "size_bytes": 999
+    },
+    {
+      "role": "evidence",
+      "path": "evidence/design.erc.json",
+      "sha256": "cf303df7bcd436cb616c5818d2192597c1c644bdda9518318b794a764e1faf96",
+      "size_bytes": 496
+    },
+    {
+      "role": "report",
+      "path": "reports/design.drc.json",
+      "sha256": "0bbcd515f4e077311da25bd56d3c33391e1eb843a71f9db08ace00934a298b7c",
+      "size_bytes": 921
+    },
+    {
+      "role": "evidence",
+      "path": "evidence/design.drc.json",
+      "sha256": "12cf0d08c297ba7aea27ce3d6045a925f4f7d20da42f742b86de02a5eea9cdf9",
+      "size_bytes": 496
+    },
+    {
+      "role": "report",
+      "path": "reports/design.parity.json",
+      "sha256": "be5c9c1c2476a2fec5b1a05067fc8747df410a4c4d4ce0699719350e3fadb07d",
+      "size_bytes": 60
+    },
+    {
+      "role": "evidence",
+      "path": "evidence/design.parity.json",
+      "sha256": "90376b59db9b6e32a5e101ed818877c07732d60de9295603586fa16726641a09",
+      "size_bytes": 637
+    },
+    {
+      "role": "report",
+      "path": "reports/fab.profile_evidence.txt",
+      "sha256": "e23373a091a5338c2d477a9e7b532fe0d3f8b417cbcc755958a599c0fc1bffb9",
+      "size_bytes": 62
+    },
+    {
+      "role": "evidence",
+      "path": "evidence/fab.profile_evidence.json",
+      "sha256": "dc211abcc6237c56e32aa8eda00521b327723b34c10b7ea5017da2ea7db81d5d",
+      "size_bytes": 533
+    },
+    {
+      "role": "report",
+      "path": "reports/fab.export_inventory.json",
+      "sha256": "bf942736d7cbce862400589005d82c3bb6bd5c78baf860daae284ad1de1b2279",
+      "size_bytes": 826
+    },
+    {
+      "role": "evidence",
+      "path": "evidence/fab.export_inventory.json",
+      "sha256": "c1353da6ef9a9691c8b78474fbbfd132f449e6f271c1d25c5c4c2bf194a61c38",
+      "size_bytes": 664
+    },
+    {
+      "role": "report",
+      "path": "reports/fab.layer_order.json",
+      "sha256": "57320fec1ce7436b26fe53890153196b29881372a3d62acdabb759fe1f8e3ed5",
+      "size_bytes": 283
+    },
+    {
+      "role": "evidence",
+      "path": "evidence/fab.layer_order.json",
+      "sha256": "10e0bba577cf1434ceffabfe7f90c304ada430693030c7921034665911508692",
+      "size_bytes": 654
+    },
+    {
+      "role": "report",
+      "path": "reports/fab.drill_split.json",
+      "sha256": "81c3d25c0d74fa00b180bfa16496f390238b99e979546e9087bff41ff4c9de74",
+      "size_bytes": 430
+    },
+    {
+      "role": "evidence",
+      "path": "evidence/fab.drill_split.json",
+      "sha256": "92008bda4d945d02592be8fa79378013c6c43c4efe7b6030203a325c279dd108",
+      "size_bytes": 799
+    }
+  ],
+  "drill_applicability": [],
+  "checks": [
+    {
+      "id": "design.erc",
+      "status": "pass",
+      "evidence_path": "evidence/design.erc.json",
+      "evidence_sha256": "cf303df7bcd436cb616c5818d2192597c1c644bdda9518318b794a764e1faf96"
+    },
+    {
+      "id": "design.drc",
+      "status": "pass",
+      "evidence_path": "evidence/design.drc.json",
+      "evidence_sha256": "12cf0d08c297ba7aea27ce3d6045a925f4f7d20da42f742b86de02a5eea9cdf9"
+    },
+    {
+      "id": "design.parity",
+      "status": "pass",
+      "evidence_path": "evidence/design.parity.json",
+      "evidence_sha256": "90376b59db9b6e32a5e101ed818877c07732d60de9295603586fa16726641a09"
+    },
+    {
+      "id": "fab.profile_evidence",
+      "status": "pending",
+      "evidence_path": "evidence/fab.profile_evidence.json",
+      "evidence_sha256": "dc211abcc6237c56e32aa8eda00521b327723b34c10b7ea5017da2ea7db81d5d"
+    },
+    {
+      "id": "fab.export_inventory",
+      "status": "pass",
+      "evidence_path": "evidence/fab.export_inventory.json",
+      "evidence_sha256": "c1353da6ef9a9691c8b78474fbbfd132f449e6f271c1d25c5c4c2bf194a61c38"
+    },
+    {
+      "id": "fab.layer_order",
+      "status": "pass",
+      "evidence_path": "evidence/fab.layer_order.json",
+      "evidence_sha256": "10e0bba577cf1434ceffabfe7f90c304ada430693030c7921034665911508692"
+    },
+    {
+      "id": "fab.drill_split",
+      "status": "pass",
+      "evidence_path": "evidence/fab.drill_split.json",
+      "evidence_sha256": "92008bda4d945d02592be8fa79378013c6c43c4efe7b6030203a325c279dd108"
+    }
+  ],
+  "status": "draft",
+  "reasons": [
+    {
+      "code": "fab.profile_evidence_pending",
+      "text": "B5 selects no supplier. The check fab.profile_evidence is pending."
+    }
+  ],
+  "tool_versions": {
+    "kicad": "10.0.5",
+    "ngspice": "44.2"
+  }
+}

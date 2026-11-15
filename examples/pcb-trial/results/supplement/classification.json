@@ -1,0 +1,13 @@
+{
+  "gate3_fpr1_replace_off": {
+    "log_label": "kind=supported (historical, unchanged)",
+    "classification": "option experiment, not a supported matching-source gate",
+    "reason": "The comparison is equal against the empty expectation, but the saved board has 2 schematic parity findings (footprint_symbol_mismatch).",
+    "evidence": ["results/native/repeat/gate3_fpr1_replace_off/drc.json"]
+  },
+  "export_final_sh_comment": {
+    "problem": "scripts/export_final.sh line 6 says 'suffixes -> Protel extensions'. The command uses --board-plot-params and the measured names are .gbr.",
+    "measured": "Without --board-plot-params, kicad-cli writes Protel extensions (.gtl, .gbl, .gts, .gbs, .gm1). With it, the board settings give .gbr names (step T11_drillmarks_187, results/supplement/t11/drill_marks/).",
+    "status": "The frozen script is not changed. This record is the correction."
+  }
+}

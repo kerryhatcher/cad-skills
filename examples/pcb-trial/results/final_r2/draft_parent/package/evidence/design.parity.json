@@ -1,0 +1,25 @@
+{
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "check_id": "design.parity",
+  "status": "pass",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_sch",
+      "sha256": "a07579562689394465aea162c87d6a4d00d241162579c584d83b78bfa8e6fd98"
+    },
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "56f794242345dd3950d5bd066bea6f2a1d1740c5adfc7152651667210297bd94"
+    }
+  ],
+  "artifact": {
+    "path": "reports/design.parity.json",
+    "sha256": "be5c9c1c2476a2fec5b1a05067fc8747df410a4c4d4ce0699719350e3fadb07d"
+  },
+  "method": "tool",
+  "tool": {
+    "name": "kicad-cli",
+    "version": "10.0.5"
+  }
+}

@@ -97,7 +97,7 @@ uv run tests/test_snippets.py          # all blocks
 uv run tests/test_snippets.py -k recipes -v
 ```
 
-If a code block cannot run without other code, put `# notest` on its first line.
+If a code block cannot run without other code, put `# notest: <reason>` on its first line. A mark with no reason fails the test.
 
 The FEA, printability and slicer tools have regression tests:
 
@@ -109,7 +109,16 @@ The FEA, printability and slicer tools have regression tests:
 uv run tests/test_print_tools.py
 ```
 
-CI runs the two test scripts each time that you push commits (`.github/workflows/test.yml`).
+The record contracts in `contracts/` have their own tests:
+
+```bash
+uv run tests/test_pcb_tools.py
+uv run tests/test_project_io.py
+uv run tests/test_skill_packages.py
+uv run tests/test_snippets.py --dry-run   # show the environment of each block
+```
+
+CI runs these test scripts each time that you push commits (`.github/workflows/test.yml`).
 
 ### Language
 

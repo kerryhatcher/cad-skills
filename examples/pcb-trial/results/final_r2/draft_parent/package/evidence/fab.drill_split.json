@@ -1,0 +1,29 @@
+{
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "check_id": "fab.drill_split",
+  "status": "pass",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "56f794242345dd3950d5bd066bea6f2a1d1740c5adfc7152651667210297bd94"
+    },
+    {
+      "path": "mechanical/board-interface.json",
+      "sha256": "a2b6952b6dcd65fa588d6dedfc771df1023943c2c0e6a9b9823e39069f5f4c1f"
+    },
+    {
+      "path": "manufacturing/export.yaml",
+      "sha256": "4963eecfe98e038ff6fea73db91bb0f90879a356d6e876368e4b465445ddcc7a"
+    }
+  ],
+  "artifact": {
+    "path": "reports/fab.drill_split.json",
+    "sha256": "81c3d25c0d74fa00b180bfa16496f390238b99e979546e9087bff41ff4c9de74"
+  },
+  "method": "tool",
+  "tool": {
+    "name": "check_exports.py",
+    "version": "b5-trial"
+  }
+}

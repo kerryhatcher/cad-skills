@@ -1,0 +1,48 @@
+{
+  "closure": {
+    "board.yaml": "ca89b76156545fa36890a1552880bb49df977984f428433dd6205cfa62f741fd",
+    "kicad/board.kicad_pcb": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+    "kicad/board.kicad_pro": "fa0616f9cd2c2d5f8f09754d4d7b7b46ebd6c12a500f16be095005c4bcfdc3ee",
+    "kicad/board.kicad_sch": "a0934ec606be522821ded5a3e7d31f4a9fa187452e1e8c5fa00afade0434d26c",
+    "kicad/fp-lib-table": "0c050ebfb4cc1da7401fa11c9b6350d084d526f57bb73e1de602171387b96ce4",
+    "manufacturing/export.yaml": "e9ae3ee89c0b088f7468e5d002a7f47967358f1b922443bcb09eed99b2c22235",
+    "manufacturing/supplier.yaml": "35ba04c61b4c95bb28a997205801597db363ea1ec0ff1a51fec09dc78b282609",
+    "manufacturing/waivers.yaml": "ea5bbc9e8d942845487a965c110f8a9cf95063cd7c0640c92d76a6145e617b53",
+    "mechanical/board-interface.json": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc",
+    "toolchain.lock.json": "cb9fa2bc5c13a0682c04915c503654ecf4042c4d1c0d3a5604129ec72ddb4169",
+    "variants.yaml": "e293a931f41f3b3181fa000ebf203c68a90feac2439b40820647b3f2614c1c3e"
+  },
+  "operation": "drc",
+  "options": {
+    "command": [
+      "kicad-cli",
+      "pcb",
+      "drc",
+      "--schematic-parity",
+      "--exit-code-violations",
+      "--severity-all",
+      "--format",
+      "json",
+      "-o",
+      "/work/drc.json",
+      "/work/kicad/board.kicad_pcb"
+    ],
+    "refill_zones": false
+  },
+  "raw_file": "out/reports/raw/drc-0475a1a58c8a9bf5f272e3366a6d3687a6ba5afa5ada78e90b8877cc4fc9e7b9.json",
+  "raw_sha256": "0475a1a58c8a9bf5f272e3366a6d3687a6ba5afa5ada78e90b8877cc4fc9e7b9",
+  "record": "pcb-design/binding",
+  "runtime": {
+    "execution": "container",
+    "image": "localhost/cad-skills-pcb:b6-rebuild",
+    "image_id": "032582d4298bfe68b07fde9942c5a92148de90b4a7fe911c095799ffc1eb2285"
+  },
+  "tool_exit": 0,
+  "tool_versions": {
+    "kicad-cli": "10.0.5",
+    "ngspice": "ngspice-44.2",
+    "pcbnew": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1",
+    "uv": "uv 0.12.5 (x86_64-unknown-linux-musl)"
+  },
+  "version": "1"
+}

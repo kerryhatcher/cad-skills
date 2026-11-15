@@ -1,0 +1,72 @@
+/opt/trial-venv/lib/python3.13/site-packages/skidl/utilities.py:585: SyntaxWarning: invalid escape sequence '\s'
+  >>> split_unquoted('\s+', 'hello world "foo bar" test')
+WARNING: KICAD6_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD8_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD9_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD7_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: Missing tag on  instantiated at /work/<frozen importlib._bootstrap>:488.
+INFO: 5 warnings found while generating netlist.
+INFO: 0 errors found while generating netlist.
+
+Traceback (most recent call last):
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/route.py", line 2441, in switchbox_router
+    swbx.route(**options)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/route.py", line 1927, in route
+    raise SwitchboxRoutingFailure
+schematizer.engine.route.SwitchboxRoutingFailure
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/route.py", line 3220, in route
+    node.switchbox_router(switchboxes, **options)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/route.py", line 2447, in switchbox_router
+    swbx.route(**options)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/route.py", line 1927, in route
+    raise SwitchboxRoutingFailure
+schematizer.engine.route.SwitchboxRoutingFailure
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/trial-venv/lib/python3.13/site-packages/skidl/tools/kicad10/gen_sch.py", line 64, in gen_sch
+    return render(netlist, tool=TOOL_NAME, **kwargs)
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/render.py", line 153, in render
+    gen_schematic_mod.gen_schematic(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        circuit,
+        ^^^^^^^^
+    ...<4 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/gen_schematic.py", line 895, in gen_schematic
+    raise failure_type
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/gen_schematic.py", line 765, in gen_schematic
+    node.route(**options)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/route.py", line 3247, in route
+    raise RoutingFailure
+schematizer.engine.route.RoutingFailure
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/work/skidl/circuit.py", line 33, in <module>
+    generate_schematic(filepath=out, top_name="trial")
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/skidl/circuit.py", line 1027, in generate_schematic
+    gen_sch(self, **kwargs)
+    ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/skidl/tools/kicad10/gen_sch.py", line 70, in gen_sch
+    raise RoutingFailure(str(e)) from e
+skidl.errors.RoutingFailure

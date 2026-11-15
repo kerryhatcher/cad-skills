@@ -1,0 +1,1 @@
+podman run --pull=never --rm -v /tmp/claude-1000/-mnt-storage-projects-cad-skills/31456ff4-3cc5-4474-895e-358d2be1c713/scratchpad/b5/trial:/work:Z ghcr.io/astral-sh/uv@sha256:e85be844203885286c60ffad8a858d48afb6c5a5c237ca0e67f12e74b8f174b1 pip compile /work/requirements.in --python-version 3.13.5 --generate-hashes --no-header -o /work/requirements.lock

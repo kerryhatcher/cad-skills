@@ -1,0 +1,5 @@
+== oval
+unsupported aperture ObroundAperture(unit=<LengthUnit millimeter>, attrs=(), original_number=10, _bounding_box=None, w=0.6, h=0.9, hole_dia=None)
+== overlap
+flashes: 2
+pair 0-1 exact_gap_mm=-0.100000 exact_gap_mil=-3.9370 approx_q16_mm=0.000000

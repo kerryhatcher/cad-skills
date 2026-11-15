@@ -1,0 +1,63 @@
+{
+  "report_schema_version": "1.0",
+  "status": "fail",
+  "exit_code": 1,
+  "tool_versions": {
+    "python": "3.13.15",
+    "jsonschema": "4.26.0",
+    "pyyaml": "6.0.3"
+  },
+  "inputs": [
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/board.yaml",
+      "sha256": "0050b9c38081b7ca78d52a88e3bf7ff1eed864607696efa5de01a68cba97bffb"
+    },
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/kicad/board.kicad_pcb",
+      "sha256": "56f794242345dd3950d5bd066bea6f2a1d1740c5adfc7152651667210297bd94"
+    },
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/kicad/board.kicad_sch",
+      "sha256": "a07579562689394465aea162c87d6a4d00d241162579c584d83b78bfa8e6fd98"
+    },
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/variants.yaml",
+      "sha256": "dac762520decab3c79c6dee30324cee097957d8c24a27ec799230103ddab7223"
+    },
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/manufacturing/supplier.yaml",
+      "sha256": "4792667b1d0ca99df781509dbc14a18cf7b3374b07a9bc813e2c7d4d6a737cf9"
+    },
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/manufacturing/export.yaml",
+      "sha256": "4963eecfe98e038ff6fea73db91bb0f90879a356d6e876368e4b465445ddcc7a"
+    },
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/toolchain.lock.json",
+      "sha256": "0819fffda96003d7a5934425f37e22c9cb380da947b4fb33304f2c81d9b8d442"
+    },
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/mechanical/board-interface.json",
+      "sha256": "a2b6952b6dcd65fa588d6dedfc771df1023943c2c0e6a9b9823e39069f5f4c1f"
+    },
+    {
+      "path": "examples/pcb-trial/results/final_r2/draft_parent/project/manufacturing/waivers.yaml",
+      "sha256": "c37ff31f346298e1ca678d2befd7350718c6f39c6f5ea766a9c8532d27450279"
+    },
+    {
+      "path": "/tmp/neg_pkg2/manifest.json",
+      "sha256": "36a0879e18e606c6e26ec0f33a10fb082cae9b6a19c641b56e6cfe64de5c0543"
+    }
+  ],
+  "findings": [
+    {
+      "code": "pkg.false_qualification",
+      "severity": "error",
+      "file": "/tmp/neg_pkg2/manifest.json",
+      "location": "/checks",
+      "message": "The required check fab.profile_evidence is not pass."
+    }
+  ],
+  "unprocessed": [],
+  "outputs": []
+}

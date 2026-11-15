@@ -1,0 +1,1 @@
+RUN uv run --no-project --no-config --offline --python /usr/bin/python3 python scripts/gui_update.py --project out/gate2_fpr1_replace_off --label gate2_fpr1_replace_off --replace off --delete off --relink off

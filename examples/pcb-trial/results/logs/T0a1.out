@@ -1,0 +1,8 @@
+[1/2] STEP 1/1: FROM ghcr.io/astral-sh/uv@sha256:e85be844203885286c60ffad8a858d48afb6c5a5c237ca0e67f12e74b8f174b1 AS uv
+--> ee2b4db50bca
+[2/2] STEP 1/2: FROM ghcr.io/inti-cmnb/kicad10_auto_full@sha256:96e75f885b15617c6b38aef11db7856a93f4367cab7a0b6c2b30465557619330
+[2/2] STEP 2/2: COPY --from=uv /uv /usr/local/bin/uv
+[2/2] COMMIT localhost/cad-skills-trial-uv:b5
+--> 5a445339421b
+Successfully tagged localhost/cad-skills-trial-uv:b5
+5a445339421b8c398e56fed5384c9b949ace78b69fd5fd2fe146be4ffd943925

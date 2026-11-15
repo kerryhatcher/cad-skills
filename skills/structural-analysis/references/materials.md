@@ -48,7 +48,7 @@ The table is for 100% solid material. Actual parts are different:
 For a part with sparse infill, make a model of the skin only. Use walls of `perimeters × 0.45 mm`. Use floors of `top/bottom_solid_min_thickness` (0.7 mm and 0.5 mm in the Prusa profiles). In CadQuery:
 
 ```python
-# notest
+# notest: one line that needs the variables solid_part and perimeters
 skin = solid_part.faces(">Z").shell(-(perimeters * 0.45))  # open top (or shell a copy and remove no faces)
 ```
 

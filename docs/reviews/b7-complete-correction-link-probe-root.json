@@ -1,0 +1,26 @@
+{
+  "workflow_sha256": "05ad9a5ab565d1eb0ef18d6d9a8b0e4575e869c9d9f7cb344de33811e82435d4",
+  "command": [
+    "uv",
+    "run",
+    "--quiet",
+    "/mnt/storage/projects/cad-skills/skills/pcb-fab-package/scripts/fab.py",
+    "package",
+    "--project",
+    "/tmp/b7-package-link-root-5ici95eq/project",
+    "--profile",
+    "/mnt/storage/projects/cad-skills/skills/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml",
+    "--release",
+    "probe",
+    "--review",
+    "/tmp/b7-package-link-root-5ici95eq/project/out/fab/review.json",
+    "--review-sha256",
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    "--dest",
+    "/tmp/b7-package-link-root-5ici95eq/project/out/fab/packages/probe"
+  ],
+  "exit": 1,
+  "outside_profile_created": true,
+  "stderr": "fab: invalid input: [Errno 2] No such file or directory: '/tmp/b7-package-link-root-5ici95eq/project/out/fab/design/design-result.json'\n",
+  "temporary_directory": "/tmp/b7-package-link-root-5ici95eq"
+}

@@ -1,0 +1,4 @@
+Found 1 violations
+Found 4 unconnected items
+Found 1 schematic parity issues
+Saved DRC Report to /work/out/drc_native/probe_rename_relink_on/drc.json

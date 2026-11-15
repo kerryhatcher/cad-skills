@@ -1,0 +1,9 @@
+{
+  "board_sha256": "2191e8946a0ccf5935edb08395ca4399bde8e236d71f1a7b62c5f324c19d742a",
+  "expect_sha256": "0ca8d7c543b2f999dfbde4cdbf886591d4dfa0fced3990f7bec53c93e7554476",
+  "interface_sha256": "a0ea78183282b9eb5cdce1fc6f94a918bad74251b562c37c6e453675661ec628",
+  "prior_board_sha256": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+  "record": "pcb-design/interface-result",
+  "status": "pass",
+  "version": "1"
+}

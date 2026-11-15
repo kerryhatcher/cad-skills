@@ -1,0 +1,19 @@
+{
+  "binding_sha256": "644a21bda5f20f1abfcdadb06581145802a861d2cfff716380ac2d5f813cd71e",
+  "exit_code": 0,
+  "findings": [
+    {
+      "description": "rc.cir vtau = 1.298448 (expected 1.298, tolerance 0.01298)",
+      "objects": [],
+      "rule": "sim.assertion",
+      "severity": "info"
+    }
+  ],
+  "operation": "sim",
+  "record": "pcb-design/result",
+  "status": "pass",
+  "tool_exit": 0,
+  "unwaived": [],
+  "version": "1",
+  "waived": []
+}

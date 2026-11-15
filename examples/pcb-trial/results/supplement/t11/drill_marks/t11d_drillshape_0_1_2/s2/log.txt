@@ -1,0 +1,9 @@
+Plotted to '/work/out/t11d/s2/gerbers/trial-F_Cu.gbr'.
+Plotted to '/work/out/t11d/s2/gerbers/trial-B_Cu.gbr'.
+Plotted to '/work/out/t11d/s2/gerbers/trial-F_Paste.gbr'.
+Plotted to '/work/out/t11d/s2/gerbers/trial-B_Paste.gbr'.
+Plotted to '/work/out/t11d/s2/gerbers/trial-F_Silkscreen.gbr'.
+Plotted to '/work/out/t11d/s2/gerbers/trial-B_Silkscreen.gbr'.
+Plotted to '/work/out/t11d/s2/gerbers/trial-F_Mask.gbr'.
+Plotted to '/work/out/t11d/s2/gerbers/trial-B_Mask.gbr'.
+Plotted to '/work/out/t11d/s2/gerbers/trial-Edge_Cuts.gbr'.

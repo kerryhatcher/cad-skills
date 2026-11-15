@@ -1,0 +1,1 @@
+Attempt 1 (log FINAL_drc1_164): D1 rotated by text edit without field and pad angles. DRC exit 5, one lib_footprint_mismatch. Kept as history. The board of attempt 2 is the final board.

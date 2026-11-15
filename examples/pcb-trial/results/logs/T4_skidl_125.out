@@ -1,0 +1,69 @@
+/opt/trial-venv/lib/python3.13/site-packages/skidl/utilities.py:585: SyntaxWarning: invalid escape sequence '\s'
+  >>> split_unquoted('\s+', 'hello world "foo bar" test')
+WARNING: KICAD6_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD8_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD9_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD7_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: KICAD_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/work/<frozen importlib._bootstrap_external>:1026=>/work/<frozen importlib._bootstrap>:488]
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: fp-lib-table file was not found. Component footprints are not available.
+WARNING: Missing tag on  instantiated at /work/<frozen importlib._bootstrap>:488.
+INFO: 5 warnings found while generating netlist.
+INFO: 0 errors found while generating netlist.
+
+Traceback (most recent call last):
+  File "/work/skidl/circuit.py", line 31, in <module>
+    generate_schematic(filepath=out, top_name="trial")
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/skidl/circuit.py", line 1027, in generate_schematic
+    gen_sch(self, **kwargs)
+    ~~~~~~~^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/skidl/tools/kicad10/gen_sch.py", line 64, in gen_sch
+    return render(netlist, tool=TOOL_NAME, **kwargs)
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/render.py", line 153, in render
+    gen_schematic_mod.gen_schematic(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        circuit,
+        ^^^^^^^^
+    ...<4 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/gen_schematic.py", line 742, in gen_schematic
+    _place_and_classify(node, circuit, expansion_factor, **options)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/gen_schematic.py", line 623, in _place_and_classify
+    node.place(expansion_factor=expansion_factor, **options)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/place.py", line 2060, in place
+    node.place_floating_parts(list(floating_parts), **options)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/place.py", line 1592, in place_floating_parts
+    evolve_placement([], parts, [], force_func, **options)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/place.py", line 1152, in evolve_placement
+    push_and_pull(anchored_parts, mobile_parts, nets, force_func, **options)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/place.py", line 1046, in push_and_pull
+    scale = scale_attractive_repulsive_forces(parts, force_func, **options)
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/place.py", line 868, in scale_attractive_repulsive_forces
+    attractive_forces_sum = sum(
+        force_func(p, parts, alpha=0, scale=1, **options).magnitude for p in parts
+    )
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/place.py", line 869, in <genexpr>
+    force_func(p, parts, alpha=0, scale=1, **options).magnitude for p in parts
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/place.py", line 950, in total_similarity_force
+    force = scale * (1 - alpha) * similarity_force(
+                                  ~~~~~~~~~~~~~~~~^
+        part, parts, similarity, **options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) + alpha * repulsive_force(part, parts, **options)
+    ^
+  File "/opt/trial-venv/lib/python3.13/site-packages/schematizer/engine/place.py", line 929, in similarity_force
+    pull_pt = pull_pin.place_pt * pull_pin.part.tx
+                                  ^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'tx'

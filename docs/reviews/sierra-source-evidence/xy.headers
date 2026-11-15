@@ -1,0 +1,14 @@
+HTTP/2 200 
+cache-control: public, max-age=1800
+content-type: application/pdf
+last-modified: Thu, 17 Apr 2014 11:05:46 GMT
+accept-ranges: bytes
+etag: "ec397bfb2c5acf1:0"
+server: IIS
+x-xss-protection: 1; mode=block
+x-content-type-options: nosniff
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+content-security-policy: frame-ancestors 'self';object-src
+date: Sat, 14 Nov 2026 11:05:11 GMT
+content-length: 655160
+

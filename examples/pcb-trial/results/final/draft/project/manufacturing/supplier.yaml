@@ -1,0 +1,30 @@
+{
+  "schema_id": "cad-skills/supplier-profile",
+  "schema_version": "1.0",
+  "id": "none-selected",
+  "revision": "0",
+  "service": "No supplier selected",
+  "source_url": "https://example.com/none-selected",
+  "retrieved": "2026-11-14",
+  "evidence_sha256": "e3836c9368cd4c340f49c408ceb5f788d2fe2baa30682a8e781c2295dbb3e6d1",
+  "content_sha256": "11c979a4013b1d7016fc3c70a76a45da1113896070e430ac68e744f792beef4d",
+  "units": "mm",
+  "limits": {
+    "selection": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "No supplier is selected. The trial has no supplier limit.",
+      "source_url": "https://example.com/none-selected",
+      "retrieved": "2026-11-14"
+    }
+  },
+  "division": {
+    "kicad_dru": [],
+    "project_settings": [],
+    "geometric_tests": [],
+    "manual_evidence": [
+      "selection"
+    ]
+  }
+}

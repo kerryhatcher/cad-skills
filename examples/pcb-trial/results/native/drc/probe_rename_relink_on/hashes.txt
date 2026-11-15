@@ -1,0 +1,2 @@
+771aa3a3ce032f4b5c8edbc6f12f6191444f00c013d3bf911f8e564193e8005a  /tmp/drc_probe_rename_relink_on/trial.kicad_pcb
+15b79bf4fa15ab2be0cd1c10523aba7e00324c371b1d5b9e4863c8d48f0caf85  /tmp/drc_probe_rename_relink_on/trial.kicad_sch

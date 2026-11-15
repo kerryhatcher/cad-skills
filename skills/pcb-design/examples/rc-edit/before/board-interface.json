@@ -1,0 +1,46 @@
+{
+  "schema_id": "cad-skills/board-interface",
+  "schema_version": "1.0",
+  "board_revision": "A",
+  "board_sha256": "56f794242345dd3950d5bd066bea6f2a1d1740c5adfc7152651667210297bd94",
+  "units": "mm",
+  "origin_mm": {
+    "x": 0,
+    "y": 0
+  },
+  "thickness_mm": 1.6,
+  "geometry_tolerance_mm": 0.01,
+  "outline": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 40,
+      "y": 0
+    },
+    {
+      "x": 40,
+      "y": 25
+    },
+    {
+      "x": 0,
+      "y": 25
+    }
+  ],
+  "cutouts": [],
+  "holes": [],
+  "connector_frames": [],
+  "height_limits": {
+    "top_mm": 10,
+    "bottom_mm": 2
+  },
+  "enclosure_clearance_mm": 0.5,
+  "dimension_owners": {
+    "outline": "mechanical",
+    "holes": "mechanical",
+    "connector_frames": "mechanical",
+    "thickness": "mechanical",
+    "height_limits": "mechanical"
+  }
+}

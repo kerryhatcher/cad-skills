@@ -1,0 +1,215 @@
+{
+  "arcs": {},
+  "footprints": {
+    "2a210ed9-75ab-4695-83ec-97e314c9b49e": {
+      "at": [
+        217.055,
+        217.435,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "LED_SMD:LED_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.7875,
+            0,
+            0
+          ],
+          "net": "GND",
+          "uuid": "6a1fb200-8d06-4462-8ad8-336ced44cd64"
+        },
+        "2": {
+          "at": [
+            0.7875,
+            0,
+            0
+          ],
+          "net": "N_LED",
+          "uuid": "f8bd77a4-1f71-4706-861e-b7081c665ac2"
+        }
+      },
+      "path": "/730dc923-5f42-5190-a58b-2dbed3a5d5b0",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Light emitting diode",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit.py:22",
+        "SKiDL Tag": "D1"
+      },
+      "reference": "D1",
+      "value": "Green"
+    },
+    "4d86c3cc-e3c4-4476-b4ce-95160046e0c6": {
+      "at": [
+        213.005,
+        215.275,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.825,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "4f2c287d-c5be-4466-8b86-1ef266d3ec73"
+        },
+        "2": {
+          "at": [
+            0.825,
+            0,
+            0
+          ],
+          "net": "N_RC",
+          "uuid": "74606dd1-0510-45a2-8259-e70af849aa51"
+        }
+      },
+      "path": "/91c587b0-c855-58aa-84a9-2ba4ce88549e",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit.py:23",
+        "SKiDL Tag": "R2"
+      },
+      "reference": "R2",
+      "value": "10k"
+    },
+    "70e4c756-d29f-4947-80fc-9550aa675017": {
+      "at": [
+        213.005,
+        210.255,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Capacitor_SMD:C_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.775,
+            0,
+            0
+          ],
+          "net": "N_RC",
+          "uuid": "1b8cfbe7-28e2-48b1-91e5-562dcbe855e1"
+        },
+        "2": {
+          "at": [
+            0.775,
+            0,
+            0
+          ],
+          "net": "GND",
+          "uuid": "ccd1881b-c4be-45af-8af3-e1fe86265777"
+        }
+      },
+      "path": "/b514d237-c153-5f6d-afe2-53badf97a864",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Unpolarized capacitor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit.py:24",
+        "SKiDL Tag": "C1"
+      },
+      "reference": "C1",
+      "value": "100n"
+    },
+    "c265e261-dbcf-460f-9f67-c9f590e9b429": {
+      "at": [
+        213.005,
+        212.765,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.825,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "eb6ef4ac-b940-46b6-a114-745d50c89dd9"
+        },
+        "2": {
+          "at": [
+            0.825,
+            0,
+            0
+          ],
+          "net": "N_LED",
+          "uuid": "fa1c7fe6-e77d-4a05-9b93-2264a61cd541"
+        }
+      },
+      "path": "/91628e47-8f83-5ba1-abed-4cb134d83eea",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit.py:21",
+        "SKiDL Tag": "R1"
+      },
+      "reference": "R1",
+      "value": "1k"
+    },
+    "c4fea7c6-4325-4cdb-a586-5e1fae9bda10": {
+      "at": [
+        217.305,
+        211.295,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "pads": {
+        "1": {
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "73251241-e3cd-483b-b09f-6548e138f805"
+        },
+        "2": {
+          "at": [
+            0,
+            2.54,
+            0
+          ],
+          "net": "GND",
+          "uuid": "8041af3c-cb78-40d0-819c-8facbe632295"
+        }
+      },
+      "path": "/d7608689-a7d2-514c-aa16-0f8bde5cf213",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)",
+        "KiLib_Generator": "connector/pin_header_socket",
+        "SKiDL Line": "circuit.py:19",
+        "SKiDL Tag": "J1"
+      },
+      "reference": "J1",
+      "value": "Power"
+    }
+  },
+  "forms_seen": [
+    "embedded_fonts",
+    "footprint",
+    "general",
+    "generator",
+    "generator_version",
+    "layers",
+    "paper",
+    "setup",
+    "version"
+  ],
+  "graphics": {},
+  "segments": {},
+  "vias": {},
+  "zones": {}
+}

@@ -1,0 +1,28 @@
+{
+  "workflow_sha256": "05ad9a5ab565d1eb0ef18d6d9a8b0e4575e869c9d9f7cb344de33811e82435d4",
+  "command": [
+    "uv",
+    "run",
+    "--quiet",
+    "skills/pcb-fab-package/scripts/fab.py",
+    "package",
+    "--project",
+    "/tmp/b7-copy-root-g8s2lan0/project",
+    "--profile",
+    "/mnt/storage/projects/cad-skills/skills/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml",
+    "--release",
+    "trial-1",
+    "--review",
+    "/tmp/b7-copy-root-g8s2lan0/project/out/fab/source-review/REVIEW.json",
+    "--review-sha256",
+    "963bf9b2788cff39913bc5bad30cba765c9a8d631e76ab1b203adfd44880c7b3",
+    "--dest",
+    "/tmp/b7-copy-root-g8s2lan0/project/out/fab/packages/changed-manual-record"
+  ],
+  "manual_before_sha256": "78631b69541f402262b181a30fd3719be3dabd9af4490f4631fd18b8f93cb886",
+  "manual_after_sha256": "a8e3e4531d82dd6ef414e3dcc6f932c189dbd66332c166ad4047399cdd934a6e",
+  "exit": 0,
+  "status": "qualified",
+  "reasons": [],
+  "stderr": ""
+}

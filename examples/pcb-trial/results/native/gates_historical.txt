@@ -1,0 +1,12 @@
+gate gate_none op=none replace=on delete=off compare_rc=0
+gate gate_reorder op=reorder replace=on delete=off compare_rc=0
+gate gate_value op=value-r2 replace=on delete=off compare_rc=1
+gate gate_addc2 op=add-c2 replace=on delete=off compare_rc=1
+gate gate2_value op=value-r2 replace=on delete=off compare_rc=0
+gate gate2_addc2 op=add-c2 replace=on delete=off compare_rc=0
+gate gate2_removed1 op=remove-d1 replace=on delete=on compare_rc=0
+gate gate2_fpr1 op=footprint-r1 replace=on delete=off compare_rc=0
+gate gate2_fpr1_replace_off op=footprint-r1 replace=off delete=off compare_rc=1
+gate gate2_reorder op=reorder replace=on delete=off compare_rc=0
+gate probe_rename_relink_off op=rename-c1 replace=on delete=off compare_rc=0
+gate probe_rename_relink_on op=rename-c1 replace=on delete=off compare_rc=1

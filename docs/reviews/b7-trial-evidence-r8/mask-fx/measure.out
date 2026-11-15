@@ -1,0 +1,7 @@
+Installed 20 packages in 24ms
+m39: objects=2 flashes=[(0.0, 0.0, 0.6), (0.69906, 0.0, 0.6)] refused=[]
+m39: web_mm=0.099060 web_mil=3.9000 derived_bound_mm=0.000002
+m40: objects=2 flashes=[(0.0, 0.0, 0.6), (0.7016, 0.0, 0.6)] refused=[]
+m40: web_mm=0.101600 web_mil=4.0000 derived_bound_mm=0.000002
+m41: objects=2 flashes=[(0.0, 0.0, 0.6), (0.70414, 0.0, 0.6)] refused=[]
+m41: web_mm=0.104140 web_mil=4.1000 derived_bound_mm=0.000002

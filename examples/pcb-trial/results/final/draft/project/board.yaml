@@ -1,0 +1,41 @@
+{
+  "schema_id": "cad-skills/board",
+  "schema_version": "1.0",
+  "name": "pcb-trial",
+  "circuit_source": "kicad_native",
+  "assembly": "bare_board",
+  "supplier": {
+    "id": "none-selected",
+    "service": "No supplier selected",
+    "profile_sha256": "11c979a4013b1d7016fc3c70a76a45da1113896070e430ac68e744f792beef4d"
+  },
+  "quantity": 1,
+  "variant": "base",
+  "electrical_limits": {
+    "supply_voltage": {
+      "value": 3.3,
+      "unit": "V"
+    }
+  },
+  "mechanical": {
+    "width_mm": 40.0,
+    "height_mm": 25.0,
+    "thickness_mm": 1.6
+  },
+  "coordinate_system": {
+    "units": "mm",
+    "origin": {
+      "x_mm": 0,
+      "y_mm": 0
+    },
+    "x_axis": "right",
+    "y_axis": "up"
+  },
+  "release_revision": "A",
+  "restrictions": [
+    {
+      "text": "The board is a trial board with no export-controlled function.",
+      "source": "B5 trial statement, 2026-11-14"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "error_bound_basis": "derived from 6-decimal Gerber coordinates, not measured",
+  "error_bound_mm": 3e-06,
+  "exit": 2,
+  "gerber_sha256": "d5e1858404f788ad09724a596b2632be009bed820ef01c399f82abef3a754dcb",
+  "limit_mil": 4.0,
+  "limit_mm": 0.1016,
+  "unsupported": "object 0 uses the unsupported aperture ObroundAperture"
+}

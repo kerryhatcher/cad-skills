@@ -1,0 +1,21 @@
+06:20:20 GUI_gate3_none_154 exit=0 out=0b338156813c5fe2
+gate kind=supported gate3_none op=none replace=on delete=off relink=off expect=none.json compare_rc=0
+rc_none=0
+06:20:57 GUI_gate3_reorder_155 exit=0 out=2609d9410cbddd5a
+gate kind=supported gate3_reorder op=reorder replace=on delete=off relink=off expect=reorder.json compare_rc=0
+rc_reorder=0
+06:21:34 GUI_gate3_value_156 exit=0 out=ac337b06ec94e407
+gate kind=supported gate3_value op=value-r2 replace=on delete=off relink=off expect=value-r2.json compare_rc=0
+rc_value=0
+06:22:11 GUI_gate3_addc2_157 exit=0 out=61bb6d11c049e7c8
+gate kind=supported gate3_addc2 op=add-c2 replace=on delete=off relink=off expect=add-c2.json compare_rc=0
+rc_addc2=0
+06:22:49 GUI_gate3_removed1_158 exit=0 out=32a6638b4c6b222f
+gate kind=supported gate3_removed1 op=remove-d1 replace=on delete=on relink=off expect=remove-d1.json compare_rc=0
+rc_removed1=0
+06:23:27 GUI_gate3_fpr1_159 exit=0 out=c22c4506f55564f9
+gate kind=supported gate3_fpr1 op=footprint-r1 replace=on delete=off relink=off expect=footprint-r1.json compare_rc=0
+rc_fpr1=0
+06:24:05 GUI_gate3_fpr1_replace_off_160 exit=0 out=acbb0d2ab4f04d5c
+gate kind=supported gate3_fpr1_replace_off op=footprint-r1 replace=off delete=off relink=off expect=footprint-r1-replace-off.json compare_rc=0
+rc_fpr1off=0

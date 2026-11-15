@@ -131,4 +131,26 @@ Frequent replacements:
 - Run the tests before you commit:
   - `uv run tests/test_snippets.py` (all Python blocks in the skill documents)
   - `uv run tests/test_print_tools.py` (FEA, printability and PrusaSlicer tools)
+  - `uv run tests/test_pcb_tools.py` (record contracts in `contracts/`)
+  - `uv run tests/test_project_io.py` (project lock, confined paths and package publication)
+  - `uv run tests/test_skill_packages.py` (skill checks, schema copies and snippet routing)
 - Each skill must operate alone. A skill must not use a file from a different skill.
+
+## Herdr messages
+
+Start each Herdr message with this prefix:
+
+`[$date - $time] To: $agent-name; From: $agent-name - `
+
+- Use the current UTC date and time.
+- Use `YYYY-MM-DD` for the date and `HH:MM:SS UTC` for the time.
+- Replace the first `$agent-name` with the recipient's name.
+- Replace the second `$agent-name` with the sender's name.
+- Apply this rule to task requests, status messages, findings, and review results.
+- Use these team names: `skill-dev-lead`, `claude-skill-dev`, `codex-skill-dev`, and `pi-skill-dev`.
+
+Example:
+
+```text
+[2026-11-14 - 04:29:27 UTC] To: skill-dev-lead; From: pi-skill-dev - The review is complete.
+```

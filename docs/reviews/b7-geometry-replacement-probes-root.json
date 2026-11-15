@@ -1,0 +1,27 @@
+{
+  "source_before": "7d0e6592dcd504e662a4944107367f948b7833caa205d64e73d4706e479f1192",
+  "source_after": "7d0e6592dcd504e662a4944107367f948b7833caa205d64e73d4706e479f1192",
+  "results": [
+    {
+      "case": "inline_macro",
+      "actual": [
+        2,
+        "a macro definition does not start a line"
+      ]
+    },
+    {
+      "case": "space_macro",
+      "actual": [
+        2,
+        "a macro definition does not start a line"
+      ]
+    },
+    {
+      "case": "snapshot_binding",
+      "exit": 0,
+      "reported_sha256": "5b7d1ee5d14179b98f4c85a4f89c98214819e9e5cb4bfb428562e98e59751cf3",
+      "expected_sha256": "5b7d1ee5d14179b98f4c85a4f89c98214819e9e5cb4bfb428562e98e59751cf3",
+      "current_sha256": "7bacd29048dff6339c2c3c6ee96c670ddd116c128fd0dc9d27cc043d1932b296"
+    }
+  ]
+}

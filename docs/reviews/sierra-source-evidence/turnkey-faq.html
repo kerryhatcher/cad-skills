@@ -1,0 +1,1628 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>(()=>{class RocketLazyLoadScripts{constructor(){this.v="2.0.5",this.userEvents=["keydown","keyup","mousedown","mouseup","mousemove","mouseover","mouseout","touchmove","touchstart","touchend","touchcancel","wheel","click","dblclick","input"],this.attributeEvents=["onblur","onclick","oncontextmenu","ondblclick","onfocus","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onmousewheel","onscroll","onsubmit"]}async t(){this.i(),this.o(),/iP(ad|hone)/.test(navigator.userAgent)&&this.h(),this.u(),this.l(this),this.m(),this.k(this),this.p(this),this._(),await Promise.all([this.R(),this.L()]),this.lastBreath=Date.now(),this.S(this),this.P(),this.D(),this.O(),this.M(),await this.C(this.delayedScripts.normal),await this.C(this.delayedScripts.defer),await this.C(this.delayedScripts.async),await this.T(),await this.F(),await this.j(),await this.A(),window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this.everythingLoaded=!0,this.lastTouchEnd&&await new Promise(t=>setTimeout(t,500-Date.now()+this.lastTouchEnd)),this.I(),this.H(),this.U(),this.W()}i(){this.CSPIssue=sessionStorage.getItem("rocketCSPIssue"),document.addEventListener("securitypolicyviolation",t=>{this.CSPIssue||"script-src-elem"!==t.violatedDirective||"data"!==t.blockedURI||(this.CSPIssue=!0,sessionStorage.setItem("rocketCSPIssue",!0))},{isRocket:!0})}o(){window.addEventListener("pageshow",t=>{this.persisted=t.persisted,this.realWindowLoadedFired=!0},{isRocket:!0}),window.addEventListener("pagehide",()=>{this.onFirstUserAction=null},{isRocket:!0})}h(){let t;function e(e){t=e}window.addEventListener("touchstart",e,{isRocket:!0}),window.addEventListener("touchend",function i(o){o.changedTouches[0]&&t.changedTouches[0]&&Math.abs(o.changedTouches[0].pageX-t.changedTouches[0].pageX)<10&&Math.abs(o.changedTouches[0].pageY-t.changedTouches[0].pageY)<10&&o.timeStamp-t.timeStamp<200&&(window.removeEventListener("touchstart",e,{isRocket:!0}),window.removeEventListener("touchend",i,{isRocket:!0}),"INPUT"===o.target.tagName&&"text"===o.target.type||(o.target.dispatchEvent(new TouchEvent("touchend",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new MouseEvent("mouseover",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new PointerEvent("click",{target:o.target,bubbles:!0,cancelable:!0,detail:1,clientX:o.changedTouches[0].clientX,clientY:o.changedTouches[0].clientY})),event.preventDefault()))},{isRocket:!0})}q(t){this.userActionTriggered||("mousemove"!==t.type||this.firstMousemoveIgnored?"keyup"===t.type||"mouseover"===t.type||"mouseout"===t.type||(this.userActionTriggered=!0,this.onFirstUserAction&&this.onFirstUserAction()):this.firstMousemoveIgnored=!0),"click"===t.type&&t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),"touchstart"===this.lastEvent&&"touchend"===t.type&&(this.lastTouchEnd=Date.now()),"click"===t.type&&(this.lastTouchEnd=0),this.lastEvent=t.type,t.composedPath&&t.composedPath()[0].getRootNode()instanceof ShadowRoot&&(t.rocketTarget=t.composedPath()[0]),this.savedUserEvents.push(t)}u(){this.savedUserEvents=[],this.userEventHandler=this.q.bind(this),this.userEvents.forEach(t=>window.addEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.addEventListener("visibilitychange",this.userEventHandler,{isRocket:!0})}U(){this.userEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.removeEventListener("visibilitychange",this.userEventHandler,{isRocket:!0}),this.savedUserEvents.forEach(t=>{(t.rocketTarget||t.target).dispatchEvent(new window[t.constructor.name](t.type,t))})}m(){const t="return false",e=Array.from(this.attributeEvents,t=>"data-rocket-"+t),i="["+this.attributeEvents.join("],[")+"]",o="[data-rocket-"+this.attributeEvents.join("],[data-rocket-")+"]",s=(e,i,o)=>{o&&o!==t&&(e.setAttribute("data-rocket-"+i,o),e["rocket"+i]=new Function("event",o),e.setAttribute(i,t))};new MutationObserver(t=>{for(const n of t)"attributes"===n.type&&(n.attributeName.startsWith("data-rocket-")||this.everythingLoaded?n.attributeName.startsWith("data-rocket-")&&this.everythingLoaded&&this.N(n.target,n.attributeName.substring(12)):s(n.target,n.attributeName,n.target.getAttribute(n.attributeName))),"childList"===n.type&&n.addedNodes.forEach(t=>{if(t.nodeType===Node.ELEMENT_NODE)if(this.everythingLoaded)for(const i of[t,...t.querySelectorAll(o)])for(const t of i.getAttributeNames())e.includes(t)&&this.N(i,t.substring(12));else for(const e of[t,...t.querySelectorAll(i)])for(const t of e.getAttributeNames())this.attributeEvents.includes(t)&&s(e,t,e.getAttribute(t))})}).observe(document,{subtree:!0,childList:!0,attributeFilter:[...this.attributeEvents,...e]})}I(){this.attributeEvents.forEach(t=>{document.querySelectorAll("[data-rocket-"+t+"]").forEach(e=>{this.N(e,t)})})}N(t,e){const i=t.getAttribute("data-rocket-"+e);i&&(t.setAttribute(e,i),t.removeAttribute("data-rocket-"+e))}k(t){Object.defineProperty(HTMLElement.prototype,"onclick",{get(){return this.rocketonclick||null},set(e){this.rocketonclick=e,this.setAttribute(t.everythingLoaded?"onclick":"data-rocket-onclick","this.rocketonclick(event)")}})}S(t){function e(e,i){let o=e[i];e[i]=null,Object.defineProperty(e,i,{get:()=>o,set(s){t.everythingLoaded?o=s:e["rocket"+i]=o=s}})}e(document,"onreadystatechange"),e(window,"onload"),e(window,"onpageshow");try{Object.defineProperty(document,"readyState",{get:()=>t.rocketReadyState,set(e){t.rocketReadyState=e},configurable:!0}),document.readyState="loading"}catch(t){console.log("WPRocket DJE readyState conflict, bypassing")}}l(t){this.originalAddEventListener=EventTarget.prototype.addEventListener,this.originalRemoveEventListener=EventTarget.prototype.removeEventListener,this.savedEventListeners=[],EventTarget.prototype.addEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalAddEventListener.call(this,e,i,o):(t.savedEventListeners.push({target:this,remove:!1,type:e,func:i,options:o}),"mouseenter"!==e&&"mouseleave"!==e||t.originalAddEventListener.call(this,e,t.savedUserEvents.push,o))},EventTarget.prototype.removeEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalRemoveEventListener.call(this,e,i,o):t.savedEventListeners.push({target:this,remove:!0,type:e,func:i,options:o})}}J(t,e){this.savedEventListeners=this.savedEventListeners.filter(i=>{let o=i.type,s=i.target||window;return e!==o||t!==s||(this.B(o,s)&&(i.type="rocket-"+o),this.$(i),!1)})}H(){EventTarget.prototype.addEventListener=this.originalAddEventListener,EventTarget.prototype.removeEventListener=this.originalRemoveEventListener,this.savedEventListeners.forEach(t=>this.$(t))}$(t){t.remove?this.originalRemoveEventListener.call(t.target,t.type,t.func,t.options):this.originalAddEventListener.call(t.target,t.type,t.func,t.options)}p(t){let e;function i(e){return t.everythingLoaded?e:e.split(" ").map(t=>"load"===t||t.startsWith("load.")?"rocket-jquery-load":t).join(" ")}function o(o){function s(e){const s=o.fn[e];o.fn[e]=o.fn.init.prototype[e]=function(){return this[0]===window&&t.userActionTriggered&&("string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=i(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(t=>{const e=arguments[0][t];delete arguments[0][t],arguments[0][i(t)]=e})),s.apply(this,arguments),this}}if(o&&o.fn&&!t.allJQueries.includes(o)){const e={DOMContentLoaded:[],"rocket-DOMContentLoaded":[]};for(const t in e)document.addEventListener(t,()=>{e[t].forEach(t=>t())},{isRocket:!0});o.fn.ready=o.fn.init.prototype.ready=function(i){function s(){parseInt(o.fn.jquery)>2?setTimeout(()=>i.bind(document)(o)):i.bind(document)(o)}return"function"==typeof i&&(t.realDomReadyFired?!t.userActionTriggered||t.fauxDomReadyFired?s():e["rocket-DOMContentLoaded"].push(s):e.DOMContentLoaded.push(s)),this},s("on"),s("one"),s("off"),t.allJQueries.push(o)}e=o}t.allJQueries=[],o(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){o(t)}})}P(){const t=new Map;document.write=document.writeln=function(e){const i=document.currentScript,o=document.createRange(),s=i.parentElement;let n=t.get(i);void 0===n&&(n=i.nextSibling,t.set(i,n));const c=document.createDocumentFragment();o.setStart(c,0),c.appendChild(o.createContextualFragment(e)),s.insertBefore(c,n)}}async R(){return new Promise(t=>{this.userActionTriggered?t():this.onFirstUserAction=t})}async L(){return new Promise(t=>{document.addEventListener("DOMContentLoaded",()=>{this.realDomReadyFired=!0,t()},{isRocket:!0})})}async j(){return this.realWindowLoadedFired?Promise.resolve():new Promise(t=>{window.addEventListener("load",t,{isRocket:!0})})}M(){this.pendingScripts=[];this.scriptsMutationObserver=new MutationObserver(t=>{for(const e of t)e.addedNodes.forEach(t=>{"SCRIPT"!==t.tagName||!t.src||t.noModule||t.isWPRocket||this.pendingScripts.push({script:t,promise:new Promise(e=>{const i=()=>{const i=this.pendingScripts.findIndex(e=>e.script===t);i>=0&&this.pendingScripts.splice(i,1),e()};t.addEventListener("load",i,{isRocket:!0}),t.addEventListener("error",i,{isRocket:!0}),setTimeout(i,1e3)})})})}),this.scriptsMutationObserver.observe(document,{childList:!0,subtree:!0})}async F(){await this.X(),this.pendingScripts.length?(await this.pendingScripts[0].promise,await this.F()):this.scriptsMutationObserver.disconnect()}D(){this.delayedScripts={normal:[],async:[],defer:[]},document.querySelectorAll("script[type$=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _(){await this.L();let t=[];document.querySelectorAll("script[type$=rocketlazyloadscript][data-rocket-src]").forEach(e=>{let i=e.getAttribute("data-rocket-src");if(i&&!i.startsWith("data:")){i.startsWith("//")&&(i=location.protocol+i);try{const o=new URL(i).origin;o!==location.origin&&t.push({src:o,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}catch(t){}}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this.Y(t,"preconnect")}async G(t){if(await this.K(),!0!==t.noModule||!("noModule"in HTMLScriptElement.prototype))return new Promise(e=>{let i;function o(){(i||t).setAttribute("data-rocket-status","executed"),e()}try{if(navigator.userAgent.includes("Firefox/")||""===navigator.vendor||this.CSPIssue)i=document.createElement("script"),[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),i.setAttribute(e,t.nodeValue))}),t.text&&(i.text=t.text),t.nonce&&(i.nonce=t.nonce),i.hasAttribute("src")?(i.addEventListener("load",o,{isRocket:!0}),i.addEventListener("error",()=>{i.setAttribute("data-rocket-status","failed-network"),e()},{isRocket:!0}),setTimeout(()=>{i.isConnected||e()},1)):(i.text=t.text,o()),i.isWPRocket=!0,t.parentNode.replaceChild(i,t);else{const i=t.getAttribute("data-rocket-type"),s=t.getAttribute("data-rocket-src");i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",o,{isRocket:!0}),t.addEventListener("error",i=>{this.CSPIssue&&i.target.src.startsWith("data:")?(console.log("WPRocket: CSP fallback activated"),t.removeAttribute("src"),this.G(t).then(e)):(t.setAttribute("data-rocket-status","failed-network"),e())},{isRocket:!0}),s?(t.fetchPriority="high",t.removeAttribute("data-rocket-src"),t.src=s):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}}catch(i){t.setAttribute("data-rocket-status","failed-transform"),e()}});t.setAttribute("data-rocket-status","skipped")}async C(t){const e=t.shift();return e?(e.isConnected&&await this.G(e),this.C(t)):Promise.resolve()}O(){this.Y([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}Y(t,e){this.trash=this.trash||[];let i=!0;var o=document.createDocumentFragment();t.forEach(t=>{const s=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(s&&!s.startsWith("data:")){const n=document.createElement("link");n.href=s,n.rel=e,"preconnect"!==e&&(n.as="script",n.fetchPriority=i?"high":"low"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),t.nonce&&(n.nonce=t.nonce),o.appendChild(n),this.trash.push(n),i=!1}}),document.head.appendChild(o)}W(){this.trash.forEach(t=>t.remove())}async T(){try{document.readyState="interactive"}catch(t){}this.fauxDomReadyFired=!0;try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(document,"DOMContentLoaded"),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this.K(),this.J(window,"DOMContentLoaded"),window.dispatchEvent(new Event("rocket-DOMContentLoaded"))}catch(t){console.error(t)}}async A(){try{document.readyState="complete"}catch(t){}try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(window,"load"),window.dispatchEvent(new Event("rocket-load")),await this.K(),window.rocketonload&&window.rocketonload(),await this.K(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this.K(),this.J(window,"pageshow");const t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this.K(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}catch(t){console.error(t)}}async K(){Date.now()-this.lastBreath>45&&(await this.X(),this.lastBreath=Date.now())}async X(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}B(t,e=window){return e===document&&"readystatechange"===t||(e===document&&"DOMContentLoaded"===t||(e===window&&"DOMContentLoaded"===t||(e===window&&"load"===t||e===window&&"pageshow"===t)))}static run(){(new RocketLazyLoadScripts).t()}}RocketLazyLoadScripts.run()})();
+</script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+<!-- Google Tag Manager for WordPress by gtm4wp.com -->
+<script data-cfasync="false" data-pagespeed-no-defer>
+	var gtm4wp_datalayer_name = "dataLayer";
+	var dataLayer = dataLayer || [];
+	(function(){dataLayer.push(arguments);})('set', 'developer_id.dNGJiYT', true);
+</script>
+<!-- End Google Tag Manager for WordPress by gtm4wp.com -->
+	<!-- This site is optimized with the Yoast SEO Premium plugin v28.7 (Yoast SEO v28.7) - https://yoast.com/product/yoast-seo-premium-wordpress/ -->
+	<title>Turnkey PRO FAQ | Sierra Circuits</title>
+<link data-rocket-prefetch href="https://cdn.evgnet.com" rel="dns-prefetch">
+<link data-rocket-prefetch href="https://pages.protoexpress.com" rel="dns-prefetch">
+<link crossorigin data-rocket-preload as="font" href="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/fonts/Montserrat/montserrat-v15-latin-regular.woff2" rel="preload"><link rel="preload" data-rocket-preload as="image" href="https://www.protoexpress.com/wp-content/uploads/2022/08/soldermask_dam_recreated.jpg" fetchpriority="high">
+	<meta name="description" content="Get the answers to your questions about rapid prototyping circuit boards online through Turnkey PRO by Sierra Circuits with our FAQs from Sierra Circuits." />
+	<link rel="canonical" href="https://www.protoexpress.com/faq/turnkey-pro-pcbs/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Turnkey PRO FAQ | Sierra Circuits" />
+	<meta property="og:description" content="Get the answers to your questions about rapid prototyping circuit boards online through Turnkey PRO by Sierra Circuits with our FAQs from Sierra Circuits." />
+	<meta property="og:url" content="https://www.protoexpress.com/faq/turnkey-pro-pcbs/" />
+	<meta property="og:site_name" content="Sierra Circuits" />
+	<meta property="article:publisher" content="https://www.facebook.com/sierracircuits/" />
+	<meta property="article:modified_time" content="2025-04-15T20:08:45+00:00" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Est. reading time" />
+	<meta name="twitter:data1" content="7 minutes" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":["WebPage","FAQPage"],"@id":"https:\/\/www.protoexpress.com\/faq\/turnkey-pro-pcbs\/","url":"https:\/\/www.protoexpress.com\/faq\/turnkey-pro-pcbs\/","name":"Turnkey PRO FAQ | Sierra Circuits","isPartOf":{"@id":"https:\/\/www.protoexpress.com\/#website"},"datePublished":"2021-12-07T17:15:47+00:00","dateModified":"2025-04-15T20:08:45+00:00","description":"Get the answers to your questions about rapid prototyping circuit boards online through Turnkey PRO by Sierra Circuits with our FAQs from Sierra Circuits.","inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https:\/\/www.protoexpress.com\/faq\/turnkey-pro-pcbs\/"]}]},{"@type":"WebSite","@id":"https:\/\/www.protoexpress.com\/#website","url":"https:\/\/www.protoexpress.com\/","name":"Sierra Circuits","description":"Sierra Circuits","publisher":{"@id":"https:\/\/www.protoexpress.com\/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/www.protoexpress.com\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-US"},{"@type":"Organization","@id":"https:\/\/www.protoexpress.com\/#organization","name":"Sierra Circuits, Inc.","url":"https:\/\/www.protoexpress.com\/","logo":{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/www.protoexpress.com\/#\/schema\/logo\/image\/","url":"https:\/\/www.protoexpress.com\/wp-content\/uploads\/2022\/01\/logo.svg","contentUrl":"https:\/\/www.protoexpress.com\/wp-content\/uploads\/2022\/01\/logo.svg","width":116,"height":36,"caption":"Sierra Circuits, Inc."},"image":{"@id":"https:\/\/www.protoexpress.com\/#\/schema\/logo\/image\/"},"sameAs":["https:\/\/www.facebook.com\/sierracircuits\/","https:\/\/www.linkedin.com\/company\/sierra-circuits-inc\/","https:\/\/www.youtube.com\/channel\/UCz-QzCLZPbBov9MmTQ7zJlg"]}]}</script>
+	<!-- / Yoast SEO Premium plugin. -->
+
+
+
+<link rel="alternate" type="application/rss+xml" title="Sierra Circuits &raquo; Feed" href="https://www.protoexpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Sierra Circuits &raquo; Comments Feed" href="https://www.protoexpress.com/comments/feed/" />
+<script type="text/javascript" src="https://cdn.evgnet.com/beacon/sierracircuits/sierra_production/scripts/evergage.min.js" id="interaction-studio-pbox" data-rocket-defer defer></script><style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='allow-webp-image-css' href='https://www.protoexpress.com/wp-content/plugins/allow-webp-image/public/css/allow-webp-image-public.css?ver=1.0.1' media='all' />
+<link data-minify="1" rel='stylesheet' id='sierra-fonts-css' href='https://www.protoexpress.com/wp-content/cache/min/1/wp-content/themes/sierra-circuits/assets/fonts/Montserrat/sierra-fonts.min.css?ver=1759135508' media='all' />
+<link data-minify="1" rel='stylesheet' id='sierra-style-css' href='https://www.protoexpress.com/wp-content/cache/min/1/wp-content/themes/sierra-circuits/assets/css/custom.css?ver=1783494765' media='all' />
+<link data-minify="1" rel='stylesheet' id='sierra-extra-style-css' href='https://www.protoexpress.com/wp-content/cache/min/1/wp-content/themes/sierra-circuits/style.css?ver=1759135509' media='all' />
+<link rel='stylesheet' id='lity-css-css' href='https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/lity/lity.min.css?ver=1.2.0.1.7.0' media='all' />
+<link data-minify="1" rel='stylesheet' id='tablepress-default-css' href='https://www.protoexpress.com/wp-content/cache/min/1/wp-content/plugins/tablepress/css/build/default.css?ver=1759135509' media='all' />
+<style id="tablepress-default-inline-css">
+.tablepress-id-131 th{color:#000}.tablepress-id-131 tr td{color:#000}.tablepress-id-144 thead{color:#000}.tablepress-id-144 tbody tr td{color:#000}.tablepress{color:#000}.tablepress thead tr th{color:#000}.tablepress tbody tr td{color:#000}
+/*# sourceURL=tablepress-default-inline-css */
+</style>
+<style id="rocket-lazyload-inline-css">
+.rll-youtube-player{position:relative;padding-bottom:56.23%;height:0;overflow:hidden;max-width:100%;}.rll-youtube-player:focus-within{outline: 2px solid currentColor;outline-offset: 5px;}.rll-youtube-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;background:0 0}.rll-youtube-player img{bottom:0;display:block;left:0;margin:auto;max-width:100%;width:100%;position:absolute;right:0;top:0;border:none;height:auto;-webkit-transition:.4s all;-moz-transition:.4s all;transition:.4s all}.rll-youtube-player img:hover{-webkit-filter:brightness(75%)}.rll-youtube-player .play{height:100%;width:100%;left:0;top:0;position:absolute;background:url(https://www.protoexpress.com/wp-content/plugins/wp-rocket/assets/img/youtube.png) no-repeat center;background-color: transparent !important;cursor:pointer;border:none;}
+/*# sourceURL=rocket-lazyload-inline-css */
+</style>
+<script type="text/rocketlazyloadscript" id="jquery-core-js" data-rocket-src="https://www.protoexpress.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-migrate-js" data-rocket-src="https://www.protoexpress.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="allow-webp-image-js" data-rocket-src="https://www.protoexpress.com/wp-content/plugins/allow-webp-image/public/js/allow-webp-image-public.js?ver=1.0.1" data-rocket-defer defer></script>
+<link rel="https://api.w.org/" href="https://www.protoexpress.com/wp-json/" /><link rel='shortlink' href='https://www.protoexpress.com/?p=2339' />
+
+<!-- Google Tag Manager for WordPress by gtm4wp.com -->
+<!-- GTM Container placement set to manual -->
+<script data-cfasync="false" data-pagespeed-no-defer>
+	var dataLayer_content = {"pageTitle":"Turnkey PRO FAQ | Sierra Circuits","pagePostType":"faq","pagePostType2":"single-faq","pagePostAuthor":"The Sierra Team","pagePostTerms":{"faq-cat":["Standard PCB Fab"],"meta":{"faq_list":"7","faq_list_0_faq_category":"Turnkey PCBs","faq_list_0_faq_items_0_faq_question":"What is Turnkey PRO?","faq_list_0_faq_items_0_faq_answer":"Our Turnkey PRO online self-service offers full PCB fabrication and assembly as a bundle.\r\n\r\nThis cost-effective service allows you to get your standard technology PCBs fully assembled in as fast as 5 days.\r\n\r\n\u003Ca href=\u0022\/customer-portal\/qta\u0022\u003EClick here to Get a Turnkey PRO Quote.\u003C\/a\u003E","faq_list_0_faq_items":"1","faq_list_1_faq_category":"Zero-Defect Guarantee","faq_list_1_faq_items_0_faq_question":"What is Turnkey PRO’s Zero-Defect Guarantee?","faq_list_1_faq_items_0_faq_answer":"\u003Cspan style=\u0022font-weight: 400;\u0022\u003ESierra Circuits turnkey PCBs are engineered to meet our customers\u0027 most critical requirements. Our material is manufactured to strict process controls that will give you world-class quality and uncompromising consistency.\u003C\/span\u003E\r\n\r\n\u003Cspan style=\u0022font-weight: 400;\u0022\u003ESierra Circuits warrants its boards against defects in materials and workmanship under normal use for a period of 90 days from date of shipment. If a defect arises we will either (I) replace the board at no charge or (II) issue a credit equal to the original purchase price of the board.\u003C\/span\u003E","faq_list_1_faq_items":"1","faq_list_2_faq_category":"Specs and Capabilities","faq_list_2_faq_items_0_faq_question":"What specs and capabilities does Turnkey PRO have?","faq_list_2_faq_items_0_faq_answer":"You can see all specs and capabilities on the \u003Ca href=\u0022\/products\/turnkey-pro\u0022\u003ETurnkey PRO product page\u003C\/a\u003E. Here is a brief list of the specs and capabilities to give you an idea of what we offer:\r\n\r\n\u003Ca href=\u0022\/blog\/ipc-class-2-vs-class-3-different-design-rules\/\u0022\u003EIPC-6012 Class 2 PCB\u003C\/a\u003E (No microsection certification or IPC coupons provided with online order)\r\n\u003Ca href=\u0022\/faq\/rohs-lead-free-pcbs\u0022\u003ERoHS\u003C\/a\u003E compliance available\r\nMaterial lead-free FR4 370HR\r\nHASL, ENIG (RoHS compliant)\r\nThickness 0.062″, 0.031″ or 0.093″\r\nMinimum finished hole available 0.006″\r\nMinimum trace width offered 0.004″\r\nMinimum space offered 0.004″\r\n\u003Ca href=\u0022\/products\/controlled-impedance\u0022\u003EControlled impedance\u003C\/a\u003E available (+\/-10% tolerance)\r\nGreen or blue solder mask\r\nWhite legend\r\nElectrical testing\r\nTurnkey assembled to IPC-A-610 Class 2 spec\r\n\r\n\u003Ca href=\u0022\/kb\/turnkey-pro-pcb-specs\u0022\u003EView full technical specs.\u003C\/a\u003E","faq_list_2_faq_items":"2","faq_list_3_faq_category":"Turnkey PRO Turn Times","faq_list_3_faq_items_0_faq_question":"What turn times are offered for Turnkey PRO?","faq_list_3_faq_items_0_faq_answer":"5 days, 7 days, 10 days and 15 days turn times are offered for your turnkey project.","faq_list_3_faq_items":"1","faq_list_4_faq_category":"Parameters","faq_list_4_faq_items_0_faq_question":"What design parameters exist for Turnkey PRO?","faq_list_4_faq_items_0_faq_answer":"Turnkey PRO can be used to manufacture standard PCBs, as follow:\r\n\u003Cul\u003E\r\n \t\u003Cli\u003EOnly 2 – 8 layer boards are available\u003C\/li\u003E\r\n \t\u003Cli\u003EBoards can be ordered in any quantity from 2 through 100 assembled boards\u003C\/li\u003E\r\n \t\u003Cli\u003EBoard thickness can only be 0.062″, 0.031″ or 0.093″\u003C\/li\u003E\r\n \t\u003Cli\u003EIndividual boards must fit within a 10″ X 16″ box shape and must not exceed 150 sq inches in area\u003C\/li\u003E\r\n \t\u003Cli\u003ERectangular boards only, but certain slots, notches, and cutouts allowed (see capabilities for details)\u003C\/li\u003E\r\n \t\u003Cli\u003ERigid PCBs only\u003C\/li\u003E\r\n \t\u003Cli\u003EGreen or blue solder mask only\u003C\/li\u003E\r\n \t\u003Cli\u003EWhite silkscreen only\u003C\/li\u003E\r\n \t\u003Cli\u003EOnly HASL, ENIG (RoHS compliant) finishes allowed\u003C\/li\u003E\r\n \t\u003Cli\u003EOnly FR4 lead free (370HR material) available\u003C\/li\u003E\r\n \t\u003Cli\u003ESingle lamination only\u003C\/li\u003E\r\n \t\u003Cli\u003ENo ITAR restricted designs allowed\u003C\/li\u003E\r\n \t\u003Cli\u003ENo arrays\u003C\/li\u003E\r\n \t\u003Cli\u003ENo gold fingers\u003C\/li\u003E\r\n\u003C\/ul\u003E\r\nThe standards for assembling standard board using Turnkey PRO are as follows:\r\n\u003Cul\u003E\r\n \t\u003Cli\u003EMinimum passive component size allowed is 0201\u003C\/li\u003E\r\n \t\u003Cli\u003EMinimum pitch allowed for BGAs is 0.5 mm and for other components, it is 0.4 mm\u003C\/li\u003E\r\n \t\u003Cli\u003EMaximum 20 through-hole components allowed per board\u003C\/li\u003E\r\n \t\u003Cli\u003EMinimum component pad size allowed is 8 mils x 8 mils\u003C\/li\u003E\r\n\u003C\/ul\u003E\r\nAdditionally, the following services are not offered through Turnkey PRO:\r\n\u003Cul\u003E\r\n \t\u003Cli\u003EWire-bonding, conformal coating, underfills, staking, POP assembly, wire assembly, or cable assembly are not allowed.\u003C\/li\u003E\r\n \t\u003Cli\u003ERework like cutting traces, soldering wire jumpers, and cables onto the boards are not allowed.\u003C\/li\u003E\r\n \t\u003Cli\u003EAssembly of special items like PEM nuts, turret terminals, rivets, and press-fit connectors are not allowed.\u003C\/li\u003E\r\n\u003C\/ul\u003E\r\nTo get any of these extra assembly features, please ask for a \u003Ca href=\u0022\/customer-portal\/custom-quote\u0022\u003Ecustom quote\u003C\/a\u003E.","faq_list_4_faq_items_1_faq_question":"What if my PCB design specs are too complex for Turnkey PRO standard specs?","faq_list_4_faq_items_1_faq_answer":"If your PCB design does not conform to standard PCB specs for Turnkey PRO, please try our \u003Ca href=\u0022\/customer-portal\/instant-online-quote\u0022\u003EWeb PCB online service\u003C\/a\u003E- more materials, more finishes, more turn times, more options.\r\n\r\nFor even more advanced technology or complexities like HDI, Mil-spec, flex boards, Metal-core, Aerospace or Medical, please request a \u003Ca href=\u0022\/customer-portal\/custom-quote\u0022\u003Ecustom quote\u003C\/a\u003E.","faq_list_4_faq_items":"2","faq_list_5_faq_category":"Components and Assembly","faq_list_5_faq_items_0_faq_question":"Is there a minimum order value for components?","faq_list_5_faq_items_0_faq_answer":"When ordering components through Turnkey PRO, your components must add up to at least $100. In other words, there is a minimum charge of $100 for the components kit. For example, if your components kit is priced out to be $78 online, we will still charge the $100 minimum.","faq_list_5_faq_items_1_faq_question":"What if I need to provide a special component?","faq_list_5_faq_items_1_faq_answer":"Although Turnkey PRO is turnkey assembly, you can consign some components—say special components that Sierra cannot procure in time. These must be shipped to Sierra Circuits’ assembly, Sierra Circuits, Inc. 1980 Lundy Ave (Receiving Department), San Jose, CA 95131. Please include your internet order number in the attention line, as follows:\r\n\r\nName\r\nCompany Name\r\nOrder# (eg 12345-iRW)\r\nContact Phone #","faq_list_5_faq_items_2_faq_question":"What if my design has Via-in-Pad features?","faq_list_5_faq_items_2_faq_answer":"If your boards have via-in-pad features on component pads, we put the PCBs through a process of via-filling to ensure good solderability. This is the best practice for board fabrication (regardless of which company assembles the boards.) We specifically ask in the online system if your design has via-in-pad features on component pads; if so, the online system quotes it appropriately. If you indicate No for via-in-pad in the online quote but during our DFM process we do find such features, please understand that this may add to your price and lead time. A customer service team member will contact you accordingly.","faq_list_5_faq_items_3_faq_question":"Does Turnkey PRO include silkscreen on both sides?","faq_list_5_faq_items_3_faq_answer":"Yes, it does.","faq_list_5_faq_items_4_faq_question":"If my silkscreen designators get too crowded for the board (given that the minimum text size is 25X25X5 mils), where should I put the rest of the designators for reference?","faq_list_5_faq_items_4_faq_answer":"If the board gets too crowded for all your silkscreen designators, you can show the remaining component designators in the assembly drawing instead of in silkscreen.\r\n\r\nOur assembly team will refer to assembly drawing as needed.","faq_list_5_faq_items_5_faq_question":"Can I order a solder mask color other than green for my Turnkey PRO board(s)?","faq_list_5_faq_items_5_faq_answer":"Solder mask is available in the following colors: green and blue.","faq_list_5_faq_items":"6","faq_list_6_faq_category":"Ordering Process for Turnkey PRO","faq_list_6_faq_items_0_faq_question":"What files do I need to include for a Turnkey PRO order?","faq_list_6_faq_items_0_faq_answer":"\u003Cul\u003E\r\n \t\u003Cli\u003EA BOM file. We will only use the BOM data from what is loaded online. \u003Ca href=\u0022https:\/\/media.protoexpress.com\/BOM-Sample-and-Demo.xls\u0022\u003ESee our sample BOM\u003C\/a\u003E.\u003C\/li\u003E\r\n \t\u003Cli\u003EXY Data and assembly drawing. \u003Ca href=\u0022https:\/\/media.protoexpress.com\/format-for-X-Y-data.pdf\u0022\u003ESee our sample XYRS file\u003C\/a\u003E.\u003C\/li\u003E\r\n \t\u003Cli\u003EGerber files using English units in 274X format or ODB++ format. (Note: 274D format is not accepted.)\r\n\u003Cul\u003E\r\n \t\u003Cli\u003EAll copper layers (inner \u0026amp; outer)\u003C\/li\u003E\r\n \t\u003Cli\u003ESolder mask layers\u003C\/li\u003E\r\n \t\u003Cli\u003ESilkscreen\/legend layers\u003C\/li\u003E\r\n \t\u003Cli\u003EVia plugging layers (if applicable)\u003C\/li\u003E\r\n \t\u003Cli\u003ESolder paste layers (for assembly)\u003C\/li\u003E\r\n \t\u003Cli\u003EAperture list if apertures are not embedded in Gerber data\u003C\/li\u003E\r\n\u003C\/ul\u003E\r\n\u003C\/li\u003E\r\n \t\u003Cli\u003EFabrication drawing in Gerber format\r\n\u003Cul\u003E\r\n \t\u003Cli\u003EBoard outline, dimensions, including cutouts, chamfers, radii, bevels, scores, etc.\u003C\/li\u003E\r\n \t\u003Cli\u003EDrill chart with hole symbols on drawing and finished sizes\u003C\/li\u003E\r\n \t\u003Cli\u003EMaterial requirements\u003C\/li\u003E\r\n \t\u003Cli\u003EFinished board thickness and tolerance\u003C\/li\u003E\r\n \t\u003Cli\u003ELayer stack-up order\u003C\/li\u003E\r\n \t\u003Cli\u003EControlled impedance requirements (if applicable)\u003C\/li\u003E\r\n \t\u003Cli\u003ENotes with other requirements and specifications\u003C\/li\u003E\r\n\u003C\/ul\u003E\r\n\u003C\/li\u003E\r\n \t\u003Cli\u003EExellon drill file in ASCII format with the following parameters:\r\n\u003Cul\u003E\r\n \t\u003Cli\u003EUnits = Inch\u003C\/li\u003E\r\n \t\u003Cli\u003ETool units = Inch\u003C\/li\u003E\r\n \t\u003Cli\u003ECoordinate = Absolute\u003C\/li\u003E\r\n \t\u003Cli\u003EZeros omitted = Trailing\u003C\/li\u003E\r\n \t\u003Cli\u003ENumber format = 2.4\u003C\/li\u003E\r\n\u003C\/ul\u003E\r\n\u003C\/li\u003E\r\n \t\u003Cli\u003EReadme.txt . ASCII text file with the following critical information:\r\n\u003Cul\u003E\r\n \t\u003Cli\u003EAll relevant details about the board, including thickness\u003C\/li\u003E\r\n \t\u003Cli\u003EListing of all file names and what they are (e.g. top copper, top solder mask, bottom solder mask, etc.)\u003C\/li\u003E\r\n \t\u003Cli\u003ELayer stack-up sequence\u003C\/li\u003E\r\n \t\u003Cli\u003EOther special instructions\u003C\/li\u003E\r\n \t\u003Cli\u003EEngineering contact information\u003C\/li\u003E\r\n\u003C\/ul\u003E\r\n\u003C\/li\u003E\r\n\u003C\/ul\u003E","faq_list_6_faq_items":"5","alternative_title":"Rapid Prototyping Circuit Boards Using Turnkey PRO","faq_list_6_faq_items_1_faq_question":"How should I represent a board outline?","faq_list_6_faq_items_1_faq_answer":"We STRONGLY PREFER that board outline should be in the Gerbers– it could be on any of the Gerber layers or on its own separate layer.\r\n\r\nIf that is not possible, our second preference would be to have the outline in the fabrication drawing with dimensions clearly shown.","faq_list_6_faq_items_2_faq_question":"Can I reorder a board from a previous order?","faq_list_6_faq_items_2_faq_answer":"Yes, we will use your previous Gerber and previously used online BOM when you re-order. No new files will be required or accepted for a re-order. Please note: Assembly labor and component price may be revised based on current component availability. You will see your previous online BOM and have a chance to edit if needed.","faq_list_6_faq_items_3_faq_question":"Why should the plane layers be supplied in negative format?","faq_list_6_faq_items_3_faq_answer":"\u003Cul\u003E\r\n \t\u003Cli\u003ENegative layers are a smaller file size than positive layer files.\u003C\/li\u003E\r\n \t\u003Cli\u003ENegative layers are much quicker to work with when we run our engineering analysis.\u003C\/li\u003E\r\n \t\u003Cli\u003EPositive layers cause longer test times in final tests.\u003C\/li\u003E\r\n\u003C\/ul\u003E","faq_list_6_faq_items_4_faq_question":"Why shouldn’t polygons be in plane layers and signal layers?","faq_list_6_faq_items_4_faq_answer":"Our high-end CAD software, Valor Genesis, will attempt to fill the polygons automatically but can miss some areas on the layers. This would result in missing data and possibly a non-functional board.","faq_list_2_faq_items_1_faq_question":"What is the minimum width of mask dam in a PCB?","faq_list_2_faq_items_1_faq_answer":"As per standards, a 4 mil wide mask dam is preferred. At Sierra Circuits, we go up to a 2 mil wide mask dam, with LDI.\r\n\r\n\u003Cimg class=\u0022\u0022 src=\u0022https:\/\/www.protoexpress.com\/wp-content\/uploads\/2022\/08\/soldermask_dam_recreated.jpg\u0022 alt=\u0022Soldermask dam tolerance\u0022 width=\u0022486\u0022 height=\u0022253\u0022 \/\u003E","disable_cut_copy_paste":"0","wp_schema_pro_optimized_structured_data":"\u003C!-- Schema optimized by Schema Pro --\u003E\u003Cscript type=\u0022application\/ld+json\u0022\u003E[]\u003C\/script\u003E\u003C!-- \/ Schema optimized by Schema Pro --\u003E"}}};
+	dataLayer.push( dataLayer_content );
+</script>
+<script type="text/rocketlazyloadscript" data-cfasync="false" data-pagespeed-no-defer>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WS2QLL5');
+</script>
+<!-- End Google Tag Manager for WordPress by gtm4wp.com --><link rel="llms-sitemap" href="https://www.protoexpress.com/llms.txt" />
+  <script type="text/rocketlazyloadscript">
+    // remove the visibility for icon befor DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', (event) => {
+      let userIcon = document.querySelector('[title="User Team"]');
+      let userIconList = document.getElementById('user-customer-portal');
+      userIcon.setAttribute("style", "visibility:hidden;");
+      userIconList.setAttribute("style", "visibility:hidden;");
+    });
+  </script>
+<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript><style id="rocket-lazyrender-inline-css">[data-wpr-lazyrender] {content-visibility: auto;}</style><meta name="generator" content="WP Rocket 3.23.5.1" data-wpr-features="wpr_delay_js wpr_defer_js wpr_lazyload_images wpr_lazyload_iframes wpr_preconnect_external_domains wpr_auto_preload_fonts wpr_automatic_lazy_rendering wpr_oci wpr_minify_css wpr_preload_links wpr_desktop" /></head>
+
+<body class="">
+  
+<!-- GTM Container placement set to manual -->
+<!-- Google Tag Manager (noscript) -->
+				<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WS2QLL5" height="0" width="0" style="display:none;visibility:hidden" aria-hidden="true"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->  <a href="#sr-main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+  <div  id="wrapper">
+    <div  id="sticky_navigation_wrapper">
+      <div  id="sticky_navigation">
+        <div class="topbar">
+  <div  class="container">
+    <div class="row align-items-center justify-content-between topbar__logo-section">
+      <div class="col-md-6 col-lg-6 headerpad">
+        <div class="topbar__left d-flex align-items-center">
+          <a class="logo-link" href="https://www.protoexpress.com" title="Sierra Circuits Logo">
+            <img src="https://www.protoexpress.com/wp-content/uploads/2021/04/logo.svg" alt="Sierra Circuits" />
+          </a>
+          <div class="topbar__message">
+            Best-in-Class PCB Fabrication, Assembly, &amp; Components. <br />
+            Industry Leading PCB Designer's Tools.
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-xs-12  topbar__quote-section position-relative">
+        <div class="search-box">
+          <form action="https://www.protoexpress.com/" method="get">
+            <p class="search-btn"> <input type="text" name="s" value="" class="search-input" placeholder="Looking for something?">
+                            <span id="magnifying-glass">
+                <input type="submit" value="">
+              </span>
+            </p>
+          </form>
+        </div>
+        <div class="topbar__right">
+          <div class="d-flex align-items-center justify-content-end">
+                        <div class="topbar__contact mr-2">
+              <p class="mt-0 mb-0">
+                <span class="d-none d-md-block">Speak to an Account Manager</span>
+                <span class="d-block">
+                  <img width="10" height="15" src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/svg/phone.svg" alt="Telephone" />
+                  <a href="tel:+1 (800) 763-7503">+1 (800) 763-7503</a>
+                </span>
+              </p>
+
+            </div>
+            <div class="home-quote-now">
+                            <a href="#quoter" class="button pill lity-pop " data-lity>Quote Now</a>
+              <a href="https://www.protoexpress.com/facility-tour/" class="button pill lity-pop">Book a Tour</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>        <header>
+          <div  class="container">
+            <div class="row mx-0">
+              <nav class="col-lg-12 col-md-12 col-sm-12 px-0">
+                <div id="menuToggle">
+                  <input type="checkbox" class="hamburg-toggler" />
+                  <span class="hamburg-menu"></span>
+                  <span class="hamburg-menu"></span>
+                  <span class="hamburg-menu"></span>
+                  <ul id="menu-main-menu" class="top-navigation justify-content-end"><li id="menu-item-1712" class="sub-menu--tools-design menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown top-level-menu-item menu-item-1712"><a href="https://www.protoexpress.com/products/" class="nav-link dropdown-toggle">PCB Products</a><input type="checkbox" name="menuopt" class="subnav-toggler" id="subnav-toggler-5">
+<ul class="sub-menu sub-menu--products arrow-top">
+	<li id="menu-item-2350" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-2350"><span class="sub-menu-header">Order PCBs Online</span>
+	<ul class="sub-menu sub-menu--products arrow-top">
+		<li id="menu-item-10174" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10174"><a href="https://www.protoexpress.com/products/turnkey-pro/">Turnkey PRO</a></li>
+		<li id="menu-item-10175" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10175"><a href="https://www.protoexpress.com/products/online-pcb-manufacturing/">Web PCB</a></li>
+		<li id="menu-item-12955" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-12955"><a href="https://www.protoexpress.com/products/no-touch/">No Touch PCB</a></li>
+		<li id="menu-item-10303" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10303"><a href="https://www.protoexpress.com/kicad-quote-plugin/">KiCad Quote Plugin</a></li>
+	</ul>
+</li>
+	<li id="menu-item-2349" class="sb-mn-brd menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-2349"><span class="sub-menu-header">Advanced PCBs</span>
+	<ul class="sub-menu sub-menu--products arrow-top">
+		<li id="menu-item-10176" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10176"><a href="https://www.protoexpress.com/products/rigid-pcb/">Rigid PCBs</a></li>
+		<li id="menu-item-10177" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10177"><a href="https://www.protoexpress.com/products/flex-and-rigid-flex-pcb/">Flex &#038; Rigid Flex PCBs</a></li>
+		<li id="menu-item-38815" class="spl-event menu-item menu-item-type-post_type menu-item-object-products menu-item-38815"><a href="https://www.protoexpress.com/products/uhdi-pcbs/">Ultra-HDI PCBs</a></li>
+		<li id="menu-item-10178" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10178"><a href="https://www.protoexpress.com/products/hdi-printed-circuit-boards/">HDI PCBs</a></li>
+		<li id="menu-item-10179" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10179"><a href="https://www.protoexpress.com/products/microelectronics-pcb/">Microelectronics PCBs</a></li>
+		<li id="menu-item-10180" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10180"><a href="https://www.protoexpress.com/products/mil-spec-pcb/">Aerospace &#038; Defense PCBs</a></li>
+		<li id="menu-item-10181" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10181"><a href="https://www.protoexpress.com/products/controlled-impedance/">Controlled Impedance PCBs</a></li>
+		<li id="menu-item-14504" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-14504"><a href="https://www.protoexpress.com/products/rf-and-microwave-pcbs/">RF &#038; Microwave PCBs</a></li>
+	</ul>
+</li>
+	<li id="menu-item-2351" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-2351"><span class="sub-menu-header">PCB Services</span>
+	<ul class="sub-menu sub-menu--products arrow-top">
+		<li id="menu-item-10182" class="spl-event menu-item menu-item-type-post_type menu-item-object-products menu-item-10182"><a href="https://www.protoexpress.com/products/pcb-assembly/">PCB Assembly</a></li>
+		<li id="menu-item-13157" class="spl-event menu-item menu-item-type-post_type menu-item-object-products menu-item-13157"><a href="https://www.protoexpress.com/products/pcb-component-sourcing-and-stocking/">Component Sourcing and Stocking</a></li>
+		<li id="menu-item-10451" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-10451"><a href="https://www.protoexpress.com/products/flying-probe-testing-for-pcb-assembly/">Flying Probe Testing</a></li>
+		<li id="menu-item-25375" class="spl-event menu-item menu-item-type-post_type menu-item-object-page menu-item-25375"><a href="https://www.protoexpress.com/pcb-design-support/">PCB Design Support</a></li>
+		<li id="menu-item-1704" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1704"><a href="https://www.protoexpress.com/industries/">Industries We Serve</a></li>
+	</ul>
+</li>
+</ul>
+</li><li id="menu-item-1697" class="sub-menu--tools-design menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children dropdown top-level-menu-item menu-item-1697"><a href="https://www.protoexpress.com/tools/" class="nav-link dropdown-toggle">Designer&#8217;s Tools</a><input type="checkbox" name="menuopt" class="subnav-toggler" id="subnav-toggler-5">
+<ul class="sub-menu sub-menu--products arrow-top">
+	<li id="menu-item-2359" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-2359"><span class="sub-menu-header">PCB Planners</span>
+	<ul class="sub-menu sub-menu--products arrow-top">
+		<li id="menu-item-10185" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10185"><a href="https://www.protoexpress.com/tools/pcb-stackup-designer/">Stackup Designer</a></li>
+		<li id="menu-item-10186" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10186"><a href="https://www.protoexpress.com/tools/pcb-material-selector/">Material Selector</a></li>
+		<li id="menu-item-25701" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-25701"><a href="https://www.protoexpress.com/tools/component-selector/">Component Selector</a></li>
+	</ul>
+</li>
+	<li id="menu-item-2356" class="sb-mn-brd menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-2356"><span class="sub-menu-header">Calculators</span>
+	<ul class="sub-menu sub-menu--products arrow-top">
+		<li id="menu-item-10188" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10188"><a href="https://www.protoexpress.com/tools/pcb-impedance-calculator/">Impedance Calculator</a></li>
+		<li id="menu-item-10187" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10187"><a href="https://www.protoexpress.com/tools/via-impedance-calculator/">Via Impedance Calculator</a></li>
+		<li id="menu-item-10189" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10189"><a href="https://www.protoexpress.com/tools/trace-width-and-current-capacity-calculator/">Trace Width and Current <span class="breakClass">Capacity Calculator</span></a></li>
+		<li id="menu-item-10190" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10190"><a href="https://www.protoexpress.com/tools/via-current-capacity-temperature-rise-calculator/">Via Current Capacity Calculator</a></li>
+		<li id="menu-item-10191" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10191"><a href="https://www.protoexpress.com/tools/signal-layer-estimator/">Signal &#038; Plane Layer Estimator</a></li>
+		<li id="menu-item-10192" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10192"><a href="https://www.protoexpress.com/tools/pcb-conductor-spacing-and-voltage-calculator/">Conductor Spacing &#038; Voltage Calculator</a></li>
+		<li id="menu-item-13060" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-13060"><a href="https://www.protoexpress.com/tools/via-thermal-resistance-calculator/">Via Thermal Resistance Calculator</a></li>
+		<li id="menu-item-10193" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10193"><a href="https://www.protoexpress.com/tools/transmission-line-reflection-calculator/">Transmission Line Reflection Calculator</a></li>
+		<li id="menu-item-10194" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10194"><a href="https://www.protoexpress.com/tools/bandwidth-rise-time-and-critical-length-calculator/">Bandwidth Rise Time and Critical Length Calculator</a></li>
+		<li id="menu-item-10195" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10195"><a href="https://www.protoexpress.com/tools/rlc-resonant-frequency-and-impedance-calculator/">RLC Resonant Frequency and Impedance Calculator</a></li>
+		<li id="menu-item-10196" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10196"><a href="https://www.protoexpress.com/tools/maximum-via-stub-length-calculator/">Maximum Via Stub Length Calculator</a></li>
+		<li id="menu-item-21770" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-21770"><a href="https://www.protoexpress.com/tools/power-distribution-network-analyzer/">PDN Analyzer</a></li>
+		<li id="menu-item-40168" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-40168"><a href="https://www.protoexpress.com/tools/annular-ring-calculator/">Annular Ring Calculator</a></li>
+		<li id="menu-item-40167" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-40167"><a href="https://www.protoexpress.com/tools/transmission-line-reflection-simulator/">Transmission Line Reflection Simulator</a></li>
+	</ul>
+</li>
+	<li id="menu-item-2357" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-2357"><span class="sub-menu-header">File Checkers</span>
+	<ul class="sub-menu sub-menu--products arrow-top">
+		<li id="menu-item-10197" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10197"><a href="https://www.protoexpress.com/tools/pcb-dfm-tool/">Better DFM</a></li>
+		<li id="menu-item-10198" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-10198"><a href="https://www.protoexpress.com/tools/bom-checker-tool/">BOM Cleaner</a></li>
+		<li id="menu-item-15761" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-15761"><a href="https://www.protoexpress.com/tools/bom-compare-tool/">Compare 2 BOMs</a></li>
+	</ul>
+</li>
+</ul>
+</li><li id="menu-item-16428" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16428"><a target="_blank" href="https://sierraconnect.protoexpress.com/?utm_source=protoexpress.com&#038;utm_medium=display&#038;utm_campaign=homepage%2Bmenu%2Boct%2B2023" class="nav-link">Community</a></li><li id="menu-item-862" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-862"><a href="https://www.protoexpress.com/about-sierra-circuits/" class="nav-link">About</a></li><li id="menu-item-32832" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-32832"><a href="https://www.protoexpress.com/careers/" class="nav-link">Careers</a></li><li id="menu-item-2320" class="align-menu-right sub-menu--tools-design menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-2320"><a href="#" class="nav-link dropdown-toggle">Resources</a><input type="checkbox" name="menuopt" class="subnav-toggler" id="subnav-toggler-5">
+<ul class="sub-menu sub-menu--products arrow-top">
+	<li id="menu-item-10199" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-10199"><span class="sub-menu-header">Excellence</span>
+	<ul class="sub-menu sub-menu--products arrow-top">
+		<li id="menu-item-10200" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10200"><a href="https://www.protoexpress.com/pcb-manufacturing-capabilities/">Capabilities &#038; Specs</a></li>
+		<li id="menu-item-10201" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10201"><a href="https://www.protoexpress.com/pcb-certificates/">PCB Certifications</a></li>
+		<li id="menu-item-10202" class="menu-item menu-item-type-post_type menu-item-object-knowledge-base menu-item-10202"><a href="https://www.protoexpress.com/kb/supplier-quality-requirements/">Supplier Quality Requirements</a></li>
+	</ul>
+</li>
+	<li id="menu-item-10203" class="sb-mn-brd menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children dropdown top-level-menu-item menu-item-10203"><span class="sub-menu-header">Education Center</span>
+	<ul class="sub-menu sub-menu--products arrow-top">
+		<li id="menu-item-10743" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10743"><a href="https://www.protoexpress.com/facility-tour/">Facility Tour</a></li>
+		<li id="menu-item-11179" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11179"><a href="https://www.protoexpress.com/events/">Webinars &#038; Seminars</a></li>
+		<li id="menu-item-10207" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10207"><a href="https://www.protoexpress.com/webinar/">Webinars Slides / Recordings</a></li>
+		<li id="menu-item-10204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10204"><a href="https://www.protoexpress.com/faq/">FAQ</a></li>
+		<li id="menu-item-10205" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10205"><a href="https://www.protoexpress.com/kb/">Knowledge Base</a></li>
+		<li id="menu-item-10206" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10206"><a href="https://www.protoexpress.com/pcb-design-guides/">Design Guides</a></li>
+		<li id="menu-item-10208" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10208"><a href="https://www.protoexpress.com/blog/">Blog</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item-has-children dropdown top-level-menu-item" id="sierra-user-menu">
+                        <input type="checkbox" name="menuopt" class="subnav-toggler" id="subnav-toggler-6" />
+                            <a title="User Team" href="#" class="nav-link dropdown-toggle" aria-haspopup="true">
+                                <svg data-cache_svg="icon-nav-person" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle cache_me_outside" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                                    <path fill-rule="evenodd"
+                                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"></path>
+                                </svg>
+                                <span class="caret"></span>
+                            </a>
+                           <ul role="menu" class="sub-menu sub-menu--users arrow-top align-sub-menu-right" id="user-customer-portal">
+                                <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item-has-children dropdown">
+                                    <span class="sub-menu-header">Order Management</span>
+                                    <ul role="menu" class="sub-menu arrow-top"><li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
+                                <a title="Start an Online Quote" href="https://www.protoexpress.com/customer-portal/instant-online-quote">Start an Online Quote</a>
+                              </li></ul></li>
+            <span class="sub-menu-header">Customer Care</span>
+            <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
+              <a title="FAQs" href="/customer-care">Contact Us</a>
+            </li>
+            <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item-has-children dropdown">
+                        <span class="sub-menu-header">Account</span>
+                            <ul role="menu" class="sub-menu arrow-top">
+                            <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
+                                <a title="Sign In" href="https://www.protoexpress.com/login">Sign In</a>
+                              </li>
+                              <li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
+                              <a title="Create an Account" href="https://www.protoexpress.com/signup/">Create an Account</a>
+                            </li></ul></li></ul></li></ul>                </div>
+              </nav>
+            </div>
+          </div>
+        </header>
+      </div>
+    </div><section  class="faqPage faqPage--light">
+  <section  class="webinars__top page-top pt-5 pb-5 faqPageTop">
+    <div class="container container-1140">
+        <div  class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1 class="mt-0 mb-0 page-title">
+                    <span class="secondary-red">FAQ //</span> Rapid Prototyping Circuit Boards Using Turnkey PRO                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section  class="faq___main_description bg-white py-5">
+  <div  class="container">
+    <div class="row">
+      <div class="col-md-4 col-12">
+        <div class="main-description__right_col">
+  <div class="accordion-widget faq_accordion_sidebar">
+
+        <section class="accordion_section" data-accordion-section="t1">
+      <h5 class="accordion__section_title">
+        PCB Tools &amp; Resources      </h5>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="112150">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        PCB Design Tools      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="112150">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#common-pcb-design-tools-faqs'>
+              Common PCB Design Tools FAQs            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#pcb-material-selector'>
+              PCB Material Selector            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#pcb-stackup-designer'>
+              PCB Stackup Designer            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#impedance-calculator'>
+              Impedance Calculator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#via-impedance-calculator'>
+              Via Impedance Calculator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#signal-and-plane-layers-estimator'>
+              Signal and Plane Layers Estimator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#trace-width,-current-capacity,-and-temperature-rise-calculator'>
+              Trace Width, Current Capacity, and Temperature Rise Calculator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#via-current-capacity-and-temperature-rise-calculator'>
+              Via Current Capacity and Temperature Rise Calculator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#maximum-via-stub-length-calculator'>
+              Maximum Via Stub Length Calculator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#rlc-resonant-frequency-and-impedance-calculator'>
+              RLC Resonant Frequency and Impedance Calculator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#bandwidth,-rise-time,-and-critical-length-calculator'>
+              Bandwidth, Rise Time, and Critical Length Calculator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#transmission-line-reflection-calculator'>
+              Transmission Line Reflection Calculator            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-tools/#pcb-conductor-spacing-and-voltage-calculator'>
+              PCB Conductor Spacing and Voltage Calculator            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="12455">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Better DFM      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="12455">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/better-dfm/#about-better-dfm'>
+              About Better DFM            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/better-dfm/#using-the-tool'>
+              Using the Tool            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/better-dfm/#outputs-and-reports'>
+              Outputs and Reports            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/better-dfm/#common-issues'>
+              Common Issues            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/better-dfm/#board-outlines-and-filled-areas'>
+              Board Outlines and Filled Areas            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/better-dfm/#annular-ring-width-checks'>
+              Annular Ring Width Checks            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/better-dfm/#plating-types'>
+              Plating Types            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/better-dfm/#additional-tips-and-support-'>
+              Additional Tips and Support             </a>
+          </li>
+                  </ul>
+      </div>
+          </section>
+        <section class="accordion_section" data-accordion-section="t1">
+      <h5 class="accordion__section_title">
+        Standard PCB Fab      </h5>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="22390">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Standard PCBs      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="22390">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/web-order-pcbs/#online-ordering-process'>
+              Online Ordering Process            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/web-order-pcbs/#required-files-to-support-fabrication-'>
+              Required Files to Support Fabrication             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/web-order-pcbs/#required-files-to-support-assembly'>
+              Required Files to Support Assembly            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/web-order-pcbs/#via-in-pad-features'>
+              Via-in-Pad features            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/web-order-pcbs/#pcb-fabrication'>
+              PCB Fabrication            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/web-order-pcbs/#inspection'>
+              Inspection            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="22354">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        No-Touch      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="22354">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/no-touch-pcbs/#no-touch-pcb'>
+              No-Touch PCB            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/no-touch-pcbs/#design-files'>
+              Design Files            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/no-touch-pcbs/#common-issues'>
+              Common Issues            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/no-touch-pcbs/#design-guidelines'>
+              Design Guidelines            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/no-touch-pcbs/#data-submission-requirements'>
+              Data Submission Requirements            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/no-touch-pcbs/#board-outlines'>
+              Board Outlines            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/no-touch-pcbs/#additional-guidelines-'>
+              Additional Guidelines             </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block  faqAccordionExpander" data-ptab="22339">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Turnkey PRO      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab  active" data-ctab="22339">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/turnkey-pro-pcbs/#turnkey-pcbs'>
+              Turnkey PCBs            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/turnkey-pro-pcbs/#zero-defect-guarantee'>
+              Zero-Defect Guarantee            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/turnkey-pro-pcbs/#specs-and-capabilities'>
+              Specs and Capabilities            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/turnkey-pro-pcbs/#turnkey-pro-turn-times'>
+              Turnkey PRO Turn Times            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/turnkey-pro-pcbs/#parameters'>
+              Parameters            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/turnkey-pro-pcbs/#components-and-assembly'>
+              Components and Assembly            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/turnkey-pro-pcbs/#ordering-process-for-turnkey-pro'>
+              Ordering Process for Turnkey PRO            </a>
+          </li>
+                  </ul>
+      </div>
+          </section>
+        <section class="accordion_section" data-accordion-section="t1">
+      <h5 class="accordion__section_title">
+        Advanced PCB Fab      </h5>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="32450">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Military and Aerospace PCBs      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="32450">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/milspec-aerospace-pcbs/#pcb-certifications'>
+              PCB Certifications            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/milspec-aerospace-pcbs/#documentation'>
+              Documentation            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/milspec-aerospace-pcbs/#dielectric-and-copper'>
+              Dielectric and copper            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/milspec-aerospace-pcbs/#annular-rings'>
+              Annular Rings            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/milspec-aerospace-pcbs/#hole-size'>
+              Hole Size            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="32446">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        High-Density Interconnect PCBs      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="32446">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/hdi-pcbs/#choosing-hdi'>
+              Choosing HDI            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/hdi-pcbs/#hdi-cost-considerations'>
+              HDI Cost Considerations            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/hdi-pcbs/#selecting-hdi-materials'>
+              Selecting HDI Materials            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/hdi-pcbs/#hdi-fabrication'>
+              HDI Fabrication            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/hdi-pcbs/#microvia-considerations'>
+              Microvia Considerations            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/hdi-pcbs/#laser-drilling'>
+              Laser Drilling            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="32443">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Microelectronic PCBs      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="32443">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/microelectronics-pcbs/#classification'>
+              Classification            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/microelectronics-pcbs/#structure-'>
+              Structure             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/microelectronics-pcbs/#surface-finish'>
+              Surface Finish            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="32043">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Flex and Rigid-Flex PCBs      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="32043">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/flex-pcb-prototypes/#advantages-of-flex-pcbs'>
+              Advantages of Flex PCBs            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/flex-pcb-prototypes/#flex-pcb-cost-considerations'>
+              Flex PCB Cost Considerations            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/flex-pcb-prototypes/#materials'>
+              Materials            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/flex-pcb-prototypes/#stack-up-for-flex-pcbs-'>
+              Stack Up for Flex PCBs             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/flex-pcb-prototypes/#designing-&-manufacturing-flex-pcbs'>
+              Designing & Manufacturing Flex PCBs            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/flex-pcb-prototypes/#stiffeners'>
+              Stiffeners            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/flex-pcb-prototypes/#flex-assembly'>
+              Flex Assembly            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/flex-pcb-prototypes/#additional-information-about-pcb-flex-prototypes'>
+              Additional Information about PCB Flex Prototypes            </a>
+          </li>
+                  </ul>
+      </div>
+          </section>
+        <section class="accordion_section" data-accordion-section="t1">
+      <h5 class="accordion__section_title">
+        Customer Support      </h5>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="42408">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Customer Portal      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="42408">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#the-sierra-circuits-customer-portal'>
+              The Sierra Circuits Customer Portal            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#tracking-orders'>
+              Tracking Orders            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#project-sharing-'>
+              Project Sharing             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#making-changes-to-an-active-project-'>
+              Making Changes to an Active Project             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#customer-consigned-inventory-(cci)'>
+              Customer Consigned Inventory (CCI)            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#clear-to-build-(ctb)-'>
+              Clear-to-Build (CTB)             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#ist-(issue-ticket)'>
+              IST (Issue Ticket)            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#customer-service-ticket-(cst)-'>
+              Customer Service Ticket (CST)             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/customer-portal/#customer-owned-inventory-(coin)'>
+              Customer-Owned Inventory (COIN)            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="42401">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Ordering PCBs      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="42401">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/orders/#managing-your-order'>
+              Managing Your Order            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/orders/#shipping-and-tracking'>
+              Shipping and Tracking            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/orders/#orders-on-hold'>
+              Orders On-Hold            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/orders/#cancellation-policy'>
+              Cancellation Policy            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/orders/#turnaround-times-'>
+              Turnaround Times             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/orders/#re-ordering-pcbs'>
+              Re-ordering PCBs            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/orders/#billing'>
+              Billing            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/orders/#terms-and-conditions'>
+              Terms and Conditions            </a>
+          </li>
+                  </ul>
+      </div>
+          </section>
+        <section class="accordion_section" data-accordion-section="t1">
+      <h5 class="accordion__section_title">
+        PCB Services      </h5>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="512895">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        PCB Design Support      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="512895">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#high-current-boards'>
+              High-current boards            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#schematics'>
+              Schematics            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#transmission-lines'>
+              Transmission lines            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#stack-ups'>
+              Stack-ups            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#dfm'>
+              DFM            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#pcb-testing:-flying-probe-testing'>
+              PCB testing: Flying probe testing            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#pcb-assembly:-bom'>
+              PCB assembly: BOM            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#pcb-assembly:-layout-and-design'>
+              PCB assembly: Layout and design            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#pcb-assembly:-certifications-and-standards'>
+              PCB assembly: Certifications and standards            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#high-speed-boards:-dielectric-materials'>
+              High-speed boards: Dielectric materials            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#high-density-interconnects:-hdi-fabrication'>
+              High-density interconnects: HDI fabrication            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-design-support-faqs/#flex-and-rigid-flex:-stack-up-for-flex-pcbs'>
+              Flex and rigid-flex: Stack-up for flex PCBs            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="52453">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        ROHS Lead Free PCBs      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="52453">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/rohs-lead-free-pcbs/#rohs-compliance-and-lead-free-pcbs'>
+              RoHS Compliance and Lead-Free PCBs            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/rohs-lead-free-pcbs/#our-solution-'>
+              Our Solution             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/rohs-lead-free-pcbs/#rohs-frequently-asked-questions'>
+              RoHS Frequently Asked Questions            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/rohs-lead-free-pcbs/#rohs-compliance'>
+              RoHS Compliance            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/rohs-lead-free-pcbs/#ordering-lead-free-pcbs'>
+              Ordering Lead-Free PCBs            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="52432">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        Impedance Control      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="52432">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/controlled-impedance/#influencing-impedance-'>
+              Influencing Impedance             </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/controlled-impedance/#material-selection'>
+              Material Selection            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/controlled-impedance/#stack-up'>
+              Stack-Up            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/controlled-impedance/#prepregs'>
+              Prepregs            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/controlled-impedance/#impedance-tolerance'>
+              Impedance Tolerance            </a>
+          </li>
+                  </ul>
+      </div>
+            <!-- Accordion Trigger -->
+      <span class="parent_tab__title d-block " data-ptab="5113">
+        <div class="faq_toggle_icon">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </div>
+
+        PCB Assembly      </span>
+      <div class="accordion_section__content_tab faq_accordion_tab " data-ctab="5113">
+        <ul class="accordion__section_child_tab p-0 m-0">
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-assembly/#component-selection'>
+              Component Selection            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-assembly/#layout-and-design'>
+              Layout and Design            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-assembly/#bom'>
+              BOM            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-assembly/#mixing-technologies'>
+              Mixing Technologies            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-assembly/#package-size'>
+              Package Size            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-assembly/#kitting-&-other-component-guidelines'>
+              Kitting & other component guidelines            </a>
+          </li>
+                    <li>
+            <a class="d-block" href='https://www.protoexpress.com/faq/pcb-assembly/#capabilities'>
+              Capabilities            </a>
+          </li>
+                  </ul>
+      </div>
+          </section>
+      </div>
+</div>
+
+<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript">
+const links = document.querySelectorAll('.faq_accordion_sidebar .parent_tab__title');
+
+links.forEach((link) => {
+  link.addEventListener('click', () => {
+    link.classList.toggle('faqAccordionExpander');
+  });
+});
+</script>
+      </div>
+      <div class="col-md-8 col-12 main-description__left_col faq_analysis" id="sr-main-content">
+        
+	
+  <div class="more__cta">
+    <div class="more__title"><strong>&raquo; MORE</strong></div>
+    <div class="more__content">
+    <br />
+Beat competitors to the market. Reduce Respins with our Zero-Defect Guarantee.<br />
+<a href="/products/turnkey-pro/">With Turnkey PRO, Sierra Circuits delivers full turnkey PCBs that are guaranteed to work.</a><br />
+
+    </div>
+  </div>
+
+                <div class="faq-item mt-5" id='turnkey-pcbs'>
+          <h5 class="secondary-yellow">
+            Turnkey PCBs          </h5>
+                    <h4>
+            What is Turnkey PRO?          </h4>
+          <p>Our Turnkey PRO online self-service offers full PCB fabrication and assembly as a bundle.</p>
+<p>This cost-effective service allows you to get your standard technology PCBs fully assembled in as fast as 5 days.</p>
+<p><a href="/customer-portal/qta">Click here to Get a Turnkey PRO Quote.</a></p>
+                  </div>
+                <div class="faq-item mt-5" id='zero-defect-guarantee'>
+          <h5 class="secondary-yellow">
+            Zero-Defect Guarantee          </h5>
+                    <h4>
+            What is Turnkey PRO’s Zero-Defect Guarantee?          </h4>
+          <p><span style="font-weight: 400;">Sierra Circuits turnkey PCBs are engineered to meet our customers&#8217; most critical requirements. Our material is manufactured to strict process controls that will give you world-class quality and uncompromising consistency.</span></p>
+<p><span style="font-weight: 400;">Sierra Circuits warrants its boards against defects in materials and workmanship under normal use for a period of 90 days from date of shipment. If a defect arises we will either (I) replace the board at no charge or (II) issue a credit equal to the original purchase price of the board.</span></p>
+                  </div>
+                <div class="faq-item mt-5" id='specs-and-capabilities'>
+          <h5 class="secondary-yellow">
+            Specs and Capabilities          </h5>
+                    <h4>
+            What specs and capabilities does Turnkey PRO have?          </h4>
+          <p>You can see all specs and capabilities on the <a href="/products/turnkey-pro">Turnkey PRO product page</a>. Here is a brief list of the specs and capabilities to give you an idea of what we offer:</p>
+<p><a href="/blog/ipc-class-2-vs-class-3-different-design-rules/">IPC-6012 Class 2 PCB</a> (No microsection certification or IPC coupons provided with online order)<br />
+<a href="/faq/rohs-lead-free-pcbs">RoHS</a> compliance available<br />
+Material lead-free FR4 370HR<br />
+HASL, ENIG (RoHS compliant)<br />
+Thickness 0.062″, 0.031″ or 0.093″<br />
+Minimum finished hole available 0.006″<br />
+Minimum trace width offered 0.004″<br />
+Minimum space offered 0.004″<br />
+<a href="/products/controlled-impedance">Controlled impedance</a> available (+/-10% tolerance)<br />
+Green or blue solder mask<br />
+White legend<br />
+Electrical testing<br />
+Turnkey assembled to IPC-A-610 Class 2 spec</p>
+<p><a href="/kb/turnkey-pro-pcb-specs">View full technical specs.</a></p>
+                    <h4>
+            What is the minimum width of mask dam in a PCB?          </h4>
+          <p>As per standards, a 4 mil wide mask dam is preferred. At Sierra Circuits, we go up to a 2 mil wide mask dam, with LDI.</p>
+<p><img fetchpriority="high" decoding="async" class="" src="https://www.protoexpress.com/wp-content/uploads/2022/08/soldermask_dam_recreated.jpg" alt="Soldermask dam tolerance" width="486" height="253" /></p>
+                  </div>
+                <div class="faq-item mt-5" id='turnkey-pro-turn-times'>
+          <h5 class="secondary-yellow">
+            Turnkey PRO Turn Times          </h5>
+                    <h4>
+            What turn times are offered for Turnkey PRO?          </h4>
+          <p>5 days, 7 days, 10 days and 15 days turn times are offered for your turnkey project.</p>
+                  </div>
+                <div class="faq-item mt-5" id='parameters'>
+          <h5 class="secondary-yellow">
+            Parameters          </h5>
+                    <h4>
+            What design parameters exist for Turnkey PRO?          </h4>
+          <p>Turnkey PRO can be used to manufacture standard PCBs, as follow:</p>
+<ul>
+<li>Only 2 – 8 layer boards are available</li>
+<li>Boards can be ordered in any quantity from 2 through 100 assembled boards</li>
+<li>Board thickness can only be 0.062″, 0.031″ or 0.093″</li>
+<li>Individual boards must fit within a 10″ X 16″ box shape and must not exceed 150 sq inches in area</li>
+<li>Rectangular boards only, but certain slots, notches, and cutouts allowed (see capabilities for details)</li>
+<li>Rigid PCBs only</li>
+<li>Green or blue solder mask only</li>
+<li>White silkscreen only</li>
+<li>Only HASL, ENIG (RoHS compliant) finishes allowed</li>
+<li>Only FR4 lead free (370HR material) available</li>
+<li>Single lamination only</li>
+<li>No ITAR restricted designs allowed</li>
+<li>No arrays</li>
+<li>No gold fingers</li>
+</ul>
+<p>The standards for assembling standard board using Turnkey PRO are as follows:</p>
+<ul>
+<li>Minimum passive component size allowed is 0201</li>
+<li>Minimum pitch allowed for BGAs is 0.5 mm and for other components, it is 0.4 mm</li>
+<li>Maximum 20 through-hole components allowed per board</li>
+<li>Minimum component pad size allowed is 8 mils x 8 mils</li>
+</ul>
+<p>Additionally, the following services are not offered through Turnkey PRO:</p>
+<ul>
+<li>Wire-bonding, conformal coating, underfills, staking, POP assembly, wire assembly, or cable assembly are not allowed.</li>
+<li>Rework like cutting traces, soldering wire jumpers, and cables onto the boards are not allowed.</li>
+<li>Assembly of special items like PEM nuts, turret terminals, rivets, and press-fit connectors are not allowed.</li>
+</ul>
+<p>To get any of these extra assembly features, please ask for a <a href="/customer-portal/custom-quote">custom quote</a>.</p>
+                    <h4>
+            What if my PCB design specs are too complex for Turnkey PRO standard specs?          </h4>
+          <p>If your PCB design does not conform to standard PCB specs for Turnkey PRO, please try our <a href="/customer-portal/instant-online-quote">Web PCB online service</a>&#8211; more materials, more finishes, more turn times, more options.</p>
+<p>For even more advanced technology or complexities like HDI, Mil-spec, flex boards, Metal-core, Aerospace or Medical, please request a <a href="/customer-portal/custom-quote">custom quote</a>.</p>
+                  </div>
+                <div class="faq-item mt-5" id='components-and-assembly'>
+          <h5 class="secondary-yellow">
+            Components and Assembly          </h5>
+                    <h4>
+            Is there a minimum order value for components?          </h4>
+          <p>When ordering components through Turnkey PRO, your components must add up to at least $100. In other words, there is a minimum charge of $100 for the components kit. For example, if your components kit is priced out to be $78 online, we will still charge the $100 minimum.</p>
+                    <h4>
+            What if I need to provide a special component?          </h4>
+          <p>Although Turnkey PRO is turnkey assembly, you can consign some components—say special components that Sierra cannot procure in time. These must be shipped to Sierra Circuits’ assembly, Sierra Circuits, Inc. 1980 Lundy Ave (Receiving Department), San Jose, CA 95131. Please include your internet order number in the attention line, as follows:</p>
+<p>Name<br />
+Company Name<br />
+Order# (eg 12345-iRW)<br />
+Contact Phone #</p>
+                    <h4>
+            What if my design has Via-in-Pad features?          </h4>
+          <p>If your boards have via-in-pad features on component pads, we put the PCBs through a process of via-filling to ensure good solderability. This is the best practice for board fabrication (regardless of which company assembles the boards.) We specifically ask in the online system if your design has via-in-pad features on component pads; if so, the online system quotes it appropriately. If you indicate No for via-in-pad in the online quote but during our DFM process we do find such features, please understand that this may add to your price and lead time. A customer service team member will contact you accordingly.</p>
+                    <h4>
+            Does Turnkey PRO include silkscreen on both sides?          </h4>
+          <p>Yes, it does.</p>
+                    <h4>
+            If my silkscreen designators get too crowded for the board (given that the minimum text size is 25X25X5 mils), where should I put the rest of the designators for reference?          </h4>
+          <p>If the board gets too crowded for all your silkscreen designators, you can show the remaining component designators in the assembly drawing instead of in silkscreen.</p>
+<p>Our assembly team will refer to assembly drawing as needed.</p>
+                    <h4>
+            Can I order a solder mask color other than green for my Turnkey PRO board(s)?          </h4>
+          <p>Solder mask is available in the following colors: green and blue.</p>
+                  </div>
+                <div class="faq-item mt-5" id='ordering-process-for-turnkey-pro'>
+          <h5 class="secondary-yellow">
+            Ordering Process for Turnkey PRO          </h5>
+                    <h4>
+            What files do I need to include for a Turnkey PRO order?          </h4>
+          <ul>
+<li>A BOM file. We will only use the BOM data from what is loaded online. <a href="https://media.protoexpress.com/BOM-Sample-and-Demo.xls">See our sample BOM</a>.</li>
+<li>XY Data and assembly drawing. <a href="https://media.protoexpress.com/format-for-X-Y-data.pdf">See our sample XYRS file</a>.</li>
+<li>Gerber files using English units in 274X format or ODB++ format. (Note: 274D format is not accepted.)
+<ul>
+<li>All copper layers (inner &amp; outer)</li>
+<li>Solder mask layers</li>
+<li>Silkscreen/legend layers</li>
+<li>Via plugging layers (if applicable)</li>
+<li>Solder paste layers (for assembly)</li>
+<li>Aperture list if apertures are not embedded in Gerber data</li>
+</ul>
+</li>
+<li>Fabrication drawing in Gerber format
+<ul>
+<li>Board outline, dimensions, including cutouts, chamfers, radii, bevels, scores, etc.</li>
+<li>Drill chart with hole symbols on drawing and finished sizes</li>
+<li>Material requirements</li>
+<li>Finished board thickness and tolerance</li>
+<li>Layer stack-up order</li>
+<li>Controlled impedance requirements (if applicable)</li>
+<li>Notes with other requirements and specifications</li>
+</ul>
+</li>
+<li>Exellon drill file in ASCII format with the following parameters:
+<ul>
+<li>Units = Inch</li>
+<li>Tool units = Inch</li>
+<li>Coordinate = Absolute</li>
+<li>Zeros omitted = Trailing</li>
+<li>Number format = 2.4</li>
+</ul>
+</li>
+<li>Readme.txt . ASCII text file with the following critical information:
+<ul>
+<li>All relevant details about the board, including thickness</li>
+<li>Listing of all file names and what they are (e.g. top copper, top solder mask, bottom solder mask, etc.)</li>
+<li>Layer stack-up sequence</li>
+<li>Other special instructions</li>
+<li>Engineering contact information</li>
+</ul>
+</li>
+</ul>
+                    <h4>
+            How should I represent a board outline?          </h4>
+          <p>We STRONGLY PREFER that board outline should be in the Gerbers– it could be on any of the Gerber layers or on its own separate layer.</p>
+<p>If that is not possible, our second preference would be to have the outline in the fabrication drawing with dimensions clearly shown.</p>
+                    <h4>
+            Can I reorder a board from a previous order?          </h4>
+          <p>Yes, we will use your previous Gerber and previously used online BOM when you re-order. No new files will be required or accepted for a re-order. Please note: Assembly labor and component price may be revised based on current component availability. You will see your previous online BOM and have a chance to edit if needed.</p>
+                    <h4>
+            Why should the plane layers be supplied in negative format?          </h4>
+          <ul>
+<li>Negative layers are a smaller file size than positive layer files.</li>
+<li>Negative layers are much quicker to work with when we run our engineering analysis.</li>
+<li>Positive layers cause longer test times in final tests.</li>
+</ul>
+                    <h4>
+            Why shouldn’t polygons be in plane layers and signal layers?          </h4>
+          <p>Our high-end CAD software, Valor Genesis, will attempt to fill the polygons automatically but can miss some areas on the layers. This would result in missing data and possibly a non-functional board.</p>
+                  </div>
+        
+      </div>
+    </div>
+  </div>
+</section></section>
+<!-- Turnkey Gallery-->
+<section data-wpr-lazyrender="1" class="faq_products sectionVertSpacing bg-dark bg-dark-alt">
+  <div  class="container">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12 col-xs-12">
+        <h2 class="mb-5 text-white">Featured Product Solutions</h2>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <section class="turnkey__gallery">
+      <div class="row tight_row">
+                <div class="col-lg-4 col-12 mb-5 mb-lg-0 product_box_wrapper">
+
+          <div class="product_box px-4 py-4">
+            <div data-bg="https://www.protoexpress.com/wp-content/uploads/2021/04/product-turnkey_pro-1.webp" class="product_box__image rocket-lazyload" style="">
+              <a class="expander_link" href="https://www.protoexpress.com/products/turnkey-pro/"><span class="opacity-10 h4style">Turnkey PRO</span></a>
+            </div>
+            <div class="product_box__texts">
+              <h4 class="product_box__title mb-3 text-center ">
+                <a href="https://www.protoexpress.com/products/turnkey-pro/">
+                  Turnkey PRO                </a>
+              </h4>
+              <p class="smFont mb-3 pb-3 text-center">
+                <a class="" href="https://www.protoexpress.com/products/turnkey-pro/">
+                  The best value for full turnkey PCBs. Manufactured in the USA, fully assembled, and shipped in 7, 10 or 15 days.                </a>
+              </p>
+            </div>
+
+          </div>
+          </a>
+        </div>
+                <div class="col-lg-4 col-12 mb-5 mb-lg-0 product_box_wrapper">
+
+          <div class="product_box px-4 py-4">
+            <div data-bg="https://www.protoexpress.com/wp-content/uploads/2021/04/product-rigid_pcb.webp" class="product_box__image rocket-lazyload" style="">
+              <a class="expander_link" href="https://www.protoexpress.com/products/online-pcb-manufacturing/"><span class="opacity-10 h4style">Online PCB Manufacturing</span></a>
+            </div>
+            <div class="product_box__texts">
+              <h4 class="product_box__title mb-3 text-center ">
+                <a href="https://www.protoexpress.com/products/online-pcb-manufacturing/">
+                  Online PCB Manufacturing                </a>
+              </h4>
+              <p class="smFont mb-3 pb-3 text-center">
+                <a class="" href="https://www.protoexpress.com/products/online-pcb-manufacturing/">
+                  Instantly quote and order online! Standard technology, rigid PCBs up to 12 layers and 4-mil trace and space                </a>
+              </p>
+            </div>
+
+          </div>
+          </a>
+        </div>
+              </div>
+    </section>
+  </div>
+
+
+</section><section data-wpr-lazyrender="1" class="prefooter">
+  <h2 class="text-center">Talk to a Sierra Circuits PCB Expert today</h2>
+  <p>24 hours a day, 7 days a week.</p>
+  <p>
+    <strong>
+      Call us: <a class="yellowish" href="tel:+1 (800) 763-7503"> +1 (800) 763-7503</a><br />
+      <a href="https://sierracircuits.ormeteorite.com/c/Vishwakarma#/select-time" class="yellowish" target="_blank">Book a Meeting</a> with a Sales Rep<br />
+      Email us: <a class="yellowish" href="/customer-care">through our Customer Care form</a>
+    </strong>
+  </p>
+</section><div data-wpr-lazyrender="1" class="above-footer">
+  <ul class="ipc-list">
+    <li><a href="https://pages.protoexpress.com/rs/727-TSC-367/images/Sierra Certificate-AS9100D-ISO 9001_2015 Rev A.pdf?version=0">AS9100D – Military &amp; Aerospace</a></li><li><a href="https://media.protoexpress.com/certificates/ipc-a-600-inspectors.pdf">IPC-A-600 Inspectors</a></li><li><a href="https://www.protoexpress.com/pcb-certificates/">IPC 6012 CLASS 2</a></li><li><a href="https://www.protoexpress.com/pcb-certificates/">IPC 6012 CLASS 3/ES</a></li><li><a href="https://media.protoexpress.com/certificates/flex-rigid-flex-pcbs.pdf">UL Certification - Flex &amp; Rigid Flex PCBs</a></li><li><a href="https://media.protoexpress.com/certificates/rigid-pcbs.pdf">UL Certification - Rigid PCBs</a></li><li><a href="https://www.protoexpress.com/wp-content/uploads/2025/09/Sierra-Circuits-REACH_-RoHS-Material-Composiition-Declaration-1_21_2025.pdf">RoHS / REACH Compliance</a></li><li><a href="https://pages.protoexpress.com/rs/727-TSC-367/images/Sierra Certificate-AS9100D-ISO 9001_2015 Rev A.pdf?version=0">ISO 9001:2015 Certificate</a></li><li><a href="https://media.protoexpress.com/certificates/iso-13485-2016-certificate-medical-devices.pdf">ISO 13485:2016</a></li><li><a href="https://media.protoexpress.com/certificates/MIL-PRF-31032-3Flex-Certificate.pdf">MIL-PRF-31032 Certificate</a></li><li><a href="https://media.protoexpress.com/certificates/ITAR-Registration-Letter.pdf">ITAR Registered</a></li><li><a href="https://www.protoexpress.com/wp-content/uploads/2025/09/APPROVED-SIERRA-CIRCUITS_-INC-0ZHS4-44400194_JCP-Certification.pdf">JCP Certification Approval Letter</a></li>  </ul>
+  <p>
+    <a href="https://www.protoexpress.com/about-sierra-circuits/">Sierra Circuits is a minority-owned business</a><span style="color:#fff;">, certified by the</span> <a href="https://nmsdc.org/" target="_blank" rel="noopener noreferrer">National Minority Supplier Development Council.</a>  </p>
+</div><footer data-wpr-lazyrender="1" id="footer" class="container">
+  <div class="row">
+    <div class="col footer-widget">
+      <h3>
+        <a href="https://www.protoexpress.com/pcb-manufacturing-capabilities/">Capabilities</a>      </h3>
+      <ul id="menu-footer-menu-1" class="menu"><li id="menu-item-3141" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-3141"><a href="https://www.protoexpress.com/products/rigid-pcb/">Rigid PCBs</a></li>
+<li id="menu-item-3134" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-3134"><a href="https://www.protoexpress.com/products/flex-and-rigid-flex-pcb/">Flex and Rigid-Flex PCBs</a></li>
+<li id="menu-item-3136" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-3136"><a href="https://www.protoexpress.com/products/microelectronics-pcb/">Microelectronics PCBs</a></li>
+<li id="menu-item-3137" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-3137"><a href="https://www.protoexpress.com/products/mil-spec-pcb/">Aerospace &#038; Defense PCBs</a></li>
+<li id="menu-item-3135" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-3135"><a href="https://www.protoexpress.com/products/hdi-printed-circuit-boards/">HDI PCBs</a></li>
+<li id="menu-item-3133" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-3133"><a href="https://www.protoexpress.com/products/controlled-impedance/">Controlled Impedance</a></li>
+<li id="menu-item-3139" class="menu-item menu-item-type-post_type menu-item-object-products menu-item-3139"><a href="https://www.protoexpress.com/products/pcb-assembly/">PCB Assembly</a></li>
+</ul>    </div>
+    <div class="col footer-widget">
+      <h3>
+        <a href="https://www.protoexpress.com/tools/">Tools for Designers</a>      </h3>
+      <ul id="menu-footer-menu-2" class="menu"><li id="menu-item-3149" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-3149"><a href="https://www.protoexpress.com/tools/trace-width-and-current-capacity-calculator/">Trace Width, Current Capacity and Temperature Rise Calculator</a></li>
+<li id="menu-item-3146" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-3146"><a href="https://www.protoexpress.com/tools/pcb-impedance-calculator/">Impedance Calculator</a></li>
+<li id="menu-item-3148" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-3148"><a href="https://www.protoexpress.com/tools/pcb-stackup-designer/">Stackup Designer</a></li>
+<li id="menu-item-3147" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-3147"><a href="https://www.protoexpress.com/tools/pcb-material-selector/">Material Selector</a></li>
+<li id="menu-item-3145" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-3145"><a href="https://www.protoexpress.com/tools/bom-checker-tool/">BOM Checker</a></li>
+<li id="menu-item-3144" class="menu-item menu-item-type-post_type menu-item-object-tools menu-item-3144"><a href="https://www.protoexpress.com/tools/pcb-dfm-tool/">Better DFM</a></li>
+<li id="menu-item-3150" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3150"><a href="https://www.protoexpress.com/pcb-design-guides/">Design Guides</a></li>
+</ul>    </div>
+    <div class="col footer-widget">
+      <h3>
+        <a href="https://www.protoexpress.com/customer-care/">Learn More</a>      </h3>
+      <ul id="menu-footer-menu-3" class="menu"><li id="menu-item-3152" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3152"><a href="https://www.protoexpress.com/faq/">FAQ</a></li>
+<li id="menu-item-3153" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3153"><a href="https://www.protoexpress.com/kb/">Knowledge Base</a></li>
+<li id="menu-item-3155" class="menu-item menu-item-type-post_type menu-item-object-faq menu-item-3155"><a href="https://www.protoexpress.com/faq/customer-portal/">Customer Portal</a></li>
+<li id="menu-item-3154" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3154"><a href="https://www.protoexpress.com/webinar/">Webinars</a></li>
+<li id="menu-item-3151" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3151"><a href="https://www.protoexpress.com/blog/">Blog</a></li>
+<li id="menu-item-7867" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7867"><a href="https://www.protoexpress.com/terms-and-conditions/">Terms &#038; Conditions</a></li>
+<li id="menu-item-39154" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-39154"><a href="https://www.protoexpress.com/privacy/">Privacy Policy</a></li>
+</ul>    </div>
+    <div class="col footer-widget">
+      <h3>
+        <a href="https://www.protoexpress.com/pcb-manufacturing-usa/">Company</a>      </h3>
+      <ul id="menu-footer-menu-4" class="menu"><li id="menu-item-3156" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3156"><a href="https://www.protoexpress.com/about-sierra-circuits/">About Sierra Circuits</a></li>
+<li id="menu-item-3160" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3160"><a href="https://www.protoexpress.com/customer-care">Contact Us</a></li>
+<li id="menu-item-3159" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3159"><a href="https://www.protoexpress.com/customer-care/shared-access">Shared Portal Access (SPX)</a></li>
+<li id="menu-item-3157" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3157"><a href="https://www.protoexpress.com/pcb-certificates/">PCB Certifications</a></li>
+<li id="menu-item-5195" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5195"><a href="https://www.protoexpress.com/kb/supplier-quality-requirements/">Quality</a></li>
+<li id="menu-item-33084" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33084"><a href="https://www.protoexpress.com/careers/">Join Our Team Now</a></li>
+</ul>    </div>
+    <div class="col-xl-2 col footer-widget">
+      <ul class="footer--social_icons">
+        <li id="footer-social-facebook">
+          <a href="https://www.facebook.com/sierracircuits/" target="_blank" rel="noopener noreferrer">
+            <svg class="cache_me_outside" data-cache_svg="icon-social_footer-facebook" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.8637 0.867188C6.50135 0.867188 1.34375 6.02479 1.34375 12.3872C1.34375 18.7496 6.50135 23.9072 12.8637 23.9072C19.2261 23.9072 24.3837 18.7496 24.3837 12.3872C24.3837 6.02479 19.2261 0.867188 12.8637 0.867188ZM15.5925 8.82799H13.861C13.6558 8.82799 13.4278 9.09799 13.4278 9.45679V10.7072H15.5937L15.2661 12.4904H13.4278V17.8436H11.3842V12.4904H9.53015V10.7072H11.3842V9.65839C11.3842 8.15359 12.4282 6.93079 13.861 6.93079H15.5925V8.82799V8.82799Z" fill="#AC9F7F" />
+            </svg>
+          </a>
+        </li>
+        <li id="footer-social-linkedin">
+          <a href="https://www.linkedin.com/company/sierra-circuits-inc/" target="_blank" rel="noopener noreferrer">
+            <svg class="cache_me_outside" data-cache_svg="icon-social_footer-linkedin" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.8637 0.867188C6.50135 0.867188 1.34375 6.02479 1.34375 12.3872C1.34375 18.7496 6.50135 23.9072 12.8637 23.9072C19.2261 23.9072 24.3837 18.7496 24.3837 12.3872C24.3837 6.02479 19.2261 0.867188 12.8637 0.867188ZM10.0437 17.162H7.71095V9.65479H10.0437V17.162ZM8.86295 8.73319C8.12615 8.73319 7.64975 8.21119 7.64975 7.56559C7.64975 6.90679 8.14055 6.40039 8.89295 6.40039C9.64535 6.40039 10.1061 6.90679 10.1205 7.56559C10.1205 8.21119 9.64535 8.73319 8.86295 8.73319ZM18.5637 17.162H16.2309V13.0016C16.2309 12.0332 15.8925 11.3756 15.049 11.3756C14.4045 11.3756 14.0218 11.8208 13.8526 12.2492C13.7901 12.4016 13.7745 12.6176 13.7745 12.8324V17.1608H11.4405V12.0488C11.4405 11.1116 11.4105 10.328 11.3793 9.65359H13.4061L13.5129 10.6964H13.5597C13.867 10.2068 14.6193 9.48439 15.8781 9.48439C17.413 9.48439 18.5637 10.5128 18.5637 12.7232V17.162Z" fill="#AC9F7F" />
+            </svg>
+          </a>
+        </li>
+        <li id="footer-social-twitter">
+          <a href="https://twitter.com/SierraCircuits?" target="_blank" rel="noopener noreferrer">
+            <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2023%2023'%3E%3C/svg%3E" alt="twitter icon" width="23" height="23" data-lazy-src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/images/twitter.webp"><noscript><img src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/images/twitter.webp" alt="twitter icon" width="23" height="23"></noscript>
+          </a>
+        </li>
+        <li id="footer-social-youtube">
+          <a href="https://www.youtube.com/channel/UCz-QzCLZPbBov9MmTQ7zJlg" target="_blank" rel="noopener noreferrer">
+            <svg class="cache_me_outside" data-cache_svg="icon-social_footer-youtube" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.7874 12.263L12.0922 11.0054C11.857 10.8962 11.6638 11.0186 11.6638 11.279V13.6478C11.6638 13.9082 11.857 14.0306 12.0922 13.9214L14.7862 12.6638C15.0226 12.5534 15.0226 12.3734 14.7874 12.263ZM12.8638 0.943359C6.50135 0.943359 1.34375 6.10096 1.34375 12.4634C1.34375 18.8258 6.50135 23.9834 12.8638 23.9834C19.2262 23.9834 24.3838 18.8258 24.3838 12.4634C24.3838 6.10096 19.2262 0.943359 12.8638 0.943359ZM12.8638 17.1434C6.96695 17.1434 6.86375 16.6118 6.86375 12.4634C6.86375 8.31496 6.96695 7.78336 12.8638 7.78336C18.7606 7.78336 18.8638 8.31496 18.8638 12.4634C18.8638 16.6118 18.7606 17.1434 12.8638 17.1434Z" fill="#AC9F7F" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+      <p class="footer--phone_links">
+        Phone: <a href="tel:8007637503">(800) 763-7503</a><br />
+        Fax: <a href="tel:4087351408">(408) 735-1408</a>
+      </p>
+    </div>
+  </div>
+</footer><!-- After footer -->
+<div data-wpr-lazyrender="1" class="after-footer">
+  <div  class="container">
+    <dl class="pl-0 mb-0">
+      <dt class="first-heading">
+                <a href="https://www.protoexpress.com/industries/">Solutions by Industry</a>
+      </dt>
+      <dd><a href="https://www.protoexpress.com/industries/military-grade-pcb/">Aerospace & Defense </a></dd><dd><a href="https://www.protoexpress.com/industries/automotive-pcb/">Automotive</a></dd><dd><a href="https://www.protoexpress.com/industries/consumer-electronic-pcb/">Consumer & Wearables </a></dd><dd><a href="https://www.protoexpress.com/industries/medical-grade-pcb/">Healthcare & Medical Devices</a></dd><dd><a href="https://www.protoexpress.com/industries/university-research-pcb/">Universities & Research Institutions</a></dd><dd><a href="https://www.protoexpress.com/industries/industrial-pcb/">Industrial Manufacturing</a></dd>    </dl>
+  </div>
+</div><!-- Terms & Conditions -->
+<div data-wpr-lazyrender="1" class="footer-terms">
+  <div  class="container">
+    <div class="row align-items-center">
+      <div class="col-sm-8 col-xs-12">
+        <p class="mt-0 mb-0 terms">
+                    <a href="https://www.protoexpress.com/terms-and-conditions/">Terms & Conditions</a> &nbsp;
+          <a href="https://www.protoexpress.com/privacy/">Privacy Policy</a> &nbsp;
+          <a href="https://www.protoexpress.com/ccpa-compliance/">CCPA Compliance</a><br />
+          &copy; 2026 Sierra Circuits, All Rights Reserved.
+        </p>
+      </div>
+      <div class="col-sm-4 col-xs-12">
+        <p class="mt-0 mb-0 text-white text-right">
+          Sierra Circuits, Inc.<br/>
+          1108 West Evelyn Avenue<br/>
+          Sunnyvale, CA 94086, USA  
+        </p>
+      </div>
+    </div>
+  </div>
+</div><!-- Footer Newsletter -->
+<div data-wpr-lazyrender="1" class="footer-newsletter">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <div class="newsletter-text d-inline-flex align-items-center">
+          <svg class="cache_me_outside" data-cache_svg="icon-footer_newsletter" width="36" height="25" viewBox="0 0 36 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M33.9162 0.567071C33.7686 0.551862 33.6199 0.551862 33.4722 0.567071H3.15204C2.95772
+                            0.570065 2.76468 0.599203 2.57812 0.6537L18.2255 16.2361L33.9162 0.567071Z" fill="white"></path>
+            <path d="M35.5188 2.07227L19.7523 17.7738C19.3465 18.1772 18.7976 18.4036 18.2254 18.4036C17.6533 18.4036 17.1044 18.1772 16.6986 17.7738L1.07287 2.19138C1.02483 2.36793 0.999365 2.54986 0.99707 2.73281V24.3901C0.99707 24.9645 1.22524 25.5154 1.6314 25.9215C2.03755 26.3277 2.58841 26.5558 3.1628 26.5558H33.483C34.0574 26.5558 34.6083 26.3277 35.0144 25.9215C35.4206 25.5154 35.6487 24.9645 35.6487 24.3901V2.73281C35.6401 2.5072 35.5963 2.28433 35.5188 2.07227Z" fill="white"></path>
+          </svg>
+          <p class="text-white mt-0 mb-0">
+            Get PCB design tips and prototyping advice to build better boards
+            - delivered to your inbox, every week.
+          </p>
+        </div>
+
+      </div>
+      <div class="col-lg-6 mt-5 mt-lg-0 col-12 cta_form_wrapper footer-newsletter-form">
+        <p><script src="//pages.protoexpress.com/js/forms2/js/forms2.min.js" data-rocket-defer defer></script></p>
+<form id="mktoForm_1992"></form>
+<p><script type="text/rocketlazyloadscript">MktoForms2.loadForm("//pages.protoexpress.com", "727-TSC-367", 1992);</script></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div data-wpr-lazyrender="1" class="footer-certs">
+  <div class="container">
+    <div class="row mt-0 py-4">
+      <div class="col-12 d-flex justify-content-between align-items-center align-content-center">
+        <a href="//www.securitymetrics.com/site_certificate?id=1275886&tk=a874f0b5fea9c6abe864d7c2a500be80" target="_blank" rel="noopener noreferrer">
+          <img width="150" height="82" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20150%2082'%3E%3C/svg%3E" alt="SecurityMetrics Credit Card Safe" data-lazy-src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/images/security-metrics-credit-card-safe.png" /><noscript><img width="150" height="82" src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/images/security-metrics-credit-card-safe.png" alt="SecurityMetrics Credit Card Safe" /></noscript>
+        </a>
+        <!-- DigiCert Seal HTML -->
+        <!-- Place HTML on your site where the seal should appear -->
+        <div id="DigiCertClickID_5ECUZoYQ"></div>
+        <!-- DigiCert Seal Code -->
+        <!-- Place with DigiCert Seal HTML or with other scripts -->
+        <script type="text/rocketlazyloadscript" data-rocket-type="text/javascript">
+        var __dcid = __dcid || [];
+
+        __dcid.push({
+          "cid": "DigiCertClickID_5ECUZoYQ",
+          "tag": "5ECUZoYQ"
+        });
+        (function() {
+          var cid = document.createElement("script");
+          cid.async = true;
+          cid.src = "//seal.digicert.com/seals/cascade/seal.min.js";
+          var s = document.getElementsByTagName("script");
+          var ls = s[(s.length - 1)];
+          ls.parentNode.insertBefore(cid, ls.nextSibling);
+        }());
+        </script>
+      </div>
+      </a>
+    </div>
+  </div>
+</div><!-- Quote Now Overlay -->
+<div  id="quoter" class="quoter-container lity-hide" style="max-height: 988px;">
+  <div class="container">
+    <div class="row tight_row">
+      <div class="col-md-4 col-12">
+        <div class="v-card product-list--card modal_product_quote_card">
+          <div class="v-card__top">
+            <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="Turnkey PRO" class="d-none d-lg-block text-center" data-lazy-src="/wp-content/uploads/2021/04/product-turnkey_pro-2.webp"><noscript><img src="/wp-content/uploads/2021/04/product-turnkey_pro-2.webp" alt="Turnkey PRO" class="d-none d-lg-block text-center"></noscript>
+            <h3 class="mb-1 px-3 text-md-center">
+              <a href="/products/turnkey-pro/">
+                Turnkey PCBs</a>
+            </h3>
+          </div>
+          <div class="v-card__middle pb-4 px-3">
+            <p class="text-lg-center smFont product_pitch_text">
+              Fabrication, Procurement, & Assembly. <span class="d-lg-block secondary-red"><strong>PCBs fully assembled in as fast as 5 days.</strong></span>
+            </p>
+            <ul>
+              <li>Bundled together in an entirely-online process</li>
+              <li>Reviewed and tested by Engineers</i>
+              <li>DFA & DFM Checks on every order</li>
+              <li>Shipped from Silicon Valley in as fast as 5 days</li>
+            </ul>
+          </div>
+          <div class="v-card__bottom bg-white  d-flex align-items-center justify-content-center pt-0 pb-4 px-4 text-center position-relative">
+            <a href="/customer-portal/qta" class="button button--sm">Start Instant Online Quote</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-12">
+        <div class="v-card product-list--card modal_product_quote_card">
+          <div class="v-card__top">
+            <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="Online PCB Fabrication" class="d-none d-lg-block text-center" data-lazy-src="/wp-content/uploads/2021/04/product-rigid_pcb.webp"><noscript><img src="/wp-content/uploads/2021/04/product-rigid_pcb.webp" alt="Online PCB Fabrication" class="d-none d-lg-block text-center"></noscript>
+            <h3 class="mb-1 px-3 text-md-center">
+              <a href="/products/online-pcb-manufacturing/">
+                Standard PCBs </a>
+            </h3>
+          </div>
+          <div class="v-card__middle pb-4 px-3">
+            <p class="text-lg-center smFont product_pitch_text">
+              Fabrication. <em>Procurement & Assembly optional.</em> <span class="d-lg-block">Flexible and transparent for advanced creators.</span>
+            </p>
+            <ul>
+              <li><strong>Rigid PCBs</strong>, built to IPC-6012 Class 2 Specs</li>
+              <li>2 mil (0.002″) trace / space</li>
+              <li>DFM Checks on every order</li>
+              <li>24-hour turn-times available</li>
+            </ul>
+          </div>
+          <div class="v-card__bottom bg-white d-flex align-items-center justify-content-center pt-0 pb-4 px-4 text-center position-relative">
+            <a href="/customer-portal/instant-online-quote" class="button button--sm">Start Instant Online Quote</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-12">
+        <div class="v-card product-list--card modal_product_quote_card">
+          <div class="v-card__top">
+
+            <img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="Advanced PCBs" class="d-none d-lg-block text-center" data-lazy-src="/wp-content/uploads/2021/04/product_3-rigid_pcb.webp"><noscript><img src="/wp-content/uploads/2021/04/product_3-rigid_pcb.webp" alt="Advanced PCBs" class="d-none d-lg-block text-center"></noscript>
+            <h3 class="mb-1 px-3 text-md-center">
+              <a href="/products/rigid-pcb/">
+                Advanced PCBs
+              </a>
+            </h3>
+          </div>
+          <div class="v-card__middle pb-4 px-3">
+            <p class="text-lg-center smFont product_pitch_text">
+              Complex technology, with a dedicated CAM <span class="d-lg-block">Engineer. Stack-up assistance included.</span>
+            </p>
+            <ul>
+              <li>Complex PCB requirements</li>
+              <li>Mil-Spec & Class 3 with HDI Features</li>
+              <li>Blind & Buried Vias</li>
+              <li>Flex & Rigid-Flex boards</li>
+            </ul>
+          </div>
+          <div class="v-card__bottom bg-white  d-flex align-items-center justify-content-lg-between justify-content-center pt-0 pb-4 px-4 text-center position-relative">
+            <a href="/customer-portal/custom-quote" class="button button--sm">Start Quote</a>
+            <a href="tel:8007637503" class="learn-more-link d-block d-lg-inline opacity-60 h5style pr-3"><img width="10" height="15" class="icon-contact_phone" src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/svg/phone.svg" alt="Telephone Icon"> +1 800-763-7503</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><a href="#" title="Back to top" class="topbutton"></a></div><script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/sierra-circuits/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/rocketlazyloadscript" id="rocket-browser-checker-js-after">
+"use strict";var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||!1,descriptor.configurable=!0,"value"in descriptor&&(descriptor.writable=!0),Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){return protoProps&&defineProperties(Constructor.prototype,protoProps),staticProps&&defineProperties(Constructor,staticProps),Constructor}}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor))throw new TypeError("Cannot call a class as a function")}var RocketBrowserCompatibilityChecker=function(){function RocketBrowserCompatibilityChecker(options){_classCallCheck(this,RocketBrowserCompatibilityChecker),this.passiveSupported=!1,this._checkPassiveOption(this),this.options=!!this.passiveSupported&&options}return _createClass(RocketBrowserCompatibilityChecker,[{key:"_checkPassiveOption",value:function(self){try{var options={get passive(){return!(self.passiveSupported=!0)}};window.addEventListener("test",null,options),window.removeEventListener("test",null,options)}catch(err){self.passiveSupported=!1}}},{key:"initRequestIdleCallback",value:function(){!1 in window&&(window.requestIdleCallback=function(cb){var start=Date.now();return setTimeout(function(){cb({didTimeout:!1,timeRemaining:function(){return Math.max(0,50-(Date.now()-start))}})},1)}),!1 in window&&(window.cancelIdleCallback=function(id){return clearTimeout(id)})}},{key:"isDataSaverModeOn",value:function(){return"connection"in navigator&&!0===navigator.connection.saveData}},{key:"supportsLinkPrefetch",value:function(){var elem=document.createElement("link");return elem.relList&&elem.relList.supports&&elem.relList.supports("prefetch")&&window.IntersectionObserver&&"isIntersecting"in IntersectionObserverEntry.prototype}},{key:"isSlowConnection",value:function(){return"connection"in navigator&&"effectiveType"in navigator.connection&&("2g"===navigator.connection.effectiveType||"slow-2g"===navigator.connection.effectiveType)}}]),RocketBrowserCompatibilityChecker}();
+//# sourceURL=rocket-browser-checker-js-after
+</script>
+<script id="rocket-preload-links-js-extra">
+var RocketPreloadLinksConfig = {"excludeUris":"/login/|/customer-portal/login/|/customer-portal/logout/|/logout.php/|/blog/how-to-determine-impedance-circuit/|/wp-admin/|/kicad-quote-plugin/|/(?:.+/)?feed(?:/(?:.+/?)?)?$|/(?:.+/)?embed/|/(index.php/)?(.*)wp-json(/.*|$)|/refer/|/go/|/recommend/|/recommends/","usesTrailingSlash":"1","imageExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|pdf|doc|docx|xls|xlsx|php","fileExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|pdf|doc|docx|xls|xlsx|php|html|htm","siteUrl":"https://www.protoexpress.com","onHoverDelay":"100","rateThrottle":"3"};
+//# sourceURL=rocket-preload-links-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="rocket-preload-links-js-after">
+(function() {
+"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},e=function(){function i(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(e,t,n){return t&&i(e.prototype,t),n&&i(e,n),e}}();function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var t=function(){function n(e,t){i(this,n),this.browser=e,this.config=t,this.options=this.browser.options,this.prefetched=new Set,this.eventTime=null,this.threshold=1111,this.numOnHover=0}return e(n,[{key:"init",value:function(){!this.browser.supportsLinkPrefetch()||this.browser.isDataSaverModeOn()||this.browser.isSlowConnection()||(this.regex={excludeUris:RegExp(this.config.excludeUris,"i"),images:RegExp(".("+this.config.imageExt+")$","i"),fileExt:RegExp(".("+this.config.fileExt+")$","i")},this._initListeners(this))}},{key:"_initListeners",value:function(e){-1<this.config.onHoverDelay&&document.addEventListener("mouseover",e.listener.bind(e),e.listenerOptions),document.addEventListener("mousedown",e.listener.bind(e),e.listenerOptions),document.addEventListener("touchstart",e.listener.bind(e),e.listenerOptions)}},{key:"listener",value:function(e){var t=e.target.closest("a"),n=this._prepareUrl(t);if(null!==n)switch(e.type){case"mousedown":case"touchstart":this._addPrefetchLink(n);break;case"mouseover":this._earlyPrefetch(t,n,"mouseout")}}},{key:"_earlyPrefetch",value:function(t,e,n){var i=this,r=setTimeout(function(){if(r=null,0===i.numOnHover)setTimeout(function(){return i.numOnHover=0},1e3);else if(i.numOnHover>i.config.rateThrottle)return;i.numOnHover++,i._addPrefetchLink(e)},this.config.onHoverDelay);t.addEventListener(n,function e(){t.removeEventListener(n,e,{passive:!0}),null!==r&&(clearTimeout(r),r=null)},{passive:!0})}},{key:"_addPrefetchLink",value:function(i){return this.prefetched.add(i.href),new Promise(function(e,t){var n=document.createElement("link");n.rel="prefetch",n.href=i.href,n.onload=e,n.onerror=t,document.head.appendChild(n)}).catch(function(){})}},{key:"_prepareUrl",value:function(e){if(null===e||"object"!==(void 0===e?"undefined":r(e))||!1 in e||-1===["http:","https:"].indexOf(e.protocol))return null;var t=e.href.substring(0,this.config.siteUrl.length),n=this._getPathname(e.href,t),i={original:e.href,protocol:e.protocol,origin:t,pathname:n,href:t+n};return this._isLinkOk(i)?i:null}},{key:"_getPathname",value:function(e,t){var n=t?e.substring(this.config.siteUrl.length):e;return n.startsWith("/")||(n="/"+n),this._shouldAddTrailingSlash(n)?n+"/":n}},{key:"_shouldAddTrailingSlash",value:function(e){return this.config.usesTrailingSlash&&!e.endsWith("/")&&!this.regex.fileExt.test(e)}},{key:"_isLinkOk",value:function(e){return null!==e&&"object"===(void 0===e?"undefined":r(e))&&(!this.prefetched.has(e.href)&&e.origin===this.config.siteUrl&&-1===e.href.indexOf("?")&&-1===e.href.indexOf("#")&&!this.regex.excludeUris.test(e.href)&&!this.regex.images.test(e.href))}}],[{key:"run",value:function(){"undefined"!=typeof RocketPreloadLinksConfig&&new n(new RocketBrowserCompatibilityChecker({capture:!0,passive:!0}),RocketPreloadLinksConfig).init()}}]),n}();t.run();
+}());
+
+//# sourceURL=rocket-preload-links-js-after
+</script>
+<script type="text/rocketlazyloadscript" id="sierra-scripts-js" data-rocket-src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/js/main.bundle.js?ver=1.2.0.1.7.0" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="lity-js-js" data-rocket-src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/lity/lity.min.js?ver=1.2.0.1.7.0" data-rocket-defer defer></script>
+<script id="sierra-extra-scripts-js-extra">
+var sierra_settings = {"ajaxurl":"https://www.protoexpress.com/wp-admin/admin-ajax.php","user_nonce":"308007267a"};
+//# sourceURL=sierra-extra-scripts-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="sierra-extra-scripts-js" data-rocket-src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/sierra-circuits.js?ver=1.2.0.1.7.0" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="stickybits-js-js" data-rocket-src="https://www.protoexpress.com/wp-content/themes/sierra-circuits/assets/js/stickybits.js?ver=1.2.0.1.7.0" data-rocket-defer defer></script>
+  <script type="text/rocketlazyloadscript">window.addEventListener('DOMContentLoaded', function() {
+    jQuery(function() {
+      // grab the initial top offset of the navigation
+      var sticky_navigation_offset_top = jQuery('#sticky_navigation').offset().top;
+      // our function that decides weather the navigation bar should have "fixed" css position or not.
+      var sticky_navigation = function() {
+        var scroll_top = jQuery(window).scrollTop(); // our current vertical position from the top
+        // if we've scrolled more than the navigation, change its position to fixed to stick to top, otherwise change it back to relative
+        if (scroll_top > sticky_navigation_offset_top) {
+          jQuery('#sticky_navigation').css({
+            'position': 'fixed',
+            'top': 0,
+            'left': 0
+          });
+        } else {
+          jQuery('#sticky_navigation').css({
+            'position': 'relative'
+          });
+        }
+      };
+      // run our function on load
+      sticky_navigation();
+      // and run it again every time you scroll
+      jQuery(window).scroll(function() {
+        sticky_navigation();
+      });
+    });
+  });</script>
+  <script type="text/rocketlazyloadscript">window.addEventListener('DOMContentLoaded', function() {
+    jQuery(document).ready(function($) {
+      var offset = 100;
+      var speed = 2500;
+      var duration = 500;
+      jQuery(window).scroll(function() {
+        if (jQuery(this).scrollTop() < offset) {
+          jQuery('.topbutton').fadeOut(duration);
+        } else {
+          jQuery('.topbutton').fadeIn(duration);
+        }
+      });
+      jQuery('.topbutton').on('click', function() {
+        jQuery('html, body').animate({
+          scrollTop: 0
+        }, speed);
+        return false;
+      });
+    });
+  });</script>
+  <script type="text/rocketlazyloadscript">window.addEventListener('DOMContentLoaded', function() {
+    jQuery(document).ready(function() {
+      var sessionStatusAjaxUrl = 'https://www.protoexpress.com/wp-admin/admin-ajax.php';
+      var sessionStatusNonce = '308007267a';
+      var u = "https://www.protoexpress.com/customer-portal/chkAuth/session-status.jsp",
+        M = 6,
+        R = 1000,
+        T = 30000;
+      requestSessionStatus(1);
+
+      function requestSessionStatus(a) {
+        jQuery.ajax({
+            url: u,
+            type: "POST",
+            dataType: "text",
+            cache: false,
+            timeout: T
+          })
+          .done(function(d) {
+            let i = document.querySelector('[title="User Team"]'),
+              l = document.getElementById('user-customer-portal');
+            if (d == 'True') {
+              var f = {
+                action: 'sierra_load_user_status',
+                security_nonce: sessionStatusNonce
+              };
+              jQuery.ajax({
+                url: sessionStatusAjaxUrl,
+                type: 'POST',
+                cache: false,
+                data: f,
+                success: function(r) {
+                  if (r != '-') jQuery('#sierra-user-menu').html(r).addClass('sierra-logged-in');
+                  i.setAttribute("style", "visibility:visible;");
+                  l.setAttribute("style", "visibility:visible;");
+                }
+              });
+            } else {
+              i.setAttribute("style", "visibility:visible;");
+              l.setAttribute("style", "visibility:visible;");
+            }
+          })
+          .fail(function(j, t, e) {
+            // console.error("JSP request failed:", {
+            //   attempt: a,
+            //   status: j.status,
+            //   statusText: j.statusText,
+            //   textStatus: t,
+            //   errorThrown: e
+            // });
+            if (j.status >= 400 && j.status < 500) {
+              // console.error("Client error. Not retrying.");
+              return;
+            }
+            if (a < M) {
+              var d = R * Math.pow(2, a - 1);
+              setTimeout(function() {
+                requestSessionStatus(a + 1);
+              }, d);
+              return;
+            }
+            // console.error("JSP request failed after " + M + " attempts.");
+          });
+      }
+    });
+  });</script>
+<script>window.lazyLoadOptions=[{elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}},{elements_selector:".rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,}];window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://www.protoexpress.com/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js"></script><script>function lazyLoadImg(id,l){var s='https://i.ytimg.com/vi/ID/hqdefault.jpg'.replace("ID",id),img=document.createElement("img");if(true&&!l&&false){img.setAttribute("loading","lazy");img.setAttribute("src",s);}else if(true&&!l&&!false){img.setAttribute("data-lazy-src",s);}else{img.setAttribute("src",s);}img.setAttribute("width","480");img.setAttribute("height","360");return img;}function lazyLoadThumb(id,alt,l){if(!/^[A-Za-z0-9_-]{11}$/.test(id)){return null;}var frag=document.createDocumentFragment(),img=lazyLoadImg(id,l);img.setAttribute("alt",alt);frag.appendChild(img);var btn=document.createElement("button");btn.setAttribute("class","play");btn.setAttribute("aria-label","Play Youtube video");frag.appendChild(btn);return frag;}function lazyLoadYoutubeIframe(){var src=this.parentNode.dataset.src,url;try{url=new URL(src,"https://www.youtube.com");}catch(err){return;}if("https:"!==url.protocol&&"http:"!==url.protocol){return;}if(["youtube.com","www.youtube.com","youtube-nocookie.com","www.youtube-nocookie.com"].indexOf(url.hostname)===-1){return;}if(url.username||url.password||url.port){return;}if(!/^\/embed\/[A-Za-z0-9_-]{11}\/?$/.test(url.pathname)){return;}url=new URL("https://"+url.hostname+url.pathname.replace(/\/$/,""));var query=this.parentNode.dataset.query||"";new URLSearchParams(query).forEach(function(v,k){url.searchParams.set(k,v);});url.searchParams.set("autoplay","1");var e=document.createElement("iframe");e.setAttribute("src",url.href);e.setAttribute("frameborder","0");e.setAttribute("allowfullscreen","1");e.setAttribute("allow","accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture");this.parentNode.parentNode.replaceChild(e,this.parentNode);}document.addEventListener("DOMContentLoaded",function(){var exclusions=["logo.svg","phone.svg","facility-1.webp","facility-2.webp","facility-3.webp","facility-4.webp","facility-5.webp","facility-6.webp","facility-7.webp","facility-8.webp","facility-9.webp","blog-loader.gif"];var e,t,frag,u,l,a=document.getElementsByClassName("rll-youtube-player");for(t=0;t<a.length;t++){u='https://i.ytimg.com/vi/ID/hqdefault.jpg'.replace("ID",a[t].dataset.id);l=exclusions.some(function(exclusion){return u.indexOf(exclusion)!==-1;});e=document.createElement("div");e.setAttribute("data-id",a[t].dataset.id);e.setAttribute("data-query",a[t].dataset.query);e.setAttribute("data-src",a[t].dataset.src);frag=lazyLoadThumb(a[t].dataset.id,a[t].dataset.alt,l);if(!frag){continue;}e.appendChild(frag);a[t].appendChild(e);e.querySelector(".play").onclick=lazyLoadYoutubeIframe;}});</script>
+</body>
+
+</html>
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1794640875 -->

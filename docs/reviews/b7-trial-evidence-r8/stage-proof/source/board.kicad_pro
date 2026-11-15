@@ -1,0 +1,16 @@
+{
+  "meta": {
+    "filename": "board.kicad_pro",
+    "version": 3
+  },
+  "board": {
+    "design_settings": {
+      "drc_exclusions": [
+        [
+          "track_width|120025000|118000000|9024f436-90ab-541e-847d-e2efb7de6a0d|00000000-0000-0000-0000-000000000000",
+          "staging proof exclusion"
+        ]
+      ]
+    }
+  }
+}

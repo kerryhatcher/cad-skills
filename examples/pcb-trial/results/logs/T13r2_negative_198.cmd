@@ -1,0 +1,1 @@
+sh -c uv run contracts/validate.py --project examples/pcb-trial/results/final_r2/draft_parent/project --package /tmp/neg_pkg2 --json > examples/pcb-trial/results/final_r2/draft_parent/negative_qualified_report.json

@@ -1,0 +1,11 @@
+{
+  "source_sha256": "a56f78963daff2d4198472c538c4ea27bd17c15270d5f82ebd0200daa63fd147",
+  "original_measurement_time": "2m",
+  "independent_measurement_time": "1m",
+  "target": 1.2984,
+  "absolute_tolerance": 0.012984,
+  "measured": 1.298448,
+  "passed": true,
+  "tool_exit": 0,
+  "source_unchanged": true
+}

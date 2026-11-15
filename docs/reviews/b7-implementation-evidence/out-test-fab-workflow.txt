@@ -1,0 +1,40 @@
+ok   review of the complete, unchanged page is unchanged
+ok   duplicate key is refused (strict JSON)
+ok   unknown top-level key is refused
+ok   unknown observation field is refused
+ok   unknown observation key is refused
+ok   observation with another source URL is refused
+ok   empty observed condition is refused
+ok   control character in the statement is refused
+ok   impossible date is refused
+ok   path escape in the live page is refused
+ok   wrong stored hash is refused
+ok   an incomplete page set is refused
+ok   a missing observation gives material
+ok   a value of the wrong number gives material
+ok   a number with the wrong type gives material
+ok   a unit mismatch gives material
+ok   a changed live page with equal facts gives harmless
+ok   gate passes an intact review
+ok   gate rejects a missing review (omission)
+ok   gate rejects changed review bytes
+ok   gate rejects altered observations
+ok   gate rejects another release
+ok   gate rejects another profile
+ok   gate rejects changed profile file bytes
+ok   gate rejects a live page that differs from the reviewed hash
+ok   design passes on the bare-board template (exit 0)
+ok   design writes the exports, inventory and drawing
+ok   supplier stops at the mandatory manual silk condition (exit 1)
+ok   supplier rows give pass for every KiCad rule
+ok   supplier silk row is pending
+ok   generated rule uses the exact trace minimum 0.1524 mm
+ok   package without manual silk evidence is unqualified (exit 1)
+ok   supplier with current manual evidence passes (exit 0)
+ok   stale manual evidence is refused (exit 1)
+ok   package with every condition passing is qualified (exit 0)
+ok   qualified manifest has no reasons
+ok   the validator detects a changed output after qualification
+ok   a changed review record makes the package unqualified (exit 1)
+
+38/38 passed

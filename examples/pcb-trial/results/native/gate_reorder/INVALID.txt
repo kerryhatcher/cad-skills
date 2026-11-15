@@ -1,0 +1,3 @@
+INVALID RUN. Do not count this run as a gate result.
+The run is a first attempt with a known defect. The record in docs/reviews/b5-native-checkpoint-claude.md names the defect.
+The files stay as historical evidence. The corrected index is results/native/corrected/index.json.

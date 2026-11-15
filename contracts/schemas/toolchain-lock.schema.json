@@ -1,0 +1,678 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kerryhatcher/cad-skills/contracts/toolchain-lock.schema.json",
+  "title": "Toolchain lock",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "cad-skills/toolchain-lock"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "python": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+      "allOf": [
+        {
+          "not": {
+            "pattern": "[\\u0000-\\u001f\\u007f]"
+          }
+        },
+        {
+          "not": {
+            "enum": [
+              "latest",
+              "auto"
+            ]
+          }
+        }
+      ]
+    },
+    "execution": {
+      "enum": [
+        "container",
+        "native"
+      ]
+    },
+    "container": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "type": "string",
+          "pattern": "\\S",
+          "allOf": [
+            {
+              "not": {
+                "pattern": "[\\u0000-\\u001f\\u007f]"
+              }
+            },
+            {
+              "not": {
+                "pattern": ":latest$"
+              }
+            }
+          ]
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "minLength": 71,
+          "maxLength": 71
+        }
+      },
+      "required": [
+        "image",
+        "digest"
+      ]
+    },
+    "tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kicad": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "used": {
+              "type": "boolean"
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+              "allOf": [
+                {
+                  "not": {
+                    "pattern": "[\\u0000-\\u001f\\u007f]"
+                  }
+                },
+                {
+                  "not": {
+                    "enum": [
+                      "latest",
+                      "auto"
+                    ]
+                  }
+                }
+              ]
+            },
+            "source_url": {
+              "type": "string",
+              "pattern": "^https?://[^\\s]",
+              "not": {
+                "pattern": "\\s"
+              }
+            },
+            "license": {
+              "type": "string",
+              "pattern": "\\S",
+              "not": {
+                "pattern": "[\\u0000-\\u001f\\u007f]"
+              }
+            },
+            "notes": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "used"
+          ],
+          "if": {
+            "properties": {
+              "used": {
+                "const": true
+              }
+            },
+            "required": [
+              "used"
+            ]
+          },
+          "then": {
+            "required": [
+              "version",
+              "source_url",
+              "license"
+            ]
+          },
+          "else": {
+            "maxProperties": 1
+          }
+        },
+        "kibot": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "used": {
+              "type": "boolean"
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+              "allOf": [
+                {
+                  "not": {
+                    "pattern": "[\\u0000-\\u001f\\u007f]"
+                  }
+                },
+                {
+                  "not": {
+                    "enum": [
+                      "latest",
+                      "auto"
+                    ]
+                  }
+                }
+              ]
+            },
+            "source_url": {
+              "type": "string",
+              "pattern": "^https?://[^\\s]",
+              "not": {
+                "pattern": "\\s"
+              }
+            },
+            "license": {
+              "type": "string",
+              "pattern": "\\S",
+              "not": {
+                "pattern": "[\\u0000-\\u001f\\u007f]"
+              }
+            },
+            "notes": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "used"
+          ],
+          "if": {
+            "properties": {
+              "used": {
+                "const": true
+              }
+            },
+            "required": [
+              "used"
+            ]
+          },
+          "then": {
+            "required": [
+              "version",
+              "source_url",
+              "license"
+            ]
+          },
+          "else": {
+            "maxProperties": 1
+          }
+        },
+        "kiauto": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "used": {
+              "type": "boolean"
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+              "allOf": [
+                {
+                  "not": {
+                    "pattern": "[\\u0000-\\u001f\\u007f]"
+                  }
+                },
+                {
+                  "not": {
+                    "enum": [
+                      "latest",
+                      "auto"
+                    ]
+                  }
+                }
+              ]
+            },
+            "source_url": {
+              "type": "string",
+              "pattern": "^https?://[^\\s]",
+              "not": {
+                "pattern": "\\s"
+              }
+            },
+            "license": {
+              "type": "string",
+              "pattern": "\\S",
+              "not": {
+                "pattern": "[\\u0000-\\u001f\\u007f]"
+              }
+            },
+            "notes": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "used"
+          ],
+          "if": {
+            "properties": {
+              "used": {
+                "const": true
+              }
+            },
+            "required": [
+              "used"
+            ]
+          },
+          "then": {
+            "required": [
+              "version",
+              "source_url",
+              "license"
+            ]
+          },
+          "else": {
+            "maxProperties": 1
+          }
+        },
+        "skidl": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "used": {
+              "type": "boolean"
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+              "allOf": [
+                {
+                  "not": {
+                    "pattern": "[\\u0000-\\u001f\\u007f]"
+                  }
+                },
+                {
+                  "not": {
+                    "enum": [
+                      "latest",
+                      "auto"
+                    ]
+                  }
+                }
+              ]
+            },
+            "source_url": {
+              "type": "string",
+              "pattern": "^https?://[^\\s]",
+              "not": {
+                "pattern": "\\s"
+              }
+            },
+            "license": {
+              "type": "string",
+              "pattern": "\\S",
+              "not": {
+                "pattern": "[\\u0000-\\u001f\\u007f]"
+              }
+            },
+            "notes": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "used"
+          ],
+          "if": {
+            "properties": {
+              "used": {
+                "const": true
+              }
+            },
+            "required": [
+              "used"
+            ]
+          },
+          "then": {
+            "required": [
+              "version",
+              "source_url",
+              "license"
+            ]
+          },
+          "else": {
+            "maxProperties": 1
+          }
+        },
+        "ngspice": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "used": {
+              "type": "boolean"
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+              "allOf": [
+                {
+                  "not": {
+                    "pattern": "[\\u0000-\\u001f\\u007f]"
+                  }
+                },
+                {
+                  "not": {
+                    "enum": [
+                      "latest",
+                      "auto"
+                    ]
+                  }
+                }
+              ]
+            },
+            "source_url": {
+              "type": "string",
+              "pattern": "^https?://[^\\s]",
+              "not": {
+                "pattern": "\\s"
+              }
+            },
+            "license": {
+              "type": "string",
+              "pattern": "\\S",
+              "not": {
+                "pattern": "[\\u0000-\\u001f\\u007f]"
+              }
+            },
+            "notes": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "used"
+          ],
+          "if": {
+            "properties": {
+              "used": {
+                "const": true
+              }
+            },
+            "required": [
+              "used"
+            ]
+          },
+          "then": {
+            "required": [
+              "version",
+              "source_url",
+              "license"
+            ]
+          },
+          "else": {
+            "maxProperties": 1
+          }
+        },
+        "freerouting": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "used": {
+              "type": "boolean"
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+              "allOf": [
+                {
+                  "not": {
+                    "pattern": "[\\u0000-\\u001f\\u007f]"
+                  }
+                },
+                {
+                  "not": {
+                    "enum": [
+                      "latest",
+                      "auto"
+                    ]
+                  }
+                }
+              ]
+            },
+            "source_url": {
+              "type": "string",
+              "pattern": "^https?://[^\\s]",
+              "not": {
+                "pattern": "\\s"
+              }
+            },
+            "license": {
+              "type": "string",
+              "pattern": "\\S",
+              "not": {
+                "pattern": "[\\u0000-\\u001f\\u007f]"
+              }
+            },
+            "notes": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "used"
+          ],
+          "if": {
+            "properties": {
+              "used": {
+                "const": true
+              }
+            },
+            "required": [
+              "used"
+            ]
+          },
+          "then": {
+            "required": [
+              "version",
+              "source_url",
+              "license"
+            ]
+          },
+          "else": {
+            "maxProperties": 1
+          }
+        }
+      },
+      "required": [
+        "kicad"
+      ]
+    },
+    "libraries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+            "allOf": [
+              {
+                "not": {
+                  "pattern": "[\\u0000-\\u001f\\u007f]"
+                }
+              },
+              {
+                "not": {
+                  "enum": [
+                    "latest",
+                    "auto"
+                  ]
+                }
+              }
+            ]
+          },
+          "source_url": {
+            "type": "string",
+            "pattern": "^https?://[^\\s]",
+            "not": {
+              "pattern": "\\s"
+            }
+          },
+          "license": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "minLength": 64,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "source_url",
+          "license"
+        ]
+      }
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+            "allOf": [
+              {
+                "not": {
+                  "pattern": "[\\u0000-\\u001f\\u007f]"
+                }
+              },
+              {
+                "not": {
+                  "enum": [
+                    "latest",
+                    "auto"
+                  ]
+                }
+              }
+            ]
+          },
+          "source_url": {
+            "type": "string",
+            "pattern": "^https?://[^\\s]",
+            "not": {
+              "pattern": "\\s"
+            }
+          },
+          "license": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "minLength": 64,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "source_url",
+          "license"
+        ]
+      }
+    },
+    "java": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+-]*$",
+      "allOf": [
+        {
+          "not": {
+            "pattern": "[\\u0000-\\u001f\\u007f]"
+          }
+        },
+        {
+          "not": {
+            "enum": [
+              "latest",
+              "auto"
+            ]
+          }
+        }
+      ]
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "python",
+    "execution",
+    "tools",
+    "libraries",
+    "models"
+  ],
+  "if": {
+    "properties": {
+      "execution": {
+        "const": "container"
+      }
+    },
+    "required": [
+      "execution"
+    ]
+  },
+  "then": {
+    "required": [
+      "container"
+    ]
+  },
+  "else": {
+    "not": {
+      "required": [
+        "container"
+      ]
+    }
+  }
+}

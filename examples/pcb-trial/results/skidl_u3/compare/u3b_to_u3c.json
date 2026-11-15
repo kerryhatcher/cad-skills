@@ -1,0 +1,18 @@
+{
+  "expected": 0,
+  "missing": [],
+  "observed": 1,
+  "status": "different",
+  "unexpected": [
+    {
+      "class": "footprint",
+      "ident": "C2",
+      "lib_id": "Capacitor_SMD:C_0603_1608Metric",
+      "op": "added",
+      "pad_nets": {
+        "1": null,
+        "2": null
+      }
+    }
+  ]
+}
