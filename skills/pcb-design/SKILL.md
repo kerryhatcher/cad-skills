@@ -16,6 +16,7 @@ The script `scripts/pcb.py` checks the project and runs the tools. The script ne
 | SKiDL generated schematic | Refused. `source.skidl_unsupported`, exit 2. |
 | Netlist import, IPC API, pcbnew updater | Not used. `pcbnew` only reads the board. |
 | GUI update adapter (`update --adapter gui`) | Supported only for the measured image IDs (KiCad 10.0.5, one measured dialog layout). The controller refuses another image ID. See `references/gui-update.md`. |
+| Mechanical fit (`pcb.py mechanical`) for the test fixture `mech-fit-a` | Supported for the fixture only. It uses proxy components. See `references/mechanical-fit.md`. |
 
 Open limits: one measured fixture, one machine, KiCad 10.0.5 only, no supplier qualification, no zone refill inside a GUI update.
 
@@ -33,6 +34,27 @@ Open limits: one measured fixture, one machine, KiCad 10.0.5 only, no supplier q
 10. Run `uv run scripts/pcb.py check --project PROJECT --for ready`. Report the exit code and the state. Run `check --for export` after an export to compare the published files with their bound hashes. A refused run keeps its logs under `${PROJECT}/out/history/failures/`. A residual staging directory is a finding (`staging.residual`, exit 1).
 
 Run every command from the skill directory, or give the absolute path to `scripts/pcb.py`.
+
+## Mechanical fit
+
+Use this route to examine the mechanical fit of the test fixture `mech-fit-a`. Read `references/mechanical-fit.md` first.
+
+The fixture uses proxy components. `check` validates only the fixture contract. `fit` examines the proxy envelope. Neither command proves detailed component fit or supplier approval.
+
+Run these commands from the skill directory. `DIR` is the fixture directory:
+
+```bash
+uv run templates/mech-fit-a/make_fixture.py --out DIR
+uv run scripts/pcb.py mechanical check DIR
+uv run scripts/pcb.py mechanical readiness DIR
+uv run scripts/pcb.py mechanical export DIR [--image REF]
+uv run scripts/pcb.py mechanical fit DIR
+uv run scripts/pcb.py mechanical release DIR
+```
+
+`make_fixture.py` generates the fixture in `DIR`. Run the other commands on that fixture.
+
+The `--image` option is optional. It applies to `export` only. Run `release` only after `fit` reports a complete pass. The exit codes are listed in `references/mechanical-fit.md`.
 
 ## Rules for the agent
 
@@ -70,6 +92,8 @@ See `references/runtime.md`. The option `--runtime auto|container|native` select
 ## Files
 
 - `scripts/pcb.py`: the commands.
+- `scripts/mechanical.py`: the mechanical fit commands. It uses `scripts/mechanical_fit.py`, the geometry library. See `references/mechanical-fit.md`.
+- `templates/mech-fit-a/`: the mechanical fixture and its generator `make_fixture.py`.
 - `scripts/board_inventory.py`: the pcbnew worker that reads holes and placement in the container.
 - `scripts/validate.py`, `scripts/project_io.py`, `scripts/identity.py`, `scripts/sexp.py`: accepted helpers. They are copies and do not change.
 - `contracts/`: the record schemas and the copy of their README.

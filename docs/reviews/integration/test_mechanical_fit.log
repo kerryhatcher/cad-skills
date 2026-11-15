@@ -1,0 +1,36 @@
+Installed 48 packages in 60ms
+...................../home/kwhatcher/.cache/uv/environments-v2/test-mechanical-fit-d778be653e0b5d5d/lib/python3.13/site-packages/cadquery/utils.py:82: FutureWarning: save will be removed in the next release.
+  warn(f"{f.__name__} will be removed in the next release.", FutureWarning)
+.....E.E..............
+======================================================================
+ERROR: test_real_dxf_outline_and_holes (__main__.RealExportTests.test_real_dxf_outline_and_holes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/storage/projects/cad-skills-worktrees/integration/tests/test_mechanical_fit.py", line 378, in test_real_dxf_outline_and_holes
+    dxf = F.parse_dxf((FIX / "real-export" / "outline.dxf").read_bytes())
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/kwhatcher/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/home/kwhatcher/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/storage/projects/cad-skills-worktrees/integration/tests/fixtures/mech-fit-a/real-export/outline.dxf'
+
+======================================================================
+ERROR: test_real_step_substrate_and_cylinders (__main__.RealExportTests.test_real_step_substrate_and_cylinders)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/storage/projects/cad-skills-worktrees/integration/tests/test_mechanical_fit.py", line 384, in test_real_step_substrate_and_cylinders
+    step = F.read_step(FIX / "real-export" / "board.step")
+  File "/mnt/storage/projects/cad-skills-worktrees/integration/skills/pcb-design/scripts/mechanical_fit.py", line 169, in read_step
+    shape = cq.importers.importStep(str(path)).val()
+            ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/kwhatcher/.cache/uv/environments-v2/test-mechanical-fit-d778be653e0b5d5d/lib/python3.13/site-packages/cadquery/occ_impl/importers/__init__.py", line 104, in importStep
+    raise ValueError("STEP File could not be loaded")
+ValueError: STEP File could not be loaded
+
+----------------------------------------------------------------------
+Ran 43 tests in 1.937s
+
+FAILED (errors=2)

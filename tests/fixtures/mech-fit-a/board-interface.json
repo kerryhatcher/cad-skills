@@ -1,0 +1,100 @@
+{
+  "board_revision": "B11-A",
+  "board_sha256": "37105cf50e2bb0c997f7b9f6a02affef2f101a6b0684a4024d5a78541f8e20ba",
+  "connector_frames": [
+    {
+      "id": "CN1",
+      "insertion_depth_mm": 4.0,
+      "rotation_deg": 0.0,
+      "side": "top",
+      "x": 56.3,
+      "y": 6.2
+    }
+  ],
+  "cutouts": [],
+  "dimension_owners": {
+    "connector_frames": "mechanical",
+    "height_limits": "mechanical",
+    "holes": "mechanical",
+    "outline": "mechanical",
+    "thickness": "mechanical"
+  },
+  "enclosure_clearance_mm": 0.5,
+  "extensions": {
+    "angle_tolerance_deg": 0.1,
+    "transform": {
+      "scale": 1,
+      "source_axes": {
+        "x": "right",
+        "y": "down"
+      },
+      "source_frame": "kicad-board",
+      "source_origin_mm": {
+        "x": 103.7,
+        "y": 118.2
+      },
+      "target_axes": {
+        "x": "right",
+        "y": "up"
+      }
+    }
+  },
+  "geometry_tolerance_mm": 0.01,
+  "height_limits": {
+    "bottom_mm": 4.0,
+    "top_mm": 10.0
+  },
+  "holes": [
+    {
+      "diameter_mm": 3.2,
+      "id": "H1",
+      "plated": false,
+      "x": 6.3,
+      "y": -11.8
+    },
+    {
+      "diameter_mm": 2.5,
+      "id": "H2",
+      "plated": false,
+      "x": 48.8,
+      "y": 14.7
+    },
+    {
+      "diameter_mm": 3.0,
+      "id": "H3",
+      "plated": true,
+      "x": 14.3,
+      "y": 12.2
+    }
+  ],
+  "origin_mm": {
+    "x": 0,
+    "y": 0
+  },
+  "outline": [
+    {
+      "x": -3.7,
+      "y": 18.2
+    },
+    {
+      "x": 56.3,
+      "y": 18.2
+    },
+    {
+      "x": 56.3,
+      "y": -17.8
+    },
+    {
+      "x": 2.3,
+      "y": -17.8
+    },
+    {
+      "x": -3.7,
+      "y": -11.8
+    }
+  ],
+  "schema_id": "cad-skills/board-interface",
+  "schema_version": "1.0",
+  "thickness_mm": 1.6,
+  "units": "mm"
+}
