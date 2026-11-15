@@ -1,20 +1,20 @@
 {
-  "design_binding_sha256": "f75dfaedba95f086bb16169337b176d492e2261fabf640d63453793ec9da36a1",
+  "design_binding_sha256": "bf7012f1b7d9b67455e87a2225fce77b90261e62dbe0be918175df6d25f4a7d9",
   "manual": null,
   "measure_inputs": {
-    "export/board-B_Mask.gbr": "124b310b8a50e034db25433d1daaf67713b449069fc5da21d7ab0c2b41041c27",
-    "export/board-F_Mask.gbr": "1ff7f5e329395d28d2153ef92ef864672eb8592883da2ae36ff8e540f2493e64",
-    "export/board-F_Silkscreen.gbr": "4c74a7df8541dd33fb252aca84815f378cc7accb7f96a839c58a928e0ccef349",
-    "export/board-NPTH.drl": "a7992c36e15252eaf2ade96dd0fe1c4b5f0e56b92e632466779e611ceec42e64",
-    "export/board-PTH.drl": "5545bd525851bb409b8fd6ecbd7352dc927f85bbe7660640a1417cc84882f0d1",
+    "export/board-B_Mask.gbr": "aba6b030c7b44ad86456b116122c5aa86e6236e3a10b7cecd62dcd386969b8d5",
+    "export/board-F_Mask.gbr": "6951cf7f77e6f95f158bc9f272c12d934269ea050e379b80856e701cec30a4ec",
+    "export/board-F_Silkscreen.gbr": "efcc530cbff267b79163c5e5433460e81bd58bf3bd583d147ca53be5f2b58539",
+    "export/board-NPTH.drl": "593906245ce11dbe5fa6b638e094491d5993ee2d05386b04be2715d39c59c6d0",
+    "export/board-PTH.drl": "1afbf403389d6bfb045b3ce878b765aa4f8312af0d1286996aa3ab4c78964001",
     "inventory.json": "27ce12e4ab789a5437749a6b2a569fdce0619646d6c68263baefb018c97d3fa6"
   },
   "outputs": {
     "corner-report.json": "1ae2a1f44a843b6b0ab5e01495afb26d7abd16434ca0d597b3312c283587109e",
-    "mask-bottom.json": "a6e1fa8448d2e31f7a7f0917bfb5bd01b43b90987e00cebc57652294fc495aeb",
-    "mask.json": "42704064406dc7783a7c4552ceb82368738abab410b78484ad9a166a98fa9106",
+    "mask-bottom.json": "87f19e4d051bb8cab3fcef03c9f3dcff5c26dda865f7ad3fc73db12565c0adc8",
+    "mask.json": "4cfe5cee9c14fff17d1e9269c4f73c4b85c8f67f072fb85688efdd0dad2d1ca8",
     "slots.json": "1b0fcd69fbc8ba6483c2bbf20f73b326eec4f406f82041ecb2f88746b37f571d",
-    "supplier-drc.json": "9d5b240a762027c921c87142902922ce09f868dd8ed06ec7fa99c6a50c6db65d",
+    "supplier-drc.json": "268c178a5cf90b693c39c5b6203efebb1e0daf60eb2b8fd8fcb1b30a275ec896",
     "supplier.kicad_dru": "a4a5a9a0ca074ca8beeb541cb92c5bd60d3d92d28dd127e2c76f1d5b1627a571",
     "supplier.kicad_pro": "57352e7388d0443e13d5879c09000733625fd399d5975dbcb8cde32be315b763",
     "via-report.json": "ac2294b0fa135c02d608110c2d0557f67f46b2a771233f0988d8f2fa5cd94700"

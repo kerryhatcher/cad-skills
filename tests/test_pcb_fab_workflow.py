@@ -17,7 +17,9 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / "skills" / "pcb-fab-package"
+from fab_fixture import fixture_skill
+
+SKILL = fixture_skill(ROOT / "skills" / "pcb-fab-package")
 SCRIPTS = SKILL / "scripts"
 PROFILE = SKILL / "supplier" / "profiles" / "oshpark-two-layer.yaml"
 TEMPLATE = ROOT / "skills" / "pcb-design" / "templates" / "rc-bare-board"

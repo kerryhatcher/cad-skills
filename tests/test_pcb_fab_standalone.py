@@ -109,7 +109,7 @@ for name in ("fab", "workflow", "review", "validate", "project_io", "fetch_sourc
     "runtime": workflow.runtime_identity((project / "toolchain.lock.json").read_bytes()),
     "package_status": package["status"], "output_count": len(package["outputs"]),
     "scope": "Offline owned fixture. No physical result or current supplier review is measured.",
-    "repository_hidden": True, "retrieval": "Five retained pages through an offline transport."}, indent=2) + "\n")
+    "repository_hidden": True, "retrieval": "Five project-authored fixture pages through an offline transport."}, indent=2) + "\n")
 print(json.dumps({"commands": len(commands), "validator_exit": code, "repository_hidden": True, "package_status": package["status"]}))
 '''
 

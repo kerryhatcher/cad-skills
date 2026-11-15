@@ -15,7 +15,18 @@ Status: open. This inventory records measured observations. It does not approve 
 4. A dependency line (PEP 723 header, lock file, Containerfile package line) declares a dependency. It does not redistribute the dependency.
 5. A stored supplier page, drawing or workbook is redistributed bytes. It needs a source, a retrieval date and a measured license or terms statement.
 
-## 2. Redistributed third-party bytes in the repository
+## 2. Third-party evidence and distribution
+
+The current public source tree excludes the nine full supplier copies and eight HTTP header files listed below.
+The local worktree retains these 17 files with their recorded hashes.
+The manifests retain their source URLs, dates, attribution, and hashes.
+The exclusion applies to the current Git tree and its archives. Earlier Git history still contains the copies.
+The tables retain the earlier measurements. They grant no permission.
+
+Public tests use project-authored bytes in temporary skill copies.
+These temporary copies use measured fixture hashes and fixture URLs.
+They do not change the repository profiles or assert a current supplier review.
+The packaging tests examine the unfiltered index tree and its archive.
 
 | Item | Type | Source | Measured license or terms | Attribution | State |
 |---|---|---|---|---|---|
@@ -130,7 +141,7 @@ PEP 723 headers and lock files declare these packages. `uv` downloads them at ru
 | O5 | Each B11 model and proxy | Add source, license, attribution and hash before distribution | Mechanical team |
 | O6 | Provenance of `drawing-example.png` and `respeaker-nightlight/refs/*.png` | Record the source or remove the file | Lead |
 
-The OSH Park copies block distribution now. Do not publish them before the lead decides. The Sierra copies also need a lead decision. Their terms are not measured, so their permission is not proven. The KiCad symbol definitions wait for the lead decision on O3. The other items are open records.
+The current public source tree excludes the OSH Park and Sierra copies. Their terms remain open. Do not add these copies to distribution. The KiCad symbol definitions wait for the lead decision on O3. The other items are open records.
 
 ## 8. Limits
 

@@ -42,8 +42,10 @@ SUPPLIER_RULES = "manufacturing/supplier-rules.yaml"
 SUPPLIER_SETTINGS = "manufacturing/supplier-settings.yaml"
 EVIDENCE = "manufacturing/evidence/turnkey-pro-service.txt"
 WAIVERS = "manufacturing/waivers.yaml"
+DESIGN_INPUTS = {"project_settings": "kicad/board.kicad_pro", "design_rules": "kicad/board.kicad_dru"}
 MANIFEST_ROLES = ("board_record", "board", "schematic", "variants", "supplier_profile", "export_settings",
-                  "toolchain", "board_interface", "parts", "supplier_rules", "supplier_settings")
+                  "toolchain", "board_interface", "parts", "supplier_rules", "supplier_settings",
+                  "project_settings", "design_rules")
 LAYER_ROLE = {"copper_top": "copper", "copper_bottom": "copper", "copper_inner": "copper",
               "mask_top": "mask", "mask_bottom": "mask", "silk_top": "silk", "silk_bottom": "silk",
               "paste_top": "paste", "paste_bottom": "paste", "outline": "outline"}
@@ -172,6 +174,13 @@ def build_package(pcba, project: Path, board_rel: str, variant: str, as_of: dt.d
         raise pcba.Refused("supplier.restriction_review", FIXED["board_record"],
                            f"The board has restrictions that need supplier review before a package: {texts}")
     pcb = _capture(pcba, snap, FIXED["board"], "board")
+    design_inputs = {}
+    for role, rel in DESIGN_INPUTS.items():
+        if not os.path.lexists(proj / rel):
+            snap.absent.add(rel)
+            design_inputs[role] = None
+        else:
+            design_inputs[role] = _capture(pcba, snap, rel, role)["raw"]
     schematic = _capture(pcba, snap, FIXED["schematic"], "schematic")
     footprints = pcba.read_board(pcb["raw"], FIXED["board"])
     variants_snap = _capture(pcba, snap, FIXED["variants"], "variants")
@@ -225,8 +234,8 @@ def build_package(pcba, project: Path, board_rel: str, variant: str, as_of: dt.d
     # 3. KiCad runs on private copies of the captured bytes.
     try:
         fab = export.run_fabrication(identity, pcb["raw"], export_record)
-        drc_bytes = export.run_drc(identity, pcb["raw"])
-        erc_bytes = export.run_erc(identity, schematic["raw"])
+        drc_bytes = export.run_drc(identity, pcb["raw"], **design_inputs)
+        erc_bytes = export.run_erc(identity, schematic["raw"], design_inputs["project_settings"])
         netlist_bytes = export.run_netlist(identity, schematic["raw"])
         worker_bytes = Path(__file__).with_name("board_inventory_worker.py").read_bytes()
         inventory_bytes = export.run_board_inventory(identity, pcb["raw"], worker_bytes)

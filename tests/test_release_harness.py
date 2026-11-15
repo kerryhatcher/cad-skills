@@ -36,7 +36,7 @@ import score as S  # noqa: E402
 
 MATRIX = C.load_matrix()
 LABEL = "mock"
-FREEZE = ROOT / "docs" / "reviews" / "b12-a2-refresh-freeze-root.sha256"
+FREEZE = ROOT / "docs" / "reviews" / "pr3-correction-freeze-root.sha256"
 
 
 def skill(base: Path, name: str, description: str = "A fixture skill.") -> Path:

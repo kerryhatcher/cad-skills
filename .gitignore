@@ -248,3 +248,22 @@ _autosave-*
 
 # Release harness run records (B12). Fixtures are tracked. Runs are local evidence.
 tests/eval/runs/
+
+# Keep supplier copies and response headers as local evidence.
+/docs/reviews/sierra-source-evidence/BOM-Sample-and-Demo.xls
+/docs/reviews/sierra-source-evidence/turnkey-faq.headers
+/docs/reviews/sierra-source-evidence/turnkey-faq.html
+/docs/reviews/sierra-source-evidence/xy.headers
+/docs/reviews/sierra-source-evidence/xy.pdf
+/docs/reviews/sierra-source-evidence/xyrs.headers
+/docs/reviews/sierra-source-evidence/xyrs.xlsx
+/skills/pcb-fab-package/supplier/pages/four-layer.headers
+/skills/pcb-fab-package/supplier/pages/four-layer.html
+/skills/pcb-fab-package/supplier/pages/single-layer.headers
+/skills/pcb-fab-package/supplier/pages/single-layer.html
+/skills/pcb-fab-package/supplier/pages/six-layer.headers
+/skills/pcb-fab-package/supplier/pages/six-layer.html
+/skills/pcb-fab-package/supplier/pages/two-layer-hhdc.headers
+/skills/pcb-fab-package/supplier/pages/two-layer-hhdc.html
+/skills/pcb-fab-package/supplier/pages/two-layer.headers
+/skills/pcb-fab-package/supplier/pages/two-layer.html

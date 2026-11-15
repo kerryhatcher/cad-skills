@@ -74,6 +74,11 @@ The Vendor columns of the BOM stay blank. The neutral data does not yet carry su
 
 ## Package command
 
+The package captures optional KiCad project settings and custom rules from the board directory before the tool runs.
+DRC uses both captured files. ERC uses the captured project settings.
+The manifest and the applicable check evidence bind their hashes with `project_settings` and `design_rules` roles.
+The final gate refuses changed files and optional files that appear after capture.
+
 Run the package step from the repository root:
 
 ```bash

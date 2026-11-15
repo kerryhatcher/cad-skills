@@ -106,17 +106,26 @@ def _run(identity: str, inputs: dict, steps: list[list[str]]) -> dict:
         return _collect(work, set(inputs))
 
 
-def run_drc(identity: str, board: bytes) -> bytes:
-    """Return the DRC report bytes of the board."""
-    files = _run(identity, {f"{BOARD_NAME}.kicad_pcb": board},
+def run_drc(identity: str, board: bytes, project_settings: bytes | None = None,
+            design_rules: bytes | None = None) -> bytes:
+    """Run DRC with the captured board, project settings and custom rules."""
+    inputs = {f"{BOARD_NAME}.kicad_pcb": board}
+    if project_settings is not None:
+        inputs[f"{BOARD_NAME}.kicad_pro"] = project_settings
+    if design_rules is not None:
+        inputs[f"{BOARD_NAME}.kicad_dru"] = design_rules
+    files = _run(identity, inputs,
                  [["pcb", "drc", "--format", "json", "--output", "/work/drc.json",
                    f"/work/{BOARD_NAME}.kicad_pcb"]])
     return files["drc.json"]
 
 
-def run_erc(identity: str, schematic: bytes) -> bytes:
+def run_erc(identity: str, schematic: bytes, project_settings: bytes | None = None) -> bytes:
     """Return the ERC report bytes of the schematic. The report lists every severity."""
-    files = _run(identity, {f"{BOARD_NAME}.kicad_sch": schematic},
+    inputs = {f"{BOARD_NAME}.kicad_sch": schematic}
+    if project_settings is not None:
+        inputs[f"{BOARD_NAME}.kicad_pro"] = project_settings
+    files = _run(identity, inputs,
                  [["sch", "erc", "--format", "json", "--severity-all", "--output", "/work/erc.json",
                    f"/work/{BOARD_NAME}.kicad_sch"]])
     return files["erc.json"]

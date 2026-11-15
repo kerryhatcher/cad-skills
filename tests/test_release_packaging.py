@@ -11,8 +11,8 @@ The checks read repository bytes and hashes. They call no provider and contact n
 Fixtures are project-authored. No test fixture holds supplier bytes (D-7).
 
 Limits:
-- Zero fetch scripts exist. The packaging test is provisional. A final standalone release cannot
-  pass without the necessary setup path (lead decision, 2026-11-15).
+- Public source omits supplier copies. Absent excluded files do not give byte measurements.
+- Local copies, when present, must match the recorded hashes and formats.
 - The manifests name URLs and expected hashes. They do not approve anything. The supplier-profile
   content and evidence hashes and the source-review record remain the binding authority.
 """
@@ -88,45 +88,51 @@ def expect_no_findings(findings: list[dict], label: str) -> None:
 
 
 def test_real_manifest_fields_and_hashes(tmp: Path):
-    """D-2, D-5, D-8 on the committed manifests. Every hash matches the bytes on disk."""
+    """Examine the manifests and local bytes, when present. Retain the recorded source hashes."""
     findings = P.check_entries(ROOT, PCB_FAB, P.load_yaml(PCB_FAB / "sources.yaml"),
-                               "skills/pcb-fab-package/sources.yaml")
+                               "skills/pcb-fab-package/sources.yaml", allow_missing_excluded=True)
     findings += P.check_entries(ROOT, ROOT, P.load_yaml(ROOT / "tests/eval/distribution.yaml"),
-                                "tests/eval/distribution.yaml")
+                                "tests/eval/distribution.yaml", allow_missing_excluded=True)
     expect_no_findings(findings, "manifest fields, hashes and magic")
 
 
 def test_real_coverage_every_supplier_source_has_an_entry(tmp: Path):
-    """The test compares seventeen supplier sources with the manifest."""
+    """Each local supplier source has a manifest entry. Public source can omit all local copies."""
     dist = real_distribution()
     entry_paths = {entry["path"] for entry in dist["sources"]}
-    sources = P.supplier_sources(ROOT, dist)
-    if len(sources) != 17:
-        raise AssertionError(f"expected 17 stored supplier sources, found {len(sources)}: {sources}")
+    if len(entry_paths) != 17:
+        raise AssertionError(f"The manifest has {len(entry_paths)} source paths. Expected 17.")
     expect_no_findings(P.check_coverage(ROOT, dist, entry_paths), "coverage")
 
 
 def test_real_distribution_excludes_supplier_copies(tmp: Path):
-    """The distributed set holds no full copy, no local evidence and no unlisted supplier file."""
+    """Examine the unfiltered public candidates, index tree and Git archive."""
     dist = real_distribution()
-    distributed, excluded = P.build_distribution(tracked_files(), dist)
-    expect_no_findings(P.check_distribution(distributed, dist, root=ROOT), "distributed set")
-    entry_paths = {entry["path"] for entry in dist["sources"]}
-    missing = sorted(entry_paths - set(excluded))
-    if missing:
-        raise AssertionError(f"these supplier entries are not excluded: {missing}")
+    expect_no_findings(P.check_distribution(tracked_files(), dist, root=ROOT), "public candidates")
+    expect_no_findings(P.check_git_archive(ROOT, dist), "Git tree and archive")
 
 
-def test_real_headers_are_excluded_as_local_evidence(tmp: Path):
-    """D-4 with the regression rule. Every tracked .headers file is out of the distribution."""
+def test_real_excluded_paths_have_precise_ignore_rules(tmp: Path):
+    """Git ignores each excluded source. It retains the approved profiles and probes."""
     dist = real_distribution()
-    _, excluded = P.build_distribution(tracked_files(), dist)
-    headers = [p for p in tracked_files() if p.endswith(".headers")]
-    if len(headers) != 8:
-        raise AssertionError(f"expected 8 header files, found {len(headers)}")
-    outside = [p for p in headers if p not in excluded]
-    if outside:
-        raise AssertionError(f"header files still distributed: {outside}")
+    ignored = (ROOT / ".gitignore").read_text().splitlines()
+    for entry in dist["sources"]:
+        if entry["distribution_decision"] not in P.EXCLUDE_DECISIONS:
+            continue
+        path = entry["path"]
+        if "/" + path not in ignored:
+            raise AssertionError(f"The ignore rules omit the exact source path: {path}")
+        subprocess.run(["git", "check-ignore", "--no-index", "-q", path], cwd=ROOT, check=True)
+    retained = ["docs/reviews/sierra-source-evidence/drill-probe.py",
+                "docs/reviews/sierra-source-evidence/drill-probe.json"]
+    retained += [p.relative_to(ROOT).as_posix() for p in (PCB_FAB / "supplier/profiles").glob("*.yaml")]
+    indexed = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, check=True,
+                             capture_output=True, text=True).stdout.split("\0")
+    for path in retained:
+        if path not in indexed:
+            raise AssertionError(f"The Git index omits an approved file: {path}")
+        if subprocess.run(["git", "check-ignore", "--no-index", "-q", path], cwd=ROOT).returncode != 1:
+            raise AssertionError(f"Git ignores an approved file: {path}")
 
 
 def test_real_fixtures_hold_no_supplier_bytes(tmp: Path):
@@ -147,7 +153,7 @@ def test_real_allowlisted_profiles_are_project_authored_data(tmp: Path):
 def test_real_regression_without_exclusions_is_detected(tmp: Path):
     """If the packager forgets the exclusions, the checks find each defect."""
     dist = real_distribution()
-    found = codes(P.check_distribution(tracked_files(), dist))
+    found = codes(P.check_distribution([entry["path"] for entry in dist["sources"]], dist))
     for needed in ("D-3", "D-4", "R-regression"):
         if needed not in found:
             raise AssertionError(f"regression check did not find {needed}. Found {sorted(found)}")
@@ -161,10 +167,10 @@ def test_real_no_acknowledgment_gate(tmp: Path):
             raise AssertionError(f"{name} mentions an acknowledgment field")
 
 
-def test_real_fetch_scripts_are_provisional(tmp: Path):
-    """Informational. Zero fetch scripts is provisional. Report the count, do not fail on it."""
-    fetch = sorted(p.relative_to(ROOT).as_posix() for p in ROOT.glob("skills/*/supplier/fetch_*.py"))
-    print(f"     fetch scripts: {len(fetch)} (provisional packaging test)")
+def test_real_source_retrieval_command_exists(tmp: Path):
+    """Public source contains the retrieval command. This test makes no network request."""
+    if not (PCB_FAB / "scripts/fetch_sources.py").is_file():
+        raise AssertionError("The source retrieval command is absent.")
 
 
 # ---------------------------------------------------------------- project-authored fixtures
@@ -198,9 +204,11 @@ def test_fixture_changed_bytes_need_a_new_review(tmp: Path):
     """D-5. A changed page does not pass against the old hash."""
     skill = _fixture_skill(tmp, b"<html><body>original</body></html>")
     write(skill / "supplier" / "pages" / "page.html", b"<html><body>changed</body></html>")
-    found = P.check_entries(tmp, skill, P.load_yaml(skill / "sources.yaml"), "demo/sources.yaml")
-    if "D-5" not in codes(found):
-        raise AssertionError(f"changed bytes were not reported: {found}")
+    for public_source in (False, True):
+        found = P.check_entries(tmp, skill, P.load_yaml(skill / "sources.yaml"), "demo/sources.yaml",
+                                allow_missing_excluded=public_source)
+        if "D-5" not in codes(found):
+            raise AssertionError(f"The changed bytes gave no finding: {found}")
 
 
 def test_fixture_profile_binding_must_agree(tmp: Path):
@@ -293,8 +301,8 @@ def test_fixture_distributed_full_copy_is_d3(tmp: Path):
         raise AssertionError(f"full copy in the distributed set was not reported: {found}")
 
 
-def test_fixture_provisional_zero_fetch_scripts_is_not_a_finding(tmp: Path):
-    """A standalone release needs a setup path. The provisional packaging test does not invent one."""
+def test_fixture_fetch_script_is_allowed(tmp: Path):
+    """A project-authored source retrieval script can remain in the public source tree."""
     dist = {"sources": [], "allowlist": ["skills/demo/supplier/fetch_pages.py"], "excluded_patterns": []}
     expect_no_findings(P.check_distribution(["skills/demo/supplier/fetch_pages.py"], dist), "fetch allowlist")
 
@@ -457,6 +465,73 @@ def test_repository_manifest_relative_bindings_resolve_under_their_directory(tmp
             raise AssertionError(f"binding does not resolve under the manifest directory: {binding}")
         if not resolved.is_file():
             raise AssertionError(f"resolved profile is missing: {binding}")
+
+def test_fixture_absent_excluded_source_retains_magic_rules(tmp: Path):
+    skill = _fixture_skill(tmp, b"<html>Project-authored fixture.</html>")
+    manifest = P.load_yaml(skill / "sources.yaml")
+    (skill / "supplier/pages/page.html").unlink()
+    entry = manifest["sources"][0]
+    for content_type, expected_magic in P.MAGIC_BY_TYPE.items():
+        entry["content_type"] = content_type
+        for magic in (None, "unknown", "OLE2" if expected_magic != "OLE2" else "%PDF"):
+            entry["magic"] = magic
+            found = P.check_entries(tmp, skill, manifest, "fixture", allow_missing_excluded=True)
+            if "D-8" not in codes(found):
+                raise AssertionError(f"The absent source bypassed a magic rule: {content_type}, {magic}, {found}")
+        entry["magic"] = expected_magic
+        expect_no_findings(P.check_entries(tmp, skill, manifest, "fixture", allow_missing_excluded=True),
+                           "valid metadata without local bytes")
+    del entry["magic"]
+    if "D-2" not in codes(P.check_entries(tmp, skill, manifest, "fixture", allow_missing_excluded=True)):
+        raise AssertionError("The absent source bypassed the necessary magic key.")
+
+
+def test_fixture_missing_excluded_bytes_keep_profile_checks(tmp: Path):
+    skill = _fixture_skill(tmp, b"<html>fixture</html>", extra={"profile_binding": "profile.yaml"})
+    manifest = P.load_yaml(skill / "sources.yaml")
+    (skill / "supplier/pages/page.html").unlink()
+    write(skill / "profile.yaml", b'{"evidence_sha256": "incorrect"}')
+    found = P.check_entries(tmp, skill, manifest, "fixture", allow_missing_excluded=True)
+    if codes(found) != {"D-5"}:
+        raise AssertionError(f"The absent source bypassed its profile check: {found}")
+    write(skill / "profile.yaml", json.dumps({"evidence_sha256": manifest["sources"][0]["sha256"]}).encode())
+    expect_no_findings(P.check_entries(tmp, skill, manifest, "fixture", allow_missing_excluded=True), "absent excluded source")
+    if "D-2" not in codes(P.check_entries(tmp, skill, manifest, "fixture")):
+        raise AssertionError("The local byte check accepted an absent source.")
+    manifest["sources"][0]["distribution_decision"] = "include"
+    if "D-2" not in codes(P.check_entries(tmp, skill, manifest, "fixture", allow_missing_excluded=True)):
+        raise AssertionError("The public check accepted an absent included source.")
+
+
+def test_fixture_git_archive_detects_forced_and_renamed_sources(tmp: Path):
+    """The test reads indexed bytes, even when disk bytes differ or Git ignores the path."""
+    subprocess.run(["git", "init", "-q", str(tmp)], check=True)
+    excluded = "skills/demo/supplier/pages/page.html"
+    page = b"<html>Project-authored archive fixture.</html>"
+    dist = {"sources": [{"path": excluded, "sha256": sha256_bytes(page),
+                         "distribution_decision": "exclude-full-copy"}],
+            "allowlist": [], "excluded_patterns": ["skills/demo/supplier/pages/**"]}
+    write(tmp / ".gitignore", ("/" + excluded + "\n").encode())
+    write(tmp / excluded, page)
+    subprocess.run(["git", "add", ".gitignore"], cwd=tmp, check=True)
+    expect_no_findings(P.check_git_archive(tmp, dist), "ignored local source")
+    subprocess.run(["git", "add", "-f", excluded], cwd=tmp, check=True)
+    found = P.check_git_archive(tmp, dist)
+    if not {"D-3", "R-regression"}.issubset(codes(found)):
+        raise AssertionError(f"The archive check accepted a forced source: {found}")
+    subprocess.run(["git", "rm", "--cached", "-q", excluded], cwd=tmp, check=True)
+    write(tmp / "copied.html", page)
+    subprocess.run(["git", "add", "copied.html"], cwd=tmp, check=True)
+    write(tmp / "copied.html", b"Different disk bytes.")
+    found = P.check_git_archive(tmp, dist)
+    if not any(item["code"] == "D-3" and item["file"] == "copied.html" for item in found):
+        raise AssertionError(f"The archive check accepted renamed indexed bytes: {found}")
+    write(tmp / ".gitattributes", b"copied.html export-ignore\n")
+    subprocess.run(["git", "add", ".gitattributes"], cwd=tmp, check=True)
+    found = P.check_git_archive(tmp, dist)
+    if not any(item["code"] == "D-3" and item["file"] == "copied.html" for item in found):
+        raise AssertionError("The tree check accepted excluded bytes that Git attributes omit from the archive.")
+
 
 if __name__ == "__main__":
     key = sys.argv[1] if len(sys.argv) > 1 else ""

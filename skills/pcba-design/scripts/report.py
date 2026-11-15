@@ -9,8 +9,8 @@ import hashlib
 
 # The input roles each check reads. Taken from the accepted interface, section 14.
 CHECK_INPUT_ROLES = {
-    "design.drc": ("board",),
-    "design.erc": ("schematic",),
+    "design.drc": ("board", "project_settings", "design_rules"),
+    "design.erc": ("schematic", "project_settings"),
     "design.parity": ("schematic", "board"),
     "fab.profile_evidence": ("supplier_profile",),
     "fab.export_inventory": ("board", "export_settings"),

@@ -468,7 +468,8 @@ def validate_record(record: dict, registry: dict, file: str = ""):
 # --------------------------------------------------------------------------- B234 constants
 
 INPUT_ROLES = ("board_record", "board", "schematic", "variants", "supplier_profile", "export_settings",
-               "toolchain", "board_interface", "waivers", "parts", "circuit_source", "supplier_rules", "supplier_settings")
+               "toolchain", "board_interface", "waivers", "parts", "circuit_source", "supplier_rules", "supplier_settings",
+               "project_settings", "design_rules")
 OUTPUT_ROLES = ("copper", "mask", "silk", "paste", "outline", "drill_plated", "drill_nonplated", "bom", "placement",
                 "schematic_pdf", "fabrication_drawing", "assembly_drawing", "test_record", "firmware", "stencil",
                 "panel", "report", "image", "evidence")
@@ -478,6 +479,7 @@ FIXED_INPUT_PATHS = {
     "variants": "variants.yaml", "supplier_profile": "manufacturing/supplier.yaml",
     "export_settings": "manufacturing/export.yaml", "toolchain": "toolchain.lock.json",
     "board_interface": "mechanical/board-interface.json", "waivers": "manufacturing/waivers.yaml",
+    "project_settings": "kicad/board.kicad_pro", "design_rules": "kicad/board.kicad_dru",
 }
 # role -> schema kind for the records that --project parses. The tool reads the PCB and the schematic as bytes only.
 PROJECT_RECORDS = {
@@ -507,6 +509,8 @@ CHECK_INPUT_ROLES = {
     "asm.stock_dated": ("parts", "board_record"),
     "asm.test_record": ("board", "parts", "variants", "board_record"),
 }
+OPTIONAL_CHECK_INPUT_ROLES = {"design.drc": ("project_settings", "design_rules"),
+                            "design.erc": ("project_settings",)}
 HASH_CODES = {"board": "cross.board_pcb_hash_mismatch", "board_record": "cross.board_record_hash_mismatch",
               "schematic": "cross.schematic_hash_mismatch"}
 WILDCARDS = {"*", "all", "any"}
@@ -963,6 +967,11 @@ def _package_rules(ctx, project, package, records, shas):
         ctx.add("pkg.input_missing", name, "/inputs", "A qualified SKiDL package needs the circuit_source input.")
     if ("waivers" in shas) != ("waivers" in roles):
         ctx.add("cross.input_set_mismatch", name, "/inputs", "The waiver file and the waivers input do not agree.")
+    if manifest["kind"] == "pcba":
+        for role in ("project_settings", "design_rules"):
+            if (role in shas) != (role in roles):
+                ctx.add("cross.input_set_mismatch", name, "/inputs",
+                        f"The project file and the {role} input do not agree.")
     # Outputs
     outputs = {item["path"]: item for item in manifest["outputs"]}
     for i, item in enumerate(manifest["outputs"]):
@@ -1095,6 +1104,11 @@ def _evidence_rules(ctx, project, package, manifest, records, outputs, roles, mn
             members = roles.get(role, [])
             if not members or any(m["path"] not in listed for m in members):
                 ctx.add("pkg.check_input_role_missing", ename, "/inputs", f"The evidence does not list every manifest input with the role {role}.")
+        if manifest["kind"] == "pcba":
+            for role in OPTIONAL_CHECK_INPUT_ROLES.get(check["id"], ()):
+                if any(member["path"] not in listed for member in roles.get(role, [])):
+                    ctx.add("pkg.check_input_role_missing", ename, "/inputs",
+                            f"The evidence does not bind the optional {role} input.")
         if check["id"] == "fab.profile_evidence" and profile and artifact and artifact["sha256"] != profile["evidence_sha256"]:
             ctx.add("cross.profile_evidence_mismatch", ename, "/artifact/sha256", "The artifact hash differs from the profile evidence_sha256.")
         if len(ctx.findings) == before:

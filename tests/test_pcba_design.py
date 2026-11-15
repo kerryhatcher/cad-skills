@@ -846,7 +846,6 @@ def test_selection_block_that_is_not_a_mapping_refused_once():
 
 
 def test_sierra_outputs_and_contents():
-    import xlrd
     with tempfile.TemporaryDirectory() as tmp:
         project = sierra_project(Path(tmp))
         code, stdout, stderr = run_sierra(project)
@@ -856,11 +855,13 @@ def test_sierra_outputs_and_contents():
         for rel in ("bom/sierra-bom.xlsx", "placement/sierra-xy-draft.csv", "test/test-record.json",
                     "reports/sierra-status.json"):
             expect((out / rel).is_file(), f"{rel} is written")
-        # Exact header strings against the retained Sierra sample file.
-        sample = xlrd.open_workbook(ROOT / "docs" / "reviews" / "sierra-source-evidence" / "BOM-Sample-and-Demo.xls")
-        sample_header = sample.sheet_by_index(0).row_values(6)
+        # This project-authored assertion records the export contract. It reads no supplier workbook.
+        expected_header = ["Item #", "Quantity per board", "Manufacturer Part #", "Do Not Install",
+                           "Reference designators", "Vendor (optional)", "Vendor Part Number (optional)",
+                           "Value (optional)", "Size / Footprint  (optional)",
+                           "Part description/ specs (optional, but recommended)", "Manfacturer (optional)"]
         rows = sierra_bom(project)
-        expect(list(rows[6]) == sample_header, "the BOM header equals the retained sample header, exactly")
+        expect(list(rows[6]) == expected_header, "the BOM header equals the export contract")
         expect(rows[0][0].startswith("This is a sample BOM for  Sierra Circuits"), "the sample intro is kept")
         data = [r for r in rows[7:] if r[0] is not None]
         by_mpn = {r[2]: r for r in data}
@@ -1790,6 +1791,77 @@ def test_package_refuses_unexamined_drill_settings_before_tools():
         expect(calls == [], "No unsupported setting reaches the tool.")
     finally:
         export.resolve_image = original
+
+
+def test_project_rules_change_the_measured_drc_result():
+    """Both project settings and custom rules change the DRC result for identical board bytes."""
+    identity, export = captured_identity()
+    board = (ROOT / "tests/eval/fixtures/artifacts/A2/project/kicad/board.kicad_pcb").read_bytes()
+    plain = json.loads(export.run_drc(identity, board))
+    expect(not plain["violations"], "The control board has no DRC violation.")
+    settings = json.dumps({"board": {"design_settings": {"rules": {"min_track_width": 1.0}}}}).encode()
+    rules = b'(version 1)\n(rule "strict_track" (constraint track_width (min 1mm)))\n'
+    for kwargs in ({"project_settings": settings}, {"design_rules": rules}):
+        measured = json.loads(export.run_drc(identity, board, **kwargs))
+        count = sum(v["type"] == "track_width" for v in measured["violations"])
+        expect(count == 8, f"The strict constraint must report eight track violations, got {count}.")
+
+
+def test_project_rules_use_and_bind_captured_bytes():
+    """A temporary source change cannot replace captured design inputs during DRC."""
+    with tempfile.TemporaryDirectory() as tmp:
+        project = package_project(Path(tmp))
+        settings = b"{}\n"
+        rules = b'(version 1)\n(rule "minimum_track" (constraint track_width (min 0.1mm)))\n'
+        inputs = {"project_settings": (project / "kicad/board.kicad_pro", settings),
+                  "design_rules": (project / "kicad/board.kicad_dru", rules)}
+        for path, raw in inputs.values():
+            path.write_bytes(raw)
+        export = load_check_module("export")
+        original = export.run_drc
+        calls = []
+        def captured(identity, board, **kwargs):
+            expect(kwargs == {key: raw for key, (_, raw) in inputs.items()}, "DRC receives the captured bytes.")
+            calls.append(True)
+            for path, _ in inputs.values():
+                path.write_bytes(b"invalid transient source")
+            try:
+                return original(identity, board, **kwargs)
+            finally:
+                for path, raw in inputs.values():
+                    path.write_bytes(raw)
+        export.run_drc = captured
+        try:
+            in_process_package(project)
+        finally:
+            export.run_drc = original
+        expect(calls == [True], "The package runs DRC once.")
+        pkg = project / "out/pcba/packages/pkg-hook"
+        manifest = json.loads((pkg / "manifest.json").read_text())
+        for role, (path, raw) in inputs.items():
+            rel = path.relative_to(project).as_posix()
+            digest = hashlib.sha256(raw).hexdigest()
+            expect({"role": role, "path": rel, "sha256": digest} in manifest["inputs"], "The manifest binds the design input.")
+            evidence = json.loads((pkg / "evidence/design.drc.json").read_text())
+            expect({"path": rel, "sha256": digest} in evidence["inputs"], "DRC evidence binds the design input.")
+        erc = json.loads((pkg / "evidence/design.erc.json").read_text())
+        expect(any(x["path"] == "kicad/board.kicad_pro" for x in erc["inputs"]), "ERC evidence binds project settings.")
+
+
+def test_project_rules_freshness_covers_present_and_absent_inputs():
+    """The last gate refuses a changed design input or an optional input that appears after capture."""
+    for suffix in ("pro", "dru"):
+        for existed in (False, True):
+            with tempfile.TemporaryDirectory() as tmp:
+                project = package_project(Path(tmp))
+                path = project / f"kicad/board.kicad_{suffix}"
+                raw = b"{}\n" if suffix == "pro" else b"(version 1)\n"
+                if existed:
+                    path.write_bytes(raw)
+                def drift():
+                    path.write_bytes(raw + b"\n")
+                expect_package_refusal("Design input drift", lambda: in_process_package(project, {"after_validate": drift}),
+                                       "input.changed", project / "out/pcba/packages/pkg-hook", project / "out/pcba/.package-staging")
 
 
 TESTS = [value for name, value in sorted(globals().items()) if name.startswith("test_") and callable(value)]

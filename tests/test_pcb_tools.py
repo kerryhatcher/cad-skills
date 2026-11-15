@@ -1277,6 +1277,26 @@ def rewrite_evidence(pkg, check_id, change, *, update_manifest=True):
         edit_manifest(pkg, apply)
 
 
+def test_pcba_optional_design_input_bindings(tmp: Path):
+    """PCBA evidence binds optional project settings and custom rules when those files exist."""
+    project, pkg, manifest = tree(tmp)
+    entries = []
+    for role, suffix in (("project_settings", "pro"), ("design_rules", "dru")):
+        rel = f"kicad/board.kicad_{suffix}"
+        raw = b"{}\n" if suffix == "pro" else b"(version 1)\n"
+        P.write(project / rel, raw)
+        entries.append({"role": role, "path": rel, "sha256": P.sha(raw)})
+    assert "cross.input_set_mismatch" in codes_of(project, pkg)[1], "The manifest omits present design inputs."
+    edit_manifest(pkg, lambda m: m["inputs"].extend(entries))
+    assert "pkg.check_input_role_missing" in codes_of(project, pkg)[1], "The evidence omits present design inputs."
+    bound = [{"path": e["path"], "sha256": e["sha256"]} for e in entries]
+    rewrite_evidence(pkg, "design.drc", lambda r: r["inputs"].extend(bound))
+    rewrite_evidence(pkg, "design.erc", lambda r: r["inputs"].append(bound[0]))
+    assert codes_of(project, pkg)[0] == 0, "The evidence binds the present design inputs."
+    rewrite_evidence(pkg, "design.drc", lambda r: r.update(inputs=[x for x in r["inputs"] if x != bound[1]]))
+    assert "pkg.check_input_role_missing" in codes_of(project, pkg)[1], "The DRC evidence must bind its custom rules."
+
+
 def test_evidence_qualification(tmp: Path):
     def fresh(label):
         base = tmp / label

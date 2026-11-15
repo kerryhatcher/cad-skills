@@ -160,6 +160,13 @@ An evidence file for a passed check has `inputs` and one `artifact`. The inputs 
 | `asm.stock_dated` | `parts`, `board_record` |
 | `asm.test_record` | `board`, `parts`, `variants`, `board_record` |
 
+For PCBA packages, two optional files supply the KiCad design configuration.
+The role `project_settings` names `kicad/board.kicad_pro`.
+The role `design_rules` names `kicad/board.kicad_dru`.
+When either file exists, the manifest must bind its bytes.
+Passed DRC evidence must bind both present roles. Passed ERC evidence must bind present project settings.
+The package captures these files before the tool runs and refuses a change before publication.
+
 A manual record also has a `reviewer` and a date `observed_on`. A tool record has a `tool` and no mandatory reviewer. The date is an input that the caller supplies. The validator never reads the clock. For `fab.profile_evidence`, the artifact is a packaged file with the hash of the supplier profile `evidence_sha256`. A byte match shows identity of the retrieved bytes. It does not show authenticity or current supplier acceptance.
 
 This is a check of qualification-record consistency. It does not show that a tool ran, that a circuit works, or that a board works.

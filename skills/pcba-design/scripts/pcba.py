@@ -88,6 +88,7 @@ class Snapshots:
     def __init__(self, project: Path):
         self.project = project.resolve()
         self.by_real: dict = {}
+        self.absent: set[str] = set()
 
     def capture(self, rel: str, role: str, under: Path | None = None) -> dict:
         try:
@@ -112,6 +113,9 @@ class Snapshots:
         return sorted(items, key=lambda i: (i["role"], i["path"]))
 
     def check_unchanged(self) -> None:
+        for rel in sorted(self.absent):
+            if os.path.lexists(self.project / rel):
+                raise Refused("input.changed", rel, "An absent input appeared before publication.")
         for snap in self.by_real.values():
             try:
                 raw = snap["real"].read_bytes()
