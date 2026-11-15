@@ -3,7 +3,7 @@
 
 Owned derivative of the B6 worker `board_inventory.py`. The difference is the slot handling: an oblong
 drill is reported as a slot with its endpoints, its minor and major dimensions, and its pad attribute. The
-B6 worker refuses such a drill. The outline is reported as the board edge bounding box.
+B6 worker refuses such a drill. The outline dimensions exclude the Edge.Cuts stroke width.
 
   python3 /worker/board_inventory_slots.py BOARD.kicad_pcb
 
@@ -106,6 +106,13 @@ def main(argv):
                       "y": round(mm(q.y), ROUND_DIGITS), "diameter": round(mm(track.GetDrillValue()), ROUND_DIGITS)})
     if unsupported:
         return refuse(unsupported)
+    # Measure the edge centerlines. Stroke width does not change the physical board dimensions.
+    drawings = list(board.GetDrawings())
+    for footprint in board.GetFootprints():
+        drawings.extend(footprint.GraphicalItems())
+    for drawing in drawings:
+        if drawing.GetLayer() == pcbnew.Edge_Cuts and isinstance(drawing, pcbnew.PCB_SHAPE):
+            drawing.SetWidth(0)
     box = board.GetBoardEdgesBoundingBox()
     outline = {"x": round(mm(box.GetX()), ROUND_DIGITS), "y": round(mm(box.GetY()), ROUND_DIGITS),
                "width": round(mm(box.GetWidth()), ROUND_DIGITS), "height": round(mm(box.GetHeight()), ROUND_DIGITS)}

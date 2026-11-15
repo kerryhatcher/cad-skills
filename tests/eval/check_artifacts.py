@@ -25,8 +25,9 @@ Kinds:
 - length_equals: the array at `json_path` has the integer length `value`.
 - row_binding: each array row names a unique file through `path_key` and its hash through `hash_key`.
   An optional `size_key` names the byte count. Missing, linked, escaping or mismatched files fail.
-- sha256_binding: `key`, `reference`, and an optional `reference_base`. Pass when the recorded hash in the
-  manifest equals the current hash of the reference file. The reference base defaults to `base`.
+- sha256_binding: exactly one of `key` or `json_path` selects a hash. `reference` names its file.
+  An optional `reference_base` defaults to `base`. Invalid selectors or hashes fail the comparison.
+  The recorded hash must equal the current hash of the reference file.
 - record_binding: the record at `path` names `raw_file` and `raw_sha256`. Pass when the raw file has the
   recorded hash. The expectation holds no fixed hash, so it fits outputs that a model produces.
 
@@ -256,6 +257,19 @@ def check_one(item: dict, roots: dict) -> dict:
     if kind == "row_binding":
         return _row_binding(item, data, base)
     if kind == "sha256_binding":
+        if "key" in item and "json_path" in item:
+            return _result(item, False, "The hash selectors are ambiguous. Supply only key or json_path.")
+        if "key" not in item and "json_path" not in item:
+            return _result(item, False, "The hash selector is missing. Supply key or json_path.")
+        if "json_path" in item:
+            components = item["json_path"]
+            if (not isinstance(components, list) or not components
+                    or any(not isinstance(part, str) and not (type(part) is int and part >= 0) for part in components)):
+                return _result(item, False, "The hash selector must contain string keys or nonnegative integer indices.")
+        else:
+            if not isinstance(item["key"], str) or not item["key"]:
+                return _result(item, False, "The hash key must be a nonempty string.")
+            components = [item["key"]]
         ref_base_name = item.get("reference_base", base_name)
         if ref_base_name not in roots:
             raise ValueError(f"unknown reference base '{ref_base_name}' in expectation {item['id']}")
@@ -264,9 +278,9 @@ def check_one(item: dict, roots: dict) -> dict:
             return _refused(item, item["reference"])
         if not reference.is_file():
             return _result(item, False, f"reference {item['reference']} is missing")
-        found, recorded = _lookup(data, [item["key"]])
-        if not found:
-            return _result(item, False, f"manifest key {item['key']} is absent")
+        found, recorded = _lookup(data, components)
+        if not found or not isinstance(recorded, str) or not HEX64.fullmatch(recorded):
+            return _result(item, False, "The selected hash is absent or invalid.")
         current = sha256_file(reference)
         return _result(item, recorded == current, f"recorded={recorded} current={current}")
     if kind == "record_binding":

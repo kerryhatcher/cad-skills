@@ -12,8 +12,8 @@
       3.2
     ]
   },
-  "overall_height_mm": 25.05,
-  "overall_width_mm": 40.05,
+  "overall_height_mm": 25.0,
+  "overall_width_mm": 40.0,
   "profile": {
     "copper": "1 oz",
     "finished_thickness_mm": 1.6,
@@ -25,8 +25,8 @@
     "source_page": "stored supplier page",
     "substrate": "175Tg FR4 (Kingboard KB6167F)"
   },
-  "profile_file_sha256": "35ba04c61b4c95bb28a997205801597db363ea1ec0ff1a51fec09dc78b282609",
-  "profile_sha256": "9f2da9b0e01dff82c3864b77297d32598c55040f3b7261c3e4423b4f81762690",
+  "profile_file_sha256": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
+  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
   "release_id": "design-run",
   "stackup": "2-layer",
   "unit": "mm"

@@ -1,0 +1,141 @@
+ok   review of the complete, unchanged page is unchanged
+ok   duplicate key is refused (strict JSON)
+ok   unknown top-level key is refused
+ok   unknown observation field is refused
+ok   unknown observation key is refused
+ok   observation with another source URL is refused
+ok   empty observed condition is refused
+ok   control character in the statement is refused
+ok   impossible date is refused
+ok   path escape in the live page is refused
+ok   wrong stored hash is refused
+ok   an incomplete page set is refused
+ok   a missing observation gives material
+ok   a value of the wrong number gives material
+ok   a number with the wrong type gives material
+ok   a unit mismatch gives material
+ok   a changed live page with equal facts gives harmless
+ok   gate passes an intact review
+ok   gate rejects a missing review (omission)
+ok   gate rejects changed review bytes
+ok   gate rejects altered observations
+ok   gate rejects another release
+ok   gate rejects another profile
+ok   gate rejects changed profile file bytes
+ok   gate rejects a live page that differs from the reviewed hash
+ok   functions of a correct copper pair pass
+ok   a duplicate declaration is a problem
+ok   swapped copper layers are a problem
+ok   active X2 attributes are a problem
+ok   the drill multiset matches the board
+ok   a changed drill coordinate with an equal count is a problem
+ok   a changed drill diameter with an equal count is a problem
+ok   a drill file with a record after M30 is a problem
+ok   design passes on the bare-board template (exit 0)
+ok   design writes the exports, inventory and drawing
+ok   supplier stops at the mandatory manual silk condition (exit 1)
+ok   supplier rows give pass for every KiCad rule
+ok   supplier silk row is pending
+ok   the supplier mask path writes both mask rows (regression for the returncode defect)
+ok   generated rule uses the exact trace minimum 0.1524 mm
+ok   package without manual silk evidence is unqualified (exit 1)
+ok   supplier with current manual evidence passes (exit 0)
+ok   stale manual evidence is refused (exit 1)
+ok   package with every condition passing is qualified (exit 0)
+ok   qualified manifest has no reasons
+ok   the validator detects a changed output after qualification
+ok   a changed review record makes the package unqualified (exit 1)
+ok   design runs before the quantity test
+ok   the supplier result stops on a quantity of 5 (exit 1 or 2, not a pass)
+ok   source rules are preserved before the generated rules
+ok   a wrong image identity is refused (exit 2)
+ok   design passes on the rules project (exit 0)
+ok   the design result records the measured image identity, not the tag
+ok   an absent optional source rule is recorded as absent
+ok   a present source file is recorded by its hash
+ok   an unmarked stage is refused, not removed (exit 2)
+ok   supplier with current manual evidence passes (exit 0)
+ok   package of current inputs is qualified (exit 0)
+ok   a source changed after the design run is refused: stale reason kept, nothing published (exit 1)
+ok   15a ignore: the source design DRC bytes omit the target track_width finding
+ok   15a ignore: the staged DRC bytes show the target track_width finding active
+ok   15a ignore: the thin tracks still fail the trace row (measured key track_width)
+ok   15a ignore: the staged project clears any exclusion
+ok   15a ignore: the staged project sets the track_width severity to error
+ok   15a ignore: the source files keep their bytes
+ok   15a ignore: the supplier run is not clean (exit 1)
+ok   15a exclusion: the source design DRC bytes mark the target track_width finding excluded
+ok   15a exclusion: the staged DRC bytes show the target track_width finding active
+ok   15a exclusion: the thin tracks still fail the trace row (measured key track_width)
+ok   15a exclusion: the staged project clears any exclusion
+ok   15a exclusion: the staged project sets the track_width severity to error
+ok   15a exclusion: the source files keep their bytes
+ok   15a exclusion: the supplier run is not clean (exit 1)
+ok   W1: the staged bytes are the captured bytes
+ok   W1: the recorded hash matches the staged bytes
+ok   W1: the current source (changed) is not substituted for the snapshot
+ok   keys: the fixture via is present
+ok   keys: the sub-minimum drill is reported as drill_out_of_range on the fixture via
+ok   keys: the track inside the edge limit is reported as copper_edge_clearance on the fixture track
+ok   keys: the min_drill row fails through drill_out_of_range
+ok   keys: the edge_keepout row fails through copper_edge_clearance
+ok   keys: the supplier run is not clean (exit 1)
+ok   C1: a link at the captured child path is refused
+ok   C1: no file is written outside the project
+ok   C3: a byte-only change to the original manual record is refused before publication (exit 1)
+ok   W2: drill_out_of_range findings count for the minimum drill rule
+ok   W2: copper_edge_clearance findings count for the edge keepout rule
+ok   W2: the KiCad report keys carry the error severity
+ok   W2: the staged project clears the exclusion
+ok   binding: the unchanged project qualifies (exit 0)
+ok   binding: a changed raw export before packaging is refused (exit 1)
+ok   binding: a tampered binding file is not bound by the result (exit 1)
+ok   binding: a changed manual artifact is refused (exit 1)
+ok   lock: a held project lock stops the design (exit 2)
+ok   confinement: a nested output link is refused (exit 2) and nothing is written outside
+ok   C7: the run stops after the new binding write
+ok   C7: the new binding is written
+ok   C7: the old result is kept, because the new result is not written
+ok   C7: the interrupted run releases the project lock
+ok   C7: the old design result cannot pass against the new binding (not published, not qualified)
+ok   copy: the changed copper Gerber is refused (exit 1, nothing published)
+ok   copy: the reason names the changed copy
+ok   copy: the manifest hash is the hash of the bytes that were copied
+ok   final gate: a change after validation is refused (exit 1, nothing published)
+ok   final gate: the named failure is kept with the staging path
+ok   C5: a staged Gerber changed after validation is refused (exit 1, not published)
+ok   C5: a staged manifest changed after validation is refused (exit 1, not published)
+ok   C1: a link at the profile file is refused before any write (exit 2)
+ok   C1: a link at the dangling profile file is refused before any write (exit 2)
+ok   C1: a link at the design output is refused before any write (exit 2)
+ok   C1: a link at the design log is refused before any write (exit 2)
+ok   C1: a link at the supplier output is refused before any write (exit 2)
+ok   C1: a link at the worker report is refused before any write (exit 2)
+ok   C2: a changed design result is refused by the supplier (exit 1)
+ok   C2: the existing supplier result is not replaced
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   C2: the mask measurement binds the captured Gerber, not the transient bytes
+ok   C2: the supplier result records the captured Gerber hash
+ok   rows: a changed row with the old content hash is refused before publication (exit 1)
+ok   rows: a changed row with a new hash and an inconsistent exit is refused (exit 1)
+ok   rows: a missing mandatory row is refused and does not qualify a package (exit 1)
+ok   rows: a consistent failing row is a draft, not a refusal (exit 1, published as draft)
+ok   binding drift: a binding changed after validation is refused (exit 1, nothing published)
+ok   drawing: an ordinary drawing-facts output is written (exit 0)
+ok   drawing: a dangling link at drawing-facts --out is refused (exit 2), no target written
+ok   drawing: a link at drawing --out is refused (exit 2) and the target keeps its bytes
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   settings: the staged settings are the captured settings, not the live file
+ok   settings: the run refuses the changed live file (exit 1)
+ok   review lock: a held project lock refuses review-source (exit 2)
+ok   review lock: no review record is written
+ok   review lock: the existing observation file is unchanged
+ok   review lock: without a holder, review-source writes the record (exit 0)
+ok   review lock: the lock is released after review-source
+
+132/132 passed
+exit 0

@@ -1,15 +1,68 @@
 {
-  "binding_sha256": "9aee15581cc7de6cfe7704206092d136d2bd460df2910568385f0eeb09a95894",
-  "design_binding": "079ed5399514650f70ea58e6c5b6070fd8dbd358e33d24b435361c94bc1c8b6b",
+  "binding_sha256": "edfec2948d21a7af6372f2303596a2258b13469cc1a726c5c7b44af48460817f",
+  "content_sha256": "bcca335d3f2fe02b56ed2b464350f06e6d5f0dae5ba13c8ebf4a6090ff699384",
+  "design_binding": "21115a83eb33403884387044831ae6b55056c82332754c7a3070bb421b5981de",
   "effective": {
     "board.kicad_dru": "a4a5a9a0ca074ca8beeb541cb92c5bd60d3d92d28dd127e2c76f1d5b1627a571",
     "board.kicad_pro": "57352e7388d0443e13d5879c09000733625fd399d5975dbcb8cde32be315b763"
   },
   "exit": 1,
   "manual": null,
+  "measure_inputs": {
+    "export/board-B_Mask.gbr": "124b310b8a50e034db25433d1daaf67713b449069fc5da21d7ab0c2b41041c27",
+    "export/board-F_Mask.gbr": "1ff7f5e329395d28d2153ef92ef864672eb8592883da2ae36ff8e540f2493e64",
+    "export/board-F_Silkscreen.gbr": "4c74a7df8541dd33fb252aca84815f378cc7accb7f96a839c58a928e0ccef349",
+    "export/board-NPTH.drl": "a7992c36e15252eaf2ade96dd0fe1c4b5f0e56b92e632466779e611ceec42e64",
+    "export/board-PTH.drl": "5545bd525851bb409b8fd6ecbd7352dc927f85bbe7660640a1417cc84882f0d1",
+    "inventory.json": "27ce12e4ab789a5437749a6b2a569fdce0619646d6c68263baefb018c97d3fa6"
+  },
   "profile": "oshpark-two-layer",
-  "profile_sha256": "9f2da9b0e01dff82c3864b77297d32598c55040f3b7261c3e4423b4f81762690",
+  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
   "rows": [
+    {
+      "condition": "service.via_construction_prohibited",
+      "declaration": "standard_through",
+      "interpretation": "The measured spans are through spans. The declared process is standard_through.",
+      "mandatory": true,
+      "method": "board_measurement_and_declaration",
+      "prohibited_spans": [],
+      "status": "pass",
+      "via_count": 2
+    },
+    {
+      "condition": "process.outline_tool_compatibility",
+      "derivation": "tool radius = published cutter diameter / 2",
+      "interpretation": "The corner radius must fit the derived circular tool radius. This is not a quoted supplier minimum.",
+      "mandatory": true,
+      "measured_corners": [],
+      "method": "derived_tool_compatibility",
+      "process_fact": {
+        "meaning": "Published cutter diameter. Half the diameter is the derived tool radius.",
+        "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_url": "https://docs.oshpark.com/services/two-layer/",
+        "unit": "in",
+        "value": "0.068"
+      },
+      "status": "pass",
+      "tool_radius_nm": 863600
+    },
+    {
+      "condition": "process.cutout_tool_compatibility",
+      "derivation": "tool radius = published cutter diameter / 2",
+      "interpretation": "The corner radius must fit the derived circular tool radius. This is not a quoted supplier minimum.",
+      "mandatory": true,
+      "measured_corners": [],
+      "method": "derived_tool_compatibility",
+      "process_fact": {
+        "meaning": "Published cutter diameter. Half the diameter is the derived tool radius.",
+        "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_url": "https://docs.oshpark.com/services/two-layer/",
+        "unit": "in",
+        "value": "0.040"
+      },
+      "status": "pass",
+      "tool_radius_nm": 508000
+    },
     {
       "condition": "edge_keepout",
       "interpretation": "KiCad edge_clearance with the supplier minimum",
@@ -143,16 +196,16 @@
   "schema_id": "pcb-fab-package/supplier-result",
   "schema_version": 1,
   "source_sha256": {
-    "board.yaml": "ca89b76156545fa36890a1552880bb49df977984f428433dd6205cfa62f741fd",
+    "board.yaml": "5db39340d5b4cfc52e7ee2fcc825cf3d3101aa1f3a5d413edddc9ef9435824d4",
     "kicad/board.kicad_dru": "absent",
     "kicad/board.kicad_pcb": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
     "kicad/board.kicad_pro": "fa0616f9cd2c2d5f8f09754d4d7b7b46ebd6c12a500f16be095005c4bcfdc3ee",
     "kicad/board.kicad_sch": "a0934ec606be522821ded5a3e7d31f4a9fa187452e1e8c5fa00afade0434d26c",
     "manufacturing/export.yaml": "e9ae3ee89c0b088f7468e5d002a7f47967358f1b922443bcb09eed99b2c22235",
-    "manufacturing/supplier.yaml": "35ba04c61b4c95bb28a997205801597db363ea1ec0ff1a51fec09dc78b282609",
+    "manufacturing/supplier.yaml": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
     "manufacturing/waivers.yaml": "ea5bbc9e8d942845487a965c110f8a9cf95063cd7c0640c92d76a6145e617b53",
     "mechanical/board-interface.json": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc",
-    "profile": "2aedaa0c8076b18005345bf0f56f97396121e1faae915152d5bfcf10a942ad87",
+    "profile": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
     "toolchain.lock.json": "104e23fc50127689d6c94a8ffabd43c3ed3d23d4444e0173f5deeb5e508b8b79",
     "variants.yaml": "e293a931f41f3b3181fa000ebf203c68a90feac2439b40820647b3f2614c1c3e"
   }

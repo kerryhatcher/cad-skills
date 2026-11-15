@@ -4,9 +4,9 @@ name: rc-bare-board
 circuit_source: kicad_native
 assembly: bare_board
 supplier:
-  id: example-two-layer
-  service: Example two-layer service
-  profile_sha256: b37b37495cbab698f921e7b229585ea890cefd7298f3615cd15cec02bb00fb77
+  id: oshpark-two-layer
+  service: OSH Park two-layer service
+  profile_sha256: e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9
 quantity: 5
 variant: base
 electrical_limits:
@@ -31,3 +31,7 @@ release_revision: A
 restrictions:
 - text: The template is an example RC network with no export-controlled function.
   source: Template statement, 2026-11-14
+
+extensions:
+  fabrication:
+    via_process: standard_through

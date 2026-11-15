@@ -386,6 +386,17 @@ def _fail(code, message):
     return code
 
 
+def write_standalone(out, data):
+    """Write one standalone output through the atomic helper.
+
+    The drawing commands have no project argument. The output root is therefore the parent directory of `out`.
+    No project confinement is claimed. A link at `out`, even a dangling one, is refused before any write."""
+    out = pathlib.Path(out).absolute()
+    if os.path.islink(out) or os.path.islink(out.parent):
+        raise workflow.Stop(workflow.EXIT_UNSUPPORTED, f"the output {out} or its directory is a symbolic link; nothing is written")
+    PIO.atomic_write(out.parent, out, data)
+
+
 def _review_source(a, project):
     """Write the source review and its observation file. Run under the project lock. Return the exit status."""
     profile_path = pathlib.Path(a["--profile"])
@@ -445,12 +456,12 @@ def main(argv):
             inventory = json.loads(pathlib.Path(a["--inventory"]).read_text())
             facts = drawing_facts(inventory, profile, pathlib.Path(a["--board"]).read_bytes(), a["--release"],
                                   profile_path.read_bytes())
-            pathlib.Path(a["--out"]).write_text(json.dumps(facts, indent=2, sort_keys=True) + "\n")
+            write_standalone(a["--out"], (json.dumps(facts, indent=2, sort_keys=True) + "\n").encode("utf-8"))
             return EXIT_OK
         if cmd == "drawing":
             a = _args(rest, ["--facts", "--out"])
             facts = json.loads(pathlib.Path(a["--facts"]).read_text())
-            pathlib.Path(a["--out"]).write_bytes(drawing_pdf(facts))
+            write_standalone(a["--out"], drawing_pdf(facts))
             return EXIT_OK
         if cmd == "inspect-slots":
             return inspect_slots.main(rest)

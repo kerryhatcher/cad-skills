@@ -1,0 +1,10 @@
+ok   The board inventory measures the 250 mil drill.
+ok   The 250 mil drill passes the supplier drill condition.
+ok   The 250 mil drill has no invented maximum row.
+{"board_sha256": "a7f24a58fb5e1540f74eed4bcf02d00c8599c6af3bfbb51f162c09c5030a16e7", "design_exit": 1, "diameter_mm": "6.3500", "drill_row": {"condition": "min_drill", "interpretation": "KiCad hole_size with the supplier minimum", "mandatory": true, "method": "kicad_dru", "status": "pass", "violations": 0}, "mil": "250", "supplier_exit": 1}
+ok   The board inventory measures the 251 mil drill.
+ok   The 251 mil drill passes the supplier drill condition.
+ok   The 251 mil drill has no invented maximum row.
+{"board_sha256": "4bb93c6da7fd5cfb66f10a4e9d6669d56b020c897db9e64d8639a940935d6d2d", "design_exit": 1, "diameter_mm": "6.3754", "drill_row": {"condition": "min_drill", "interpretation": "KiCad hole_size with the supplier minimum", "mandatory": true, "method": "kicad_dru", "status": "pass", "violations": 0}, "mil": "251", "supplier_exit": 1}
+
+6/6 passed

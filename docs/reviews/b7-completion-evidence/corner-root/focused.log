@@ -1,0 +1,29 @@
+Installed 6 packages in 4ms
+ok   The outline fixture at 0.033 in gives fail with the independent radius.
+ok   The outline-0.033in report binds the captured board bytes.
+{"board_sha256": "d5a67c55351a5a7893acb66e35e3e8e65e6029e7576b87d32300ae0e55ed1515", "fixture": "outline-0.033in", "radii_nm": [838200], "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}, "status": "fail"}
+ok   The outline fixture at 0.034 in gives pass with the independent radius.
+ok   The outline-0.034in report binds the captured board bytes.
+{"board_sha256": "c3538cc8fcc3f241e78606e57a0358dc19dcc866f8e7ca1f65059be18bcdb72a", "fixture": "outline-0.034in", "radii_nm": [863600], "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}, "status": "pass"}
+ok   The outline fixture at 0.035 in gives pass with the independent radius.
+ok   The outline-0.035in report binds the captured board bytes.
+{"board_sha256": "183d6197de4711f3040ecddb81f351f458b19f45b17b89edb3f8af3bd0243873", "fixture": "outline-0.035in", "radii_nm": [889000], "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}, "status": "pass"}
+ok   The cutout fixture at 0.019 in gives fail with the independent radius.
+ok   The cutout-0.019in report binds the captured board bytes.
+{"board_sha256": "2884c529966786c0b350d46eab1820434f343067b23656c3f14e1764e2aa25d0", "fixture": "cutout-0.019in", "radii_nm": [482600, 482600, 482600, 482600], "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}, "status": "fail"}
+ok   The cutout fixture at 0.020 in gives pass with the independent radius.
+ok   The cutout-0.020in report binds the captured board bytes.
+{"board_sha256": "a128ef9a837e32abc84ed32372e61b843bd98f13407e960cd06dd2f7ad51def4", "fixture": "cutout-0.020in", "radii_nm": [508000, 508000, 508000, 508000], "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}, "status": "pass"}
+ok   The cutout fixture at 0.021 in gives pass with the independent radius.
+ok   The cutout-0.021in report binds the captured board bytes.
+{"board_sha256": "287ad777144d35ff6a592aa70a9477f9843fb94df33fc3775fae9e6d8f534151", "fixture": "cutout-0.021in", "radii_nm": [533400, 533400, 533400, 533400], "runtime": {"image": "localhost/cad-skills-pcb:b6", "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f", "kicad_version": "10.0.5"}, "status": "pass"}
+ok   The square outer contour has no concave corner condition.
+The corner measurement failed with exit 2: {"unsupported": "Edge.Cuts has an open, branching or overlapping endpoint."}
+
+ok   The open-outline fixture refuses with exit 2.
+The corner measurement failed with exit 2: {"unsupported": "Edge.Cuts shape 809cf624-93f4-5c37-b3f1-f682501b1854 has unsupported type Polygon."}
+
+ok   The unsupported-polygon fixture refuses with exit 2.
+ok   A cutter fact with an incorrect source hash refuses.
+
+16/16 passed

@@ -1,0 +1,6 @@
+ok   24 internal track: 9.9 mil gives [0.2515]
+ok   24 internal track: 10 mil gives []
+ok   24 internal track: 10.1 mil gives []
+ok   23 connected plane: the same-net filled copper reaches the hole with no clearance finding
+4/4 passed
+Exit: 0

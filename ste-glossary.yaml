@@ -5,6 +5,10 @@
 #   ste100 check --glossary ste-glossary.yaml --text-type description FILE.txt
 name: cad-skills
 technical_nouns:
+  - word: "concave corner"
+    inflections: ["concave corners"]
+  - word: "tool compatibility"
+    inflections: []
   - word: "Gerbonara"
     inflections: []
   - word: "PyGerber"

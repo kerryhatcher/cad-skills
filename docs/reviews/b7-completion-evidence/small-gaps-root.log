@@ -1,0 +1,9 @@
+Installed 24 packages in 5ms
+ok   A text value with a unit refuses through profile validation.
+ok   The 20.0 mil slot matches the exported drill within the recorded tolerance.
+ok   The 20.1 mil slot matches the exported drill within the recorded tolerance.
+ok   The mask reader refuses clear polarity with exit 2.
+ok   The mask reader refuses stroke with exit 2.
+ok   The mask reader refuses another macro name with exit 2.
+
+6/6 passed

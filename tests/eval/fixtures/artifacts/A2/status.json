@@ -9,17 +9,17 @@
   "fixture": "A2",
   "overall": "incomplete",
   "profile": "oshpark-two-layer",
-  "profile_sha256": "9f2da9b0e01dff82c3864b77297d32598c55040f3b7261c3e4423b4f81762690",
-  "reason": "One mandatory order condition fails and one manual evidence condition is pending. No review record exists, so no package is built.",
+  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
+  "reason": "The order condition fails and the manual silk condition remains pending. No source review or package ran.",
   "supplier": {
     "mandatory_fail": [
       "service.order_multiple"
     ],
-    "mandatory_pass": 13,
+    "mandatory_pass": 16,
     "mandatory_pending": [
       "silk_line_min_short_text"
     ],
-    "mandatory_total": 15,
+    "mandatory_total": 18,
     "recommendations_reported": 2
   }
 }

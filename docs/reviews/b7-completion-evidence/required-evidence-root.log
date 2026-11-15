@@ -1,0 +1,6 @@
+Installed 6 packages in 18ms
+ok   The generated package contains fab.supplier_rules.
+ok   The full validator refuses the absent supplier-rule check.
+{"findings": [{"code": "pkg.check_missing", "file": "/tmp/fab-required-evidence-whrdrbot/project/out/fab/packages/required-evidence/manifest.json", "location": "/checks", "message": "The required check fab.supplier_rules is absent.", "severity": "error"}, {"code": "pkg.check_missing", "file": "/tmp/fab-required-evidence-whrdrbot/project/out/fab/packages/required-evidence/manifest.json", "location": "/checks", "message": "The required check fab.supplier_rules is absent.", "severity": "error"}], "validator_exit": 1}
+
+2/2 passed

@@ -167,6 +167,15 @@ artifact_checks:
       - {id: A2-set-mandatory-pending, kind: row_set_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], where: {status: pending, mandatory: true}, field: condition, value: [silk_line_min_short_text], base: run}
       - {id: A2-supplier-exit, kind: json_equals, path: out/fab/supplier/supplier-result.json, key: exit, value: 1, base: run}
       - {id: A2-package-absent, kind: absent, path: out/fab/package, base: run}
+      - {id: A2-row-via-status, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: service.via_construction_prohibited, field: status, value: pass, base: run}
+      - {id: A2-row-via-mandatory, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: service.via_construction_prohibited, field: mandatory, value: true, base: run}
+      - {id: A2-row-outline-status, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: process.outline_tool_compatibility, field: status, value: pass, base: run}
+      - {id: A2-row-outline-mandatory, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: process.outline_tool_compatibility, field: mandatory, value: true, base: run}
+      - {id: A2-row-cutout-status, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: process.cutout_tool_compatibility, field: status, value: pass, base: run}
+      - {id: A2-row-cutout-mandatory, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: process.cutout_tool_compatibility, field: mandatory, value: true, base: run}
+      - {id: A2-supplier-binding, kind: sha256_binding, path: out/fab/supplier/supplier-result.json, key: binding_sha256, reference: out/fab/supplier/supplier-binding.json, base: run}
+      - {id: A2-via-binding, kind: sha256_binding, path: out/fab/supplier/supplier-binding.json, json_path: [outputs, via-report.json], reference: out/fab/supplier/via-report.json, base: run}
+      - {id: A2-corner-binding, kind: sha256_binding, path: out/fab/supplier/supplier-binding.json, json_path: [outputs, corner-report.json], reference: out/fab/supplier/corner-report.json, base: run}
     # Fixture description. It is checked apart from the run outcome.
     fixture_expectations:
       - {id: A2-fixture-overall, kind: json_equals, path: status.json, key: overall, value: incomplete, base: fixture}

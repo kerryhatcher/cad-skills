@@ -227,7 +227,74 @@ def test_record_binding_fails_when_the_raw_file_changes(tmp: Path):
 
 
 ROW_IDS = {"A2-row-order-status", "A2-row-order-mandatory", "A2-row-silk-status", "A2-row-silk-mandatory",
-           "A2-set-mandatory-fail", "A2-set-mandatory-pending"}
+           "A2-set-mandatory-fail", "A2-set-mandatory-pending",
+           "A2-row-via-status", "A2-row-via-mandatory", "A2-row-outline-status", "A2-row-outline-mandatory",
+           "A2-row-cutout-status", "A2-row-cutout-mandatory"}
+
+
+def test_a2_new_rows_refuse_missing_or_changed_evidence(tmp: Path):
+    """The three new conditions must each occur once with pass status and a mandatory flag."""
+    conditions = {"via": "service.via_construction_prohibited",
+                  "outline": "process.outline_tool_compatibility", "cutout": "process.cutout_tool_compatibility"}
+    for short, condition in conditions.items():
+        for mutation in ("missing", "duplicate", "status", "mandatory"):
+            data = frozen_supplier()
+            row = next(r for r in data["rows"] if r["condition"] == condition)
+            if mutation == "missing":
+                data["rows"].remove(row)
+            elif mutation == "duplicate":
+                data["rows"].append(dict(row))
+            else:
+                row[mutation] = "fail" if mutation == "status" else False
+            result = a2_run_for(tmp / short / mutation, data)
+            field = mutation if mutation in ("status", "mandatory") else "status"
+            expect(f"A2-row-{short}-{field}" in failing_ids(result), "The changed condition passed.")
+
+
+def test_a2_new_reports_bind_the_produced_bytes(tmp: Path):
+    """The supplier binding must match the two produced report files."""
+    for report, identity in (("via-report.json", "A2-via-binding"), ("corner-report.json", "A2-corner-binding")):
+        fixture = copy_fixture("A2", tmp / identity)
+        _, run_root = roots_of("A2", fixture)
+        target = run_root / "out/fab/supplier" / report
+        target.write_bytes(target.read_bytes() + b" ")
+        result = run_a2_group(fixture, run_root, "expectations")
+        expect(identity in failing_ids(result), "The changed report passed its hash binding.")
+
+
+def test_hash_selectors_keep_key_and_nested_paths(tmp: Path):
+    """The hash comparison accepts a key or a nested path with an array index."""
+    digest = hashlib.sha256(b"owned evidence").hexdigest()
+    (tmp / "evidence.txt").write_bytes(b"owned evidence")
+    (tmp / "record.json").write_text(json.dumps({"hash": digest, "outputs": [{"hash": digest}]}))
+    common = {"id": "binding", "kind": "sha256_binding", "path": "record.json", "reference": "evidence.txt"}
+    for selector in ({"key": "hash"}, {"json_path": ["outputs", 0, "hash"]}):
+        expect(CA.run_checks([dict(common, **selector)], tmp)["all_pass"], "The valid hash selector failed.")
+
+
+def test_hash_selectors_refuse_invalid_forms(tmp: Path):
+    """An invalid selector or hash fails the comparison without an exception."""
+    (tmp / "evidence.txt").write_bytes(b"owned evidence")
+    (tmp / "record.json").write_text(json.dumps({"hash": "invalid", "null": None, "number": 3}))
+    common = {"id": "binding", "kind": "sha256_binding", "path": "record.json", "reference": "evidence.txt"}
+    selectors = [{}, {"key": "hash", "json_path": ["hash"]}, {"key": ""}, {"key": 4},
+                 {"json_path": []}, {"json_path": "hash"}, {"json_path": 2}, {"json_path": None},
+                 {"json_path": [True]}, {"json_path": [-1]}, {"json_path": [{}]},
+                 {"json_path": ["missing"]}, {"json_path": ["hash"]}, {"key": "null"}, {"key": "number"}]
+    for selector in selectors:
+        expect(not CA.run_checks([dict(common, **selector)], tmp)["all_pass"], "The invalid selector passed.")
+
+
+def test_nested_hash_reference_refuses_links_and_escape(tmp: Path):
+    """A nested hash comparison refuses a linked reference or an escaping reference."""
+    (tmp / "evidence.txt").write_bytes(b"owned evidence")
+    digest = hashlib.sha256(b"owned evidence").hexdigest()
+    (tmp / "record.json").write_text(json.dumps({"outputs": {"hash": digest}}))
+    (tmp / "link.txt").symlink_to(tmp / "evidence.txt")
+    for reference in ("link.txt", "../outside.txt"):
+        item = {"id": "binding", "kind": "sha256_binding", "path": "record.json",
+                "json_path": ["outputs", "hash"], "reference": reference}
+        expect(not CA.run_checks([item], tmp)["all_pass"], "The invalid reference passed.")
 
 
 def test_minimal_run_fails_the_row_expectations(tmp: Path):

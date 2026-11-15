@@ -1,0 +1,40 @@
+{
+  "board_record_sha256": "5db39340d5b4cfc52e7ee2fcc825cf3d3101aa1f3a5d413edddc9ef9435824d4",
+  "measurement": {
+    "board_sha256": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+    "copper_layers": [
+      "F.Cu",
+      "B.Cu"
+    ],
+    "vias": [
+      {
+        "bottom": "B.Cu",
+        "construction": "through",
+        "top": "F.Cu",
+        "uuid": "2ef3b910-7b1d-5ece-8898-a1004dc84af3"
+      },
+      {
+        "bottom": "B.Cu",
+        "construction": "through",
+        "top": "F.Cu",
+        "uuid": "5bccdeb7-881b-5267-8420-41cb886b2c15"
+      }
+    ]
+  },
+  "row": {
+    "condition": "service.via_construction_prohibited",
+    "declaration": "standard_through",
+    "interpretation": "The measured spans are through spans. The declared process is standard_through.",
+    "mandatory": true,
+    "method": "board_measurement_and_declaration",
+    "prohibited_spans": [],
+    "status": "pass",
+    "via_count": 2
+  },
+  "runtime": {
+    "image": "localhost/cad-skills-pcb:b6",
+    "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+    "kicad_version": "10.0.5"
+  },
+  "worker_sha256": "fa88ca2e4c41460cf1ab47e5d3f2e48bba3883d46629fc0be64b90e3a33c0dc3"
+}

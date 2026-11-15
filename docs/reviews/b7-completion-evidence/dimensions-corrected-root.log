@@ -1,0 +1,29 @@
+ok   The saved board measures 406.3 mm on width.
+ok   The supplier gives pass for board_max_width at 406.3 mm.
+{"board_sha256": "c052f75746f8a8ef7810f9490eeaf61d77015bf9489f0ec765e3666f74802344", "condition": "board_max_width", "design_exit": 0, "dimension_mm": "406.3", "row": {"condition": "board_max_width", "interpretation": "maximum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "pass"}, "supplier_exit": 1}
+ok   The saved board measures 406.4 mm on width.
+ok   The supplier gives pass for board_max_width at 406.4 mm.
+{"board_sha256": "ba9dedfa666c0decbe211c8d22a65d7fbc09c46ef632a3c3f45c07e7bcc23178", "condition": "board_max_width", "design_exit": 0, "dimension_mm": "406.4", "row": {"condition": "board_max_width", "interpretation": "maximum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "pass"}, "supplier_exit": 1}
+ok   The saved board measures 406.5 mm on width.
+ok   The supplier gives fail for board_max_width at 406.5 mm.
+{"board_sha256": "410ab52ca9d4eebf700354b2b6f429432a6d15f6c3ef02e789eb167ae9d78c6b", "condition": "board_max_width", "design_exit": 0, "dimension_mm": "406.5", "row": {"condition": "board_max_width", "interpretation": "maximum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "fail"}, "supplier_exit": 1}
+ok   The saved board measures 558.7 mm on height.
+ok   The supplier gives pass for board_max_height at 558.7 mm.
+{"board_sha256": "cad2aca96eb51d47522d81e562d719a38b793a95b99d158f0aaf9c7a9e9ba20b", "condition": "board_max_height", "design_exit": 0, "dimension_mm": "558.7", "row": {"condition": "board_max_height", "interpretation": "maximum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "pass"}, "supplier_exit": 1}
+ok   The saved board measures 558.8 mm on height.
+ok   The supplier gives pass for board_max_height at 558.8 mm.
+{"board_sha256": "02eb03340983238feb98539ddf52a506e79b0f55d7fa26f36db80078168679d7", "condition": "board_max_height", "design_exit": 0, "dimension_mm": "558.8", "row": {"condition": "board_max_height", "interpretation": "maximum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "pass"}, "supplier_exit": 1}
+ok   The saved board measures 558.9 mm on height.
+ok   The supplier gives fail for board_max_height at 558.9 mm.
+{"board_sha256": "60c7f26047d90da315f85a5e96f91554edf30f2d81ef167c9d7f45d9e12f2078", "condition": "board_max_height", "design_exit": 0, "dimension_mm": "558.9", "row": {"condition": "board_max_height", "interpretation": "maximum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "fail"}, "supplier_exit": 1}
+ok   The saved board measures 6.34 mm on width.
+ok   The supplier gives fail for board_min_edge at 6.34 mm.
+{"board_sha256": "0ecd39ecaa0ea0a3d352edabd64b702ab12bdda0ddcbb85b645be3832f63b637", "condition": "board_min_edge", "design_exit": 1, "dimension_mm": "6.34", "row": {"condition": "board_min_edge", "interpretation": "minimum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "fail"}, "supplier_exit": 1}
+ok   The saved board measures 6.35 mm on width.
+ok   The supplier gives pass for board_min_edge at 6.35 mm.
+{"board_sha256": "65df9518e505745d5d0777479991de37dade744159b0c7e2f1a3a5a4eccf517e", "condition": "board_min_edge", "design_exit": 1, "dimension_mm": "6.35", "row": {"condition": "board_min_edge", "interpretation": "minimum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "pass"}, "supplier_exit": 1}
+ok   The saved board measures 6.36 mm on width.
+ok   The supplier gives pass for board_min_edge at 6.36 mm.
+{"board_sha256": "bb3b157dcc3a613d13ff59db5f12b539a0bd57b7079e13f5b0ce64802680d368", "condition": "board_min_edge", "design_exit": 1, "dimension_mm": "6.36", "row": {"condition": "board_min_edge", "interpretation": "minimum outline dimension from the saved board", "mandatory": true, "method": "geometric_test", "status": "pass"}, "supplier_exit": 1}
+
+18/18 passed

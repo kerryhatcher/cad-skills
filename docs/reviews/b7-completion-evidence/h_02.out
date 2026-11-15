@@ -1,0 +1,5 @@
+rc 0 types ['clearance', 'via_dangling']
+clearance Clearance violation (rule 'supplier_min_space' clearance 0.1270 mm; actual 0.0984 mm) ['Via [GND] on F.Cu - B.Cu', 'Via [N1] on F.Cu - B.Cu']
+clearance Clearance violation (rule 'supplier_min_space' clearance 0.1270 mm; actual 0.0984 mm) ['Via [GND] on F.Cu - B.Cu', 'Via [N1] on F.Cu - B.Cu']
+clearance Clearance violation (rule 'supplier_min_space' clearance 0.1270 mm; actual 0.0984 mm) ['Via [GND] on F.Cu - B.Cu', 'Via [N1] on F.Cu - B.Cu']
+clearance Clearance violation (rule 'supplier_min_space' clearance 0.1270 mm; actual 0.0984 mm) ['Via [GND] on F.Cu - B.Cu', 'Via [N1] on F.Cu - B.Cu']

@@ -7,7 +7,7 @@
   "source_url": "https://docs.oshpark.com/services/four-layer/",
   "retrieved": "2026-11-14",
   "evidence_sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
-  "content_sha256": "babdd04284dfc2bc4c67fa6f25791ec2f6127e883f1a7f7a45d7685fe25a74bf",
+  "content_sha256": "3457b7e38696fc7e46f47d98851163adb50eef594d20922e1ca4f711c7f33f93",
   "units": "mil",
   "limits": {
     "board_max_height": {
@@ -192,6 +192,20 @@
         "sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
         "source_url": "https://docs.oshpark.com/services/four-layer/"
       }
+    },
+    "process.outline_cutter_diameter": {
+      "value": "0.068",
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/four-layer/",
+      "source_sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
+      "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
+    },
+    "process.cutout_cutter_diameter": {
+      "value": "0.040",
+      "unit": "in",
+      "source_url": "https://docs.oshpark.com/services/four-layer/",
+      "source_sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
+      "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
     }
   }
 }

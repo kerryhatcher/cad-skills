@@ -190,10 +190,26 @@ SKILL_PROFILE = ROOT / "skills" / "pcb-fab-package" / "supplier" / "profiles" / 
 
 
 def test_a2_project_inputs_match_the_accepted_template():
-    """Every template file is present in the fixture with the same bytes. Only out/fab is added."""
+    """The A2 inputs differ from the template only at the two specified records."""
     template = tree_hashes(TEMPLATE)
     fixture = {k: v for k, v in tree_hashes(A2 / "project").items() if not k.startswith("out/fab/")}
+    replacements = {"board.yaml", "manufacturing/supplier.yaml"}
+    for rel in replacements:
+        expect(rel in fixture and rel in template, f"The input {rel} is absent.")
+        fixture.pop(rel)
+        template.pop(rel)
     expect(fixture == template, "A2 project inputs differ from the accepted template")
+    profile = json.loads(A2_PROFILE.read_text(encoding="utf-8"))
+    expected = (TEMPLATE / "board.yaml").read_text(encoding="utf-8")
+    expected = expected.replace("  id: example-two-layer", "  id: oshpark-two-layer")
+    expected = expected.replace("  service: Example two-layer service", "  service: OSH Park two-layer service")
+    expected = expected.replace("  profile_sha256: b37b37495cbab698f921e7b229585ea890cefd7298f3615cd15cec02bb00fb77",
+                                f"  profile_sha256: {profile['content_sha256']}")
+    expected += "\nextensions:\n  fabrication:\n    via_process: standard_through\n"
+    expect((A2 / "project/board.yaml").read_text(encoding="utf-8") == expected,
+           "The board record differs from the specified profile and declaration replacements.")
+    expect((A2 / "project/manufacturing/supplier.yaml").read_bytes() == A2_PROFILE.read_bytes(),
+           "The project profile differs from the selected profile.")
 
 
 def test_a2_profile_copy_is_the_selected_profile():
