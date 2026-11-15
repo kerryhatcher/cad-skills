@@ -176,7 +176,175 @@ artifact_checks:
       - {id: A2-fixture-pending, kind: json_path_equals, path: status.json, json_path: [supplier, mandatory_pending], value: [silk_line_min_short_text], base: fixture}
   A3:
     skill: pcba-design
-    freshness: "hash binding of the output manifest to the source bytes (no timestamps)"
+    freshness: hash binding of the output manifest to the source bytes (no timestamps)
+    fixture_root: tests/eval/fixtures/artifacts/A3
+    run_root: tests/eval/fixtures/artifacts/A3/retained/pkg-standard
+    expectations:
+    - id: A3-manifest-status
+      kind: json_equals
+      path: manifest.json
+      base: run
+      key: status
+      value: unqualified
+    - id: A3-checks-fail
+      kind: row_set_equals
+      path: manifest.json
+      base: run
+      json_path:
+      - checks
+      where:
+        status: fail
+      field: id
+      value:
+      - design.drc
+      - asm.stock_dated
+    - id: A3-checks-unconfirmed
+      kind: row_set_equals
+      path: manifest.json
+      base: run
+      json_path:
+      - checks
+      where:
+        status: unconfirmed
+      field: id
+      value:
+      - fab.supplier_rules
+    - id: A3-checks-pass
+      kind: row_set_equals
+      path: manifest.json
+      base: run
+      json_path:
+      - checks
+      where:
+        status: pass
+      field: id
+      value:
+      - design.erc
+      - design.parity
+      - fab.profile_evidence
+      - fab.export_inventory
+      - fab.layer_order
+      - fab.drill_split
+      - asm.bom_consistent
+      - asm.placement_rotation
+      - asm.variant_agreement
+      - asm.test_record
+    - id: A3-checks-length
+      kind: length_equals
+      path: manifest.json
+      base: run
+      json_path:
+      - checks
+      value: 13
+    - id: A3-drc-status
+      kind: json_equals
+      path: evidence/design.drc.json
+      base: run
+      key: status
+      value: fail
+    - id: A3-drc-violations
+      kind: length_equals
+      path: reports/drc.json
+      base: run
+      json_path:
+      - violations
+      value: 15
+    - id: A3-drc-unconnected
+      kind: length_equals
+      path: reports/drc.json
+      base: run
+      json_path:
+      - unconnected_items
+      value: 16
+    - id: A3-stock-status
+      kind: json_equals
+      path: evidence/asm.stock_dated.json
+      base: run
+      key: status
+      value: fail
+    - id: A3-stock-rows
+      kind: row_set_equals
+      path: reports/assembly-neutral.json
+      base: run
+      json_path:
+      - stock
+      where:
+        status: fail
+      field: mpn
+      value:
+      - EX-LED-0603-G
+    - id: A3-supplier-rules
+      kind: json_equals
+      path: evidence/fab.supplier_rules.json
+      base: run
+      key: status
+      value: unconfirmed
+    - id: A3-sierra-qualification
+      kind: json_equals
+      path: reports/sierra-status.json
+      base: run
+      key: qualification
+      value: unqualified
+    - id: A3-sierra-export
+      kind: json_equals
+      path: reports/sierra-status.json
+      base: run
+      key: export_applicability
+      value: unconfirmed
+    - id: A3-physical-test-false
+      kind: json_equals
+      path: test/test-record.json
+      base: run
+      key: physical_test_passed
+      value: false
+    - id: A3-physical-test-items
+      kind: row_set_equals
+      path: test/test-record.json
+      base: run
+      json_path:
+      - items
+      where:
+        status: not measured
+      field: id
+      value:
+      - limit.supply_voltage
+      - hand-install.J1
+    - id: A3-physical-test-count
+      kind: length_equals
+      path: test/test-record.json
+      base: run
+      json_path:
+      - items
+      value: 2
+    - id: A3-board-binding
+      kind: sha256_binding
+      path: manifest.json
+      base: run
+      key: board_sha256
+      reference: standard-project/kicad/board.kicad_pcb
+      reference_base: fixture
+    - id: A3-outputs-binding
+      kind: row_binding
+      path: manifest.json
+      base: run
+      json_path:
+      - outputs
+      path_key: path
+      hash_key: sha256
+      size_key: size_bytes
+    - id: A3-outputs-length
+      kind: length_equals
+      path: manifest.json
+      base: run
+      json_path:
+      - outputs
+      value: 41
+    fixture_expectations:
+    - id: A3-fixture-board-hash
+      kind: sha256
+      path: standard-project/kicad/board.kicad_pcb
+      base: fixture
+      value: 3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e
 
 limits:
   routing_and_explicit:

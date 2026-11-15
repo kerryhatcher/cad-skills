@@ -22,6 +22,9 @@ Kinds:
 - row_set_equals: `json_path` names an array. `where` (a mapping of keys to values) selects rows. The
   values of `field` in the selected rows form the exact multiset `value`. A missing array, a non-object
   row and a missing field in a selected row fail.
+- length_equals: the array at `json_path` has the integer length `value`.
+- row_binding: each array row names a unique file through `path_key` and its hash through `hash_key`.
+  An optional `size_key` names the byte count. Missing, linked, escaping or mismatched files fail.
 - sha256_binding: `key`, `reference`, and an optional `reference_base`. Pass when the recorded hash in the
   manifest equals the current hash of the reference file. The reference base defaults to `base`.
 - record_binding: the record at `path` names `raw_file` and `raw_sha256`. Pass when the raw file has the
@@ -173,6 +176,36 @@ def _row_set_equals(item: dict, data) -> dict:
     return _result(item, same_json(actual, expected), f"selected={actual!r}")
 
 
+def _row_binding(item: dict, data, base: Path) -> dict:
+    """Compare each named output with its recorded hash and optional byte count."""
+    ok, rows = _array_at(data, item["json_path"])
+    if not ok or not rows:
+        return _result(item, False, "the output array is absent, invalid or empty")
+    seen = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            return _result(item, False, "an output row is not an object")
+        rel, recorded = row.get(item["path_key"]), row.get(item["hash_key"])
+        if not isinstance(rel, str) or not isinstance(recorded, str) or not HEX64.fullmatch(recorded):
+            return _result(item, False, "an output row has no valid path and hash")
+        target = resolve_under(base, rel)
+        if target is None:
+            return _refused(item, rel)
+        resolved = target.resolve()
+        if resolved in seen:
+            return _result(item, False, f"the output path {rel} repeats")
+        seen.add(resolved)
+        if not target.is_file():
+            return _result(item, False, f"the output {rel} is absent")
+        if sha256_file(target) != recorded:
+            return _result(item, False, f"the output hash differs for {rel}")
+        if "size_key" in item:
+            count = row.get(item["size_key"])
+            if type(count) is not int or target.stat().st_size != count:
+                return _result(item, False, f"the output byte count differs for {rel}")
+    return _result(item, True, f"{len(rows)} output bindings match")
+
+
 def check_one(item: dict, roots: dict) -> dict:
     kind = item["kind"]
     base_name = item.get("base", "fixture")
@@ -194,7 +227,7 @@ def check_one(item: dict, roots: dict) -> dict:
         actual = sha256_file(path)
         return _result(item, actual == item["value"], f"sha256={actual}")
     if kind in ("json_equals", "json_path_equals", "row_equals", "row_set_equals",
-                "sha256_binding", "record_binding"):
+                "sha256_binding", "record_binding", "length_equals", "row_binding"):
         ok, data = _load_json(path)
         if not ok:
             return _result(item, False, f"unreadable JSON: {data}")
@@ -215,6 +248,13 @@ def check_one(item: dict, roots: dict) -> dict:
         return _row_equals(item, data)
     if kind == "row_set_equals":
         return _row_set_equals(item, data)
+    if kind == "length_equals":
+        if type(item["value"]) is not int or item["value"] < 0:
+            raise ValueError("The expected length must be a nonnegative integer.")
+        ok, rows = _array_at(data, item["json_path"])
+        return _result(item, ok and len(rows) == item["value"], f"array length={len(rows) if ok else 'unavailable'}")
+    if kind == "row_binding":
+        return _row_binding(item, data, base)
     if kind == "sha256_binding":
         ref_base_name = item.get("reference_base", base_name)
         if ref_base_name not in roots:

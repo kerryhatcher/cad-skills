@@ -11,8 +11,8 @@ Every result here carries the label `mock`. A test uses project-authored fixture
 outputs, injected usage records and a held-cell stub. No result from these tests is provider
 evidence, and no result enters the release table (AC-16).
 
-The filesystem restriction and the sentinel boundary test are NOT implemented. They are recorded
-as incomplete, and authorization stays at zero (see test_mock_sentinel_boundary_stays_incomplete).
+The separate isolation suite measures the local stub boundary and its sentinel refusal.
+The authenticated provider route remains unmeasured. Authorization stays at zero.
 """
 
 from __future__ import annotations
@@ -36,7 +36,7 @@ import score as S  # noqa: E402
 
 MATRIX = C.load_matrix()
 LABEL = "mock"
-FREEZE = ROOT / "docs" / "reviews" / "b12-distribution-integration-freeze-r2-root.sha256"
+FREEZE = ROOT / "docs" / "reviews" / "b12-a3-connection-freeze-root.sha256"
 
 
 def skill(base: Path, name: str, description: str = "A fixture skill.") -> Path:

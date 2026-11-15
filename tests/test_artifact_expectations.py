@@ -2,7 +2,7 @@
 # requires-python = ">=3.10"
 # dependencies = ["pyyaml==6.0.3"]
 # ///
-"""Run the matrix expectations of A1 and A2 against the frozen fixture roots and their copies.
+"""Run the matrix expectations of A1, A2 and A3 against the frozen fixture roots and their copies.
 
   uv run tests/test_artifact_expectations.py            # all tests
   uv run tests/test_artifact_expectations.py a2         # only tests with 'a2' in their name
@@ -14,6 +14,7 @@ simulator. They call no provider and make no network call.
 from __future__ import annotations
 
 import json
+import hashlib
 import shutil
 import sys
 import tempfile
@@ -29,6 +30,7 @@ import check_artifacts as CA  # noqa: E402
 MATRIX = yaml.safe_load((ROOT / "tests" / "eval" / "matrix.yaml").read_text(encoding="utf-8"))
 A1_CHECK = MATRIX["artifact_checks"]["A1"]
 A2_CHECK = MATRIX["artifact_checks"]["A2"]
+A3_CHECK = MATRIX["artifact_checks"]["A3"]
 SUPPLIER = Path("out") / "fab" / "supplier" / "supplier-result.json"
 
 
@@ -316,6 +318,112 @@ def test_non_list_array_and_non_object_row_are_refused(tmp: Path):
     (tmp / "e.json").write_text(json.dumps({"rows": ["a", {"k": "a"}]}), encoding="utf-8")
     result = CA.run_checks(spec, tmp)
     expect(failing_ids(result) == {"as-dict", "row-scalar"}, f"a non-list or non-object row passed: {result}")
+
+
+def run_a3(fixture: Path) -> dict:
+    f, r = roots_of("A3", fixture)
+    return CA.run_checks(A3_CHECK["expectations"], f, r)
+
+
+def test_a3_frozen_package_and_copy_hashes():
+    """The A3 files match the accepted source copy list and all run expectations."""
+    fixture = ROOT / A3_CHECK["fixture_root"]
+    data = json.loads((fixture / "source-copy-hashes.json").read_text())
+    expect(len(data["files"]) == 59, "The A3 copy list must name 59 files.")
+    expect(len({row["path"] for row in data["files"]}) == 59, "The A3 copy list repeats a path.")
+    for row in data["files"]:
+        path = CA.resolve_under(fixture, row["path"])
+        expect(path is not None and path.is_file(), "An A3 copy path is absent or invalid.")
+        expect(hashlib.sha256(path.read_bytes()).hexdigest() == row["sha256"], f"The A3 copy differs: {row['path']}")
+    expect(run_a3(fixture)["all_pass"], f"The A3 expectations failed: {run_a3(fixture)}")
+    f, r = roots_of("A3", fixture)
+    expect(CA.run_checks(A3_CHECK["fixture_expectations"], f, r)["all_pass"], "The A3 input expectation failed.")
+
+
+def test_a3_minimal_manifest_does_not_pass(tmp: Path):
+    """A status-only manifest cannot substitute for the produced package."""
+    (tmp / "manifest.json").write_text('{"status":"unqualified"}')
+    fixture = ROOT / A3_CHECK["fixture_root"]
+    result = CA.run_checks(A3_CHECK["expectations"], fixture, tmp)
+    expect(not result["all_pass"] and "A3-outputs-binding" in failing_ids(result), "A minimal A3 run passed.")
+
+
+def test_a3_semantic_changes_fail_after_new_output_hashes(tmp: Path):
+    """A new file hash does not conceal an incorrect DRC count or physical pass."""
+    cases = [("reports/drc.json", "violations", [], "A3-drc-violations"),
+             ("test/test-record.json", "physical_test_passed", True, "A3-physical-test-false")]
+    for index, (rel, key, value, expected_id) in enumerate(cases):
+        fixture = copy_fixture("A3", tmp / str(index))
+        _, run = roots_of("A3", fixture)
+        path = run / rel
+        data = json.loads(path.read_text())
+        data[key] = value
+        path.write_text(json.dumps(data))
+        manifest = json.loads((run / "manifest.json").read_text())
+        row = next(row for row in manifest["outputs"] if row["path"] == rel)
+        row["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+        row["size_bytes"] = path.stat().st_size
+        (run / "manifest.json").write_text(json.dumps(manifest))
+        failed = failing_ids(run_a3(fixture))
+        expect(expected_id in failed and "A3-outputs-binding" not in failed, f"The semantic mutation escaped: {failed}")
+
+
+def test_a3_wrong_check_sets_fail(tmp: Path):
+    """The status sets must identify the expected checks, not only their counts."""
+    fixture = copy_fixture("A3", tmp)
+    _, run = roots_of("A3", fixture)
+    manifest = json.loads((run / "manifest.json").read_text())
+    row = next(row for row in manifest["checks"] if row["id"] == "design.drc")
+    row["id"] = "design.unknown"
+    (run / "manifest.json").write_text(json.dumps(manifest))
+    expect("A3-checks-fail" in failing_ids(run_a3(fixture)), "An incorrect failed-check set passed.")
+
+
+def test_a3_output_bindings_refuse_mutations(tmp: Path):
+    """Output bindings refuse byte drift, missing files, links, duplicate paths and incorrect counts."""
+    for mode in ("bytes", "missing", "link", "duplicate", "escape", "size", "bad-hash", "missing-key"):
+        fixture = copy_fixture("A3", tmp / mode)
+        _, run = roots_of("A3", fixture)
+        manifest = json.loads((run / "manifest.json").read_text())
+        row = manifest["outputs"][0]
+        path = run / row["path"]
+        if mode == "bytes":
+            path.write_bytes(path.read_bytes() + b"\n")
+        elif mode == "missing":
+            path.unlink()
+        elif mode == "link":
+            outside = tmp / "outside-copy"
+            outside.write_bytes(path.read_bytes())
+            path.unlink()
+            path.symlink_to(outside)
+        elif mode == "duplicate":
+            manifest["outputs"][1] = dict(row)
+        elif mode == "escape":
+            row["path"] = "../outside"
+        elif mode == "size":
+            row["size_bytes"] += 1
+        elif mode == "bad-hash":
+            row["sha256"] = True
+        else:
+            del row["path"]
+        (run / "manifest.json").write_text(json.dumps(manifest))
+        expect("A3-outputs-binding" in failing_ids(run_a3(fixture)), f"The output binding accepted {mode}.")
+
+
+def test_length_equals_refuses_missing_and_non_list_values(tmp: Path):
+    """A missing array and a non-list value cannot satisfy a length expectation."""
+    spec = [{"id": "length", "kind": "length_equals", "path": "data.json", "json_path": ["rows"], "value": 0}]
+    for data in ({}, {"rows": ""}, {"rows": {}}, {"rows": None}):
+        (tmp / "data.json").write_text(json.dumps(data))
+        expect(not CA.run_checks(spec, tmp)["all_pass"], f"An invalid array passed: {data}")
+
+
+def test_a3_board_binding_uses_the_fixture_board(tmp: Path):
+    """The package board hash must match the selected input board."""
+    fixture = copy_fixture("A3", tmp)
+    board = fixture / "standard-project/kicad/board.kicad_pcb"
+    board.write_bytes(board.read_bytes() + b"\n")
+    expect("A3-board-binding" in failing_ids(run_a3(fixture)), "A changed input board passed.")
 
 
 if __name__ == "__main__":

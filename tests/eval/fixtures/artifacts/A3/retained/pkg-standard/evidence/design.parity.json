@@ -1,0 +1,27 @@
+{
+  "artifact": {
+    "path": "reports/parity.json",
+    "sha256": "00a6e97509472ca0daff8360b3474402110f1709f5497346af2fd60a3f70c551"
+  },
+  "check_id": "design.parity",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e"
+    },
+    {
+      "path": "kicad/board.kicad_sch",
+      "sha256": "ff883a203f2b07864fe8c0e5a4e26d37afdd8a93a84ab1db1657c3f7c9f539ae"
+    }
+  ],
+  "method": "tool",
+  "notes": "pins=21 pads=21 mismatches=0",
+  "observed_on": "2026-11-15",
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "status": "pass",
+  "tool": {
+    "name": "kicad-cli",
+    "version": "10.0.5"
+  }
+}
