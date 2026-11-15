@@ -1,0 +1,159 @@
+{
+  "binding_sha256": "9aee15581cc7de6cfe7704206092d136d2bd460df2910568385f0eeb09a95894",
+  "design_binding": "079ed5399514650f70ea58e6c5b6070fd8dbd358e33d24b435361c94bc1c8b6b",
+  "effective": {
+    "board.kicad_dru": "a4a5a9a0ca074ca8beeb541cb92c5bd60d3d92d28dd127e2c76f1d5b1627a571",
+    "board.kicad_pro": "57352e7388d0443e13d5879c09000733625fd399d5975dbcb8cde32be315b763"
+  },
+  "exit": 1,
+  "manual": null,
+  "profile": "oshpark-two-layer",
+  "profile_sha256": "9f2da9b0e01dff82c3864b77297d32598c55040f3b7261c3e4423b4f81762690",
+  "rows": [
+    {
+      "condition": "edge_keepout",
+      "interpretation": "KiCad edge_clearance with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "min_annular_ring",
+      "interpretation": "KiCad annular_width with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "min_drill",
+      "interpretation": "KiCad hole_size with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "min_space",
+      "interpretation": "KiCad clearance with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "min_trace",
+      "interpretation": "KiCad track_width with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "board_min_edge",
+      "interpretation": "minimum outline dimension from the saved board",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "pass"
+    },
+    {
+      "condition": "board_max_width",
+      "interpretation": "maximum outline dimension from the saved board",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "pass"
+    },
+    {
+      "condition": "board_max_height",
+      "interpretation": "maximum outline dimension from the saved board",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "pass"
+    },
+    {
+      "condition": "min_slot_size",
+      "interpretation": "minor dimension of every drilled slot and record match",
+      "mandatory": true,
+      "method": "slot_inspection",
+      "status": "pass"
+    },
+    {
+      "condition": "mask_web_min",
+      "interpretation": "exact web distance of the exported mask flashes",
+      "mandatory": true,
+      "method": "mask_inspection",
+      "status": "pass"
+    },
+    {
+      "condition": "mask_web_min_top",
+      "interpretation": "exact web distance of the top mask flashes",
+      "mandatory": true,
+      "method": "mask_inspection",
+      "status": "pass"
+    },
+    {
+      "condition": "mask_web_min_bottom",
+      "interpretation": "exact web distance of the bottom mask flashes",
+      "mandatory": true,
+      "method": "mask_inspection",
+      "status": "pass"
+    },
+    {
+      "condition": "service.layers",
+      "interpretation": "copper layers of the saved board equal the service layer count",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "pass"
+    },
+    {
+      "condition": "service.order_multiple",
+      "interpretation": "order quantity 5 is a multiple of 3 (board record)",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "fail"
+    },
+    {
+      "condition": "silk_line_min_short_text",
+      "interpretation": "manual evidence is required before qualification",
+      "mandatory": true,
+      "method": "manual_evidence",
+      "status": "pending"
+    },
+    {
+      "condition": "silk_line_recommended",
+      "interpretation": "recommendation: reported, never a failure",
+      "mandatory": false,
+      "method": "manual_evidence",
+      "status": "finding"
+    },
+    {
+      "condition": "overlapping_drill_clearance",
+      "interpretation": "recommendation: reported, never a failure",
+      "mandatory": false,
+      "method": "manual_evidence",
+      "status": "finding"
+    }
+  ],
+  "runtime": {
+    "image": "localhost/cad-skills-pcb:b6",
+    "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+    "kicad_version": "10.0.5"
+  },
+  "schema_id": "pcb-fab-package/supplier-result",
+  "schema_version": 1,
+  "source_sha256": {
+    "board.yaml": "ca89b76156545fa36890a1552880bb49df977984f428433dd6205cfa62f741fd",
+    "kicad/board.kicad_dru": "absent",
+    "kicad/board.kicad_pcb": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+    "kicad/board.kicad_pro": "fa0616f9cd2c2d5f8f09754d4d7b7b46ebd6c12a500f16be095005c4bcfdc3ee",
+    "kicad/board.kicad_sch": "a0934ec606be522821ded5a3e7d31f4a9fa187452e1e8c5fa00afade0434d26c",
+    "manufacturing/export.yaml": "e9ae3ee89c0b088f7468e5d002a7f47967358f1b922443bcb09eed99b2c22235",
+    "manufacturing/supplier.yaml": "35ba04c61b4c95bb28a997205801597db363ea1ec0ff1a51fec09dc78b282609",
+    "manufacturing/waivers.yaml": "ea5bbc9e8d942845487a965c110f8a9cf95063cd7c0640c92d76a6145e617b53",
+    "mechanical/board-interface.json": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc",
+    "profile": "2aedaa0c8076b18005345bf0f56f97396121e1faae915152d5bfcf10a942ad87",
+    "toolchain.lock.json": "104e23fc50127689d6c94a8ffabd43c3ed3d23d4444e0173f5deeb5e508b8b79",
+    "variants.yaml": "e293a931f41f3b3181fa000ebf203c68a90feac2439b40820647b3f2614c1c3e"
+  }
+}

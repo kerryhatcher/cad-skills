@@ -1,0 +1,99 @@
+# Repository-level provenance manifest and distribution allowlist for supplier evidence.
+#
+# Authority: the supplier-profile content and evidence hashes, and the source-review record,
+# bind the supplier data. This file names URLs and expected hashes. It is not an approval record.
+# license_state is informational for local retrieval. Distribution is decided by the allowlist below.
+# A full supplier copy is excluded from release artifacts and public source. Local evidence is kept.
+
+schema: cad-skills/distribution
+schema_version: 1
+
+sources:
+  - id: sierra-xy-pdf
+    path: docs/reviews/sierra-source-evidence/xy.pdf
+    url: https://media.protoexpress.com/format-for-X-Y-data.pdf
+    url_state: "URL from b9-source-addendum-root.md. Bytes not verified against it (no supplier contact)"
+    retrieved: "2026-11-14T11:05Z"
+    sha256: eea02acc5362804e76e7586e62b7d8182284d9d35cc9e853103d8d76cc992590
+    content_type: application/pdf
+    magic: "%PDF"
+    license_state: "not measured"
+    distribution_decision: exclude-full-copy
+  - id: sierra-xy-headers
+    path: docs/reviews/sierra-source-evidence/xy.headers
+    url: https://media.protoexpress.com/format-for-X-Y-data.pdf
+    url_state: "URL from b9-source-addendum-root.md. Bytes not verified against it (no supplier contact)"
+    retrieved: "2026-11-14T11:05Z"
+    sha256: 72f985c4020143b46ce89d5dd3c79598f2ec8f87ef3c8eebcdf3c2b8c1a0c50a
+    content_type: text/plain
+    magic: null
+    license_state: "not measured"
+    distribution_decision: exclude-local-evidence
+  - id: sierra-xyrs-xlsx
+    path: docs/reviews/sierra-source-evidence/xyrs.xlsx
+    url: https://www.protoexpress.com/wp-content/uploads/2022/01/Sierra-XYRS-Template.xlsx
+    url_state: "URL from b9-source-addendum-root.md. Bytes not verified against it (no supplier contact)"
+    retrieved: "2026-11-14T11:09Z"
+    sha256: 8b3d93beec8ea96851a62e98f8d26e29f9cb85d0874304e9ab373d1d11c0ed93
+    content_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    magic: "PK\u0003\u0004"
+    license_state: "not measured"
+    distribution_decision: exclude-full-copy
+  - id: sierra-xyrs-headers
+    path: docs/reviews/sierra-source-evidence/xyrs.headers
+    url: https://www.protoexpress.com/wp-content/uploads/2022/01/Sierra-XYRS-Template.xlsx
+    url_state: "URL from b9-source-addendum-root.md. Bytes not verified against it (no supplier contact)"
+    retrieved: "2026-11-14T11:09Z"
+    sha256: 6b16a9098aad654dcde373fe2f28705e9d8b328b422c654e28575d17661ce1d6
+    content_type: text/plain
+    magic: null
+    license_state: "not measured"
+    distribution_decision: exclude-local-evidence
+  - id: sierra-turnkey-faq-html
+    path: docs/reviews/sierra-source-evidence/turnkey-faq.html
+    url: https://www.protoexpress.com/faq/turnkey-pro-pcbs/
+    retrieved: "2026-11-14T11:12Z"
+    sha256: 680bd9c7d8e647ad8ebae532ce1ec5e2ddc0fc6009187809f796abe2450dbd99
+    content_type: text/html
+    magic: markup
+    license_state: "not measured"
+    distribution_decision: exclude-full-copy
+  - id: sierra-turnkey-faq-headers
+    path: docs/reviews/sierra-source-evidence/turnkey-faq.headers
+    url: https://www.protoexpress.com/faq/turnkey-pro-pcbs/
+    retrieved: "2026-11-14T11:12Z"
+    sha256: e38cfd3d110a97a071c77b5d49291f06e682a56c995478d9a4160f1fb79f6eb2
+    content_type: text/plain
+    magic: null
+    license_state: "not measured"
+    distribution_decision: exclude-local-evidence
+  - id: sierra-bom-sample-xls
+    path: docs/reviews/sierra-source-evidence/BOM-Sample-and-Demo.xls
+    url: https://media.protoexpress.com/BOM-Sample-and-Demo.xls
+    url_state: "The official public GET ran at 2026-11-15T03:12:26Z. The resolved URL is the same. The GET grants no permission."
+    retrieved: "2026-11-15T03:12:26Z"
+    prior_retrieved: unknown
+    byte_count: 37376
+    sha256: 1b486a0a1da968e128cf109bd25e50837c99b5a8f83a490f748a1c1ccb1b769c
+    content_type: application/vnd.ms-excel
+    magic: OLE2
+    license_state: "The author did not assess reuse permission. The record claims no permission."
+    distribution_decision: exclude-full-copy
+
+# Files that a distribution may contain under the supplier paths. Everything else under
+# skills/*/supplier/ and docs/reviews/sierra-source-evidence/ is excluded.
+allowlist:
+  - skills/pcb-fab-package/sources.yaml
+  - skills/pcb-fab-package/supplier/profiles/*.yaml
+  - skills/pcb-fab-package/supplier/fetch_*.py
+  - docs/reviews/sierra-source-evidence/drill-probe.py
+  - docs/reviews/sierra-source-evidence/drill-probe.json
+
+# Regression exclusions. Each pattern must match no distributed file.
+excluded_patterns:
+  - skills/pcb-fab-package/supplier/pages/**
+  - docs/reviews/sierra-source-evidence/*.html
+  - docs/reviews/sierra-source-evidence/*.pdf
+  - docs/reviews/sierra-source-evidence/*.xlsx
+  - docs/reviews/sierra-source-evidence/*.headers
+  - docs/reviews/sierra-source-evidence/*.xls

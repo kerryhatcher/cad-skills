@@ -1,0 +1,12 @@
+{
+  "binding_sha256": "046b8ab1a87aee3bf3b790574bf65adff90598b395ccba8c584a0e689a4c539a",
+  "exit_code": 0,
+  "findings": [],
+  "operation": "drc",
+  "record": "pcb-design/result",
+  "status": "pass",
+  "tool_exit": 0,
+  "unwaived": [],
+  "version": "1",
+  "waived": []
+}

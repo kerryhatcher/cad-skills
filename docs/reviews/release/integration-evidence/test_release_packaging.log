@@ -1,0 +1,39 @@
+Command: uv run tests/test_release_packaging.py
+Installed 1 package in 2ms
+ok   test_real_manifest_fields_and_hashes
+ok   test_real_coverage_every_supplier_source_has_an_entry
+ok   test_real_distribution_excludes_supplier_copies
+ok   test_real_headers_are_excluded_as_local_evidence
+ok   test_real_fixtures_hold_no_supplier_bytes
+ok   test_real_allowlisted_profiles_are_project_authored_data
+ok   test_real_regression_without_exclusions_is_detected
+ok   test_real_no_acknowledgment_gate
+     fetch scripts: 0 (provisional packaging test)
+ok   test_real_fetch_scripts_are_provisional
+ok   test_fixture_entry_passes_when_bytes_match
+ok   test_fixture_changed_bytes_need_a_new_review
+ok   test_fixture_profile_binding_must_agree
+ok   test_fixture_magic_must_match_the_content_type
+ok   test_fixture_missing_required_field
+ok   test_fixture_unlisted_supplier_page_is_a_coverage_finding
+ok   test_fixture_supplier_bytes_in_a_fixture_are_a_finding
+ok   test_fixture_distribution_excludes_pages_and_local_evidence
+ok   test_fixture_unlisted_supplier_file_is_not_distributed
+ok   test_fixture_distributed_full_copy_is_d3
+ok   test_fixture_provisional_zero_fetch_scripts_is_not_a_finding
+ok   test_fixture_supplier_file_outside_pages_is_a_coverage_finding
+ok   test_fixture_entry_without_a_magic_key_is_a_finding
+ok   test_fixture_magic_null_is_refused_for_each_document_type
+ok   test_fixture_full_copy_at_an_unrelated_path_is_d3
+ok   test_fixture_project_authored_pdf_is_not_blocked_by_type
+ok   test_fixture_ole2_magic_accepts_the_prefix
+ok   test_fixture_ole2_magic_rejects_other_bytes
+ok   test_fixture_xls_null_magic_is_refused
+ok   test_fixture_skill_outside_repo_resolves_its_relative_binding
+ok   test_fixture_profile_link_and_escape_are_refused
+ok   test_fixture_symlinked_manifest_directory_is_refused
+ok   test_repository_manifest_relative_bindings_resolve_under_their_directory
+
+32/32 passed
+
+Exit: 0

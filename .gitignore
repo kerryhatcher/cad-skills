@@ -245,3 +245,6 @@ fp-info-cache
 *-backups/
 _autosave-*
 *.lck
+
+# Release harness run records (B12). Fixtures are tracked. Runs are local evidence.
+tests/eval/runs/

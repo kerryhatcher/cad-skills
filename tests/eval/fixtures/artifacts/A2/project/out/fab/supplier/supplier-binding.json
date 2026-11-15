@@ -1,0 +1,28 @@
+{
+  "design_binding_sha256": "9bd01c6bdb36e399a81081cac051bd7b7fe4b64d45ecef3de1d8622120e08946",
+  "manual": null,
+  "outputs": {
+    "mask-bottom.json": "d04703fbd5cf2cc810d587130f495199d40433ff88d9b59b464eab539e75c0d9",
+    "mask.json": "f2daf7ffd7a71e97e5bb47a2f52aae85ae3285b831698c73ae01ad877a23c8e5",
+    "slots.json": "1b0fcd69fbc8ba6483c2bbf20f73b326eec4f406f82041ecb2f88746b37f571d",
+    "supplier-drc.json": "3aa13c44c03f282c7ecb5f86c19a39a8a6e3e3c30c2100857451018062f36552",
+    "supplier.kicad_dru": "a4a5a9a0ca074ca8beeb541cb92c5bd60d3d92d28dd127e2c76f1d5b1627a571",
+    "supplier.kicad_pro": "57352e7388d0443e13d5879c09000733625fd399d5975dbcb8cde32be315b763"
+  },
+  "schema_id": "pcb-fab-package/supplier-binding",
+  "schema_version": 1,
+  "snapshot": {
+    "board.yaml": "ca89b76156545fa36890a1552880bb49df977984f428433dd6205cfa62f741fd",
+    "kicad/board.kicad_dru": "absent",
+    "kicad/board.kicad_pcb": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+    "kicad/board.kicad_pro": "fa0616f9cd2c2d5f8f09754d4d7b7b46ebd6c12a500f16be095005c4bcfdc3ee",
+    "kicad/board.kicad_sch": "a0934ec606be522821ded5a3e7d31f4a9fa187452e1e8c5fa00afade0434d26c",
+    "manufacturing/export.yaml": "e9ae3ee89c0b088f7468e5d002a7f47967358f1b922443bcb09eed99b2c22235",
+    "manufacturing/supplier.yaml": "35ba04c61b4c95bb28a997205801597db363ea1ec0ff1a51fec09dc78b282609",
+    "manufacturing/waivers.yaml": "ea5bbc9e8d942845487a965c110f8a9cf95063cd7c0640c92d76a6145e617b53",
+    "mechanical/board-interface.json": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc",
+    "profile": "2aedaa0c8076b18005345bf0f56f97396121e1faae915152d5bfcf10a942ad87",
+    "toolchain.lock.json": "104e23fc50127689d6c94a8ffabd43c3ed3d23d4444e0173f5deeb5e508b8b79",
+    "variants.yaml": "e293a931f41f3b3181fa000ebf203c68a90feac2439b40820647b3f2614c1c3e"
+  }
+}

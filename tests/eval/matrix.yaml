@@ -1,0 +1,204 @@
+# Fixed release evaluation matrix for B12 (revision 5).
+#
+# Three things stay separate: the schedule (what is planned), fixture readiness (what is frozen and
+# accepted), and authorization (what the lead allowed to dispatch). A cell reaches a provider only
+# when all three hold. Today no cell does: paid_batch_authorized is false.
+#
+# Counts are derived by tests/eval/common.py. The tests compare them with the accepted numbers.
+
+schema: cad-skills/release-matrix
+schema_version: 2
+
+skills:
+  - pcb-design        # includes the B11 mechanical exports. No separate mechanical skill.
+  - pcb-fab-package
+  - pcba-design
+
+hosts:
+  - id: P1
+    host: codex
+    version: "0.169.0"
+    assigned_model: "Luna, medium"
+    install_modes: [project, user, symlink]
+  - id: P2
+    host: claude-code
+    version: "2.1.325"
+    assigned_model: "Haiku 5.5"
+    install_modes: [project, user]   # symbolic links are not tested for Claude Code
+  - id: P3
+    host: pi
+    version: "1.5.2"
+    assigned_model: "DeepSeek V4.1 Flash"
+    provider_route: "OpenRouter"     # the direct DeepSeek API is not tested
+    install_modes: [project, user, symlink]
+
+routing:
+  repeats: 3
+  cases:
+    - {id: R1, name: direct task match, must_select: skill}
+    - {id: R2, name: neighboring skill boundary, must_select: the expected owner of the R2 task}
+    - {id: R3, name: unrelated CAD task, must_select: no PCB or PCBA skill}
+    - {id: R4, name: missing required input, must_select: skill, then a useful failure}
+    - {id: R5, name: missing required tool, must_select: skill, then a useful failure}
+    - {id: R6, name: supplier text with an unrelated instruction, must_select: skill, no unrelated action}
+
+# One R2 task for each target label. The task text is what the agent reads. The expected owner is
+# kept here and never appears in the prompt text (the harness tests this).
+r2_tasks:
+  - target: pcb-design
+    task: "Prepare a bare-board supplier package from this KiCad project."
+    expected_owner: pcb-fab-package
+  - target: pcb-fab-package
+    task: "Prepare assembly data for one variant of this KiCad project."
+    expected_owner: pcba-design
+  - target: pcba-design
+    task: "Change an electrical value in the schematic and board of this KiCad project."
+    expected_owner: pcb-design
+
+explicit:
+  repeats: 3
+  # Each host uses its own explicit form: $name (Codex), /name (Claude Code), /skill:name (Pi).
+  # An unsupported mode is recorded as not applicable, never as a pass.
+
+artifact:
+  runs_per_cell: 1        # one skill arm and one baseline arm for each skill and host
+  baseline: no-skill      # same prompt, fixture, host tools and limits. The skill package is absent
+
+compaction:
+  task: pcb-fab-package release action after forced compaction
+  skill: pcb-fab-package
+  runs_per_host: 1        # recorded as not exercised when a host does not compact
+
+isolation_modes:
+  # Routing installs all three candidate skills. The host chooses among them.
+  routing: all-three
+  # Artifact, explicit invocation and compaction install the one skill under test.
+  artifact: single-skill
+  explicit: single-skill
+  compaction: single-skill
+  # The baseline installs no skill. Its root holds none of the three.
+  baseline: none
+  # The 24 install checks use no provider call. A host that cannot report discovery locally marks
+  # that check unavailable. Paid install calls: 0.
+  install_checks: local-only
+
+# Prototype limit. The current harness does not restrict the filesystem. Repository files,
+# credentials and sibling skills stay readable to a host with shell access. The final standalone
+# test needs a measured filesystem restriction and a sentinel read check. It is not implemented yet.
+isolation_prototype_limit: "bwrap boundary measured locally with a repository sentinel; host adapters are local stubs; no provider run is isolated by this measurement"
+
+readiness:
+  # Lead decision: no paid batch is authorized. Dispatch is refused for every cell.
+  paid_batch_authorized: false
+  skills:
+    pcb-design: {integrated_accepted: false, routing_ready: false}
+    pcb-fab-package: {integrated_accepted: false, routing_ready: false}
+    pcba-design: {integrated_accepted: false, routing_ready: false}
+  # Artifact fixtures. A cell needs its fixture frozen and its dependencies accepted.
+  artifact_fixtures:
+    A1:
+      skill: pcb-design
+      fixture_candidate: "skills/pcb-design/examples/rc-edit (accepted native edit fixture, lead to confirm)"
+      depends_on: []            # not on B7/B8 runtime (root review R4)
+      frozen: false
+    A2:
+      skill: pcb-fab-package
+      fixture_candidate: "a complete valid KiCad input project (not yet selected)"
+      depends_on: [pcb-fab-package]
+      frozen: false
+    A3:
+      skill: pcba-design
+      fixture_candidate: "pending the PCBA implementation"
+      depends_on: [pcba-design]
+      frozen: false
+
+artifact_checks:
+  A1:
+    skill: pcb-design
+    freshness: "hash binding of the output manifest to the source bytes (no timestamps)"
+    fixture_root: tests/eval/fixtures/artifacts/A1
+    run_root: tests/eval/fixtures/artifacts/A1/after
+    expectations:
+      - {id: A1-exists-interface, kind: exists, path: mechanical/board-interface.json, base: run}
+      - {id: A1-exists-expect, kind: exists, path: expect/r2-value.json, base: run}
+      - {id: A1-exists-erc-result, kind: exists, path: out/reports/erc.result.json, base: run}
+      - {id: A1-exists-drc-result, kind: exists, path: out/reports/drc.result.json, base: run}
+      - {id: A1-exists-update-result, kind: exists, path: out/reports/update.result.json, base: run}
+      - {id: A1-exists-interface-result, kind: exists, path: out/reports/interface.result.json, base: run}
+      - {id: A1-exists-sim-result, kind: exists, path: out/reports/sim.result.json, base: run}
+      - {id: A1-exists-erc-binding, kind: exists, path: out/reports/erc.binding.json, base: run}
+      - {id: A1-exists-drc-binding, kind: exists, path: out/reports/drc.binding.json, base: run}
+      - {id: A1-exists-update-binding, kind: exists, path: out/reports/update.binding.json, base: run}
+      - {id: A1-exists-sim-binding, kind: exists, path: out/reports/sim.binding.json, base: run}
+      - {id: A1-erc-status, kind: json_equals, path: out/reports/erc.result.json, key: status, value: pass, base: run}
+      - {id: A1-drc-status, kind: json_equals, path: out/reports/drc.result.json, key: status, value: pass, base: run}
+      - {id: A1-sim-status, kind: json_equals, path: out/reports/sim.result.json, key: status, value: pass, base: run}
+      - {id: A1-update-state, kind: json_equals, path: out/reports/update.result.json, key: state, value: ready, base: run}
+      - {id: A1-update-identity, kind: json_equals, path: out/reports/update.result.json, key: identity, value: equal, base: run}
+      - {id: A1-prior-board, kind: sha256_binding, path: out/reports/interface.result.json, key: prior_board_sha256, reference: before/kicad/board.kicad_pcb, base: run, reference_base: fixture}
+      - {id: A1-expect-binding, kind: sha256_binding, path: out/reports/interface.result.json, key: expect_sha256, reference: out/reports/update.expect.json, base: run}
+      - {id: A1-interface-binding, kind: sha256_binding, path: out/reports/interface.result.json, key: interface_sha256, reference: mechanical/board-interface.json, base: run}
+      - {id: A1-raw-erc, kind: record_binding, path: out/reports/erc.binding.json, base: run}
+      - {id: A1-raw-drc, kind: record_binding, path: out/reports/drc.binding.json, base: run}
+      - {id: A1-raw-update, kind: record_binding, path: out/reports/update.binding.json, base: run}
+      - {id: A1-raw-sim, kind: record_binding, path: out/reports/sim.binding.json, base: run}
+      - {id: A1-sim-expected, kind: json_path_equals, path: simulations/assertions.json, json_path: [0, expected], value: 1.298, base: run}
+      - {id: A1-sim-tolerance, kind: json_path_equals, path: simulations/assertions.json, json_path: [0, tolerance], value: 0.01298, base: run}
+  A2:
+    skill: pcb-fab-package
+    freshness: "hash binding of the output manifest to the source bytes (no timestamps)"
+    image_tag: localhost/cad-skills-pcb:b6
+    image_id: b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f
+    image_digest: sha256:f0e90890954589c72f1fde8dd0ee14b83dd865c2c3f2bdfa5eaf4f117f77274e
+    # The image has two RepoDigests on the local host. Both are listed. The tag binds to the image ID.
+    repo_digests:
+      - sha256:e1b50b506fd1eb2b3d84e6c52affa01b0847417fa23e960b8042be93518ff8c3
+      - sha256:f0e90890954589c72f1fde8dd0ee14b83dd865c2c3f2bdfa5eaf4f117f77274e
+    kicad_cli: 10.0.5
+    fixture_root: tests/eval/fixtures/artifacts/A2
+    run_root: tests/eval/fixtures/artifacts/A2/project
+    # Run expectations. They read the produced supplier result under the run root.
+    expectations:
+      - {id: A2-row-order-status, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: service.order_multiple, field: status, value: fail, base: run}
+      - {id: A2-row-order-mandatory, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: service.order_multiple, field: mandatory, value: true, base: run}
+      - {id: A2-row-silk-status, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: silk_line_min_short_text, field: status, value: pending, base: run}
+      - {id: A2-row-silk-mandatory, kind: row_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], match_key: condition, match_value: silk_line_min_short_text, field: mandatory, value: true, base: run}
+      - {id: A2-set-mandatory-fail, kind: row_set_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], where: {status: fail, mandatory: true}, field: condition, value: [service.order_multiple], base: run}
+      - {id: A2-set-mandatory-pending, kind: row_set_equals, path: out/fab/supplier/supplier-result.json, json_path: [rows], where: {status: pending, mandatory: true}, field: condition, value: [silk_line_min_short_text], base: run}
+      - {id: A2-supplier-exit, kind: json_equals, path: out/fab/supplier/supplier-result.json, key: exit, value: 1, base: run}
+      - {id: A2-package-absent, kind: absent, path: out/fab/package, base: run}
+    # Fixture description. It is checked apart from the run outcome.
+    fixture_expectations:
+      - {id: A2-fixture-overall, kind: json_equals, path: status.json, key: overall, value: incomplete, base: fixture}
+      - {id: A2-fixture-package, kind: json_path_equals, path: status.json, json_path: [commands, package], value: "not run", base: fixture}
+      - {id: A2-fixture-review, kind: json_path_equals, path: status.json, json_path: [commands, review-source], value: "not run", base: fixture}
+      - {id: A2-fixture-fail, kind: json_path_equals, path: status.json, json_path: [supplier, mandatory_fail], value: [service.order_multiple], base: fixture}
+      - {id: A2-fixture-pending, kind: json_path_equals, path: status.json, json_path: [supplier, mandatory_pending], value: [silk_line_min_short_text], base: fixture}
+  A3:
+    skill: pcba-design
+    freshness: "hash binding of the output manifest to the source bytes (no timestamps)"
+
+limits:
+  routing_and_explicit:
+    turns: 10
+    wall_clock_seconds: 300
+    reported_tokens: 30000
+  artifact_baseline_compaction:
+    turns: 30
+    wall_clock_seconds: 1200
+    reported_tokens: 250000
+  batch:
+    scheduled_runs: 210
+    reported_tokens: 12000000
+    automatic_retries: 0
+
+accounting_note: >-
+  Tokens are host-reported. They are not provider billing and not a measure of all provider use.
+  Each dispatched run reserves its full ceiling before it starts. The batch stops before a run whose
+  reserve does not fit. A started request is not cut off, so its overrun is recorded. A missing count
+  is unavailable and is charged at the full ceiling. Wall-clock time is measured by the harness.
+  Turn limits depend on the host adapter, and no adapter exists in this revision.
+
+fixtures:
+  pcb-design: tests/fixtures/pcb-design
+  pcb-fab-package: tests/fixtures/pcb-fab-package

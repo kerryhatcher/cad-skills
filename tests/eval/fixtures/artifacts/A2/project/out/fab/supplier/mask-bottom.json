@@ -1,0 +1,24 @@
+{
+  "counts": {
+    "fail": 0,
+    "merged_opening": 0,
+    "pass": 3,
+    "uncertain": 0
+  },
+  "error_bound_basis": "derived from 6-decimal Gerber coordinates, not measured",
+  "error_bound_mm": 3e-06,
+  "exit": 0,
+  "flashes": 4,
+  "gerber_sha256": "f08f4f1ca4f1d99284b0c838e9256fc5b3f2f1be42b63499a10615ffe664d79e",
+  "limit_mil": 4.0,
+  "limit_mm": 0.1016,
+  "listed_pairs": [],
+  "minimum_pair": [
+    1,
+    2
+  ],
+  "minimum_web_mm": 0.840000000000012,
+  "pair_checks": 3,
+  "result": "pass",
+  "time_limit_seconds": 2.0
+}
