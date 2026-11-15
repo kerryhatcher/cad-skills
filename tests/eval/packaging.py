@@ -46,7 +46,9 @@ SKILLS_ROOT = "skills"
 
 def _is_supplier_path(rel: str) -> bool:
     """A path under any skill's supplier directory, or under the Sierra evidence directory."""
-    return "/supplier/" in f"/{rel}" or rel.startswith("docs/reviews/sierra-source-evidence/")
+    parts = Path(rel).parts
+    skill_source = len(parts) >= 4 and parts[0] == "skills" and parts[2] == "supplier"
+    return skill_source or rel.startswith("docs/reviews/sierra-source-evidence/")
 
 
 def merged_distribution(root: Path, distribution: dict) -> dict:

@@ -35,13 +35,39 @@ from common import sha256_bytes  # noqa: E402
 PCB_FAB = ROOT / "skills" / "pcb-fab-package"
 
 
-def tracked_files() -> list[str]:
-    out = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, check=True)
-    return [line for line in out.stdout.splitlines() if line]
+def tracked_files(root: Path = ROOT) -> list[str]:
+    """List tracked files and untracked files that Git does not ignore."""
+    out = subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+                         cwd=root, capture_output=True, text=True, check=True)
+    return sorted(set(path for path in out.stdout.split("\0") if path))
+
+
+def test_untracked_supplier_file_enters_distribution_check(tmp: Path):
+    """The candidate set includes an untracked supplier file before a commit."""
+    subprocess.run(["git", "init", "-q", str(tmp)], check=True)
+    path = "skills/demo/supplier/unlisted.txt"
+    write(tmp / path, b"Project-authored fixture bytes.\n")
+    candidates = tracked_files(tmp)
+    if path not in candidates:
+        raise AssertionError("The candidate set omitted the untracked supplier file.")
+    distributed, _ = P.build_distribution(candidates, {"sources": [], "allowlist": [], "excluded_patterns": []})
+    if "D-6" not in codes(P.check_distribution(distributed, {"sources": [], "allowlist": []}, root=tmp)):
+        raise AssertionError("The distribution check accepted an unlisted supplier file.")
 
 
 def real_distribution() -> dict:
     return P.merged_distribution(ROOT, P.load_yaml(ROOT / "tests" / "eval" / "distribution.yaml"))
+
+
+def test_project_supplier_outputs_are_not_supplier_source_paths(tmp: Path):
+    """The path classifier separates project outputs from supplier sources."""
+    fixture = "tests/eval/fixtures/artifacts/A2/project/out/fab/supplier/supplier-result.json"
+    source = "skills/pcb-fab-package/supplier/pages/unlisted.html"
+    if P._is_supplier_path(fixture) or not P._is_supplier_path(source):
+        raise AssertionError("The path classifier confused project outputs and supplier sources.")
+    found = P.check_distribution([fixture, source], {"sources": [], "allowlist": []})
+    if [(item["code"], item["file"]) for item in found] != [("D-6", source)]:
+        raise AssertionError("The unlisted supplier source did not give the sole D-6 finding.")
 
 
 def write(path: Path, data: bytes) -> None:

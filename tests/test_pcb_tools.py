@@ -1306,6 +1306,14 @@ def test_evidence_qualification(tmp: Path):
     project, pkg, m = fresh("parts")
     rewrite_evidence(pkg, "asm.bom_consistent", lambda r: r.update(inputs=[i for i in r["inputs"] if i["path"] != "components/part.yaml"]))
     assert codes_of(project, pkg)[1] == ["pkg.check_input_role_missing"], "a missing assembly input role"
+    project, pkg, m = fresh("bom-policy")
+    profile_path = item_of(m, "supplier_profile", section="inputs")["path"]
+    rewrite_evidence(pkg, "asm.bom_consistent", lambda r: r.update(inputs=[i for i in r["inputs"] if i["path"] != profile_path]))
+    assert codes_of(project, pkg)[1] == ["pkg.check_input_role_missing"], "The BOM evidence omits the supplier policy."
+    project, pkg, m = fresh("test-limit-source")
+    board_path = item_of(m, "board_record", section="inputs")["path"]
+    rewrite_evidence(pkg, "asm.test_record", lambda r: r.update(inputs=[i for i in r["inputs"] if i["path"] != board_path]))
+    assert codes_of(project, pkg)[1] == ["pkg.check_input_role_missing"], "The test evidence omits the board limits."
     project, pkg, m = fresh("only-board")
     rewrite_evidence(pkg, "design.erc", lambda r: r.update(inputs=[{"path": "kicad/board.kicad_pcb", "sha256": item_of(m, "board", section="inputs")["sha256"]}]))
     assert codes_of(project, pkg)[1] == ["pkg.check_input_role_missing"], "ERC evidence with only the board"
@@ -1596,7 +1604,7 @@ def test_workflow_permissions(tmp: Path):
     flow = V.load_record(ROOT / ".github/workflows/test.yml")
     assert flow["permissions"] == {"contents": "read"}, flow.get("permissions")
     assert "on" in flow, "the loader keeps the key `on` as a string"
-    assert set(flow["jobs"]) == {"pcb-contracts", "snippets"}
+    assert set(flow["jobs"]) == {"pcb-contracts", "snippets", "release-static"}
     text = (ROOT / ".github/workflows/test.yml").read_text()
     assert "continue-on-error" not in text and "|| true" not in text
     for name, job in flow["jobs"].items():
@@ -1610,6 +1618,9 @@ def test_workflow_permissions(tmp: Path):
     cache = " ".join(str(s.get("with", {}).get("cache-dependency-glob", "")) for s in flow["jobs"]["pcb-contracts"]["steps"])
     assert "contracts/**/*.py" in cache and "tests/**/*.py" in cache
     assert "contracts/**/*.py" in " ".join(str(s.get("with", {}).get("cache-dependency-glob", "")) for s in flow["jobs"]["snippets"]["steps"])
+    release_steps = " ".join(str(s.get("run", "")) for s in flow["jobs"]["release-static"]["steps"])
+    for command in ("tests/test_release_packaging.py", "tests/test_release_harness.py"):
+        assert command in release_steps, command
     assert "docker" not in text and "podman" not in text, "B234 has no container job"
 
 

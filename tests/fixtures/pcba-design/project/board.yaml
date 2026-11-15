@@ -1,0 +1,34 @@
+schema_id: cad-skills/board
+schema_version: "1.0"
+name: pcba-neutral-fixture
+circuit_source: kicad_native
+assembly: pcba
+supplier:
+  id: sierra-turnkey-pro
+  service: Turnkey PRO
+  profile_sha256: "ce127e1555325d8363f9de14b133b47c6fe81513728c86db4e522ede477a011c"
+quantity: 5
+variant: base
+electrical_limits:
+  supply_voltage:
+    value: 5.0
+    unit: V
+mechanical:
+  width_mm: 60.0
+  height_mm: 60.0
+  thickness_mm: 1.6
+coordinate_system:
+  units: mm
+  origin:
+    x_mm: 0
+    y_mm: 0
+  x_axis: right
+  y_axis: up
+release_revision: A
+restrictions:
+  - text: The board has no export-controlled function.
+    source: Project statement, 2026-11-13
+extensions:
+  pcba:
+    stock:
+      max_age_days: 30
