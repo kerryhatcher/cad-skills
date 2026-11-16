@@ -1,0 +1,15 @@
+{
+  "footprints_compared": 7,
+  "unread_changes": [
+    {
+      "ref": "R1",
+      "form": "attr",
+      "before": [
+        "(attr smd)"
+      ],
+      "after": [
+        "(attr smd dnp)"
+      ]
+    }
+  ]
+}

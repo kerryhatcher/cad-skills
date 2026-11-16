@@ -1,0 +1,88 @@
+{
+  "label": "footprint-r1-replace-off_r2",
+  "netlist": "/work/out/net/footprint-r1/trial.net",
+  "netlist_sha256": "9e23244db4cfee9c2b412fb72ce32480033a6612d2a2fb6ac33e063381e5aeab",
+  "options_requested": {
+    "link": "tstamp",
+    "replace": "off",
+    "delete": "off"
+  },
+  "pcb_before": {
+    "sha256": "48b9374bb2c189bd0899dfc077a57ec0042e3badef90bddb0f02327e43642a32",
+    "mtime_ns": 1794841734081589057
+  },
+  "windows": {
+    "after_start": [
+      "kicad",
+      "trial \u2014 KiCad 10.0"
+    ],
+    "dialog_open": [
+      "Import Netlist",
+      "kicad",
+      "trial \u2014 KiCad 10.0",
+      "trial \u2014 PCB Editor"
+    ],
+    "after_update": [
+      "*trial \u2014 PCB Editor",
+      "Import Netlist",
+      "kicad",
+      "trial \u2014 KiCad 10.0"
+    ],
+    "after_save": [
+      "kicad",
+      "trial \u2014 KiCad 10.0",
+      "trial \u2014 PCB Editor"
+    ]
+  },
+  "shots": [
+    "out/shots/footprint-r1-replace-off_r2/01_options.png",
+    "out/shots/footprint-r1-replace-off_r2/02_loaded.png",
+    "out/shots/footprint-r1-replace-off_r2/03_updated.png",
+    "out/shots/footprint-r1-replace-off_r2/04_saved.png"
+  ],
+  "first_run_setup": "dismissed with Escape and Return (default settings)",
+  "options_measured": {
+    "link_tstamp": {
+      "default": true,
+      "before": true,
+      "after": true
+    },
+    "delete": {
+      "default": false,
+      "before": false,
+      "after": false
+    },
+    "replace": {
+      "default": true,
+      "before": true,
+      "after": false
+    },
+    "group": {
+      "default": true,
+      "before": true,
+      "after": true
+    },
+    "locked": {
+      "default": false,
+      "before": false,
+      "after": false
+    },
+    "delete_shorting_tracks": {
+      "default": false,
+      "before": false,
+      "after": false
+    }
+  },
+  "editor_title_before_save": "*trial \u2014 PCB Editor",
+  "editor_title_after_save": "trial \u2014 PCB Editor",
+  "kicad_exit": {
+    "state": "exited",
+    "code": 0
+  },
+  "pcb_after": {
+    "sha256": "ef2862702f0c24578dbf77e6806346eac32889c02101e29820449824f1fa4e58",
+    "mtime_ns": 1794841780032231089
+  },
+  "pcb_saved": true,
+  "pcb_changed": true
+}

@@ -1,0 +1,12 @@
+{
+  "differences": [
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "D1",
+      "field": "path",
+      "before": "/730dc923-5f42-5190-a58b-2dbed3a5d5b0",
+      "after": null
+    }
+  ]
+}

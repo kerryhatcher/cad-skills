@@ -548,6 +548,8 @@ SKiDL schematic generation produced incorrect connectivity in three of four succ
 
 Tagged SKiDL netlists retained identical bytes across the measured runs. The netlist import consumed a test part and passed one no-edit update. It did not complete the full edit tests. Keep that path experimental. Do not infer support from stable netlist identities alone.
 
+Update 2026-11-16: the U3 edit tests are complete for the tstamp link method. All edits passed the gate two times. The [U3 record](reviews/u3-netlist-edits-claude.md) lists two open conditions: the `SKiDL Line` field, and the `attr` form that the identity reader does not read. The path stays experimental until the lead decides.
+
 The saved board plot settings override some Gerber CLI flags. The neutral export procedure must set no drill marks and disable X2 and net attributes. Test the effective output against the contract. Test layer identity from each file, not its name alone. Retain the earlier outputs and regenerate the board-bound reports after the correction.
 
 The native final board passed ERC, DRC, and schematic parity in independent reviewer runs. The fixed RC assertion passed at 2.0860 V and failed at 1.2054 V with the incorrect capacitor. These results do not establish supplier qualification or physical circuit performance. The package remains a draft.
