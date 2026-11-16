@@ -1,0 +1,144 @@
+{
+  "differences": [
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "C1",
+      "field": "properties",
+      "before": {
+        "Datasheet": "",
+        "Description": "Unpolarized capacitor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:56",
+        "SKiDL Tag": "C1"
+      },
+      "after": {
+        "Datasheet": "",
+        "Description": "Unpolarized capacitor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "C1"
+      }
+    },
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "D1",
+      "field": "properties",
+      "before": {
+        "Datasheet": "",
+        "Description": "Light emitting diode",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:56",
+        "SKiDL Tag": "D1"
+      },
+      "after": {
+        "Datasheet": "",
+        "Description": "Light emitting diode",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "D1"
+      }
+    },
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "J1",
+      "field": "properties",
+      "before": {
+        "Datasheet": "",
+        "Description": "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)",
+        "KiLib_Generator": "connector/pin_header_socket",
+        "SKiDL Line": "circuit_u3.py:56",
+        "SKiDL Tag": "J1"
+      },
+      "after": {
+        "Datasheet": "",
+        "Description": "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)",
+        "KiLib_Generator": "connector/pin_header_socket",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "J1"
+      }
+    },
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "MH1",
+      "field": "properties",
+      "before": {
+        "Datasheet": "",
+        "Description": "Mounting Hole without connection",
+        "KiLib_Generator": "mounting_hardware/mounting_hole",
+        "SKiDL Line": "circuit_u3.py:56",
+        "SKiDL Tag": "MH1"
+      },
+      "after": {
+        "Datasheet": "",
+        "Description": "Mounting Hole without connection",
+        "KiLib_Generator": "mounting_hardware/mounting_hole",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "MH1"
+      }
+    },
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "MH2",
+      "field": "properties",
+      "before": {
+        "Datasheet": "",
+        "Description": "Mounting Hole without connection",
+        "KiLib_Generator": "mounting_hardware/mounting_hole",
+        "SKiDL Line": "circuit_u3.py:56",
+        "SKiDL Tag": "MH2"
+      },
+      "after": {
+        "Datasheet": "",
+        "Description": "Mounting Hole without connection",
+        "KiLib_Generator": "mounting_hardware/mounting_hole",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "MH2"
+      }
+    },
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "R1",
+      "field": "properties",
+      "before": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:56",
+        "SKiDL Tag": "R1"
+      },
+      "after": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "R1"
+      }
+    },
+    {
+      "op": "changed",
+      "class": "footprint",
+      "ident": "R2",
+      "field": "properties",
+      "before": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:56",
+        "SKiDL Tag": "R2"
+      },
+      "after": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "R2"
+      }
+    }
+  ]
+}

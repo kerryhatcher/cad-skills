@@ -1,0 +1,12 @@
+{
+  "components": 6,
+  "pins": 8,
+  "findings": [
+    {
+      "kind": "extra_footprint",
+      "ref": "D1",
+      "path": null
+    }
+  ],
+  "status": "fail"
+}
