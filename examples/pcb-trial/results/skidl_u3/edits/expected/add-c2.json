@@ -1,0 +1,15 @@
+{
+  "differences": [
+    {
+      "op": "added",
+      "class": "footprint",
+      "ident": "C2",
+      "lib_id": "Capacitor_SMD:C_0603_1608Metric",
+      "value": "100n",
+      "pad_nets": {
+        "1": "N_RC",
+        "2": "GND"
+      }
+    }
+  ]
+}

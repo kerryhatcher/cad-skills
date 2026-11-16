@@ -1,0 +1,64 @@
+{
+  "expected": 0,
+  "missing": [],
+  "observed": 7,
+  "status": "different",
+  "unexpected": [
+    {
+      "after": "{\"Datasheet\": \"\", \"Description\": \"Mounting Hole without connection\", \"KiLib_Generator\": \"mounting_hardware/mounting_hole\", \"SKiDL Line\": \"circuit_u3.py:56\", \"SKiDL Tag\": \"MH2\"}",
+      "before": "{\"Datasheet\": \"~\", \"Description\": \"\", \"KiLib_Generator\": \"mounting_hardware/mounting_hole\", \"ki_fp_filters\": \"MountingHole*\"}",
+      "class": "footprint",
+      "field": "properties",
+      "ident": "MH2",
+      "op": "changed"
+    },
+    {
+      "after": "{\"Datasheet\": \"\", \"Description\": \"Unpolarized capacitor\", \"KiLib_Generator\": \"SMD_2terminal_chip_molded\", \"SKiDL Line\": \"circuit_u3.py:56\", \"SKiDL Tag\": \"C1\"}",
+      "before": "{\"Datasheet\": \"~\", \"Description\": \"\", \"KiLib_Generator\": \"SMD_2terminal_chip_molded\", \"ki_fp_filters\": \"C_*\"}",
+      "class": "footprint",
+      "field": "properties",
+      "ident": "C1",
+      "op": "changed"
+    },
+    {
+      "after": "{\"Datasheet\": \"\", \"Description\": \"Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)\", \"KiLib_Generator\": \"connector/pin_header_socket\", \"SKiDL Line\": \"circuit_u3.py:56\", \"SKiDL Tag\": \"J1\"}",
+      "before": "{\"Datasheet\": \"~\", \"Description\": \"\", \"KiLib_Generator\": \"connector/pin_header_socket\", \"ki_fp_filters\": \"Connector*:*_1x??_*\"}",
+      "class": "footprint",
+      "field": "properties",
+      "ident": "J1",
+      "op": "changed"
+    },
+    {
+      "after": "{\"Datasheet\": \"\", \"Description\": \"Light emitting diode\", \"KiLib_Generator\": \"SMD_2terminal_chip_molded\", \"SKiDL Line\": \"circuit_u3.py:56\", \"SKiDL Tag\": \"D1\"}",
+      "before": "{\"Datasheet\": \"~\", \"Description\": \"\", \"KiLib_Generator\": \"SMD_2terminal_chip_molded\", \"ki_fp_filters\": \"LED* LED_SMD:* LED_THT:*\"}",
+      "class": "footprint",
+      "field": "properties",
+      "ident": "D1",
+      "op": "changed"
+    },
+    {
+      "after": "{\"Datasheet\": \"\", \"Description\": \"Mounting Hole without connection\", \"KiLib_Generator\": \"mounting_hardware/mounting_hole\", \"SKiDL Line\": \"circuit_u3.py:56\", \"SKiDL Tag\": \"MH1\"}",
+      "before": "{\"Datasheet\": \"~\", \"Description\": \"\", \"KiLib_Generator\": \"mounting_hardware/mounting_hole\", \"ki_fp_filters\": \"MountingHole*\"}",
+      "class": "footprint",
+      "field": "properties",
+      "ident": "MH1",
+      "op": "changed"
+    },
+    {
+      "after": "{\"Datasheet\": \"\", \"Description\": \"Resistor\", \"KiLib_Generator\": \"SMD_2terminal_chip_molded\", \"SKiDL Line\": \"circuit_u3.py:56\", \"SKiDL Tag\": \"R1\"}",
+      "before": "{\"Datasheet\": \"~\", \"Description\": \"\", \"KiLib_Generator\": \"SMD_2terminal_chip_molded\", \"ki_fp_filters\": \"R_*\"}",
+      "class": "footprint",
+      "field": "properties",
+      "ident": "R1",
+      "op": "changed"
+    },
+    {
+      "after": "{\"Datasheet\": \"\", \"Description\": \"Resistor\", \"KiLib_Generator\": \"SMD_2terminal_chip_molded\", \"SKiDL Line\": \"circuit_u3.py:56\", \"SKiDL Tag\": \"R2\"}",
+      "before": "{\"Datasheet\": \"~\", \"Description\": \"\", \"KiLib_Generator\": \"SMD_2terminal_chip_molded\", \"ki_fp_filters\": \"R_*\"}",
+      "class": "footprint",
+      "field": "properties",
+      "ident": "R2",
+      "op": "changed"
+    }
+  ]
+}

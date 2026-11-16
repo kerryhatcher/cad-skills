@@ -1,0 +1,402 @@
+{
+  "arcs": {
+    "aaaaaaaa-0000-4000-8000-0000000000a1": {
+      "end": [
+        103,
+        105
+      ],
+      "layer": "F.Cu",
+      "mid": [
+        102,
+        106
+      ],
+      "net": "VIN",
+      "start": [
+        101,
+        105
+      ],
+      "width": "0.25"
+    }
+  },
+  "footprints": {
+    "08c54896-7883-43bb-a877-ca6814293f33": {
+      "at": [
+        137,
+        122,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "MountingHole:MountingHole_3.2mm_M3",
+      "pads": {
+        "": {
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "net": null,
+          "uuid": "8d816047-18da-49a7-8afe-0fb9762dec3b"
+        }
+      },
+      "path": "/83e8fc2a-6d4b-5508-b460-0ec52c99fd3e",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Mounting Hole without connection",
+        "KiLib_Generator": "mounting_hardware/mounting_hole",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "MH2"
+      },
+      "reference": "MH2",
+      "value": "M3"
+    },
+    "10958b08-0202-4376-9637-a4609fa0208f": {
+      "at": [
+        125,
+        118,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Capacitor_SMD:C_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.775,
+            0,
+            0
+          ],
+          "net": "N_RC",
+          "uuid": "b2f08f50-85fb-43e3-b7e4-75ec36ca637e"
+        },
+        "2": {
+          "at": [
+            0.775,
+            0,
+            0
+          ],
+          "net": "GND",
+          "uuid": "3efa69b9-b8f4-41d5-88e9-fdf252a72962"
+        }
+      },
+      "path": "/b514d237-c153-5f6d-afe2-53badf97a864",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Unpolarized capacitor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "C1"
+      },
+      "reference": "C1",
+      "value": "100n"
+    },
+    "4a54cd2e-ad47-49d3-8623-409a55316643": {
+      "at": [
+        105,
+        112.5,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "pads": {
+        "1": {
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "0a3d55ec-2499-40a4-9f20-3cc542744d14"
+        },
+        "2": {
+          "at": [
+            0,
+            2.54,
+            0
+          ],
+          "net": "GND",
+          "uuid": "17545fd4-f85e-4452-80b6-9aca05956410"
+        }
+      },
+      "path": "/d7608689-a7d2-514c-aa16-0f8bde5cf213",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)",
+        "KiLib_Generator": "connector/pin_header_socket",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "J1"
+      },
+      "reference": "J1",
+      "value": "Power"
+    },
+    "4b40f9a3-a36b-401f-934b-c5bfce32e707": {
+      "at": [
+        125,
+        106,
+        180
+      ],
+      "layer": "F.Cu",
+      "lib_id": "LED_SMD:LED_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.7875,
+            0,
+            0
+          ],
+          "net": "GND",
+          "uuid": "420a7152-f1e5-40e5-95e0-9c5eb3687f39"
+        },
+        "2": {
+          "at": [
+            0.7875,
+            0,
+            0
+          ],
+          "net": "N_LED",
+          "uuid": "2b1e0843-7edb-4521-985e-a9ae597ce807"
+        }
+      },
+      "path": "/730dc923-5f42-5190-a58b-2dbed3a5d5b0",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Light emitting diode",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "D1"
+      },
+      "reference": "D1",
+      "value": "Green"
+    },
+    "79a1bae9-1781-46b5-80fc-8d3e78114e5c": {
+      "at": [
+        103,
+        103,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "MountingHole:MountingHole_3.2mm_M3",
+      "pads": {
+        "": {
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "net": null,
+          "uuid": "856281ea-7fa1-4054-9c45-277fdc4a0f12"
+        }
+      },
+      "path": "/afc5dfd4-2ced-5a2b-891e-58df96752aab",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Mounting Hole without connection",
+        "KiLib_Generator": "mounting_hardware/mounting_hole",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "MH1"
+      },
+      "reference": "MH1",
+      "value": "M3"
+    },
+    "8d5ec40a-f1b5-4a3a-b618-20355b9c4c1e": {
+      "at": [
+        115,
+        106,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.825,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "856f0390-5645-474e-9048-8b1b975307d2"
+        },
+        "2": {
+          "at": [
+            0.825,
+            0,
+            0
+          ],
+          "net": "N_LED",
+          "uuid": "c3a245fd-7e06-4b92-884d-0369e6792eca"
+        }
+      },
+      "path": "/91628e47-8f83-5ba1-abed-4cb134d83eea",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "R1"
+      },
+      "reference": "R1",
+      "value": "1k"
+    },
+    "b634c1e2-05c8-4d3a-bf33-27d1c765040c": {
+      "at": [
+        115,
+        118,
+        0
+      ],
+      "layer": "F.Cu",
+      "lib_id": "Resistor_SMD:R_0603_1608Metric",
+      "pads": {
+        "1": {
+          "at": [
+            -0.825,
+            0,
+            0
+          ],
+          "net": "VIN",
+          "uuid": "fc75ff9d-d6ee-4eb9-90df-876108064a1b"
+        },
+        "2": {
+          "at": [
+            0.825,
+            0,
+            0
+          ],
+          "net": "N_RC",
+          "uuid": "b1abf426-f795-47c9-b6e4-58df57a3eca3"
+        }
+      },
+      "path": "/91c587b0-c855-58aa-84a9-2ba4ce88549e",
+      "properties": {
+        "Datasheet": "",
+        "Description": "Resistor",
+        "KiLib_Generator": "SMD_2terminal_chip_molded",
+        "SKiDL Line": "circuit_u3.py:59",
+        "SKiDL Tag": "R2"
+      },
+      "reference": "R2",
+      "value": "10k"
+    }
+  },
+  "forms_seen": [
+    "arc",
+    "embedded_fonts",
+    "footprint",
+    "general",
+    "generator",
+    "generator_version",
+    "gr_rect",
+    "layers",
+    "paper",
+    "segment",
+    "setup",
+    "version",
+    "via",
+    "zone"
+  ],
+  "graphics": {
+    "a5b1ad8e-bbc5-5be3-810f-1b4356774158": {
+      "class": "gr_rect",
+      "text": "(gr_rect (start 100 100) (end 140 125) (stroke (width 0.05) (type default)) (fill no) (layer \"Edge.Cuts\"))"
+    }
+  },
+  "segments": {
+    "4507dd19-4675-57ae-affe-b19358d9aac8": {
+      "end": [
+        114.175,
+        112
+      ],
+      "layer": "F.Cu",
+      "net": "VIN",
+      "start": [
+        114.175,
+        118
+      ],
+      "width": "0.25"
+    },
+    "5b9d0831-8b6f-5eb7-a375-6f8592dd030e": {
+      "end": [
+        114.175,
+        106
+      ],
+      "layer": "F.Cu",
+      "net": "VIN",
+      "start": [
+        105,
+        106
+      ],
+      "width": "0.25"
+    },
+    "9024f436-90ab-541e-847d-e2efb7de6a0d": {
+      "end": [
+        124.225,
+        118
+      ],
+      "layer": "F.Cu",
+      "net": "N_RC",
+      "start": [
+        115.825,
+        118
+      ],
+      "width": "0.25"
+    },
+    "98ddb7a1-9b0d-5983-a380-7281244ba7d8": {
+      "end": [
+        124.2125,
+        106
+      ],
+      "layer": "F.Cu",
+      "net": "N_LED",
+      "start": [
+        115.825,
+        106
+      ],
+      "width": "0.25"
+    },
+    "d9bcb0a0-5537-5fbb-9cab-9a90eb85d250": {
+      "end": [
+        105,
+        106
+      ],
+      "layer": "F.Cu",
+      "net": "VIN",
+      "start": [
+        105,
+        112.5
+      ],
+      "width": "0.25"
+    },
+    "f5f68c27-3a88-5c92-9379-83b4d7d5c73a": {
+      "end": [
+        105,
+        112
+      ],
+      "layer": "F.Cu",
+      "net": "VIN",
+      "start": [
+        114.175,
+        112
+      ],
+      "width": "0.25"
+    }
+  },
+  "vias": {
+    "aaaaaaaa-0000-4000-8000-0000000000b1": {
+      "at": [
+        120,
+        110,
+        0
+      ],
+      "drill": "0.3",
+      "layers": "(layers \"F.Cu\" \"B.Cu\")",
+      "net": "VIN",
+      "size": "0.6"
+    }
+  },
+  "zones": {
+    "aaaaaaaa-0000-4000-8000-0000000000c1": {
+      "definition": "(zone (net \"GND\") (layer \"F.Cu\") (uuid \"aaaaaaaa-0000-4000-8000-0000000000c1\") (name \"gnd_pour\") (hatch edge 0.5) (connect_pads (clearance 0.3)) (min_thickness 0.25) (fill yes (thermal_gap 0.5) (thermal_bridge_width 0.5) (island_removal_mode 0)) (polygon (pts (xy 142 102) (xy 148 102) (xy 148 108) (xy 142 108))))",
+      "layers": "(layer \"F.Cu\")",
+      "name": "gnd_pour",
+      "net": "GND",
+      "polygon": "(polygon (pts (xy 142 102) (xy 148 102) (xy 148 108) (xy 142 108)))"
+    }
+  }
+}

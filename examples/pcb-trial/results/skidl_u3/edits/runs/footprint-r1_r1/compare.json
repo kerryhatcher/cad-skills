@@ -1,0 +1,7 @@
+{
+  "expected": 3,
+  "missing": [],
+  "observed": 3,
+  "status": "equal",
+  "unexpected": []
+}

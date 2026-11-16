@@ -1,0 +1,88 @@
+{
+  "label": "value-r2_r2",
+  "netlist": "/work/out/net/value-r2/trial.net",
+  "netlist_sha256": "0e99a7100bff2f22933838ee67c1b10da0133ccf48bfd7b9b22dfdacf46a8a4c",
+  "options_requested": {
+    "link": "tstamp",
+    "replace": "on",
+    "delete": "off"
+  },
+  "pcb_before": {
+    "sha256": "48b9374bb2c189bd0899dfc077a57ec0042e3badef90bddb0f02327e43642a32",
+    "mtime_ns": 1794841470396964198
+  },
+  "windows": {
+    "after_start": [
+      "kicad",
+      "trial \u2014 KiCad 10.0"
+    ],
+    "dialog_open": [
+      "Import Netlist",
+      "kicad",
+      "trial \u2014 KiCad 10.0",
+      "trial \u2014 PCB Editor"
+    ],
+    "after_update": [
+      "*trial \u2014 PCB Editor",
+      "Import Netlist",
+      "kicad",
+      "trial \u2014 KiCad 10.0"
+    ],
+    "after_save": [
+      "kicad",
+      "trial \u2014 KiCad 10.0",
+      "trial \u2014 PCB Editor"
+    ]
+  },
+  "shots": [
+    "out/shots/value-r2_r2/01_options.png",
+    "out/shots/value-r2_r2/02_loaded.png",
+    "out/shots/value-r2_r2/03_updated.png",
+    "out/shots/value-r2_r2/04_saved.png"
+  ],
+  "first_run_setup": "dismissed with Escape and Return (default settings)",
+  "options_measured": {
+    "link_tstamp": {
+      "default": true,
+      "before": true,
+      "after": true
+    },
+    "delete": {
+      "default": false,
+      "before": false,
+      "after": false
+    },
+    "replace": {
+      "default": true,
+      "before": true,
+      "after": true
+    },
+    "group": {
+      "default": true,
+      "before": true,
+      "after": true
+    },
+    "locked": {
+      "default": false,
+      "before": false,
+      "after": false
+    },
+    "delete_shorting_tracks": {
+      "default": false,
+      "before": false,
+      "after": false
+    }
+  },
+  "editor_title_before_save": "*trial \u2014 PCB Editor",
+  "editor_title_after_save": "trial \u2014 PCB Editor",
+  "kicad_exit": {
+    "state": "exited",
+    "code": 0
+  },
+  "pcb_after": {
+    "sha256": "a4cfdbc58a0a9bf9f3673d14e80471e78f4fb21c9a513df197f9d4d2273ae51b",
+    "mtime_ns": 1794841514912857868
+  },
+  "pcb_saved": true,
+  "pcb_changed": true
+}

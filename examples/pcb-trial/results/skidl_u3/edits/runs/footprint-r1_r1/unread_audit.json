@@ -1,0 +1,25 @@
+{
+  "footprints_compared": 7,
+  "unread_changes": [
+    {
+      "ref": "R1",
+      "form": "descr"
+    },
+    {
+      "ref": "R1",
+      "form": "fp_line"
+    },
+    {
+      "ref": "R1",
+      "form": "fp_rect"
+    },
+    {
+      "ref": "R1",
+      "form": "fp_text"
+    },
+    {
+      "ref": "R1",
+      "form": "model"
+    }
+  ]
+}
