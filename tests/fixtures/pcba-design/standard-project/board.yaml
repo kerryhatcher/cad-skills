@@ -1,0 +1,32 @@
+schema_id: cad-skills/board
+schema_version: '1.0'
+name: pcba-standard-fixture
+circuit_source: kicad_native
+assembly: pcba
+supplier:
+  id: sierra-turnkey-pro
+  service: Turnkey PRO
+  profile_sha256: 6d643ad08dbbf38bf8eb9139bc5ffd1fe6e8bd9b3bf6152df5a5cf7152946d8d
+quantity: 5
+variant: base
+electrical_limits:
+  supply_voltage:
+    value: 5.0
+    unit: V
+mechanical:
+  width_mm: 60.0
+  height_mm: 60.0
+  thickness_mm: 1.6
+coordinate_system:
+  units: mm
+  origin:
+    x_mm: 0
+    y_mm: 0
+  x_axis: right
+  y_axis: up
+release_revision: A
+restrictions: []
+extensions:
+  pcba:
+    stock:
+      max_age_days: 30

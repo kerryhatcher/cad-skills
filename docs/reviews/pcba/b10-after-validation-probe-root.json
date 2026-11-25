@@ -1,0 +1,8 @@
+{
+  "project": "/tmp/b10-after-validation-root-c_9qwb2g/project",
+  "returned": "success",
+  "path": "fab/gerber/board-B_Cu.gbl",
+  "bound_sha256": "61e7a8c0522e5dc3fb4e990a1ec058e9c28ca37fbc359a6325bb902a84ac2494",
+  "published": true,
+  "published_sha256": "8cb13e4a7c1b84ee39f5253e9bdde1f84c8eea6efeb4d63514abcb5f8bc0a535"
+}

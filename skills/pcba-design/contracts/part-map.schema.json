@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kerryhatcher/cad-skills/skills/pcba-design/contracts/part-map.schema.json",
+  "title": "Part map (cad-skills/part-map 1.0), skill-owned, outside the shared registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "references"],
+  "properties": {
+    "schema_id": {"const": "cad-skills/part-map"},
+    "schema_version": {"const": "1.0"},
+    "references": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,31}$"},
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "part": {"type": "string", "pattern": "^components/[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*\\.ya?ml$"},
+          "mechanical": {"const": true}
+        },
+        "oneOf": [
+          {"required": ["part"], "not": {"required": ["mechanical"]}},
+          {"required": ["mechanical"], "not": {"required": ["part"]}}
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "artifact": {
+    "path": "reports/supplier-evidence.txt",
+    "sha256": "9b228dbf457fcdf80a5a517c2305556ff48fa6d60837729f274022e264f87c9e"
+  },
+  "check_id": "fab.profile_evidence",
+  "inputs": [
+    {
+      "path": "manufacturing/supplier.yaml",
+      "sha256": "1c036fc4df5fc0562e419d3a844877f69f319b338dba6179aadaef82220e9813"
+    }
+  ],
+  "method": "tool",
+  "notes": "evidence hash matches the profile",
+  "observed_on": "2026-11-15",
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "status": "pass",
+  "tool": {
+    "name": "pcba-design",
+    "version": "1.0"
+  }
+}

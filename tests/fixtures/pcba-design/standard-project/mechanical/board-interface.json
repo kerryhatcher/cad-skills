@@ -1,0 +1,75 @@
+{
+  "schema_id": "cad-skills/board-interface",
+  "schema_version": "1.0",
+  "board_revision": "A",
+  "board_sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e",
+  "units": "mm",
+  "origin_mm": {
+    "x": 0,
+    "y": 0
+  },
+  "thickness_mm": 1.6,
+  "geometry_tolerance_mm": 0.01,
+  "outline": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 60,
+      "y": 0
+    },
+    {
+      "x": 60,
+      "y": 60
+    },
+    {
+      "x": 0,
+      "y": 60
+    }
+  ],
+  "cutouts": [],
+  "holes": [
+    {
+      "id": "J1.1",
+      "x": 30,
+      "y": 40,
+      "diameter_mm": 1.0,
+      "plated": true
+    },
+    {
+      "id": "J1.2",
+      "x": 32.54,
+      "y": 40,
+      "diameter_mm": 1.0,
+      "plated": true
+    },
+    {
+      "id": "V1",
+      "x": 45,
+      "y": 30,
+      "diameter_mm": 0.3,
+      "plated": true
+    },
+    {
+      "id": "MH1",
+      "x": 50,
+      "y": 50,
+      "diameter_mm": 3.2,
+      "plated": false
+    }
+  ],
+  "connector_frames": [],
+  "height_limits": {
+    "top_mm": 10,
+    "bottom_mm": 5
+  },
+  "enclosure_clearance_mm": 1,
+  "dimension_owners": {
+    "outline": "mechanical",
+    "holes": "mechanical",
+    "connector_frames": "mechanical",
+    "thickness": "mechanical",
+    "height_limits": "mechanical"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "files": {
+    "B.Cu": "board-B_Cu.gbl",
+    "B.Mask": "board-B_Mask.gbs",
+    "B.Paste": "board-B_Paste.gbp",
+    "B.Silkscreen": "board-B_Silkscreen.gbo",
+    "Edge.Cuts": "board-Edge_Cuts.gm1",
+    "F.Cu": "board-F_Cu.gtl",
+    "F.Fab": "board-F_Fab.gbr",
+    "F.Mask": "board-F_Mask.gts",
+    "F.Paste": "board-F_Paste.gtp",
+    "F.Silkscreen": "board-F_Silkscreen.gto"
+  },
+  "layers": [
+    "F.Cu",
+    "B.Cu",
+    "F.Mask",
+    "B.Mask",
+    "F.Silkscreen",
+    "B.Silkscreen",
+    "F.Paste",
+    "B.Paste",
+    "Edge.Cuts",
+    "F.Fab"
+  ],
+  "problems": []
+}

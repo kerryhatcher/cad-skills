@@ -1,0 +1,224 @@
+{
+  "project": "/tmp/b10-validation-root-rrd3bahj/project",
+  "results": [
+    {
+      "command": [
+        "uv",
+        "run",
+        "/mnt/storage/projects/cad-skills-worktrees/pcba/skills/pcba-design/scripts/pcba.py",
+        "package",
+        "--project",
+        "/tmp/b10-validation-root-rrd3bahj/project",
+        "--board",
+        "board.kicad_pcb",
+        "--variant",
+        "base",
+        "--as-of",
+        "2026-11-15",
+        "--package-id",
+        "root-probe"
+      ],
+      "exit": 0,
+      "stdout": {
+        "checks": {
+          "asm.bom_consistent": "pass",
+          "asm.placement_rotation": "pass",
+          "asm.stock_dated": "fail",
+          "asm.test_record": "pass",
+          "asm.variant_agreement": "pass",
+          "design.drc": "fail",
+          "design.erc": "pending",
+          "design.parity": "pending",
+          "fab.drill_split": "pass",
+          "fab.export_inventory": "pass",
+          "fab.layer_order": "pass",
+          "fab.profile_evidence": "pending",
+          "fab.supplier_rules": "unconfirmed"
+        },
+        "files": 37,
+        "package": "out/pcba/packages/root-probe",
+        "status": "written",
+        "status_manifest": "unqualified"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "/mnt/storage/projects/cad-skills-worktrees/pcba/skills/pcba-design/contracts/validate.py",
+        "--project",
+        "/tmp/b10-validation-root-rrd3bahj/project",
+        "--package",
+        "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe",
+        "--json"
+      ],
+      "exit": 2,
+      "stdout": {
+        "report_schema_version": "1.0",
+        "status": "error",
+        "exit_code": 2,
+        "tool_versions": {
+          "python": "3.13.15",
+          "jsonschema": "4.26.0",
+          "pyyaml": "6.0.3"
+        },
+        "inputs": [
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/board.yaml",
+            "sha256": "326fa71d0ff883db2b688c568ece38d2b3199466979a3eaac149094b5e0bd90e"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/variants.yaml",
+            "sha256": "6ce057427c1d130cb5ef00fcd913a36cbb23927ff38274cea95517653759ad36"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/manifest.json",
+            "sha256": "2d48ad856ee27e9cc878bd821ab0ea4a0d75469149a19d78016916dc571a6c93"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/design.drc.json",
+            "sha256": "e55a45abcfb5ae1baf3e3d6b15907986a4fd0cc9a5f73d4be0a9d77ddd31201d"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/design.erc.json",
+            "sha256": "ea8389e563c09cb701f509f8c0557a52555b9691a2622de3901dab5cb56c1bda"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/design.parity.json",
+            "sha256": "a4474c8c13a1a952f52a276bab0a1bf837f8e4e2a9e731fe4d0af8b3dd69df42"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.profile_evidence.json",
+            "sha256": "a182c0e57f4ce3fa9e9522464cb5f1bb9f1872ba419dcc31ac7cb96729d51bc4"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.export_inventory.json",
+            "sha256": "3d3b5fbc95b60fc20fdb8a1cb2de5c008212b434e752bf9f8c5924b477f4d36f"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.layer_order.json",
+            "sha256": "371b375a6ba3c0bff79f8c07b766ecf81c1c9dda8805c98b97c334abbd490d1e"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.drill_split.json",
+            "sha256": "59afba8f1c75892f15feabfd0139ec23ed8d02f44bdb55384a069935d7eb2302"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.supplier_rules.json",
+            "sha256": "e92dfc50dc84fc0fad839c34b98faeb610ce3627f387011d047eac89ef5fc21c"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/asm.bom_consistent.json",
+            "sha256": "484d4dc367df1dd2a3b46d9406848c262e086a353a420d2561d6ce42348aaaf6"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/asm.placement_rotation.json",
+            "sha256": "b311f2f94282b0d2cd4371ab4c776f1b9774a22c54e9e6307489b457025aac38"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/asm.variant_agreement.json",
+            "sha256": "506780a64d17d930f2e17a7bcbdc470bc805fb7278523fc2109dcefa526663b1"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/asm.stock_dated.json",
+            "sha256": "82b9207b69cc97e8d66dcbcac61d5bcca287f7326906e58dd84e58df25e9c65c"
+          },
+          {
+            "path": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/asm.test_record.json",
+            "sha256": "eee1b8db54231158e751fd085ae093d5344600b53f1da483a0ec14d3fcf3cdd0"
+          }
+        ],
+        "findings": [
+          {
+            "code": "cli.input_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/kicad/board.kicad_pcb",
+            "location": "",
+            "message": "The project file is not present."
+          },
+          {
+            "code": "cli.input_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/kicad/board.kicad_sch",
+            "location": "",
+            "message": "The project file is not present."
+          },
+          {
+            "code": "cli.input_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/manufacturing/export.yaml",
+            "location": "",
+            "message": "The project file is not present."
+          },
+          {
+            "code": "cli.input_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/manufacturing/supplier.yaml",
+            "location": "",
+            "message": "The project file is not present."
+          },
+          {
+            "code": "pkg.check_input_role_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.drill_split.json",
+            "location": "/inputs",
+            "message": "The evidence does not list every manifest input with the role board_interface."
+          },
+          {
+            "code": "pkg.check_input_role_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.drill_split.json",
+            "location": "/inputs",
+            "message": "The evidence does not list every manifest input with the role export_settings."
+          },
+          {
+            "code": "pkg.check_input_role_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.export_inventory.json",
+            "location": "/inputs",
+            "message": "The evidence does not list every manifest input with the role export_settings."
+          },
+          {
+            "code": "pkg.check_input_role_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/evidence/fab.layer_order.json",
+            "location": "/inputs",
+            "message": "The evidence does not list every manifest input with the role export_settings."
+          },
+          {
+            "code": "cross.input_path_mismatch",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/manifest.json",
+            "location": "/inputs/0/path",
+            "message": "The role board must use the path kicad/board.kicad_pcb."
+          },
+          {
+            "code": "cross.input_path_mismatch",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/manifest.json",
+            "location": "/inputs/8/path",
+            "message": "The role supplier_profile must use the path manufacturing/supplier.yaml."
+          },
+          {
+            "code": "cross.profile_hash_mismatch",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/out/pcba/packages/root-probe/manifest.json",
+            "location": "/supplier",
+            "message": "The supplier differs from board.yaml."
+          },
+          {
+            "code": "cli.input_missing",
+            "severity": "error",
+            "file": "/tmp/b10-validation-root-rrd3bahj/project/toolchain.lock.json",
+            "location": "",
+            "message": "The project file is not present."
+          }
+        ],
+        "unprocessed": [],
+        "outputs": []
+      },
+      "stderr": "validate.py: error (exit 2)\n"
+    }
+  ]
+}

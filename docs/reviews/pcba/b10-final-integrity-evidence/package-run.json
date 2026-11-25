@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "asm.bom_consistent": "pass",
+    "asm.placement_rotation": "pass",
+    "asm.stock_dated": "fail",
+    "asm.test_record": "pass",
+    "asm.variant_agreement": "pass",
+    "design.drc": "fail",
+    "design.erc": "pass",
+    "design.parity": "pass",
+    "fab.drill_split": "pass",
+    "fab.export_inventory": "pass",
+    "fab.layer_order": "pass",
+    "fab.profile_evidence": "pass",
+    "fab.supplier_rules": "unconfirmed"
+  },
+  "files": 42,
+  "package": "out/pcba/packages/pkg-standard",
+  "status": "written",
+  "status_manifest": "unqualified",
+  "validation": {
+    "exit_code": 0,
+    "status": "pass"
+  }
+}

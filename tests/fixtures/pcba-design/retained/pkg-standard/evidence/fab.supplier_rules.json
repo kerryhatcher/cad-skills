@@ -1,0 +1,43 @@
+{
+  "artifact": {
+    "path": "reports/supplier-rules.json",
+    "sha256": "c1aae82cdfca7def31114b9f6175f626d3da3b8f09f89f6a68980129269b93d5"
+  },
+  "check_id": "fab.supplier_rules",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e"
+    },
+    {
+      "path": "manufacturing/export.yaml",
+      "sha256": "c56e136a6d3e5f1f7e8ec33bef66e589acfaaf580a4a0673a7143554a684830c"
+    },
+    {
+      "path": "manufacturing/supplier.yaml",
+      "sha256": "1c036fc4df5fc0562e419d3a844877f69f319b338dba6179aadaef82220e9813"
+    },
+    {
+      "path": "manufacturing/supplier-rules.yaml",
+      "sha256": "c62f0c61cd00ab35671eb1e33e4ce9fa1385d876f1b362144b1e4330601ebffb"
+    },
+    {
+      "path": "manufacturing/supplier-settings.yaml",
+      "sha256": "6e23cd77a375696ff288c8a8f10ce31b2f637ce51b364616bfc142957a5bf835"
+    },
+    {
+      "path": "toolchain.lock.json",
+      "sha256": "5eed9dc6fcda5792ca54845a49dcee9464b5ffc99958e69d9fc713af8a8d541d"
+    }
+  ],
+  "method": "tool",
+  "notes": "mismatches=0 open=8",
+  "observed_on": "2026-11-15",
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "status": "unconfirmed",
+  "tool": {
+    "name": "pcba-design",
+    "version": "1.0"
+  }
+}

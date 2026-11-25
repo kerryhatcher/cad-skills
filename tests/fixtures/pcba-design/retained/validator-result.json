@@ -1,0 +1,103 @@
+{
+  "exit_code": 0,
+  "findings": [],
+  "inputs": [
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/standard-project/board.yaml",
+      "sha256": "da6773bf8fc75debc19fe0471aa8305fb411b77dd236c2359bdff6710019874a"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/standard-project/kicad/board.kicad_pcb",
+      "sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/standard-project/kicad/board.kicad_sch",
+      "sha256": "ff883a203f2b07864fe8c0e5a4e26d37afdd8a93a84ab1db1657c3f7c9f539ae"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/standard-project/variants.yaml",
+      "sha256": "6ce057427c1d130cb5ef00fcd913a36cbb23927ff38274cea95517653759ad36"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/standard-project/manufacturing/supplier.yaml",
+      "sha256": "1c036fc4df5fc0562e419d3a844877f69f319b338dba6179aadaef82220e9813"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/standard-project/manufacturing/export.yaml",
+      "sha256": "c56e136a6d3e5f1f7e8ec33bef66e589acfaaf580a4a0673a7143554a684830c"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/standard-project/toolchain.lock.json",
+      "sha256": "5eed9dc6fcda5792ca54845a49dcee9464b5ffc99958e69d9fc713af8a8d541d"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/standard-project/mechanical/board-interface.json",
+      "sha256": "7095e4855a477d44c6605c7525e8ab39f409d0d30dcc9cfefed19634689323dd"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/manifest.json",
+      "sha256": "58218edd62d12da56f6ebec17af810931499cf0343e549343814a8546fbbfabb"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/design.drc.json",
+      "sha256": "1615dab9bc122f5d38520066b0d8ec40caa15ca39f3d4b14090cbdbf71b7eda9"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/design.erc.json",
+      "sha256": "b1238a1913555d16b46a034204db3423b35ae5c0d2bd306c4af6fa405283444e"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/design.parity.json",
+      "sha256": "69420dde3559c78ece0623aeba3b4344156a0bb2182570c8a874b7c0da2cdea8"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/fab.profile_evidence.json",
+      "sha256": "4d7e03105faeeb64e4573d38df30e89005d748c37e03eebcef8ed533ec128c22"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/fab.export_inventory.json",
+      "sha256": "1d304384caca6b5f30770266d81810d3fc49b0b2d7b3d03e0dcd75b9de4b9ed0"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/fab.layer_order.json",
+      "sha256": "054bdb3dd0a1b9c74a5028d241e27587a3979ba417439f07adca058030f57da4"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/fab.drill_split.json",
+      "sha256": "01d41ab1830f7507bdb7a546c3923b3d603d6599393fb1bae79f57b1ddfb87a4"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/fab.supplier_rules.json",
+      "sha256": "8abdb8db381e79250cc80def7a1ce1ca4147cb3adc9f7b28814e7df8cfa809e0"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/asm.bom_consistent.json",
+      "sha256": "039aa9e691f3ed49be3aa5dfc891aa8a3b09024252c14e85886a0b74703c0efd"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/asm.placement_rotation.json",
+      "sha256": "5587b213390486be552a3198cbc8572cf2a38c7b88020a3361b9d07e32b79cc5"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/asm.variant_agreement.json",
+      "sha256": "934b7168eb39628989c78bd3cb6760c46dbe4d6e3a345a5d73bdd2979d880ac5"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/asm.stock_dated.json",
+      "sha256": "fa61a3e676d8689e27145b642e7c37b33a97d55d044ab2e80bb6d80b466770c8"
+    },
+    {
+      "path": "/mnt/storage/projects/cad-skills-worktrees/pcba/tests/fixtures/pcba-design/retained/pkg-standard/evidence/asm.test_record.json",
+      "sha256": "43a20852259e3fca59b477f7df7b2e6f57caa97fa4b9b70c3d05fc2de08f5662"
+    }
+  ],
+  "outputs": [],
+  "report_schema_version": "1.0",
+  "status": "pass",
+  "tool_versions": {
+    "jsonschema": "4.26.0",
+    "python": "3.13.15",
+    "pyyaml": "6.0.3"
+  },
+  "unprocessed": []
+}

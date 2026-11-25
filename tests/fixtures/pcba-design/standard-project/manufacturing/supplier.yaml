@@ -1,0 +1,41 @@
+schema_id: cad-skills/supplier-profile
+schema_version: '1.0'
+id: sierra-turnkey-pro
+revision: '1'
+service: Turnkey PRO
+source_url: https://example.com/services/turnkey-pro
+retrieved: '2026-11-13'
+evidence_sha256: 9b228dbf457fcdf80a5a517c2305556ff48fa6d60837729f274022e264f87c9e
+content_sha256: 6d643ad08dbbf38bf8eb9139bc5ffd1fe6e8bd9b3bf6152df5a5cf7152946d8d
+units: mil
+limits:
+  min_trace:
+    kind: minimum
+    scope: fabrication
+    value_kind: number
+    value: 6
+    unit: mil
+    source_url: https://example.com/services/turnkey-pro
+    retrieved: '2026-11-13'
+  min_drill:
+    kind: minimum
+    scope: fabrication
+    value_kind: number
+    value: 10
+    unit: mil
+    source_url: https://example.com/services/turnkey-pro
+    retrieved: '2026-11-13'
+  stackup_tolerance:
+    kind: unconfirmed
+    scope: fabrication
+division:
+  kicad_dru:
+  - min_trace
+  - min_drill
+  project_settings:
+  - stackup_tolerance
+  geometric_tests: []
+  manual_evidence: []
+extensions:
+  pcba:
+    hand_installed_bom: include_in_bom

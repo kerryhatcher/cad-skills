@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250.000mm" height="262.000mm" viewBox="0 0 250.000 262.000">
+<title>pcba-standard-fixture assembly, variant base</title>
+<path d="M5.000 245.000 L245.000 245.000 L245.000 5.000 L5.000 5.000 Z" fill="none" stroke="black" stroke-width="0.2"/>
+<g class="populate" data-reference="C1">
+<circle cx="45.000" cy="125.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="46.000" y="124.000" font-size="2.2" fill="black">C1</text>
+</g>
+<g class="populate" data-reference="D1">
+<circle cx="45.000" cy="165.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="46.000" y="164.000" font-size="2.2" fill="black">D1</text>
+</g>
+<g class="populate" data-reference="D2">
+<circle cx="85.000" cy="165.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="86.000" y="164.000" font-size="2.2" fill="black">D2</text>
+</g>
+<g class="populate" data-reference="D3">
+<circle cx="125.000" cy="165.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="126.000" y="164.000" font-size="2.2" fill="black">D3</text>
+</g>
+<g class="populate" data-reference="D4">
+<circle cx="165.000" cy="165.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="166.000" y="164.000" font-size="2.2" fill="black">D4</text>
+</g>
+<g class="populate" data-reference="J1">
+<circle cx="125.000" cy="85.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="126.000" y="84.000" font-size="2.2" fill="black">J1 HAND</text>
+</g>
+<g class="populate" data-reference="R1">
+<circle cx="45.000" cy="205.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="46.000" y="204.000" font-size="2.2" fill="black">R1</text>
+</g>
+<g class="populate" data-reference="R2">
+<circle cx="85.000" cy="205.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="86.000" y="204.000" font-size="2.2" fill="black">R2</text>
+</g>
+<g class="populate" data-reference="R3">
+<circle cx="125.000" cy="205.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="126.000" y="204.000" font-size="2.2" fill="black">R3</text>
+</g>
+<g class="populate" data-reference="R4">
+<circle cx="165.000" cy="205.000" r="0.6" fill="none" stroke="black" stroke-width="0.15"/>
+<text x="166.000" y="204.000" font-size="2.2" fill="black">R4</text>
+</g>
+<text x="5.000" y="259.000" font-size="2.2" fill="black">Variant base. Generated from neutral data. Physical measurements are not measured.</text>
+</svg>

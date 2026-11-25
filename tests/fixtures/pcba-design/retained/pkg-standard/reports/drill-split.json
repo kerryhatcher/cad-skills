@@ -1,0 +1,22 @@
+{
+  "file_holes": 4,
+  "inventory": [
+    {
+      "hole": "J1.1",
+      "matched": true
+    },
+    {
+      "hole": "J1.2",
+      "matched": true
+    },
+    {
+      "hole": "MH1.",
+      "matched": true
+    },
+    {
+      "hole": "via@45.0000,30.0000",
+      "matched": true
+    }
+  ],
+  "unmatched": 0
+}
