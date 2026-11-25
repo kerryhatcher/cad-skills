@@ -1,6 +1,103 @@
 # Lead continuation state
 
-Updated: 2026-11-15, approximately 01:26 UTC.
+Updated: 2026-11-15, approximately 02:39 UTC.
+
+## Latest actions after 02:35 UTC
+
+This section supersedes the status text below.
+
+- Release: both reviewers accepted corrected local harness freeze r2. Root read `release/docs/reviews/release/b12-harness-freeze-review-codex-r2.md`, accepted the scoped correction and authorized the next local adapter/isolation work in `release/docs/reviews/release/b12-static-acceptance-root.md`. Claude can use installed CLI help and retained research, local stubs, temporary roots and a measured sentinel boundary. bwrap, unshare and timeout exist, but their operation is not yet measured. No provider calls, no trust/model/credential change, no commit. Zero provider authorization remains.
+- Mechanical: root recorded the exact resolutions in `mechanical/docs/reviews/mechanical/b11-completion-resolutions-root.md`. Separate PTH/NPTH names are board-PTH.drl and board-NPTH.drl, measured by Pi. Cavity offset is OUTWARD with chamfer and fixed tolerance. Body extends INWARD from the mating face, opposite the transformed insertion vector, zero overhang, explicit body_length_mm 4.0 independent of insertion depth. Claude briefly used an incorrect inward-cavity phrase, then explicitly withdrew it and confirmed the outward rule. Pi agrees with the resolutions. P3 excluded-hole reason/diameter validation is still a necessary correction. Codex completion report remains pending. The set stays frozen until one combined release.
+- PCBA: corrected neutral batch is frozen in `pcba/docs/reviews/pcba/b9-neutral-correction-claude.md`, 30 file rows, pcba.py `1e69b6f3bced2cb9b30556829a6ced51b6d8330a0a1c1353239e2033bc3471a4`, tests `123592419d4cbe7a7ee3953a8e1ffb09bccc0e8cac6912c8326689efc905b454`. Author reports 35/35 focused tests and the known routing integration failure. Root read the record and assigned both reviewers. Files stay frozen. The postponed placement fields are export_rotation_deg and midpoint estimates. The required neutral datum/source fields are implemented per the record. Alternates remain incomplete.
+
+## Latest actions after 02:23 UTC
+
+This section supersedes the status text below.
+
+- PCBA: both reviewers completed the neutral review and agreed to the numeric/stock resolutions. Root released the combined correction through `pcba/docs/reviews/pcba/b9-neutral-correction-root.md`. It has 15 items. Preserve exact raw number tokens in source_tokens, derive finite numeric values, refuse malformed tokens without traceback, reject conflicting stock/lifecycle for one manufacturer/MPN, and keep assembly_instruction from the hand-install reason. Root also authorized the lock, snapshot, path, freshness and row-field repairs. Both reviewers hold until the corrected freeze. Alternates remain incomplete.
+- Release: corrected freeze r2 is `release/docs/reviews/b12-harness-freeze-claude-r2.sha256`, SHA-256 `09e77fa0f2d280f23918f1fd02b8afd5fd557e90b6b147932a1cb2a5897c32a6`, 33 entries. Both reviewers received it. Pi accepted the scoped correction, with 64 harness, 25 packaging, 8 package and 11 PIO tests. Codex review remains pending. Root reran its held-record probe: measured table is now empty and execution_summary has one not-executed:held row. Scheduled 210, fixture-ready 0, authorized 0. R2 tasks are in r2_task, not task. The initial probe used task and printed null, but root inspected the correct field afterward. Do not report a missing-task defect from that probe. All freeze entries match. No provider calls.
+- Fabrication: Pi accepted the final C1/C2/C5 repair at `docs/reviews/b7-final-publication-repair-review-pi.md`, SHA-256 `b1707dbaa5d8bdb92172e0e43397c35250aa0d11d70c31a889ca094c11c6dc2a`. Codex review remains pending. The scope is publication integrity, not all B7/B8 completion.
+- Mechanical: the completion manifest `mechanical/docs/reviews/mechanical/b11-completion-batch.sha256` has 26 entries, all matched by root. Pi's consolidated report is `mechanical/docs/reviews/mechanical/b11-completion-review-pi.md`. It rejects the batch with P1-P5 and I1-I7. Positive export/fit/release runs pass, but slots are omitted, record paths escape confinement, excluded-hole reasons are absent, mixed drills use drill_pth, and an unreviewed edge exemption masks C09. Capture keeps hashes but not bytes, mutable image tags run, fit reopens live files, release trusts report.status, output byte counts and required release fields are absent, and final input freshness is absent. Root sent these findings to both reviewers. Codex's completed review is still pending.
+- Mechanical resolutions sent to all three, NOT yet released for edits: separate PTH/NPTH outputs with existing roles. Remove the mating-edge exemption. Define the cavity as the board outline offset outward by clearance_mm, including the chamfer. Declare project-authored connector body_length_mm 4.0 separately from insertion_depth_mm. Keep fixed tolerances and no datasheet claim. Keep explicit revision-8 release fields and mismatch order. Add thin pcb.py mechanical export/fit/release dispatch. Consume checked captured bytes or private copies, not a recheck followed by another live read. Claude acknowledged and holds. Await both reviewer agreements and the Codex report before one release.
+
+## Latest actions after 02:14 UTC
+
+This section supersedes the status text below.
+
+- Release: the 33-entry freeze `b12-harness-freeze-claude.sha256` initially matched. Pi reproduced 53 harness and 25 packaging tests. Root measured that a retained held run enters `score.summarize` with two passing scores because missing evidence defaults to live. Record: `release/docs/reviews/release/b12-held-score-review-root.md`. Both reviewers agree on B-1 expected paths and R2 task attachment, B-2 explicit unavailable host fields, B-3 execution/evidence separation, M-A complete freeze protection and M-B authorized subset count. Claude edited three files during review. Root stopped the author with Escape. Both reports record the changed boundary. Root then read the completed Codex report and released the combined correction through `release/docs/reviews/release/b12-narrow-authorization-root.md`. Current candidate bytes are the starting point. Packaging P-6/P-7 is accepted separately at unchanged hashes. The setup-fetch path and final distribution remain incomplete. No provider calls.
+- Mechanical: both Batch 2 reviewers agree on R1 to R6. Real KiCad Excellon uses AperFunction comments, which the original parser did not read. Root released the complete accepted implementation through `mechanical/docs/reviews/mechanical/b11-completion-direction-root.md`. Complete missing comparisons, STEP radii, export/fit/report/release flow and accurate documentation. Claude replaced three files early. Old reviews apply to old hashes only, and the replacement candidates are not accepted. Keep those current bytes and complete one coherent batch. No restoration or second scratch implementation.
+- PCBA: root measured all 30 rows of `pcba/docs/reviews/pcba/b9-neutral-batch-claude.md` as matching. Both reviewers received the frozen neutral batch. Root reproduced two defects in temporary copies: a component link leaves components but stays in the project and passes, and `--out board.yaml` replaces an input. Record: `pcba/docs/reviews/pcba/b9-neutral-boundaries-root.md`. Pi agrees. Codex review is still pending. Files stay frozen. Root decisions for the later combined correction: lock before capture through final freshness/write, per-request components confinement, resolved-file snapshot reuse with project-relative recorded paths, input/output alias refusal, excluded per-board quantity 0, preserve the small declared neutral fields, and retain hand-install reasons in rows and BOM grouping. No shared schema change. Alternates remain incomplete.
+- PCBA test cause corrected: the new skill lacks a routing entry in tests/snippet_envs.json. A clean committed tree passes, and adding only the skill reproduces the failure. It is not pre-existing. Add pcba-design mapped to pcb in the integration tree when that skill exists. Do not add the entry to the release-only worktree early, because its exact routing-set test would fail. Release records this pending integration item.
+- Fabrication: the final C1/C2/C5 repair is frozen at `docs/reviews/b7-final-publication-repair-claude.md`, record SHA-256 `bc6b59eac5e0694781a1987ac290a36818af08af22f851e8c182621645244543`. Workflow is `ac38b636a748816a530f89f7a951296da4fd140304a66ee74e5b09261f7a48a7`, test is `58b8a45f20e73907b5ca538950189e157f190676f4e67688883732d770276338`, fab stays `f63e4d581f9d623b6007b7162c760c347370b7d0d32298205059a2e1a05a47be`. Author reports 124/124 focused tests. Root assigned both original reviewers. Direct drawing commands remain a disclosed scope limit, as do supplier completeness, manual region masks, setup retrieval and standalone release. No acceptance yet.
+
+Freeze rule sent to authors and reviewers: after a freeze message, no edit to listed files until the lead explicitly releases the set. A finding alone does not release it.
+
+## Latest actions after 02:00 UTC
+
+This section supersedes the status text below.
+
+- PCBA: root reset only Pi's context with `/new` after its review exceeded the bounded assignment. Root confirmed the fresh context and the unchanged DeepSeek model. Pi then gave explicit bounded agreement in `pcba/docs/reviews/pcba/b9-b10-bounded-addendum-pi.md`. Root read both agreements and authorized sections 4 to 8 in `pcba/docs/reviews/pcba/b9-bounded-acceptance-root.md`. Claude now implements neutral mapping, variants, neutral BOM and stock. Sierra conversion and B10 publication stay outside this start. Reviewers await a frozen batch.
+- Release: root found five revision-4 gaps in `release/docs/reviews/release/b12-revision4-review-root.md`. Both reviewers agree. Root authorized the combined Codex C-1 to C-5 and Pi correction, plus separate packaging P-6/P-7. Codex C-3 explicitly covers discovery evidence and the filesystem boundary. Installed path inventory is not host discovery. Held or unauthorized runs must not reach a provider. Counts stay 210 scheduled and zero authorized. The final isolation test must prove a repository sentinel is inaccessible to the evaluated process. No provider call ran. The author must freeze all modules and fixtures.
+- Mechanical: Pi accepted Batch 1a, with 47 contract tests and 25 geometry tests. Batch 2 is frozen for review. Root authorized the export run on fresh generated fixture copies while frozen files stay unchanged. Root read the code and sent concrete gaps to all three agents: C06 to C09 and the complete export/fit/release flow are absent, C03 measures DXF diameters but not STEP radii, and an empty comparison list gives two pass statuses. The reference claims some absent behavior. These are implementation gaps against the accepted interface, not a new design phase.
+- Fabrication: root observed a connection-lost error in Claude's pane. Root directed Claude to resume the authorized C1/C2/C5 repair from the current diff and retained results. The agent resumed. Both reviewers await one complete freeze. No new scope.
+
+Herdr inventory confirms all four authors work in their assigned panes. No workstream is ready to merge.
+All new worktree HEADs remain `75d99da6415ba8df2e7b662c3b9fd66a191b4e32`.
+Original main remains `ede5fcd7d27e7c894702ba70bb3a5507ee026ad8`.
+
+## Current workstream state
+
+This section supersedes the older state below.
+
+- Fabrication: the 112-check freeze is not accepted. Both reviewers found C1 output file links, C2 result recapture and supplier-input binding, and C5 unchecked staged bytes. Root authorized `b7-final-publication-repair-root.md`. Claude can repair now. Both reviewers hold until the next complete freeze. C3, C6, C7 and geometry stay accepted. Root reproduced the captured/profile.yaml link in `b7-leaf-link-review-root.md`.
+- Mechanical: both reviewers accepted interface revision 8 at `5a0b4850aa57c11973560ca2551ead734b7fcfd3cc70a168d8ec3f25495966f5`. Root authorized implementation. The acceptance record is in the mechanical worktree at `docs/reviews/mechanical/b11-acceptance-root.md`. Two modules, template `mech-fit-a`, and narrow pcb.py wiring are assigned. Q7 uses transformed direction vectors and atan2, not a simple angle sign flip. C05 measures the imported substrate solid. Clearance uses a separate finished-board envelope from an independent stackup.
+- PCBA: Codex agrees to the bounded sections 4 to 8 after corrections. Pi's report exists, but explicit bounded agreement is still pending. Root stopped Pi's long review turn and sent a focused decision request. Do not change the model. No Sierra conversion or B10 publication belongs to this start. Claude applied the latest extension paths, explicit map rules, grouping and status rules.
+- Release: root accepted the bounded packaging interface after both agreements. Claude implemented it. Second freeze is `docs/reviews/b12-packaging-freeze-claude.sha256` in the release worktree. Pi reproduced 22/22 packaging and 37/37 mock harness tests and accepted the correction. Codex's final implementation review remains necessary. No provider evaluation ran.
+
+Release design: three PCB skills, 210 scheduled provider runs, 24 local installation checks. Root decisions are `b12-decisions-root.md` and the release worktree copy. Provider execution waits for accepted integrated artifacts. Routing installs all three skills. Single-skill artifact tests install one. Baselines install none. Preserve trust and credentials.
+
+Distribution: preserve local supplier evidence. Exclude full supplier copies and headers from release bundles until permission is established or the reviewed setup-fetch path replaces them. Do not add a license acknowledgment gate. The source manifest does not replace the profile/evidence/source-review binding authority. The common snapshot is local work history, not approval to publish those copies. No built-image publication in scope.
+
+PCBA exact paths: `components/parts-map.yaml`, supplier-profile `extensions.pcba.hand_installed_bom`, board `extensions.pcba.stock`. The map covers declared variants and contains explicit mechanical exclusions. Neutral coordinates and rotation retain board-file values. Evidence status uses pass, fail, pending, unconfirmed. Package status uses draft, unqualified, qualified.
+
+No branch merged or pushed. New worktrees remain on the common base. Original main HEAD and index remain unchanged.
+
+## Parallel teams now active
+
+The user authorized three teams, separate worktrees, and lead integration of accepted changes.
+See `parallel-workstreams-root.md` for ownership and the review procedure.
+Common snapshot: `75d99da6415ba8df2e7b662c3b9fd66a191b4e32`, branch `work/pcb-common-base`.
+The snapshot contains incomplete fabrication work. It is not release acceptance.
+The lead used a separate temporary Git index. The original main HEAD and index stayed unchanged.
+Before the snapshot commit, snippets passed 52/52 with five documented skips. Print tools passed 6/6.
+
+| Tab | Worktree suffix | Branch | Claude | Codex | Pi |
+|---|---|---|---|---|---|
+| PCBA, w1P:t3 | pcba | work/pcba | w1P:p7 | w1P:pA | w1P:pD |
+| Mechanical integration, w1P:t4 | mechanical | work/mechanical | w1P:p8 | w1P:pB | w1P:pE |
+| Release validation, w1P:t5 | release | work/release | w1P:p9 | w1P:pC | w1P:pF |
+
+Worktree parent: `/mnt/storage/projects/cad-skills-worktrees`.
+Lead integration worktree: `integration`, branch `work/integration`, same base.
+Names use `<kind>-<suffix>-dev`. All nine agents started and entered the working state.
+Models: Claude Haiku 5.5, Codex GPT-6-Luna medium, Pi OpenRouter DeepSeek V4.1 Flash high.
+Claude uses auto mode. Other agents use their existing permission configuration.
+Each team has the source records and a concrete interface assignment. Claude writes product files. Both reviewers write reports only.
+No team merges or pushes. The lead accepts the interface and both reviews before scoped commits and integration.
+The original fabrication team stays in w1P:t2. Its author resumed after the snapshot.
+Claude reports all seven corrections in code and 112/112 workflow tests. The complete freeze and independent reviews remain necessary.
+
+PCBA decisions sent to all three agents:
+- Use skill-owned `components/parts-map.yaml`, strict `cad-skills/part-map` version `1.0`, outside the shared registry.
+- Bind the map and each part as `parts` inputs. Confine references under `components/`.
+- Keep `variants.yaml` as the sole population owner.
+- Count populated hand-installed references in neutral BOM and test coverage. Include drawings and instructions, but exclude automatic placement.
+- Use explicit supplier service policy for the supplier BOM. Unknown policy blocks qualification, not neutral output.
+- Fixtures establish implementation behavior. They do not establish unknown supplier coordinate conventions.
+
+New reports are in the corresponding worktree, not the original directory.
+The PCBA author prepared `docs/reviews/b9-b10-interface-claude.md` and requested both reviews.
+The mechanical Codex report is `docs/reviews/mechanical/b11-interface-review-codex.md`.
 
 ## Latest state
 
