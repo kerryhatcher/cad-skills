@@ -1,0 +1,19 @@
+[
+  "bwrap",
+  "--bind",
+  "/",
+  "/",
+  "--proc",
+  "/proc",
+  "--dev",
+  "/dev",
+  "--tmpfs",
+  "/mnt/storage/projects",
+  "--chdir",
+  "/tmp/fab-standalone-root-65s7_0zf",
+  "--",
+  "uv",
+  "run",
+  "--offline",
+  "/tmp/fab-standalone-root-65s7_0zf/trial.py"
+]

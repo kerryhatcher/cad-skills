@@ -501,11 +501,11 @@ CHECK_INPUT_ROLES = {
     "fab.layer_order": ("board", "export_settings"),
     "fab.drill_split": ("board", "board_interface", "export_settings"),
     "fab.supplier_rules": ("board", "supplier_profile", "export_settings", "supplier_rules", "supplier_settings", "toolchain"),
-    "asm.bom_consistent": ("parts", "variants", "board_record"),
+    "asm.bom_consistent": ("parts", "variants", "board_record", "supplier_profile"),
     "asm.placement_rotation": ("board", "parts", "variants"),
     "asm.variant_agreement": ("board_record", "variants", "parts"),
     "asm.stock_dated": ("parts", "board_record"),
-    "asm.test_record": ("board", "parts", "variants"),
+    "asm.test_record": ("board", "parts", "variants", "board_record"),
 }
 HASH_CODES = {"board": "cross.board_pcb_hash_mismatch", "board_record": "cross.board_record_hash_mismatch",
               "schematic": "cross.schematic_hash_mismatch"}

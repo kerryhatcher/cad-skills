@@ -1,0 +1,2 @@
+ok   N1: internal-only copper (In1.Cu to In2.Cu) at 0.2 mm is reported by hole_clearance
+ok   N2: the outer-layer control at the same gap (F.Cu to B.Cu) is reported with the same actual value

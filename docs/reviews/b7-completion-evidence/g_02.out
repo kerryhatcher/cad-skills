@@ -1,0 +1,2 @@
+rc 0 types ['clearance', 'track_dangling', 'via_dangling']
+clearance Clearance violation (rule 'supplier_min_space' clearance 0.1270 mm; actual 0.0984 mm) ['Track [GND] on In1.Cu, length 8.0000 mm', 'Via [N1] on F.Cu - B.Cu']

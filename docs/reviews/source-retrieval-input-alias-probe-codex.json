@@ -1,0 +1,52 @@
+[
+  {
+    "case": "manifest",
+    "exit": 0,
+    "fetch_calls": 1,
+    "manifest_changed": true,
+    "protected_changed": true,
+    "protected_replaced": true,
+    "report": {
+      "entries": [
+        {
+          "distribution": "exclude-full-copy",
+          "fetch_error": null,
+          "hash_status": "match",
+          "id": "manifest",
+          "magic_status": "not-tested",
+          "observed_sha256": "773d086e94a78ada5cab44c54febeda11e9cb20cd89c396427043bbd0215eee9",
+          "path": "./sources.yaml",
+          "write_status": "written",
+          "written": true
+        }
+      ],
+      "exit": 0,
+      "overall": "all match"
+    }
+  },
+  {
+    "case": "profile",
+    "exit": 0,
+    "fetch_calls": 1,
+    "manifest_changed": false,
+    "protected_changed": true,
+    "protected_replaced": true,
+    "report": {
+      "entries": [
+        {
+          "distribution": "exclude-full-copy",
+          "fetch_error": null,
+          "hash_status": "match",
+          "id": "profile",
+          "magic_status": "not-tested",
+          "observed_sha256": "773d086e94a78ada5cab44c54febeda11e9cb20cd89c396427043bbd0215eee9",
+          "path": "supplier/profiles/./fixture.yaml",
+          "write_status": "written",
+          "written": true
+        }
+      ],
+      "exit": 0,
+      "overall": "all match"
+    }
+  }
+]

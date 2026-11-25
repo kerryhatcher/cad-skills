@@ -51,6 +51,7 @@ def fresh_project(tmp, label):
     board = board.replace("  service: Example two-layer service", "  service: OSH Park two-layer service")
     board = board.replace("  profile_sha256: b37b37495cbab698f921e7b229585ea890cefd7298f3615cd15cec02bb00fb77",
                           f"  profile_sha256: {prof['content_sha256']}")
+    board += "\nextensions:\n  fabrication:\n    via_process: standard_through\n"
     (proj / "board.yaml").write_text(board)
     return proj
 
@@ -322,9 +323,11 @@ def test_pipeline_rules(tmp):
     (proj / "kicad" / "board.kicad_sch").write_bytes((proj / "kicad" / "board.kicad_sch").read_bytes() + b"\n")
     q2 = run_fab("package", "--project", str(proj), "--profile", prof, "--release", "trial-1",
                  "--review", str(review_path), "--review-sha256", rsha, "--dest", str(proj / "out" / "fab" / "packages" / "stale"))
-    m = json.loads((proj / "out" / "fab" / "packages" / "stale" / "manifest.json").read_text()) if (proj / "out" / "fab" / "packages" / "stale" / "manifest.json").is_file() else {"status": "missing", "reasons": []}
-    stale = any("stale" in r["text"] for r in m["reasons"])
-    check("a source changed after the design run makes the package unqualified and stale (exit 1)", q2.returncode == 1 and stale and m["status"] == "draft", (q2.returncode, m["reasons"]))
+    stale_dest = proj / "out" / "fab" / "packages" / "stale"
+    reasons = package_manifest_reasons(stale_dest)
+    stale = any("stale" in r for r in reasons)
+    check("a source changed after the design run is refused: stale reason kept, nothing published (exit 1)",
+          q2.returncode == 1 and stale and not stale_dest.exists(), (q2.returncode, reasons, q2.stderr[-200:]))
 
 
 def _first_track_marker(pcb_text):
@@ -477,8 +480,7 @@ def test_binding_and_lock(tmp):
         dest = proj / "out" / "fab" / "packages" / label
         p = run_fab("package", "--project", str(proj), "--profile", prof, "--release", "trial-1",
                     "--review", str(proj / "out/fab/source-review/REVIEW.json"), "--review-sha256", rsha, "--dest", str(dest))
-        reasons = json.loads((dest / "manifest.json").read_text())["reasons"] if (dest / "manifest.json").is_file() else []
-        return p.returncode, [r["text"] for r in reasons]
+        return p.returncode, package_manifest_reasons(dest)
 
     code, reasons = variant("clean", lambda p: None)
     check("binding: the unchanged project qualifies (exit 0)", code == 0, (code, reasons))
@@ -582,9 +584,10 @@ def test_manual_original(tmp):
     dest = base / "out" / "fab" / "packages" / "c3"
     p = run_fab("package", "--project", str(base), "--profile", prof, "--release", "trial-1",
                 "--review", str(review_path), "--review-sha256", rsha, "--dest", str(dest))
-    reasons = [r["text"] for r in json.loads((dest / "manifest.json").read_text())["reasons"]] if (dest / "manifest.json").is_file() else []
-    check("C3: a byte-only change to the original manual record makes the package unqualified (exit 1)",
-          p.returncode == 1 and any("original manual record changed" in r for r in reasons), (p.returncode, reasons))
+    reasons = package_manifest_reasons(dest)
+    check("C3: a byte-only change to the original manual record is refused before publication (exit 1)",
+          p.returncode == 1 and not dest.exists() and "original manual record changed before publication" in p.stdout + p.stderr,
+          (p.returncode, reasons, p.stderr[-200:]))
 
 
 def prepared(tmp, label):
@@ -619,6 +622,18 @@ def package_in_process(proj, review_path, rsha, dest):
                             proj / "out" / "fab" / "supplier", rsha)
 
 
+def package_manifest(dest):
+    """The package manifest, from the published package or from the retained staging directory. Empty when absent."""
+    for path in (dest / "manifest.json", dest.parent / (".staging-" + dest.name) / "manifest.json"):
+        if path.is_file():
+            return json.loads(path.read_text())
+    return {}
+
+
+def package_manifest_reasons(dest):
+    return [r["text"] for r in package_manifest(dest).get("reasons", [])]
+
+
 def test_interrupted_binding(tmp):
     """C7: a run stops after the new binding write and before the new result write. The old result cannot pass."""
     proj, review_path, rsha = prepared(tmp, "c7")
@@ -646,20 +661,19 @@ def test_interrupted_binding(tmp):
           (design / "design-result.json").read_bytes() == old_result)
     check("C7: the interrupted run releases the project lock", not (proj / ".cad-skills.lock").exists())
     dest = proj / "out" / "fab" / "packages" / "c7"
-    code, reasons = 0, []
+    code = 0
     try:
-        code, manifest = package_in_process(proj, review_path, rsha, dest)
-        reasons = [r["text"] for r in manifest["reasons"]]
+        code, _ = package_in_process(proj, review_path, rsha, dest)
     except workflow.Stop as err:
-        code, reasons = err.code, [str(err)]
-    check("C7: the old design result cannot pass against the new binding (not qualified)",
-          code != 0 and any("does not bind the current design-binding.json" in r for r in reasons), (code, reasons))
+        code = err.code
+    reasons = package_manifest_reasons(dest)
+    check("C7: the old design result cannot pass against the new binding (not published, not qualified)",
+          code != 0 and not dest.exists() and any("does not bind the current design-binding.json" in r for r in reasons),
+          (code, reasons))
 
 
 def test_copy_change(tmp):
-    """A controlled change to a source artifact between its capture and its copy makes the package a draft.
-
-    The manifest keeps the hash of the bytes that were copied, not the measured hash."""
+    """A controlled change to a source artifact between its capture and its copy is refused. Nothing is published."""
     proj, review_path, rsha = prepared(tmp, "copy")
     gerber = proj / "out" / "fab" / "design" / "export" / "board-F_Cu.gbr"
     injected = b"injected copper bytes, not measured\n"
@@ -671,41 +685,292 @@ def test_copy_change(tmp):
         return result
 
     review.gate = gate_then_inject
+    dest = proj / "out" / "fab" / "packages" / "copy"
+    code = 0
     try:
-        code, manifest = package_in_process(proj, review_path, rsha, proj / "out" / "fab" / "packages" / "copy")
+        code, _ = package_in_process(proj, review_path, rsha, dest)
+    except workflow.Stop as err:
+        code = err.code
     finally:
         review.gate = original_gate
-    reasons = [r["text"] for r in manifest["reasons"]]
-    entry = next(o for o in manifest["outputs"] if o["path"] == "gerber/board-F_Cu.gbr")
-    check("copy: the changed copper Gerber is refused (exit 1, draft)",
-          code == 1 and manifest["status"] == "draft", (code, manifest["status"]))
-    check("copy: the reason names the changed copy", any("gerber/board-F_Cu.gbr changed after its measurement" in r for r in reasons), reasons)
+    manifest = package_manifest(dest)
+    reasons = [r["text"] for r in manifest.get("reasons", [])]
+    entry = next(o for o in manifest.get("outputs", []) if o["path"] == "gerber/board-F_Cu.gbr")
+    check("copy: the changed copper Gerber is refused (exit 1, nothing published)",
+          code == 1 and not dest.exists(), (code, dest.exists()))
+    check("copy: the reason names the changed copy",
+          any("gerber/board-F_Cu.gbr changed after its measurement" in r for r in reasons), reasons)
     check("copy: the manifest hash is the hash of the bytes that were copied", entry["sha256"] == sha(injected), entry["sha256"])
 
 
 def test_final_gate(tmp):
-    """A change after the manifest is prepared fails the final freshness gate before publication."""
+    """C5: a source change after the manifest is validated fails the final gate. Nothing is published."""
     proj, review_path, rsha = prepared(tmp, "final-gate")
     gerber = proj / "out" / "fab" / "design" / "export" / "board-F_Cu.gbr"
     original_build = workflow.VAL.build_report
     changed = {"done": False}
 
     def build_then_change(*args, **kwargs):
-        result = original_build(*args, **kwargs)  # the manifest is prepared by now
+        result = original_build(*args, **kwargs)  # the manifest is validated by now
         if not changed["done"]:
             changed["done"] = True
             gerber.write_bytes(b"changed after the manifest\n")
         return result
 
     workflow.VAL.build_report = build_then_change
+    dest = proj / "out" / "fab" / "packages" / "final-gate"
+    code, message = 0, ""
     try:
-        code, manifest = package_in_process(proj, review_path, rsha, proj / "out" / "fab" / "packages" / "gate")
+        code, _ = package_in_process(proj, review_path, rsha, dest)
+    except workflow.Stop as err:
+        code, message = err.code, str(err)
     finally:
         workflow.VAL.build_report = original_build
-    gate = [r["text"] for r in manifest["reasons"] if r["code"] == "pkg.final_gate"]
-    check("final gate: a change after the manifest is prepared is refused (exit 1, draft)",
-          code == 1 and manifest["status"] == "draft", (code, manifest["status"]))
-    check("final gate: the reason is the final freshness gate", any("changed before publication" in r for r in gate), gate)
+    check("final gate: a change after validation is refused (exit 1, nothing published)",
+          code == 1 and not dest.exists(), (code, dest.exists()))
+    check("final gate: the named failure is kept with the staging path",
+          "pkg.final_gate" in message and "changed before publication" in message, message[:200])
+
+
+def staged_case(tmp, label, mutate):
+    """Run the package and change the staged package after validation. Return (exit, message, published)."""
+    proj, review_path, rsha = prepared(tmp, label)
+    dest = proj / "out" / "fab" / "packages" / label
+    staging = dest.parent / (".staging-" + dest.name)
+    original_build = workflow.VAL.build_report
+    state = {"done": False}
+
+    def build_then_mutate(*args, **kwargs):
+        result = original_build(*args, **kwargs)
+        if not state["done"]:
+            state["done"] = True
+            mutate(staging)
+        return result
+
+    workflow.VAL.build_report = build_then_mutate
+    code, message = 0, ""
+    try:
+        code, _ = package_in_process(proj, review_path, rsha, dest)
+    except workflow.Stop as err:
+        code, message = err.code, str(err)
+    finally:
+        workflow.VAL.build_report = original_build
+    return code, message, dest.exists()
+
+
+def test_staged_gerber(tmp):
+    """C5: a staged Gerber changed after validation is refused. Nothing is published."""
+    def mutate(staging):
+        (staging / "gerber" / "board-F_Cu.gbr").write_bytes(b"changed in staging\n")
+    code, message, published = staged_case(tmp, "staged-gerber", mutate)
+    check("C5: a staged Gerber changed after validation is refused (exit 1, not published)",
+          code == 1 and not published and "gerber/board-F_Cu.gbr differs from its validated bytes" in message,
+          (code, published, message[:200]))
+
+
+def test_staged_manifest(tmp):
+    """C5: a staged manifest changed after validation is refused. Nothing is published."""
+    def mutate(staging):
+        (staging / "manifest.json").write_bytes((staging / "manifest.json").read_bytes() + b"\n")
+    code, message, published = staged_case(tmp, "staged-manifest", mutate)
+    check("C5: a staged manifest changed after validation is refused (exit 1, not published)",
+          code == 1 and not published and "the staged manifest differs from its validated bytes" in message,
+          (code, published, message[:200]))
+
+
+def test_link_destinations(tmp):
+    """C1: a link at each complete destination is refused before any write. The outside target is unchanged."""
+    base = fresh_project(tmp, "links")
+    prof = str(PROFILE)
+    run_fab("design", "--project", str(base), "--profile", prof)
+    cases = [
+        ("profile file", "design", "out/fab/design/captured/profile.yaml", True),
+        ("dangling profile file", "design", "out/fab/design/captured/profile.yaml", False),
+        ("design output", "design", "out/fab/design/inventory.json", True),
+        ("design log", "design", "out/fab/design/logs/erc.stderr", True),
+        ("supplier output", "supplier", "out/fab/supplier/supplier.kicad_dru", True),
+        ("worker report", "supplier", "out/fab/supplier/mask.json", True),
+    ]
+    for label, step, rel, target_exists in cases:
+        slug = label.replace(" ", "-")
+        proj = tmp / ("links-" + slug)
+        shutil.copytree(base, proj, symlinks=True)
+        outside = tmp / ("outside-" + slug + ".txt")
+        if target_exists:
+            outside.write_bytes(b"outside before the run\n")
+        link = proj / rel
+        link.parent.mkdir(parents=True, exist_ok=True)
+        if link.is_symlink() or link.exists():
+            link.unlink()
+        os.symlink(outside, link)
+        p = run_fab(step, "--project", str(proj), "--profile", prof)
+        unchanged = (outside.read_bytes() == b"outside before the run\n") if target_exists else not outside.exists()
+        check(f"C1: a link at the {label} is refused before any write (exit 2)",
+              p.returncode == 2 and link.is_symlink() and unchanged, (p.returncode, p.stderr[-160:]))
+
+
+def test_result_change(tmp):
+    """C2: a changed design result is refused by the supplier. The existing supplier result is not replaced."""
+    proj, review_path, rsha = prepared(tmp, "c2-result")
+    design = proj / "out" / "fab" / "design"
+    supplier_result = proj / "out" / "fab" / "supplier" / "supplier-result.json"
+    before = supplier_result.read_bytes()
+    result = json.loads((design / "design-result.json").read_text())
+    result["tool"]["kicad"] = "10.0.9"
+    (design / "design-result.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    p = run_fab("supplier", "--project", str(proj), "--profile", str(PROFILE))
+    check("C2: a changed design result is refused by the supplier (exit 1)",
+          p.returncode == 1 and "design result content differs" in p.stdout + p.stderr, (p.returncode, p.stderr[-200:]))
+    check("C2: the existing supplier result is not replaced", supplier_result.read_bytes() == before)
+
+
+def test_transient_input(tmp):
+    """C2: a design Gerber that changes during the mask measurement does not change the measured bytes."""
+    proj = fresh_project(tmp, "transient")
+    run_fab("design", "--project", str(proj), "--profile", str(PROFILE))
+    gerber = proj / "out" / "fab" / "design" / "export" / "board-F_Mask.gbr"
+    captured_bytes = gerber.read_bytes()
+    original_worker = fab.run_mask_worker
+
+    def worker_with_transient(gerber_arg, limit, report):
+        gerber.write_bytes(b"transient bytes, not the design output\n")
+        try:
+            return original_worker(gerber_arg, limit, report)
+        finally:
+            gerber.write_bytes(captured_bytes)
+
+    fab.run_mask_worker = worker_with_transient
+    try:
+        code, result = workflow.supplier(proj, PROFILE, proj / "out" / "fab" / "supplier", proj / "out" / "fab" / "design")
+    finally:
+        fab.run_mask_worker = original_worker
+    mask = json.loads((proj / "out" / "fab" / "supplier" / "mask.json").read_text())
+    check("C2: the mask measurement binds the captured Gerber, not the transient bytes",
+          mask["gerber_sha256"] == sha(captured_bytes), mask["gerber_sha256"])
+    check("C2: the supplier result records the captured Gerber hash",
+          result["measure_inputs"]["export/board-F_Mask.gbr"] == sha(captured_bytes))
+
+
+def rewrite_supplier_result(proj, mutate, recompute):
+    """Change the supplier result. Recompute its content hash only when `recompute` is true."""
+    path = proj / "out" / "fab" / "supplier" / "supplier-result.json"
+    result = json.loads(path.read_text())
+    mutate(result)
+    if recompute:
+        body = {key: value for key, value in result.items() if key != "content_sha256"}
+        result["content_sha256"] = VAL.canonical_hash(body)
+    path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+
+
+def package_copy(proj, label):
+    """Run the package on a copy of the project. Return (exit, output text, destination)."""
+    copy = proj.parent / ("copy-" + label)
+    shutil.copytree(proj, copy, symlinks=True)
+    dest = copy / "out" / "fab" / "packages" / label
+    p = run_fab("package", "--project", str(copy), "--profile", str(PROFILE), "--release", "trial-1",
+                "--review", str(copy / "out/fab/source-review/REVIEW.json"), "--review-sha256", sha((copy / "out/fab/source-review/REVIEW.json").read_bytes()),
+                "--dest", str(dest))
+    return p.returncode, p.stdout + p.stderr, dest
+
+
+def test_supplier_rows(tmp):
+    """The supplier result is validated before the package consumes it: content, profile, rows and exit."""
+    proj, review_path, rsha = prepared(tmp, "rows")
+    original = (proj / "out" / "fab" / "supplier" / "supplier-result.json").read_bytes()
+
+    def reset(label):
+        (proj / "out" / "fab" / "supplier" / "supplier-result.json").write_bytes(original)
+        return package_copy(proj, label)
+
+    def set_status(condition, status, exit_value=None):
+        def mutate(result):
+            for row in result["rows"]:
+                if row["condition"] == condition:
+                    row["status"] = status
+            if exit_value is not None:
+                result["exit"] = exit_value
+        return mutate
+
+    rewrite_supplier_result(proj, set_status("min_trace", "fail"), recompute=False)
+    code, text, dest = package_copy(proj, "old-hash")
+    check("rows: a changed row with the old content hash is refused before publication (exit 1)",
+          code == 1 and "supplier result content differs" in text and not dest.exists(), (code, text[-200:]))
+    reset("baseline")
+    rewrite_supplier_result(proj, set_status("min_trace", "fail"), recompute=True)
+    code, text, dest = package_copy(proj, "bad-exit")
+    check("rows: a changed row with a new hash and an inconsistent exit is refused (exit 1)",
+          code == 1 and "exit differs from its rows" in text and not dest.exists(), (code, text[-200:]))
+    reset("baseline-2")
+
+    def drop_min_trace(result):
+        result["rows"] = [row for row in result["rows"] if row["condition"] != "min_trace"]
+    rewrite_supplier_result(proj, drop_min_trace, recompute=True)
+    code, text, dest = package_copy(proj, "missing-row")
+    check("rows: a missing mandatory row is refused and does not qualify a package (exit 1)",
+          code == 1 and "missing mandatory rows" in text and "min_trace" in text and not dest.exists(), (code, text[-200:]))
+    reset("baseline-3")
+
+    rewrite_supplier_result(proj, set_status("min_trace", "fail", exit_value=1), recompute=True)
+    code, text, dest = package_copy(proj, "valid-fail")
+    manifest = package_manifest(dest)
+    check("rows: a consistent failing row is a draft, not a refusal (exit 1, published as draft)",
+          code == 1 and dest.exists() and manifest.get("status") == "draft"
+          and "supplier conditions are not all passing" in [r["text"] for r in manifest.get("reasons", [])],
+          (code, manifest.get("status")))
+
+
+def test_binding_drift(tmp):
+    """A binding file that changes after validation is refused at the final gate. Nothing is published."""
+    proj, review_path, rsha = prepared(tmp, "drift")
+    design_binding = proj / "out" / "fab" / "design" / "design-binding.json"
+    original_build = workflow.VAL.build_report
+    changed = {"done": False}
+
+    def build_then_drift(*args, **kwargs):
+        result = original_build(*args, **kwargs)
+        if not changed["done"]:
+            changed["done"] = True
+            design_binding.write_bytes(design_binding.read_bytes() + b"\n")
+        return result
+
+    workflow.VAL.build_report = build_then_drift
+    dest = proj / "out" / "fab" / "packages" / "drift"
+    code, message = 0, ""
+    try:
+        code, _ = package_in_process(proj, review_path, rsha, dest)
+    except workflow.Stop as err:
+        code, message = err.code, str(err)
+    finally:
+        workflow.VAL.build_report = original_build
+    check("binding drift: a binding changed after validation is refused (exit 1, nothing published)",
+          code == 1 and not dest.exists() and "the binding design-binding.json changed before publication" in message,
+          (code, message[:200]))
+
+
+def test_drawing_links(tmp):
+    """The standalone drawing commands refuse a link at --out, even a dangling one, and keep the target unchanged."""
+    proj = fresh_project(tmp, "drawing")
+    run_fab("design", "--project", str(proj), "--profile", str(PROFILE))
+    inventory = proj / "out" / "fab" / "design" / "inventory.json"
+    board = proj / "kicad" / "board.kicad_pcb"
+    common = ["--inventory", str(inventory), "--profile", str(PROFILE), "--board", str(board), "--release", "trial-1"]
+    facts = tmp / "facts-ok.json"
+    ok = run_fab("drawing-facts", *common, "--out", str(facts))
+    check("drawing: an ordinary drawing-facts output is written (exit 0)", ok.returncode == 0 and facts.is_file(), ok.stderr[-200:])
+    dangling = tmp / "drawing-facts-link.json"
+    outside_missing = tmp / "outside-missing-facts.json"
+    os.symlink(outside_missing, dangling)
+    p = run_fab("drawing-facts", *common, "--out", str(dangling))
+    check("drawing: a dangling link at drawing-facts --out is refused (exit 2), no target written",
+          p.returncode == 2 and dangling.is_symlink() and not outside_missing.exists(), (p.returncode, p.stderr[-160:]))
+    outside_pdf = tmp / "outside-drawing.pdf"
+    outside_pdf.write_bytes(b"outside before the drawing\n")
+    pdf_link = tmp / "drawing-link.pdf"
+    os.symlink(outside_pdf, pdf_link)
+    q = run_fab("drawing", "--facts", str(facts), "--out", str(pdf_link))
+    check("drawing: a link at drawing --out is refused (exit 2) and the target keeps its bytes",
+          q.returncode == 2 and pdf_link.is_symlink() and outside_pdf.read_bytes() == b"outside before the drawing\n",
+          (q.returncode, q.stderr[-160:]))
 
 
 def test_captured_settings(tmp):
@@ -785,6 +1050,14 @@ def main():
         test_interrupted_binding(tmp)
         test_copy_change(tmp)
         test_final_gate(tmp)
+        test_staged_gerber(tmp)
+        test_staged_manifest(tmp)
+        test_link_destinations(tmp)
+        test_result_change(tmp)
+        test_transient_input(tmp)
+        test_supplier_rows(tmp)
+        test_binding_drift(tmp)
+        test_drawing_links(tmp)
         test_captured_settings(tmp)
         test_review_lock(tmp)
     finally:

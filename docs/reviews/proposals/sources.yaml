@@ -1,0 +1,37 @@
+# Proposed additions to skills/pcb-fab-package/sources.yaml (draft, not installed).
+# Format: the skill-level format of the release worktree (schema cad-skills/sources, version 1).
+# The three setup pages are review candidates: sha256 is null until a recorded source review fills it.
+# Full copies stay local evidence outside the distribution bundle.
+schema: cad-skills/sources
+schema_version: 1
+sources:
+  - id: oshpark-kicad-main-candidate
+    path: supplier/guidance/oshpark-kicad-main.html
+    url: https://docs.oshpark.com/design-tools/kicad/
+    retrieved: "2026-11-15"
+    sha256: null
+    content_type: text/html
+    magic: markup
+    license_state: "not established; informational only"
+    distribution_decision: exclude-full-copy
+    profile_binding: null
+  - id: oshpark-kicad-design-rules-candidate
+    path: supplier/guidance/oshpark-kicad-design-rules.html
+    url: https://docs.oshpark.com/design-tools/kicad/kicad-design-rules/
+    retrieved: "2026-11-15"
+    sha256: null
+    content_type: text/html
+    magic: markup
+    license_state: "not established; informational only"
+    distribution_decision: exclude-full-copy
+    profile_binding: null
+  - id: oshpark-kicad-gerbers-candidate
+    path: supplier/guidance/oshpark-kicad-gerbers.html
+    url: https://docs.oshpark.com/design-tools/kicad/generating-kicad-gerbers/
+    retrieved: "2026-11-15"
+    sha256: null
+    content_type: text/html
+    magic: markup
+    license_state: "not established; informational only"
+    distribution_decision: exclude-full-copy
+    profile_binding: null

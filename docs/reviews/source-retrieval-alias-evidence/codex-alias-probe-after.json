@@ -1,0 +1,24 @@
+[
+  {
+    "case": "manifest",
+    "exit": 2,
+    "fetch_calls": 0,
+    "manifest_changed": false,
+    "protected_changed": true,
+    "protected_replaced": false,
+    "report": {
+      "error": "entry manifest: the destination is the protected input /tmp/source-alias-manifest-qhu62m9q/sources.yaml; nothing is fetched"
+    }
+  },
+  {
+    "case": "profile",
+    "exit": 2,
+    "fetch_calls": 0,
+    "manifest_changed": false,
+    "protected_changed": false,
+    "protected_replaced": false,
+    "report": {
+      "error": "entry profile: the destination is under supplier/profiles; nothing is fetched"
+    }
+  }
+]

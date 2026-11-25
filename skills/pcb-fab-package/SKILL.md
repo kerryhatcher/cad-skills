@@ -22,7 +22,8 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fab.py package --project P --profile FILE --release ID --review FILE --review-sha256 H --dest DIR` | build and publish the package | qualified | unqualified (reasons in the manifest) | existing destination or missing prerequisite | tool failure |
 | `fab.py inspect-slots --board-inventory FILE --pth FILE --npth FILE --report FILE` | slot comparison | every slot matches | mismatch | unsupported record | missing input |
 | `fab.py inspect-mask --gerber FILE --limit-mil N --report FILE` | mask web measurement | every web passes | fail or uncertain | unsupported construct or limit | tool failure |
-| `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments | not used |
+| `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | every fetched entry matches, or every entry is skipped | a candidate, changed or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
+| `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments, or a link at `--out` | not used |
 
 ## Flow
 
@@ -34,7 +35,8 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 
 ## Limits and rules
 
-- Every write stays under `out/fab/` of the project. A symbolic link or an escape is refused.
+- Every write of `design`, `supplier`, `review-source` and `package` stays under `out/fab/` of the project. A symbolic link or an escape is refused.
+- The standalone `drawing-facts` and `drawing` commands have no project argument. Their output root is the parent directory of `--out`. They refuse a link at `--out`, including a dangling link. They claim no project confinement.
 - Each KiCad command runs in the pinned image with no network. The image identity must match `toolchain.lock.json`. The KiCad version must match the lock.
 - A source file that changes during a run is refused. A stale design or supplier result is refused at package time.
 - The mask worker has a two-second caller timeout. A timeout returns exit 2 and writes no report. Each run needs a fresh report path. The worker also has a two-second budget of its own, checked at its checkpoints. The caller timeout includes process start and stop time.
@@ -43,14 +45,53 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 - Measured subset of the mask inspector: dark circle and rectangle flashes without a hole, and the measured `RoundRect` macro. Regions, strokes, clear polarity, other macros, holes and overlapping flashes are refused with exit 2.
 - The mask error bound (0.000003 mm) is derived from the Gerber coordinate format. It is not measured.
 - The fabrication drawing is a generated sheet. The layer PDF from KiCad proves only the export.
+- The board dimensions use the Edge.Cuts centerlines. The inventory excludes the drawing stroke width and includes footprint graphics.
+
+## Via construction
+
+The supplier command measures via spans from the captured board in the locked image.
+It compares them with `service.via_construction_prohibited` in the profile.
+A prohibited blind or buried span gives exit 1 before the design inventory prerequisite.
+The result names the failed precondition. It is not a complete supplier result and cannot qualify a package.
+
+Declare the requested process in `board.yaml`:
+
+```yaml
+extensions:
+  fabrication:
+    via_process: standard_through
+```
+
+The other supported values are `filled_plated_via_in_pad` and `unconfirmed`.
+The declaration describes the requested process. It does not prove physical construction.
+A prohibited declaration fails with exit 1. A missing or unconfirmed declaration with measured vias remains pending.
+An unknown value gives exit 2. A board with no vias records the measured zero count.
+The B6 inventory worker remains unchanged.
+
+## Corner tool compatibility
+
+The profile records published cutter diameters under `process.outline_cutter_diameter` and `process.cutout_cutter_diameter`.
+Each fact retains its inch value, source URL and source hash.
+The supplier command derives the circular tool radius as half that diameter.
+It compares this radius with measured concave outline corners and cutout corners.
+The result is derived tool compatibility. It is not a quoted supplier minimum or a general manufacturing guarantee.
+Convex outer corners do not use this comparison.
+
+The worker supports closed contours made from segments, rectangles, circles and quarter-circle arcs.
+It refuses other shapes, open or branching contours, nested cutouts and intersecting contours.
+The topology polygon has a circular chord bound of one micrometer.
+Separate contours must have more than 0.01 mm between their topology boundaries.
+The radius comparison uses the pcbnew integer nanometer radius, not the topology polygon.
 
 ## Not implemented
 
-- Process-capability facts are recorded in the profile. They are not supplier rows.
+- Process-capability facts other than the declared comparisons remain informational.
 - A manual geometry route for region-producing masks is not implemented. Such a mask stops the supplier step with exit 2.
 
 ## Files
 
+- `references/oshpark-kicad-setup.md`: project-authored KiCad setup for the OSH Park Gerber route. It separates checked values, recommendations, margins and manual steps.
+- `scripts/fetch_sources.py`: source retrieval for the manifest. It checks every entry before the first fetch, confines the profile and destination paths, and never writes a profile or a changed source.
 - `scripts/fab.py`: command line.
 - `scripts/workflow.py`: design, supplier and package.
 - `scripts/review.py`: source review and gate.
@@ -58,5 +99,7 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 - `scripts/inspect_slots.py`, `scripts/export_inspect.py`: slot comparison and drill reader.
 - `scripts/inspect_mask.py`, `scripts/macro_defs.py`: mask measurement and the measured macro text.
 - `scripts/board_inventory_slots.py`: container worker that reports slots, holes and the outline.
+- `scripts/via_inventory.py`: container worker that measures via spans without a board change.
+- `scripts/corner_inventory.py`: container worker that measures supported corner geometry.
 - `scripts/board_inventory.py`, `scripts/validate.py`, `scripts/project_io.py`: byte copies.
 - `contracts/`, `runtime/`, `supplier/`: byte copies and the five profile records.

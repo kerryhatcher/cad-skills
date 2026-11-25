@@ -101,7 +101,7 @@ def fact_items(profile):
         if key == "evidence_pages":
             continue
         if isinstance(val, dict) and "value" in val:
-            facts[key] = (val["value"], val.get("unit", ""), profile["source_url"])
+            facts[key] = (val["value"], val.get("unit", ""), val.get("source_url", profile["source_url"]))
         else:
             facts[key] = (val, "", profile["source_url"])
     return facts

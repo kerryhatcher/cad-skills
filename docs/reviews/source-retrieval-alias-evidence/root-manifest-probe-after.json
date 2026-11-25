@@ -1,0 +1,8 @@
+{
+  "exit": 2,
+  "manifest_changed": false,
+  "response_replaced_manifest": false,
+  "report": {
+    "error": "entry source: the destination is the protected input /tmp/retrieval-manifest-probe-qmnjyszz/sources.yaml; nothing is fetched"
+  }
+}

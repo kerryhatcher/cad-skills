@@ -1,0 +1,107 @@
+# Source manifest for the supplier evidence of pcb-fab-package.
+# Each entry records the URL, retrieval date, SHA-256 and distribution decision of one stored copy.
+# license_state is informational for local retrieval. distribution_decision is separate.
+# A full supplier copy is excluded from release artifacts and public source (lead decision 2026-11-15).
+schema: cad-skills/sources
+schema_version: 1
+sources:
+  - id: oshpark-single-layer-html
+    path: supplier/pages/single-layer.html
+    url: https://docs.oshpark.com/services/single-layer/
+    retrieved: "2026-11-14"
+    sha256: e937f343e7d4ce37d75770df6aff567c71de430b5421a1c34d63f430ffbacbc1
+    content_type: text/html
+    magic: markup
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-full-copy
+    profile_binding: supplier/profiles/oshpark-single-layer.yaml
+  - id: oshpark-single-layer-headers
+    path: supplier/pages/single-layer.headers
+    url: https://docs.oshpark.com/services/single-layer/
+    retrieved: "2026-11-14"
+    sha256: cfbae8b562ccdc183b77169835a3d868d20b4239ebef4c413868da220e9403a8
+    content_type: text/plain
+    magic: null
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-local-evidence
+    profile_binding: null
+  - id: oshpark-two-layer-html
+    path: supplier/pages/two-layer.html
+    url: https://docs.oshpark.com/services/two-layer/
+    retrieved: "2026-11-14"
+    sha256: d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25
+    content_type: text/html
+    magic: markup
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-full-copy
+    profile_binding: supplier/profiles/oshpark-two-layer.yaml
+  - id: oshpark-two-layer-headers
+    path: supplier/pages/two-layer.headers
+    url: https://docs.oshpark.com/services/two-layer/
+    retrieved: "2026-11-14"
+    sha256: e9442a47ac1bf72699a4f7037e0417045d57338ab2cf371e7bdd6fd9ab23117d
+    content_type: text/plain
+    magic: null
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-local-evidence
+    profile_binding: null
+  - id: oshpark-two-layer-hhdc-html
+    path: supplier/pages/two-layer-hhdc.html
+    url: https://docs.oshpark.com/services/two-layer-hhdc/
+    retrieved: "2026-11-14"
+    sha256: 641310abcd61e5b6c588b8f12554990e07941399f3d6cefce07c5602e16f1471
+    content_type: text/html
+    magic: markup
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-full-copy
+    profile_binding: supplier/profiles/oshpark-two-layer-hhdc.yaml
+  - id: oshpark-two-layer-hhdc-headers
+    path: supplier/pages/two-layer-hhdc.headers
+    url: https://docs.oshpark.com/services/two-layer-hhdc/
+    retrieved: "2026-11-14"
+    sha256: 99b99c13fc56bac85c094710e62a271f1081ee38bc6ed76c98da41246d542e22
+    content_type: text/plain
+    magic: null
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-local-evidence
+    profile_binding: null
+  - id: oshpark-four-layer-html
+    path: supplier/pages/four-layer.html
+    url: https://docs.oshpark.com/services/four-layer/
+    retrieved: "2026-11-14"
+    sha256: 566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38
+    content_type: text/html
+    magic: markup
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-full-copy
+    profile_binding: supplier/profiles/oshpark-four-layer.yaml
+  - id: oshpark-four-layer-headers
+    path: supplier/pages/four-layer.headers
+    url: https://docs.oshpark.com/services/four-layer/
+    retrieved: "2026-11-14"
+    sha256: 598679daf273ed9af75a755c847736aa5afdaf27f75a30f751e8ebfb449d79c5
+    content_type: text/plain
+    magic: null
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-local-evidence
+    profile_binding: null
+  - id: oshpark-six-layer-html
+    path: supplier/pages/six-layer.html
+    url: https://docs.oshpark.com/services/six-layer/
+    retrieved: "2026-11-14"
+    sha256: e174c3a58bfa776f6f860b4fd2441174520dd7c20f6c51f4af273beb95060cfa
+    content_type: text/html
+    magic: markup
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-full-copy
+    profile_binding: supplier/profiles/oshpark-six-layer.yaml
+  - id: oshpark-six-layer-headers
+    path: supplier/pages/six-layer.headers
+    url: https://docs.oshpark.com/services/six-layer/
+    retrieved: "2026-11-14"
+    sha256: 05e8297451e3a8ef26f80031bcd0ad6e1231b570ed33fe1c297d006b81373ac2
+    content_type: text/plain
+    magic: null
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    distribution_decision: exclude-local-evidence
+    profile_binding: null

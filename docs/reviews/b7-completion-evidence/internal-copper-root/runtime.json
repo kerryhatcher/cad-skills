@@ -1,0 +1,17 @@
+{
+  "image_reference": "localhost/cad-skills-pcb:b6",
+  "image_identity": "b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+  "network": "none",
+  "pull": "never",
+  "command": [
+    "kicad-cli",
+    "pcb",
+    "drc",
+    "--severity-all",
+    "--format",
+    "json",
+    "-o",
+    "/work/drc.json",
+    "/work/board.kicad_pcb"
+  ]
+}

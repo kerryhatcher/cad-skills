@@ -1,0 +1,22 @@
+{
+  "exit": 0,
+  "manifest_changed": true,
+  "response_replaced_manifest": true,
+  "report": {
+    "overall": "all match",
+    "exit": 0,
+    "entries": [
+      {
+        "id": "source",
+        "path": "sources.yaml",
+        "distribution": "exclude-full-copy",
+        "hash_status": "match",
+        "magic_status": "not-tested",
+        "written": true,
+        "write_status": "written",
+        "fetch_error": null,
+        "observed_sha256": "3a7fd67ac807e3d1d2199102dcf1c9e2f9de9488ea550b5759dec26fb4984f46"
+      }
+    ]
+  }
+}

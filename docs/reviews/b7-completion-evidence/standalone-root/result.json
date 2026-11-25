@@ -1,0 +1,257 @@
+{
+  "commands": [
+    {
+      "label": "profile",
+      "command": [
+        "uv",
+        "run",
+        "--offline",
+        "--quiet",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/scripts/fab.py",
+        "profile",
+        "--profile",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml"
+      ],
+      "exit": 0,
+      "stdout_sha256": "4e4a2945ffeac9e97c3b08655dbf17ce71ee0e3c0a06030c8a16ee3b072a258e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "judge",
+      "command": [
+        "uv",
+        "run",
+        "--offline",
+        "--quiet",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/scripts/fab.py",
+        "judge",
+        "--kind",
+        "minimum",
+        "--measured",
+        "6",
+        "--threshold",
+        "6",
+        "--unit",
+        "mil"
+      ],
+      "exit": 0,
+      "stdout_sha256": "9f56e761d79bfdb34304a012586cb04d16b435ef6130091a97702e559260a2f2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "design",
+      "command": [
+        "uv",
+        "run",
+        "--offline",
+        "--quiet",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/scripts/fab.py",
+        "design",
+        "--project",
+        "/tmp/fab-standalone-root-65s7_0zf/project",
+        "--profile",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "supplier",
+      "command": [
+        "uv",
+        "run",
+        "--offline",
+        "--quiet",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/scripts/fab.py",
+        "supplier",
+        "--project",
+        "/tmp/fab-standalone-root-65s7_0zf/project",
+        "--profile",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml",
+        "--manual",
+        "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/manual.json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e2ec82055f5507e5207436664499a0c13109106917bea0e271d6ee079189b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "review-source",
+      "command": [
+        "uv",
+        "run",
+        "--offline",
+        "--quiet",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/scripts/fab.py",
+        "review-source",
+        "--project",
+        "/tmp/fab-standalone-root-65s7_0zf/project",
+        "--profile",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml",
+        "--release",
+        "standalone-1",
+        "--observations",
+        "/tmp/fab-standalone-root-65s7_0zf/project/offline-observations.json",
+        "--reviewer",
+        "Owned fixture reviewer",
+        "--out",
+        "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/source-review/REVIEW.json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "de1a08951f05172b25640a6d1e3e158ff5748b2ee310786434dcbb18e6e47cef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "review-gate",
+      "command": [
+        "uv",
+        "run",
+        "--offline",
+        "--quiet",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/scripts/fab.py",
+        "review-gate",
+        "--project",
+        "/tmp/fab-standalone-root-65s7_0zf/project",
+        "--profile",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml",
+        "--release",
+        "standalone-1",
+        "--review",
+        "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/source-review/REVIEW.json",
+        "--expect-sha256",
+        "a060db156e778c3718d98832aa6be3906d0b456c3e7251284227676ae19bfe4f"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "package",
+      "command": [
+        "uv",
+        "run",
+        "--offline",
+        "--quiet",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/scripts/fab.py",
+        "package",
+        "--project",
+        "/tmp/fab-standalone-root-65s7_0zf/project",
+        "--profile",
+        "/tmp/fab-standalone-root-65s7_0zf/installed/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml",
+        "--release",
+        "standalone-1",
+        "--review",
+        "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/source-review/REVIEW.json",
+        "--review-sha256",
+        "a060db156e778c3718d98832aa6be3906d0b456c3e7251284227676ae19bfe4f",
+        "--dest",
+        "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "validator": {
+    "report_schema_version": "1.0",
+    "status": "pass",
+    "exit_code": 0,
+    "tool_versions": {
+      "python": "3.13.15",
+      "jsonschema": "4.26.0",
+      "pyyaml": "6.0.3"
+    },
+    "inputs": [
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/manifest.json",
+        "sha256": "155935542ff961d8b63f27140070c008f3f5c82cf0de0996bf580beead21bba1"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/board.yaml",
+        "sha256": "1dc8e2f42cb84570d7f0d3c273a4a60ae5fa68eb0cf1906c46ab5225351e7502"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/kicad/board.kicad_pcb",
+        "sha256": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/kicad/board.kicad_sch",
+        "sha256": "a0934ec606be522821ded5a3e7d31f4a9fa187452e1e8c5fa00afade0434d26c"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/variants.yaml",
+        "sha256": "e293a931f41f3b3181fa000ebf203c68a90feac2439b40820647b3f2614c1c3e"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/manufacturing/supplier.yaml",
+        "sha256": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/manufacturing/export.yaml",
+        "sha256": "e9ae3ee89c0b088f7468e5d002a7f47967358f1b922443bcb09eed99b2c22235"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/toolchain.lock.json",
+        "sha256": "104e23fc50127689d6c94a8ffabd43c3ed3d23d4444e0173f5deeb5e508b8b79"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/mechanical/board-interface.json",
+        "sha256": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/manufacturing/waivers.yaml",
+        "sha256": "ea5bbc9e8d942845487a965c110f8a9cf95063cd7c0640c92d76a6145e617b53"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/manifest.json",
+        "sha256": "155935542ff961d8b63f27140070c008f3f5c82cf0de0996bf580beead21bba1"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/evidence/design.erc.json",
+        "sha256": "4c9fa191b6776f5599c66540f26d6af65248ffc8e14bd19088966c63d4dbe51b"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/evidence/design.drc.json",
+        "sha256": "fa6c9e77deaa4bb66b317229ae8b609ab700a080f7a1994a91bae81f5b2b3a4d"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/evidence/design.parity.json",
+        "sha256": "5be94c1317d6324aef251f54a2ff214917cdb6a957e3cec5915ac4e37e416ae2"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/evidence/fab.profile_evidence.json",
+        "sha256": "b8596be87e641d958a4669071ec91848177e14e3c1092328016bd70faa63cee0"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/evidence/fab.export_inventory.json",
+        "sha256": "98cf4195617713f0f5f2b3ee7f52453d1558d16d386f0e2407886989de8c6df4"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/evidence/fab.layer_order.json",
+        "sha256": "95044e3999ce8627fecb92f6a08a09f6ad08a45707e695eb7e98d519c54dbc77"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/evidence/fab.drill_split.json",
+        "sha256": "04c293e4770c3217a95e5df1e3ef87523bc80cc1993119b88b3e7440ec019875"
+      },
+      {
+        "path": "/tmp/fab-standalone-root-65s7_0zf/project/out/fab/packages/standalone-1/evidence/fab.supplier_rules.json",
+        "sha256": "6fe416b8af7ca8aa42f56ea0bf38e475be50c30255d5914ea48d067ada148b70"
+      }
+    ],
+    "findings": [],
+    "unprocessed": [],
+    "outputs": []
+  },
+  "runtime": {
+    "image": "localhost/cad-skills-pcb:b6",
+    "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+    "kicad_version": "10.0.5"
+  },
+  "package_status": "qualified",
+  "output_count": 39,
+  "scope": "Offline owned fixture. No physical result or current supplier review is measured.",
+  "repository_hidden": true,
+  "retrieval": "Five retained pages through an offline transport."
+}

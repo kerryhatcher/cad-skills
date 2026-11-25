@@ -154,11 +154,11 @@ An evidence file for a passed check has `inputs` and one `artifact`. The inputs 
 | `fab.layer_order` | `board`, `export_settings` |
 | `fab.drill_split` | `board`, `board_interface`, `export_settings` |
 | `fab.supplier_rules` | `board`, `supplier_profile`, `export_settings`, `supplier_rules`, `supplier_settings`, `toolchain` |
-| `asm.bom_consistent` | `parts`, `variants`, `board_record` |
+| `asm.bom_consistent` | `parts`, `variants`, `board_record`, `supplier_profile` |
 | `asm.placement_rotation` | `board`, `parts`, `variants` |
 | `asm.variant_agreement` | `board_record`, `variants`, `parts` |
 | `asm.stock_dated` | `parts`, `board_record` |
-| `asm.test_record` | `board`, `parts`, `variants` |
+| `asm.test_record` | `board`, `parts`, `variants`, `board_record` |
 
 A manual record also has a `reviewer` and a date `observed_on`. A tool record has a `tool` and no mandatory reviewer. The date is an input that the caller supplies. The validator never reads the clock. For `fab.profile_evidence`, the artifact is a packaged file with the hash of the supplier profile `evidence_sha256`. A byte match shows identity of the retrieved bytes. It does not show authenticity or current supplier acceptance.
 

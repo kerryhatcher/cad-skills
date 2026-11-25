@@ -1306,6 +1306,14 @@ def test_evidence_qualification(tmp: Path):
     project, pkg, m = fresh("parts")
     rewrite_evidence(pkg, "asm.bom_consistent", lambda r: r.update(inputs=[i for i in r["inputs"] if i["path"] != "components/part.yaml"]))
     assert codes_of(project, pkg)[1] == ["pkg.check_input_role_missing"], "a missing assembly input role"
+    project, pkg, m = fresh("bom-policy")
+    profile_path = item_of(m, "supplier_profile", section="inputs")["path"]
+    rewrite_evidence(pkg, "asm.bom_consistent", lambda r: r.update(inputs=[i for i in r["inputs"] if i["path"] != profile_path]))
+    assert codes_of(project, pkg)[1] == ["pkg.check_input_role_missing"], "The BOM evidence omits the supplier policy."
+    project, pkg, m = fresh("test-limit-source")
+    board_path = item_of(m, "board_record", section="inputs")["path"]
+    rewrite_evidence(pkg, "asm.test_record", lambda r: r.update(inputs=[i for i in r["inputs"] if i["path"] != board_path]))
+    assert codes_of(project, pkg)[1] == ["pkg.check_input_role_missing"], "The test evidence omits the board limits."
     project, pkg, m = fresh("only-board")
     rewrite_evidence(pkg, "design.erc", lambda r: r.update(inputs=[{"path": "kicad/board.kicad_pcb", "sha256": item_of(m, "board", section="inputs")["sha256"]}]))
     assert codes_of(project, pkg)[1] == ["pkg.check_input_role_missing"], "ERC evidence with only the board"
