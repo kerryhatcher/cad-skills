@@ -1,0 +1,96 @@
+{
+  "neg_altered_step_output": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [
+      "export.altered: The published board.step differs from the export record."
+    ],
+    "release": 2,
+    "release_msg": [
+      "report.missing: Run the fit before the release. The report is missing."
+    ]
+  },
+  "neg_b1_height_5": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'fit_status': 'fail', 'geometry_status': 'pass', 'missing': []}."
+    ]
+  },
+  "neg_blocker_U9": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'fit_status': 'pass', 'geometry_status': 'fail', 'missing': []}."
+    ]
+  },
+  "neg_extra_hole": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'fit_status': 'pass', 'geometry_status': 'fail', 'missing': []}."
+    ]
+  },
+  "neg_h1_plated": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'fit_status': 'pass', 'geometry_status': 'fail', 'missing': []}."
+    ]
+  },
+  "neg_mirror_cn1_rot180": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'fit_status': 'pass', 'geometry_status': 'fail', 'missing': []}."
+    ]
+  },
+  "neg_stale_board_after_export": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [
+      "stale.input: board.kicad_pcb changed after the export; export again."
+    ],
+    "release": 2,
+    "release_msg": [
+      "report.missing: Run the fit before the release. The report is missing."
+    ]
+  },
+  "neg_unconfirmed_b1": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'fit_status': 'unconfirmed', 'geometry_status': 'pass', 'missing': []}."
+    ]
+  },
+  "neg_wrong_image": {
+    "export": 2,
+    "export_msg": [
+      "runtime.image_mismatch: The pinned image is 0000000000000000000000000000000000000000000000000000000000000000; the local image is b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f."
+    ],
+    "fit": null,
+    "fit_msg": null,
+    "release": null,
+    "release_msg": null
+  }
+}

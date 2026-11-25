@@ -1639,6 +1639,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--examined", action="append", default=None, help="a JSON pointer into the interface")
     p.add_argument("--statement", default=None)
     p.set_defaults(func=cmd_interface)
+    p = sub.add_parser("mechanical", help="B11 mechanical fit: contract checks, export, fit and release")
+    p.add_argument("action", choices=["check", "readiness", "export", "fit", "release"])
+    p.add_argument("path", type=Path, help="the fixture directory (check) or the project (other actions)")
+    p.add_argument("--image", default=None, help="export only: the local image reference (optional)")
+    p.set_defaults(func=cmd_mechanical)
     p = sub.add_parser("update", help="update the board from the schematic (manual handoff or gui adapter)")
     common(p)
     p.add_argument("--adapter", required=True, choices=["manual", "gui"])
@@ -1648,6 +1653,23 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--delete", choices=["on", "off"], default="off")
     p.set_defaults(func=cmd_update)
     return parser
+
+
+def cmd_mechanical(args) -> int:
+    """Thin dispatch to the local mechanical module (B11). The module runs under its own PEP 723
+    header, which lists CadQuery. This route does not import it."""
+    import subprocess  # noqa: PLC0415
+    module = str(Path(__file__).resolve().parent / "mechanical.py")
+    if args.action == "check":
+        argv = ["check", "--fixture", str(args.path)]
+    elif args.action == "readiness":
+        argv = ["readiness", "--project", str(args.path)]
+    else:
+        argv = [args.action, "--project", str(args.path)]
+        if args.action == "export" and args.image:
+            argv += ["--image", args.image]
+    proc = subprocess.run(["uv", "run", module, *argv])
+    return proc.returncode
 
 
 def keep_failure(code: str, message: str) -> None:

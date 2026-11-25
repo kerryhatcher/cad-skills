@@ -1,0 +1,252 @@
+{
+  "expected": {
+    "board_sha256": "37105cf50e2bb0c997f7b9f6a02affef2f101a6b0684a4024d5a78541f8e20ba",
+    "component_evidence_sha256": "424ed56f168c20d0dcb8228b1936ab62ba7a84a52d4e34d647365aa758f6f19d",
+    "electrical_release_id": "b11-electrical-input-r1",
+    "export_settings_sha256": "9565680898646c576aa77c252ae9021c823589b53ca9e5363d8277c2a33014d4",
+    "fixture_id": "mech-fit-a",
+    "fixture_source_sha256": "04ea9a1554b78fd1c96a84276e93b7bd3f808d1ca42fc60f259b5135aadf5523",
+    "interface_sha256": "4a9285d7dc2aa92937beb4cdee01d1b9489e5a95367562de08be0758c3008aba",
+    "release_id": "b11-mech-fit-a-r1",
+    "toolchain_image_id": "b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f"
+  },
+  "export_record_sha256": "5fbc558a38b10b78de2ea02c111a34a5d092ab6f2f6367c76fbd965e399242be",
+  "fit_assembly": {
+    "path": "out/mechanical/fit-assembly.step",
+    "sha256": "ab011d2f7af7968e0a2740394c0aeee79e86b61af84ead5ea3ff1664baa12e2a",
+    "size": 83759
+  },
+  "inputs": {
+    "board.kicad_pcb": {
+      "sha256": "37105cf50e2bb0c997f7b9f6a02affef2f101a6b0684a4024d5a78541f8e20ba",
+      "size": 1896
+    },
+    "export-settings.json": {
+      "sha256": "9565680898646c576aa77c252ae9021c823589b53ca9e5363d8277c2a33014d4",
+      "size": 1346
+    },
+    "mechanical/board-interface.json": {
+      "sha256": "4a9285d7dc2aa92937beb4cdee01d1b9489e5a95367562de08be0758c3008aba",
+      "size": 1748
+    },
+    "mechanical/component-evidence.json": {
+      "sha256": "424ed56f168c20d0dcb8228b1936ab62ba7a84a52d4e34d647365aa758f6f19d",
+      "size": 2144
+    },
+    "mechanical/fixture-source.json": {
+      "sha256": "04ea9a1554b78fd1c96a84276e93b7bd3f808d1ca42fc60f259b5135aadf5523",
+      "size": 2830
+    }
+  },
+  "outputs": {
+    "board-NPTH.drl": {
+      "path": "out/mechanical/export/board-NPTH.drl",
+      "role": "drill_npth",
+      "sha256": "cc744b1a7d75be81088f75085d6472751cced8ac2cfc90250d5d4190b14c165e",
+      "size": 506
+    },
+    "board-PTH.drl": {
+      "path": "out/mechanical/export/board-PTH.drl",
+      "role": "drill_pth",
+      "sha256": "6b53d92d9539e9975983deae4f5a35317123aa5549220b3b1d9637d6ffb3b8f3",
+      "size": 423
+    },
+    "board.step": {
+      "path": "out/mechanical/export/board.step",
+      "role": "step_board",
+      "sha256": "cb9bf1ad739250729527358c13b5e2e0116faec715344f9524fc8e0857d2a7c7",
+      "size": 14721
+    },
+    "outline.dxf": {
+      "path": "out/mechanical/export/outline.dxf",
+      "role": "dxf_outline",
+      "sha256": "7f78d95024454e3e64793cc114c04e4c97c867e04bff04c0592230df1f066fcd",
+      "size": 7266
+    }
+  },
+  "record": "mech-report/1",
+  "results": [
+    {
+      "id": "C12",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C01",
+      "measured_error_mm": 4.7207330545682824e-15,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C02d",
+      "measured_error_mm": 3.972054645195637e-15,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C05",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C02",
+      "measured_error_mm": 5.0242958677880805e-15,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C03",
+      "measured_error_mm": 2.000000000279556e-06,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C04",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.0
+    },
+    {
+      "id": "closed_hole_set",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "STEP",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "closed_hole_set",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "DXF",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "closed_hole_set",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "PTH",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "closed_hole_set",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "NPTH",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "angle_error_deg": 0.0,
+      "id": "C06",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "ref": "CN1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C07",
+      "measured_error_mm": null,
+      "reason": "intersects: U9",
+      "ref": "CN1",
+      "status": "fail",
+      "tolerance_mm": 1e-06
+    },
+    {
+      "id": "C08",
+      "measured_error_mm": -7.0,
+      "reason": "",
+      "ref": "CN1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C09",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "CN1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C08",
+      "measured_error_mm": -1.1999999999999997,
+      "reason": "",
+      "ref": "B1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C09",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "B1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C08",
+      "measured_error_mm": -8.0,
+      "reason": "",
+      "ref": "U9",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C09",
+      "measured_error_mm": null,
+      "reason": "outside the cavity at (57.3, 5.2), (59.3, 5.2), (59.3, 7.2), (57.3, 7.2)",
+      "ref": "U9",
+      "status": "fail",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C10",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": null
+    },
+    {
+      "id": "C11",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": null
+    }
+  ],
+  "status": {
+    "duplicates": [],
+    "failing": [
+      "C09:U9",
+      "C07:CN1"
+    ],
+    "fit_status": "pass",
+    "geometry_status": "fail",
+    "inconsistent": [],
+    "missing": [],
+    "problems": []
+  },
+  "version": "1"
+}

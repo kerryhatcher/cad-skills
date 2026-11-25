@@ -1,0 +1,79 @@
+{
+  "board_revision": "B11-A",
+  "comparisons": [
+    "C12",
+    "C01",
+    "C02d",
+    "C05",
+    "C02",
+    "C03",
+    "C04",
+    "closed_hole_set",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "C10",
+    "C11"
+  ],
+  "electrical_release_id": "b11-electrical-input-r1",
+  "fixture_id": "mech-fit-a",
+  "inputs": {
+    "board.kicad_pcb": {
+      "bytes": 1896,
+      "sha256": "37105cf50e2bb0c997f7b9f6a02affef2f101a6b0684a4024d5a78541f8e20ba"
+    },
+    "export-settings.json": {
+      "bytes": 1189,
+      "sha256": "113d3cfd68246416aec55b9c4997aa66d1733f2928849ac98a8cadf18bafcbc8"
+    },
+    "mechanical/board-interface.json": {
+      "bytes": 1748,
+      "sha256": "4a9285d7dc2aa92937beb4cdee01d1b9489e5a95367562de08be0758c3008aba"
+    },
+    "mechanical/component-evidence.json": {
+      "bytes": 1486,
+      "sha256": "fe60cc688e4565be6933a3b135c8372d590f72aacc57cdc024e8d6493d03f35d"
+    },
+    "mechanical/fixture-source.json": {
+      "bytes": 2542,
+      "sha256": "e440ee6442424fe4750bbd871c0198e9677ca8c0786581ecc17b38566710a2cf"
+    }
+  },
+  "outputs": [
+    {
+      "path": "out/mechanical/export/board.drl",
+      "role": "drill_pth",
+      "sha256": "3fc41a56fbc1c42bbbcca618d908a5a8fa64c4d9323f0fe6a981e92de4936aaf"
+    },
+    {
+      "path": "out/mechanical/export/board.step",
+      "role": "step_board",
+      "sha256": "c4d0ad1b04743f111455992260f188172fcbfbe952febe841430a9e0f6052d16"
+    },
+    {
+      "path": "out/mechanical/export/outline.dxf",
+      "role": "dxf_outline",
+      "sha256": "7f78d95024454e3e64793cc114c04e4c97c867e04bff04c0592230df1f066fcd"
+    },
+    {
+      "path": "out/mechanical/fit-assembly.step",
+      "role": "step_fit",
+      "sha256": "42efb59e7c9ba0aa0b7afdb9257dd1bc96109b1863e3382068ce68fcbfd9329f"
+    },
+    {
+      "path": "out/mechanical/report.json",
+      "role": "report",
+      "sha256": "bb350531f8448b384fabdab37b9ff79c96663ad4eda09ef62b41d7fef33fe58d"
+    }
+  ],
+  "record": "mech-release/1",
+  "record_sha256": "6ac66633ef82b6ac8d4ce816dedfb29d1144acc0b436a2d500140292d7758103",
+  "release_id": "b11-mech-fit-a-r1",
+  "status": {
+    "fit_status": "pass",
+    "geometry_status": "pass",
+    "missing": []
+  },
+  "version": "1"
+}

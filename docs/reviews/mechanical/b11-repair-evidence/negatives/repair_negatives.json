@@ -1,0 +1,166 @@
+{
+  "neg_altered_step_output": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [
+      "export.altered: The published board.step differs from the export record."
+    ],
+    "release": 2,
+    "release_msg": [
+      "report.missing: Run the fit before the release. The report is missing."
+    ]
+  },
+  "neg_b1_height_5": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'geometry_status': 'pass', 'fit_status': 'fail', 'missing': [], 'duplicates': [], 'inconsistent': [], 'problems': [], 'failing': ['C08:B1']}."
+    ]
+  },
+  "neg_blocker_U9": {
+    "export": 1,
+    "export_msg": [
+      "component.unknown: Evidence without a source record: U9."
+    ],
+    "fit": null,
+    "fit_msg": null,
+    "release": null,
+    "release_msg": null
+  },
+  "neg_empty_report_release": {
+    "export": 0,
+    "fit": 0,
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'geometry_status': 'fail', 'fit_status': 'fail', 'missing': [\"('C01', None)\", \"('C02', None)\", \"('C02d', None)\", \"('C03', None)\", \"('C04', None)\", \"('C05', None)\", \"('C12', None)\", \"('closed_hole_set', 'STEP')\", \"('closed_hole_set', 'DXF')\", \"('closed_hole_set', 'PTH')\", \"('closed_hole_set', 'NPTH')\", \"('C10', None)\", \"('C11', None)\", \"('C08', 'B1')\", \"('C09', 'B1')\", \"('C08', 'CN1')\", \"('C09', 'CN1')\", \"('C06', 'CN1')\", \"('C07', 'CN1')\"], 'duplicates': [], 'inconsistent': [], 'problems': ['empty result set']}."
+    ]
+  },
+  "neg_excluded_no_reason": {
+    "export": 2,
+    "export_msg": [
+      "excluded.fields: Each excluded hole needs exactly: id, x, y, diameter_mm, plated, reason."
+    ],
+    "fit": null,
+    "fit_msg": null,
+    "release": null,
+    "release_msg": null
+  },
+  "neg_export_record_path_escape": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [
+      "export.path: board.step: the record path or role is not the accepted one."
+    ],
+    "release": 2,
+    "release_msg": [
+      "report.missing: Run the fit before the release. The report is missing."
+    ]
+  },
+  "neg_extra_hole": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'geometry_status': 'fail', 'fit_status': 'pass', 'missing': [], 'duplicates': [], 'inconsistent': [], 'problems': [], 'failing': ['C02', 'C02d', 'C04', 'closed_hole_set:STEP', 'closed_hole_set:DXF', 'closed_hole_set:NPTH']}."
+    ]
+  },
+  "neg_h1_plated": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'geometry_status': 'fail', 'fit_status': 'pass', 'missing': [], 'duplicates': [], 'inconsistent': [], 'problems': [], 'failing': ['C04', 'closed_hole_set:PTH', 'closed_hole_set:NPTH']}."
+    ]
+  },
+  "neg_mirror_cn1_rot180": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'geometry_status': 'fail', 'fit_status': 'pass', 'missing': [], 'duplicates': [], 'inconsistent': [], 'problems': [], 'failing': ['C06:CN1']}."
+    ]
+  },
+  "neg_missing_b1": {
+    "export": 1,
+    "export_msg": [
+      "component.missing: No evidence record for: B1."
+    ],
+    "fit": null,
+    "fit_msg": null,
+    "release": null,
+    "release_msg": null
+  },
+  "neg_no_body_length": {
+    "export": 1,
+    "export_msg": [
+      "connector.evidence: CN1: the connector record needs body_length_mm."
+    ],
+    "fit": null,
+    "fit_msg": null,
+    "release": null,
+    "release_msg": null
+  },
+  "neg_slot_oval": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 2,
+    "fit_msg": [
+      "drill.unsupported: DXF entity ARC is not supported; slots and arcs are refused"
+    ],
+    "release": 2,
+    "release_msg": [
+      "report.missing: Run the fit before the release. The report is missing."
+    ]
+  },
+  "neg_stale_board_after_export": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [
+      "stale.input: board.kicad_pcb changed after the export; export again."
+    ],
+    "release": 2,
+    "release_msg": [
+      "report.missing: Run the fit before the release. The report is missing."
+    ]
+  },
+  "neg_unconfirmed_b1": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 1,
+    "fit_msg": [],
+    "release": 1,
+    "release_msg": [
+      "release.status: The report is not a complete pass: {'geometry_status': 'pass', 'fit_status': 'unconfirmed', 'missing': [], 'duplicates': [], 'inconsistent': [], 'problems': [], 'failing': []}."
+    ]
+  },
+  "neg_wrong_image": {
+    "export": 2,
+    "export_msg": [
+      "runtime.image_mismatch: The pinned image is 0000000000000000000000000000000000000000000000000000000000000000; the local image is b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f."
+    ],
+    "fit": null,
+    "fit_msg": null,
+    "release": null,
+    "release_msg": null
+  },
+  "pos_corrected_flow": {
+    "export": 0,
+    "export_msg": [],
+    "fit": 0,
+    "fit_msg": [],
+    "release": 0,
+    "release_msg": []
+  }
+}

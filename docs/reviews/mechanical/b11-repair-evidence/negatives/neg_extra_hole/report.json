@@ -1,0 +1,240 @@
+{
+  "expected": {
+    "board_sha256": "b275e3dd7fe3d0a9325bf6feffcf4b84fb8e0a8a3ed09e9ef0163a6729c22921",
+    "component_evidence_sha256": "6a16260eef3202ccd97fc73db75835060b37b8c2f5250197c313e4cb3439ddb6",
+    "electrical_release_id": "b11-electrical-input-r1",
+    "export_settings_sha256": "9565680898646c576aa77c252ae9021c823589b53ca9e5363d8277c2a33014d4",
+    "fixture_id": "mech-fit-a",
+    "fixture_source_sha256": "e440ee6442424fe4750bbd871c0198e9677ca8c0786581ecc17b38566710a2cf",
+    "interface_sha256": "4a9285d7dc2aa92937beb4cdee01d1b9489e5a95367562de08be0758c3008aba",
+    "release_id": "b11-mech-fit-a-r1",
+    "toolchain_image_id": "b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f"
+  },
+  "export_record_sha256": "be126aadabeba8fa2e4516aa8347ded61f5d8cf635ae38742572460f088b526f",
+  "fit_assembly": {
+    "path": "out/mechanical/fit-assembly.step",
+    "sha256": "587c781ec57f421f6aae8fd9ad130e61ae3bd0118cdafdbad4beb1e9ef358a44",
+    "size": 72361
+  },
+  "inputs": {
+    "board.kicad_pcb": {
+      "sha256": "b275e3dd7fe3d0a9325bf6feffcf4b84fb8e0a8a3ed09e9ef0163a6729c22921",
+      "size": 2153
+    },
+    "export-settings.json": {
+      "sha256": "9565680898646c576aa77c252ae9021c823589b53ca9e5363d8277c2a33014d4",
+      "size": 1346
+    },
+    "mechanical/board-interface.json": {
+      "sha256": "4a9285d7dc2aa92937beb4cdee01d1b9489e5a95367562de08be0758c3008aba",
+      "size": 1748
+    },
+    "mechanical/component-evidence.json": {
+      "sha256": "6a16260eef3202ccd97fc73db75835060b37b8c2f5250197c313e4cb3439ddb6",
+      "size": 1619
+    },
+    "mechanical/fixture-source.json": {
+      "sha256": "e440ee6442424fe4750bbd871c0198e9677ca8c0786581ecc17b38566710a2cf",
+      "size": 2542
+    }
+  },
+  "outputs": {
+    "board-NPTH.drl": {
+      "path": "out/mechanical/export/board-NPTH.drl",
+      "role": "drill_npth",
+      "sha256": "256094ca7d91f79f8ca2fcba64d62b9e0b42c5864c3e160e59e71a9b724c0d83",
+      "size": 581
+    },
+    "board-PTH.drl": {
+      "path": "out/mechanical/export/board-PTH.drl",
+      "role": "drill_pth",
+      "sha256": "c7882c905d72b9c945b11a5bb5372e35d25b1a6bd9145edf515b02ca702cd1b7",
+      "size": 423
+    },
+    "board.step": {
+      "path": "out/mechanical/export/board.step",
+      "role": "step_board",
+      "sha256": "dd450b52bb8dd24ba50932a3ddb8ef1a02998489d2b83981779f03f0102f3415",
+      "size": 16202
+    },
+    "outline.dxf": {
+      "path": "out/mechanical/export/outline.dxf",
+      "role": "dxf_outline",
+      "sha256": "e2d8da679fdf8fda87fbbaafcb4ba1a36ffbc724c1c13564e348a266a4bbac11",
+      "size": 7402
+    }
+  },
+  "record": "mech-report/1",
+  "results": [
+    {
+      "id": "C12",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C01",
+      "measured_error_mm": 4.7207330545682824e-15,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C02d",
+      "measured_error_mm": null,
+      "reason": "count 4 differs from 3",
+      "ref": null,
+      "status": "fail",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C05",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C02",
+      "measured_error_mm": null,
+      "reason": "count 4 differs from 3",
+      "ref": null,
+      "status": "fail",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C03",
+      "measured_error_mm": 2.000000000279556e-06,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C04",
+      "measured_error_mm": null,
+      "reason": "NPTH file has 3 hits, expected 2",
+      "ref": null,
+      "status": "fail",
+      "tolerance_mm": 0.0
+    },
+    {
+      "id": "closed_hole_set",
+      "measured_error_mm": null,
+      "reason": "STEP hole at (21.3, -6.8) is not listed",
+      "ref": "STEP",
+      "status": "fail",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "closed_hole_set",
+      "measured_error_mm": null,
+      "reason": "DXF hole at (21.3, -6.8) is not listed",
+      "ref": "DXF",
+      "status": "fail",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "closed_hole_set",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "PTH",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "closed_hole_set",
+      "measured_error_mm": null,
+      "reason": "NPTH hole at (21.3, -6.8) is not listed",
+      "ref": "NPTH",
+      "status": "fail",
+      "tolerance_mm": 0.01
+    },
+    {
+      "angle_error_deg": 0.0,
+      "id": "C06",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "ref": "CN1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C07",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "CN1",
+      "status": "pass",
+      "tolerance_mm": 1e-06
+    },
+    {
+      "id": "C08",
+      "measured_error_mm": -7.0,
+      "reason": "",
+      "ref": "CN1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C09",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "CN1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C08",
+      "measured_error_mm": -1.1999999999999997,
+      "reason": "",
+      "ref": "B1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C09",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": "B1",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C10",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": null
+    },
+    {
+      "id": "C11",
+      "measured_error_mm": null,
+      "reason": "",
+      "ref": null,
+      "status": "pass",
+      "tolerance_mm": null
+    }
+  ],
+  "status": {
+    "duplicates": [],
+    "failing": [
+      "C02",
+      "C02d",
+      "C04",
+      "closed_hole_set:STEP",
+      "closed_hole_set:DXF",
+      "closed_hole_set:NPTH"
+    ],
+    "fit_status": "pass",
+    "geometry_status": "fail",
+    "inconsistent": [],
+    "missing": [],
+    "problems": []
+  },
+  "version": "1"
+}
