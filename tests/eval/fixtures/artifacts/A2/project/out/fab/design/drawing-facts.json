@@ -1,0 +1,33 @@
+{
+  "board_sha256": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+  "copper_layers": [
+    "F.Cu",
+    "B.Cu"
+  ],
+  "holes": {
+    "count": 6,
+    "diameters_mm": [
+      0.3,
+      1.0,
+      3.2
+    ]
+  },
+  "overall_height_mm": 25.0,
+  "overall_width_mm": 40.0,
+  "profile": {
+    "copper": "1 oz",
+    "finished_thickness_mm": 1.6,
+    "mask_web_min_mil": 4,
+    "min_drill_mil": 10,
+    "min_space_mil": 6,
+    "min_trace_mil": 6,
+    "profile": "oshpark-two-layer",
+    "source_page": "stored supplier page",
+    "substrate": "175Tg FR4 (Kingboard KB6167F)"
+  },
+  "profile_file_sha256": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
+  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
+  "release_id": "design-run",
+  "stackup": "2-layer",
+  "unit": "mm"
+}

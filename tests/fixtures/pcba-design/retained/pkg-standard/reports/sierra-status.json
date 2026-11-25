@@ -1,0 +1,28 @@
+{
+  "artifacts": {
+    "bom": "produced",
+    "placement": "draft"
+  },
+  "conventions": {
+    "midpoint_mapping": "unconfirmed",
+    "plane_interpretation": "unconfirmed",
+    "xy_axes": "unconfirmed",
+    "xy_origin": "unconfirmed",
+    "xy_rotation_direction": "unconfirmed",
+    "xy_side_view": "unconfirmed",
+    "xy_units": "stated_by_sample",
+    "xy_zero_orientation": "unconfirmed"
+  },
+  "export_applicability": "unconfirmed",
+  "hand_installed_bom": "include_in_bom",
+  "profile_sha256": "6d643ad08dbbf38bf8eb9139bc5ffd1fe6e8bd9b3bf6152df5a5cf7152946d8d",
+  "qualification": "unqualified",
+  "schema": "pcba-design/sierra-status",
+  "schema_version": "1.0",
+  "service": {
+    "assembly_location": "unconfirmed",
+    "fabrication_location": "unconfirmed",
+    "id": "sierra-turnkey-pro",
+    "service": "turnkey_pro"
+  }
+}

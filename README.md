@@ -11,12 +11,24 @@ Agent skills for CAD work. You can install them with the [`skills`](https://skil
 | [`print-prep`](skills/print-prep/SKILL.md) | Prepare a model for FDM printing. It examines the mesh. It makes sure that the part is not too large for the build volume. It compares print orientations and puts them in sequence from best to worst. It compares the supports, the area on the bed, the risk that the part falls, and the load across the layers. It also examines the wall thickness and exports the turned model as 3MF or STL. It includes design rules for FDM on the Prusa MK4. |
 | [`prusaslicer`](skills/prusaslicer/SKILL.md) | Slice with PrusaSlicer, with no GUI. It uses the Prusa profiles for the MK4 and MK4S, which include Prusament and Jessie filaments. You can change the settings that give strength. It makes sure that the G-code is for the correct printer, nozzle and temperatures. It shows the time, the filament and the slicer warnings. It can read `.bgcode` files. |
 
-Use the four skills in this sequence:
+For a printed part, use these four skills in this sequence:
 
 1. **Model** the part (`cadquery`).
 2. **Turn and examine** the part for printing (`print-prep`).
 3. **Calculate the strength** with the same build direction (`structural-analysis`).
 4. **Slice** the part (`prusaslicer`).
+
+The repository also contains three PCB skills:
+
+| Skill | Function |
+|---|---|
+| [`pcb-design`](skills/pcb-design/SKILL.md) | Edit KiCad projects, compare schematic and board identities, run design checks, and measure the supported mechanical fixture. |
+| [`pcb-fab-package`](skills/pcb-fab-package/SKILL.md) | Compare fabrication outputs with a supplier profile and make a package with bound evidence. It includes OSH Park setup guidance. |
+| [`pcba-design`](skills/pcba-design/SKILL.md) | Apply variants and alternate approvals, make a BOM, compare stock, and make Sierra draft artifacts and an assembly package. |
+
+The KiCad tool operations use a local image whose identity matches the project toolchain lock.
+The skill guides state the supported geometry, source setup, commands and qualification limits.
+A package with status `unqualified` does not establish supplier acceptance or a physical test result.
 
 ## How to install the skills
 
@@ -123,6 +135,28 @@ CI runs these test scripts each time that you push commits (`.github/workflows/t
 ### Language
 
 Write all documentation, code comments, help text, commit messages and agent messages in ASD-STE100 Simplified Technical English (STE). `AGENTS.md` gives the rules and examples. `CLAUDE.md` imports `AGENTS.md` for Claude Code.
+
+## Local release checks
+
+These commands run without a model provider:
+
+```bash
+uv run tests/test_release_packaging.py
+uv run tests/test_release_harness.py
+uv run tests/test_release_isolation.py
+uv run tests/test_artifact_fixtures.py
+uv run tests/test_artifact_expectations.py
+```
+
+The packaging suite examines the source manifests and distribution exclusions.
+The harness uses local stubs. The isolation suite measures the supported local filesystem and network boundary.
+The artifact suites compare retained fixture results and altered temporary copies with explicit expectations.
+These results do not establish the authenticated host route or live-provider behavior.
+Provider authorization remains zero. The artifact evaluations remain held.
+
+Supplier pages and documents remain local evidence. Distribution excludes their full copies.
+The fabrication skill has a separate source setup command. Its guide states the hash and source-review rules.
+See [the licensing record](docs/release-licensing.md) for third-party content and distribution decisions.
 
 ## License
 

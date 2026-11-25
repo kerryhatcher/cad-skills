@@ -95,7 +95,9 @@
               "parts",
               "circuit_source",
               "supplier_rules",
-              "supplier_settings"
+              "supplier_settings",
+              "project_settings",
+              "design_rules"
             ]
           },
           "path": {

@@ -1,0 +1,212 @@
+{
+  "binding_sha256": "7ef22779acf4202e3e4633db592bf0967184e1829855cd1b7c1c33ed074c8382",
+  "content_sha256": "a644c8a3be94e090b969814a6b9b483e40b2eebb5e195f9056cfebc6cb553caf",
+  "design_binding": "8cdd14d04e1b85ae660600b62d31b2d0558a4dae2bc4077377ff4b0b11772c5f",
+  "effective": {
+    "board.kicad_dru": "a4a5a9a0ca074ca8beeb541cb92c5bd60d3d92d28dd127e2c76f1d5b1627a571",
+    "board.kicad_pro": "57352e7388d0443e13d5879c09000733625fd399d5975dbcb8cde32be315b763"
+  },
+  "exit": 1,
+  "manual": null,
+  "measure_inputs": {
+    "export/board-B_Mask.gbr": "aba6b030c7b44ad86456b116122c5aa86e6236e3a10b7cecd62dcd386969b8d5",
+    "export/board-F_Mask.gbr": "6951cf7f77e6f95f158bc9f272c12d934269ea050e379b80856e701cec30a4ec",
+    "export/board-F_Silkscreen.gbr": "efcc530cbff267b79163c5e5433460e81bd58bf3bd583d147ca53be5f2b58539",
+    "export/board-NPTH.drl": "593906245ce11dbe5fa6b638e094491d5993ee2d05386b04be2715d39c59c6d0",
+    "export/board-PTH.drl": "1afbf403389d6bfb045b3ce878b765aa4f8312af0d1286996aa3ab4c78964001",
+    "inventory.json": "27ce12e4ab789a5437749a6b2a569fdce0619646d6c68263baefb018c97d3fa6"
+  },
+  "profile": "oshpark-two-layer",
+  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
+  "rows": [
+    {
+      "condition": "service.via_construction_prohibited",
+      "declaration": "standard_through",
+      "interpretation": "The measured spans are through spans. The declared process is standard_through.",
+      "mandatory": true,
+      "method": "board_measurement_and_declaration",
+      "prohibited_spans": [],
+      "status": "pass",
+      "via_count": 2
+    },
+    {
+      "condition": "process.outline_tool_compatibility",
+      "derivation": "tool radius = published cutter diameter / 2",
+      "interpretation": "The corner radius must fit the derived circular tool radius. This is not a quoted supplier minimum.",
+      "mandatory": true,
+      "measured_corners": [],
+      "method": "derived_tool_compatibility",
+      "process_fact": {
+        "meaning": "Published cutter diameter. Half the diameter is the derived tool radius.",
+        "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_url": "https://docs.oshpark.com/services/two-layer/",
+        "unit": "in",
+        "value": "0.068"
+      },
+      "status": "pass",
+      "tool_radius_nm": 863600
+    },
+    {
+      "condition": "process.cutout_tool_compatibility",
+      "derivation": "tool radius = published cutter diameter / 2",
+      "interpretation": "The corner radius must fit the derived circular tool radius. This is not a quoted supplier minimum.",
+      "mandatory": true,
+      "measured_corners": [],
+      "method": "derived_tool_compatibility",
+      "process_fact": {
+        "meaning": "Published cutter diameter. Half the diameter is the derived tool radius.",
+        "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_url": "https://docs.oshpark.com/services/two-layer/",
+        "unit": "in",
+        "value": "0.040"
+      },
+      "status": "pass",
+      "tool_radius_nm": 508000
+    },
+    {
+      "condition": "edge_keepout",
+      "interpretation": "KiCad edge_clearance with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "min_annular_ring",
+      "interpretation": "KiCad annular_width with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "min_drill",
+      "interpretation": "KiCad hole_size with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "min_space",
+      "interpretation": "KiCad clearance with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "min_trace",
+      "interpretation": "KiCad track_width with the supplier minimum",
+      "mandatory": true,
+      "method": "kicad_dru",
+      "status": "pass",
+      "violations": 0
+    },
+    {
+      "condition": "board_min_edge",
+      "interpretation": "minimum outline dimension from the saved board",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "pass"
+    },
+    {
+      "condition": "board_max_width",
+      "interpretation": "maximum outline dimension from the saved board",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "pass"
+    },
+    {
+      "condition": "board_max_height",
+      "interpretation": "maximum outline dimension from the saved board",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "pass"
+    },
+    {
+      "condition": "min_slot_size",
+      "interpretation": "minor dimension of every drilled slot and record match",
+      "mandatory": true,
+      "method": "slot_inspection",
+      "status": "pass"
+    },
+    {
+      "condition": "mask_web_min",
+      "interpretation": "exact web distance of the exported mask flashes",
+      "mandatory": true,
+      "method": "mask_inspection",
+      "status": "pass"
+    },
+    {
+      "condition": "mask_web_min_top",
+      "interpretation": "exact web distance of the top mask flashes",
+      "mandatory": true,
+      "method": "mask_inspection",
+      "status": "pass"
+    },
+    {
+      "condition": "mask_web_min_bottom",
+      "interpretation": "exact web distance of the bottom mask flashes",
+      "mandatory": true,
+      "method": "mask_inspection",
+      "status": "pass"
+    },
+    {
+      "condition": "service.layers",
+      "interpretation": "copper layers of the saved board equal the service layer count",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "pass"
+    },
+    {
+      "condition": "service.order_multiple",
+      "interpretation": "order quantity 5 is a multiple of 3 (board record)",
+      "mandatory": true,
+      "method": "geometric_test",
+      "status": "fail"
+    },
+    {
+      "condition": "silk_line_min_short_text",
+      "interpretation": "manual evidence is required before qualification",
+      "mandatory": true,
+      "method": "manual_evidence",
+      "status": "pending"
+    },
+    {
+      "condition": "silk_line_recommended",
+      "interpretation": "recommendation: reported, never a failure",
+      "mandatory": false,
+      "method": "manual_evidence",
+      "status": "finding"
+    },
+    {
+      "condition": "overlapping_drill_clearance",
+      "interpretation": "recommendation: reported, never a failure",
+      "mandatory": false,
+      "method": "manual_evidence",
+      "status": "finding"
+    }
+  ],
+  "runtime": {
+    "image": "localhost/cad-skills-pcb:b6",
+    "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+    "kicad_version": "10.0.5"
+  },
+  "schema_id": "pcb-fab-package/supplier-result",
+  "schema_version": 1,
+  "source_sha256": {
+    "board.yaml": "5db39340d5b4cfc52e7ee2fcc825cf3d3101aa1f3a5d413edddc9ef9435824d4",
+    "kicad/board.kicad_dru": "absent",
+    "kicad/board.kicad_pcb": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+    "kicad/board.kicad_pro": "fa0616f9cd2c2d5f8f09754d4d7b7b46ebd6c12a500f16be095005c4bcfdc3ee",
+    "kicad/board.kicad_sch": "a0934ec606be522821ded5a3e7d31f4a9fa187452e1e8c5fa00afade0434d26c",
+    "manufacturing/export.yaml": "e9ae3ee89c0b088f7468e5d002a7f47967358f1b922443bcb09eed99b2c22235",
+    "manufacturing/supplier.yaml": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
+    "manufacturing/waivers.yaml": "ea5bbc9e8d942845487a965c110f8a9cf95063cd7c0640c92d76a6145e617b53",
+    "mechanical/board-interface.json": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc",
+    "profile": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
+    "toolchain.lock.json": "104e23fc50127689d6c94a8ffabd43c3ed3d23d4444e0173f5deeb5e508b8b79",
+    "variants.yaml": "e293a931f41f3b3181fa000ebf203c68a90feac2439b40820647b3f2614c1c3e"
+  }
+}

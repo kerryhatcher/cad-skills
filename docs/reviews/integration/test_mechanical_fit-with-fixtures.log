@@ -1,0 +1,7 @@
+...................../home/kwhatcher/.cache/uv/environments-v2/test-mechanical-fit-d778be653e0b5d5d/lib/python3.13/site-packages/cadquery/utils.py:82: FutureWarning: save will be removed in the next release.
+  warn(f"{f.__name__} will be removed in the next release.", FutureWarning)
+......................
+----------------------------------------------------------------------
+Ran 43 tests in 1.169s
+
+OK

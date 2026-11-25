@@ -25,6 +25,21 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | every fetched entry matches, or every entry is skipped | a candidate, changed or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
 | `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments, or a link at `--out` | not used |
 
+## Source setup
+
+Public source excludes the full supplier pages and response headers.
+The profiles retain the source URLs and expected hashes.
+Before the first profile command, retrieve the pages with the skill's manifest:
+
+```sh
+uv run scripts/fetch_sources.py --manifest sources.yaml
+```
+
+Run this command from the skill directory. The command contacts the source URLs.
+It writes only bytes that match the recorded hash and format.
+If the source changes, record a new source review before you change a profile.
+The local tests use project-authored fixtures. They do not retrieve supplier pages.
+
 ## Flow
 
 1. Validate the profile with `profile`.

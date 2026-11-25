@@ -1,0 +1,11 @@
+RC step response of the template circuit (R2 = 10 kohm, C1 = 100 nF)
+V1 in 0 PULSE(0 3.3 0 1n 1n 1 2)
+R2 in out 10k
+C1 out 0 100n
+.tran 1u 5m
+.control
+run
+meas tran vtau FIND v(out) AT=1m
+print vtau
+.endc
+.end

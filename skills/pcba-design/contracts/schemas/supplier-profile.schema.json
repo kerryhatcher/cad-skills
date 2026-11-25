@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kerryhatcher/cad-skills/contracts/supplier-profile.schema.json",
+  "title": "Supplier profile",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "cad-skills/supplier-profile"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "revision": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "service": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "source_url": {
+      "type": "string",
+      "pattern": "^https?://[^\\s]",
+      "not": {
+        "pattern": "\\s"
+      }
+    },
+    "retrieved": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "format": "date",
+      "minLength": 10,
+      "maxLength": 10
+    },
+    "evidence_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "content_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "units": {
+      "enum": [
+        "mm",
+        "mil"
+      ]
+    },
+    "limits": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "\\S",
+        "not": {
+          "pattern": "[\\u0000-\\u001f\\u007f]"
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "minimum",
+              "maximum",
+              "recommendation",
+              "unconfirmed"
+            ]
+          },
+          "scope": {
+            "enum": [
+              "fabrication",
+              "assembly",
+              "margin"
+            ]
+          },
+          "value_kind": {
+            "enum": [
+              "number",
+              "text"
+            ]
+          },
+          "value": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "source_url": {
+            "type": "string",
+            "pattern": "^https?://[^\\s]",
+            "not": {
+              "pattern": "\\s"
+            }
+          },
+          "retrieved": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "format": "date",
+            "minLength": 10,
+            "maxLength": 10
+          }
+        },
+        "required": [
+          "kind",
+          "scope"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "value_kind": {
+                  "const": "number"
+                }
+              },
+              "required": [
+                "value_kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "value",
+                "unit"
+              ],
+              "properties": {
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "value_kind": {
+                  "const": "text"
+                }
+              },
+              "required": [
+                "value_kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "value"
+              ],
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "pattern": "\\S"
+                },
+                "unit": {
+                  "not": {}
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "division": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kicad_dru": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          }
+        },
+        "project_settings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          }
+        },
+        "geometric_tests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          }
+        },
+        "manual_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          }
+        }
+      },
+      "required": [
+        "kicad_dru",
+        "project_settings",
+        "geometric_tests",
+        "manual_evidence"
+      ]
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "id",
+    "revision",
+    "service",
+    "source_url",
+    "retrieved",
+    "evidence_sha256",
+    "content_sha256",
+    "units",
+    "limits",
+    "division"
+  ]
+}

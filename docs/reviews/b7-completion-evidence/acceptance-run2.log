@@ -1,0 +1,21 @@
+ok   31a: the profile holds no maximum drill limit
+ok   31b: the generated rules use minimum constraints only
+ok   31c: the process note above 250 mil is a note, not a limit
+ok   32: quantity 1 gives fail on service.order_multiple
+ok   32: quantity 2 gives fail on service.order_multiple
+ok   32: quantity 3 gives pass on service.order_multiple
+ok   32: quantity 4 gives fail on service.order_multiple
+ok   41a: the B6 worker refuses the slot drill with exit 2 and names the object
+ok   41b: the B7 derivative reports the slot with endpoints, minor and major dimensions
+ok   44 setup: the design run passes (exit 0)
+ok   44a: the genuine drawing matches its captured facts
+ok   44b: the stored drawing equals a rebuild from its stored facts
+ok   44c: a substituted PDF is refused with the drawing reason
+ok   44d: changed facts are refused with the facts reason
+ok   44e: the package refuses the substituted PDF with exit 1 before publication
+ok   45a: the hole count in the facts equals the inventory holes and slots
+ok   45b: the hole diameters in the facts equal the inventory diameters
+ok   45c: the facts bind the captured board hash
+ok   45d: drawing_facts reads no regex object parser
+
+19/19 passed

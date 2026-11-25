@@ -1,0 +1,11 @@
+ok   test_existing_skills
+ok   test_new_missing_reference_in_a_legacy_file
+ok   test_skill_metadata
+ok   test_frontmatter_shapes
+ok   test_reference_scanner
+ok   test_copy_checks
+  note: the copy-run test shows that the fixture needs no repository path. It is not a sandbox.
+ok   test_copy_run_isolation
+ok   test_snippet_routing
+
+8/8 passed

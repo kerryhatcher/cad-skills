@@ -1,0 +1,84 @@
+%TF.GenerationSoftware,KiCad,Pcbnew,10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1*%
+%TF.CreationDate,2026-11-15T04:57:00+00:00*%
+%TF.ProjectId,board,626f6172-642e-46b6-9963-61645f706362,rev?*%
+%TF.SameCoordinates,Original*%
+%TF.FileFunction,Soldermask,Top*%
+%TF.FilePolarity,Negative*%
+%FSLAX46Y46*%
+G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
+G04 Created by KiCad (PCBNEW 10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1) date 2026-11-15 04:57:00*
+%MOMM*%
+%LPD*%
+G01*
+G04 APERTURE LIST*
+G04 Aperture macros list*
+%AMRoundRect*
+0 Rectangle with rounded corners*
+0 $1 Rounding radius*
+0 $2 $3 $4 $5 $6 $7 $8 $9 X,Y pos of 4 corners*
+0 Add a 4 corners polygon primitive as box body*
+4,1,4,$2,$3,$4,$5,$6,$7,$8,$9,$2,$3,0*
+0 Add four circle primitives for the rounded corners*
+1,1,$1+$1,$2,$3*
+1,1,$1+$1,$4,$5*
+1,1,$1+$1,$6,$7*
+1,1,$1+$1,$8,$9*
+0 Add four rect primitives between the rounded corners*
+20,1,$1+$1,$2,$3,$4,$5,0*
+20,1,$1+$1,$4,$5,$6,$7,0*
+20,1,$1+$1,$6,$7,$8,$9,0*
+20,1,$1+$1,$8,$9,$2,$3,0*%
+G04 Aperture macros list end*
+%ADD10RoundRect,0.200000X-0.200000X-0.275000X0.200000X-0.275000X0.200000X0.275000X-0.200000X0.275000X0*%
+%ADD11R,1.700000X1.700000*%
+%ADD12C,1.700000*%
+%ADD13C,3.200000*%
+G04 APERTURE END LIST*
+D10*
+%TO.C,R1*%
+X9250000Y-10000000D03*
+X10750000Y-10000000D03*
+%TD*%
+%TO.C,R2*%
+X19250000Y-10000000D03*
+X20750000Y-10000000D03*
+%TD*%
+%TO.C,R3*%
+X29250000Y-10000000D03*
+X30750000Y-10000000D03*
+%TD*%
+%TO.C,R4*%
+X39250000Y-10000000D03*
+X40750000Y-10000000D03*
+%TD*%
+%TO.C,D1*%
+X9250000Y-20000000D03*
+X10750000Y-20000000D03*
+%TD*%
+%TO.C,D3*%
+X29250000Y-20000000D03*
+X30750000Y-20000000D03*
+%TD*%
+%TO.C,D4*%
+X39250000Y-20000000D03*
+X40750000Y-20000000D03*
+%TD*%
+%TO.C,C1*%
+X9250000Y-30000000D03*
+X10750000Y-30000000D03*
+%TD*%
+D11*
+%TO.C,J1*%
+X30000000Y-40000000D03*
+D12*
+X32540000Y-40000000D03*
+%TD*%
+D10*
+%TO.C,TP1*%
+X49250000Y-30000000D03*
+%TD*%
+D13*
+%TO.C,MH1*%
+X50000000Y-50000000D03*
+%TD*%
+M02*

@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "expected": {
+        "unit": "V",
+        "value": 5.0
+      },
+      "id": "limit.supply_voltage",
+      "kind": "limit",
+      "quantity": "supply_voltage",
+      "status": "not measured",
+      "steps": [
+        "Measure supply_voltage at the board under the stated load."
+      ]
+    },
+    {
+      "id": "hand-install.J1",
+      "instruction": "The connector is soldered by hand after assembly.",
+      "kind": "hand_install",
+      "reference": "J1",
+      "status": "not measured"
+    }
+  ],
+  "physical_test_passed": false,
+  "schema": "pcba-design/test-record",
+  "schema_version": "1.0",
+  "variant": "base"
+}

@@ -1,0 +1,27 @@
+{
+  "artifact": {
+    "path": "reports/layer-order.json",
+    "sha256": "aaca6d424d78584cfffdb8b46281b6b914a71535b80a1f0f48d1095174a9b50a"
+  },
+  "check_id": "fab.layer_order",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e"
+    },
+    {
+      "path": "manufacturing/export.yaml",
+      "sha256": "c56e136a6d3e5f1f7e8ec33bef66e589acfaaf580a4a0673a7143554a684830c"
+    }
+  ],
+  "method": "tool",
+  "notes": "layers=10 problems=0",
+  "observed_on": "2026-11-15",
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "status": "pass",
+  "tool": {
+    "name": "pcba-design",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "board_sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e",
+  "holes": [
+    {
+      "diameter_mm": 1.0,
+      "kind": "pad",
+      "object": "J1.1",
+      "plated": true,
+      "x_mm": 30.0,
+      "y_mm": 40.0
+    },
+    {
+      "diameter_mm": 1.0,
+      "kind": "pad",
+      "object": "J1.2",
+      "plated": true,
+      "x_mm": 32.54,
+      "y_mm": 40.0
+    },
+    {
+      "diameter_mm": 3.2,
+      "kind": "pad",
+      "object": "MH1.",
+      "plated": false,
+      "x_mm": 50.0,
+      "y_mm": 50.0
+    },
+    {
+      "diameter_mm": 0.3,
+      "kind": "via",
+      "object": "via@45.0000,30.0000",
+      "plated": true,
+      "x_mm": 45.0,
+      "y_mm": 30.0
+    }
+  ],
+  "image_identity": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+  "refused": [],
+  "worker_sha256": "e8a0ed7e2ffcfcf339afce656a38c72015f50204f3616be9fe99751f7ec81014"
+}

@@ -1,0 +1,18 @@
+ok   test_a1_before_is_the_accepted_template
+ok   test_a1_schematic_changes_one_value_line
+ok   test_a1_expected_difference_is_hand_written_and_matches_identity
+ok   test_a1_interface_is_bound_by_the_tool_with_byte_bindings
+ok   test_a1_simulation_matches_the_independent_formula
+ok   test_a1_erc_and_drc_records_pass
+ok   test_a1_update_record_is_ready_with_equal_identity
+ok   test_a1_raw_outputs_match_their_bindings
+ok   test_a1_result_records_name_their_binding_files
+ok   test_a1_closure_hashes_match_the_frozen_bytes
+ok   test_a2_project_inputs_match_the_accepted_template
+ok   test_a2_profile_copy_is_the_selected_profile
+ok   test_a2_source_manifest_matches_the_repository_sources
+ok   test_a2_design_step_passes
+ok   test_a2_order_multiple_fails_by_the_independent_rule
+ok   test_a2_status_is_incomplete_and_matches_the_results
+
+16/16 passed

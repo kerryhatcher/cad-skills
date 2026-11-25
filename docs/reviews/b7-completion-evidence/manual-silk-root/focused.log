@@ -1,0 +1,24 @@
+Installed 6 packages in 4ms
+ok   The 2.9 mil fixture has the independent stroke dimension.
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   The bound manual result for 2.9 mil reaches the supplier row.
+ok   The supplier retains the measured artifact for 2.9 mil.
+{"artifact_sha256": "5d5303af6b80feaaff820214614e40e0f3e494492afc19af831d333ecbf6119d", "fixture": "2.9", "inputs": {"board_sha256": "753bd28f70ed664f3e371c294af740ad90debe74edd4d7f779d598021a61b8c1", "silk_gerber_sha256": "644db65bb5e1267bfbc228b17d1efbfe3061152d9741aea2c7d2fe6cb425014b"}, "measurement": {"board_sha256": "753bd28f70ed664f3e371c294af740ad90debe74edd4d7f779d598021a61b8c1", "labels": [{"layer": "F.Silkscreen", "stroke_nm": 73660, "text": "B7", "uuid": "aca74a40-4a36-4a87-8eb6-7171d75ec2ef"}]}, "result": {"condition": "silk_line_min_short_text", "interpretation": "manual evidence by Owned fixture expectation: Compare the measured B7 label thickness with the independently specified 3 mil threshold.", "mandatory": true, "method": "manual_evidence", "status": "fail"}}
+ok   The 3.0 mil fixture has the independent stroke dimension.
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   The bound manual result for 3.0 mil reaches the supplier row.
+ok   The supplier retains the measured artifact for 3.0 mil.
+{"artifact_sha256": "bdca4f582555c1b82820f32a14e6feace533ec63543f1576b6f4dfd1afc4b6bf", "fixture": "3.0", "inputs": {"board_sha256": "45da3b97052b7082b281d9b84899ceea93f46059b6b79706eaac832f302d83a7", "silk_gerber_sha256": "c463f0f401e5ce57b1bbedc92cefef3b41037731be855422061d174e982c2521"}, "measurement": {"board_sha256": "45da3b97052b7082b281d9b84899ceea93f46059b6b79706eaac832f302d83a7", "labels": [{"layer": "F.Silkscreen", "stroke_nm": 76200, "text": "B7", "uuid": "aca74a40-4a36-4a87-8eb6-7171d75ec2ef"}]}, "result": {"condition": "silk_line_min_short_text", "interpretation": "manual evidence by Owned fixture expectation: Compare the measured B7 label thickness with the independently specified 3 mil threshold.", "mandatory": true, "method": "manual_evidence", "status": "pass"}}
+ok   The 3.1 mil fixture has the independent stroke dimension.
+{"exit": 0, "tolerance_nm": 501}
+{"exit": 0, "result": "pass"}
+{"exit": 0, "result": "pass"}
+ok   The bound manual result for 3.1 mil reaches the supplier row.
+ok   The supplier retains the measured artifact for 3.1 mil.
+{"artifact_sha256": "472b1b8460ed632b78deeab81fd63c86d2c8f072ae3dbf96a30208b0b440d9c7", "fixture": "3.1", "inputs": {"board_sha256": "67a22a760df8a0839b2181ccfa73d9d08d7c2df5aa286eda62b3ec861d77b9e4", "silk_gerber_sha256": "f33d35b8999e15316de052034b971ef611dcecbd953af9181db8f4426f2b1bef"}, "measurement": {"board_sha256": "67a22a760df8a0839b2181ccfa73d9d08d7c2df5aa286eda62b3ec861d77b9e4", "labels": [{"layer": "F.Silkscreen", "stroke_nm": 78740, "text": "B7", "uuid": "aca74a40-4a36-4a87-8eb6-7171d75ec2ef"}]}, "result": {"condition": "silk_line_min_short_text", "interpretation": "manual evidence by Owned fixture expectation: Compare the measured B7 label thickness with the independently specified 3 mil threshold.", "mandatory": true, "method": "manual_evidence", "status": "pass"}}
+
+9/9 passed

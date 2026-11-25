@@ -1,0 +1,509 @@
+{
+  "as_of": "2026-11-15",
+  "board_quantity": 5,
+  "bom_groups": [
+    {
+      "assembly_instruction": "The connector is soldered by hand after assembly.",
+      "board_quantity": 5,
+      "installation_method": "hand_installed",
+      "manufacturer": "Example Connectors",
+      "mpn": "EX-HDR-1X02",
+      "order_quantity": 5,
+      "quantity_per_board": 1,
+      "references": [
+        "J1"
+      ],
+      "variant_state": "populate"
+    },
+    {
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "installation_method": "automatic",
+      "manufacturer": "Example Optics",
+      "mpn": "EX-LED-0603-G",
+      "order_quantity": 20,
+      "quantity_per_board": 4,
+      "references": [
+        "D1",
+        "D2",
+        "D3",
+        "D4"
+      ],
+      "variant_state": "populate"
+    },
+    {
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "installation_method": "automatic",
+      "manufacturer": "Example Passives",
+      "mpn": "EX-C-0603-100N",
+      "order_quantity": 5,
+      "quantity_per_board": 1,
+      "references": [
+        "C1"
+      ],
+      "variant_state": "populate"
+    },
+    {
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "installation_method": "automatic",
+      "manufacturer": "Example Passives",
+      "mpn": "EX-R-0603-10K",
+      "order_quantity": 20,
+      "quantity_per_board": 4,
+      "references": [
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "variant_state": "populate"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "role": "board",
+      "sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e"
+    },
+    {
+      "path": "board.yaml",
+      "role": "board_record",
+      "sha256": "da6773bf8fc75debc19fe0471aa8305fb411b77dd236c2359bdff6710019874a"
+    },
+    {
+      "path": "components/cap-100n.yaml",
+      "role": "parts",
+      "sha256": "6d92bae75baf73304a9e5ed0d5dca93ab58ccc2e64fb9a8c7925fc4040ff593e"
+    },
+    {
+      "path": "components/header-2.yaml",
+      "role": "parts",
+      "sha256": "2546128f2893a074f06cb31978f58f3897d41c8c43ca5d4c3d10722b610ed2e9"
+    },
+    {
+      "path": "components/led-green.yaml",
+      "role": "parts",
+      "sha256": "449962943f98cd6a3db980d3274e92a93a60000510bcde89c0f997f7414c7faa"
+    },
+    {
+      "path": "components/parts-map.yaml",
+      "role": "parts",
+      "sha256": "0d26cc93458dd2d743f24d12901e8e92da04d36175e551c82b60066404144e08"
+    },
+    {
+      "path": "components/resistor-10k.yaml",
+      "role": "parts",
+      "sha256": "11bef0c36e83db32be23df9e0db5b8465d8e18c4b490ab70c8e6d4c1c7f308d5"
+    },
+    {
+      "path": "components/testpoint.yaml",
+      "role": "parts",
+      "sha256": "3c09b1bace014af514a78adc5a6d869403b1bda04b7410930670c35e29f3a81a"
+    },
+    {
+      "path": "variants.yaml",
+      "role": "variants",
+      "sha256": "6ce057427c1d130cb5ef00fcd913a36cbb23927ff38274cea95517653759ad36"
+    }
+  ],
+  "rows": [
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "Capacitor_SMD:C_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Passives",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-C-0603-100N",
+      "part_path": "components/cap-100n.yaml",
+      "part_sha256": "6d92bae75baf73304a9e5ed0d5dca93ab58ccc2e64fb9a8c7925fc4040ff593e",
+      "per_board_quantity": 1,
+      "reference": "C1",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "10",
+        "y": "30"
+      },
+      "value": "C1-value",
+      "variant_state": "populate",
+      "x_mm": 10.0,
+      "y_mm": 30.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Optics",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-LED-0603-G",
+      "part_path": "components/led-green.yaml",
+      "part_sha256": "449962943f98cd6a3db980d3274e92a93a60000510bcde89c0f997f7414c7faa",
+      "per_board_quantity": 1,
+      "reference": "D1",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "10",
+        "y": "20"
+      },
+      "value": "D1-value",
+      "variant_state": "populate",
+      "x_mm": 10.0,
+      "y_mm": 20.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Optics",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-LED-0603-G",
+      "part_path": "components/led-green.yaml",
+      "part_sha256": "449962943f98cd6a3db980d3274e92a93a60000510bcde89c0f997f7414c7faa",
+      "per_board_quantity": 1,
+      "reference": "D2",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "bottom",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "20",
+        "y": "20"
+      },
+      "value": "D2-value",
+      "variant_state": "populate",
+      "x_mm": 20.0,
+      "y_mm": 20.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Optics",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-LED-0603-G",
+      "part_path": "components/led-green.yaml",
+      "part_sha256": "449962943f98cd6a3db980d3274e92a93a60000510bcde89c0f997f7414c7faa",
+      "per_board_quantity": 1,
+      "reference": "D3",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "30",
+        "y": "20"
+      },
+      "value": "D3-value",
+      "variant_state": "populate",
+      "x_mm": 30.0,
+      "y_mm": 20.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "LED_SMD:LED_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Optics",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-LED-0603-G",
+      "part_path": "components/led-green.yaml",
+      "part_sha256": "449962943f98cd6a3db980d3274e92a93a60000510bcde89c0f997f7414c7faa",
+      "per_board_quantity": 1,
+      "reference": "D4",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "40",
+        "y": "20"
+      },
+      "value": "D4-value",
+      "variant_state": "populate",
+      "x_mm": 40.0,
+      "y_mm": 20.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "The connector is soldered by hand after assembly.",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "installation_method": "hand_installed",
+      "manufacturer": "Example Connectors",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-HDR-1X02",
+      "part_path": "components/header-2.yaml",
+      "part_sha256": "2546128f2893a074f06cb31978f58f3897d41c8c43ca5d4c3d10722b610ed2e9",
+      "per_board_quantity": 1,
+      "reference": "J1",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "30",
+        "y": "40"
+      },
+      "value": "J1-value",
+      "variant_state": "populate",
+      "x_mm": 30.0,
+      "y_mm": 40.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "MountingHole:MountingHole_3.2mm_M3",
+      "installation_method": "automatic",
+      "manufacturer": null,
+      "midpoint_mapping": "unconfirmed",
+      "mpn": null,
+      "part_path": null,
+      "part_sha256": null,
+      "per_board_quantity": 0,
+      "reason": "mechanical",
+      "reference": "MH1",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "50",
+        "y": "50"
+      },
+      "value": "",
+      "variant_state": "exclude_from_assembly",
+      "x_mm": 50.0,
+      "y_mm": 50.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "Resistor_SMD:R_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Passives",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-R-0603-10K",
+      "part_path": "components/resistor-10k.yaml",
+      "part_sha256": "11bef0c36e83db32be23df9e0db5b8465d8e18c4b490ab70c8e6d4c1c7f308d5",
+      "per_board_quantity": 1,
+      "reference": "R1",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "10",
+        "y": "10"
+      },
+      "value": "R1-value",
+      "variant_state": "populate",
+      "x_mm": 10.0,
+      "y_mm": 10.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "Resistor_SMD:R_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Passives",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-R-0603-10K",
+      "part_path": "components/resistor-10k.yaml",
+      "part_sha256": "11bef0c36e83db32be23df9e0db5b8465d8e18c4b490ab70c8e6d4c1c7f308d5",
+      "per_board_quantity": 1,
+      "reference": "R2",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "20",
+        "y": "10"
+      },
+      "value": "R2-value",
+      "variant_state": "populate",
+      "x_mm": 20.0,
+      "y_mm": 10.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "Resistor_SMD:R_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Passives",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-R-0603-10K",
+      "part_path": "components/resistor-10k.yaml",
+      "part_sha256": "11bef0c36e83db32be23df9e0db5b8465d8e18c4b490ab70c8e6d4c1c7f308d5",
+      "per_board_quantity": 1,
+      "reference": "R3",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "30",
+        "y": "10"
+      },
+      "value": "R3-value",
+      "variant_state": "populate",
+      "x_mm": 30.0,
+      "y_mm": 10.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "Resistor_SMD:R_0603_1608Metric",
+      "installation_method": "automatic",
+      "manufacturer": "Example Passives",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-R-0603-10K",
+      "part_path": "components/resistor-10k.yaml",
+      "part_sha256": "11bef0c36e83db32be23df9e0db5b8465d8e18c4b490ab70c8e6d4c1c7f308d5",
+      "per_board_quantity": 1,
+      "reference": "R4",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "40",
+        "y": "10"
+      },
+      "value": "R4-value",
+      "variant_state": "populate",
+      "x_mm": 40.0,
+      "y_mm": 10.0
+    },
+    {
+      "angle_source": "token",
+      "assembly_instruction": "",
+      "board_quantity": 5,
+      "datum": "kicad_footprint_origin",
+      "footprint": "TestPoint:TestPoint_Pad_D1.0mm",
+      "installation_method": "automatic",
+      "manufacturer": "Example Passives",
+      "midpoint_mapping": "unconfirmed",
+      "mpn": "EX-TP-D10",
+      "part_path": "components/testpoint.yaml",
+      "part_sha256": "3c09b1bace014af514a78adc5a6d869403b1bda04b7410930670c35e29f3a81a",
+      "per_board_quantity": 0,
+      "reference": "TP1",
+      "rotation_deg": 0.0,
+      "selected_alternate": "",
+      "side": "top",
+      "source_rotation_deg": 0.0,
+      "source_tokens": {
+        "angle": "0",
+        "x": "50",
+        "y": "30"
+      },
+      "value": "TP1-value",
+      "variant_state": "exclude_from_assembly",
+      "x_mm": 50.0,
+      "y_mm": 30.0
+    }
+  ],
+  "schema": "pcba-design/neutral",
+  "schema_version": "1.0",
+  "stock": [
+    {
+      "age_days": 5,
+      "demand": 5,
+      "lifecycle": "nrnd",
+      "manufacturer": "Example Connectors",
+      "mpn": "EX-HDR-1X02",
+      "reasons": [
+        "lifecycle_nrnd"
+      ],
+      "status": "unconfirmed",
+      "stock_quantity": 500,
+      "stock_retrieved": "2026-11-10"
+    },
+    {
+      "age_days": 75,
+      "demand": 20,
+      "lifecycle": "active",
+      "manufacturer": "Example Optics",
+      "mpn": "EX-LED-0603-G",
+      "reasons": [
+        "stock_below_demand",
+        "stock_stale"
+      ],
+      "status": "fail",
+      "stock_quantity": 10,
+      "stock_retrieved": "2026-09-01"
+    },
+    {
+      "age_days": null,
+      "demand": 5,
+      "lifecycle": "active",
+      "manufacturer": "Example Passives",
+      "mpn": "EX-C-0603-100N",
+      "reasons": [
+        "stock_unknown"
+      ],
+      "status": "unconfirmed",
+      "stock_quantity": null,
+      "stock_retrieved": null
+    },
+    {
+      "age_days": 14,
+      "demand": 20,
+      "lifecycle": "active",
+      "manufacturer": "Example Passives",
+      "mpn": "EX-R-0603-10K",
+      "reasons": [],
+      "status": "pass",
+      "stock_quantity": 2000,
+      "stock_retrieved": "2026-11-01"
+    }
+  ],
+  "stock_policy": {
+    "max_age_days": 30
+  },
+  "variant": "base"
+}

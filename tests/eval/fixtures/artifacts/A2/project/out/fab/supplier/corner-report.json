@@ -1,0 +1,52 @@
+{
+  "measurement": {
+    "board_sha256": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
+    "contours": 1,
+    "corners": [],
+    "radius_source": "pcbnew GetRadius in integer nanometers",
+    "topology_chord_bound_nm": 1000,
+    "topology_separation_bound_nm": 10000
+  },
+  "rows": [
+    {
+      "condition": "process.outline_tool_compatibility",
+      "derivation": "tool radius = published cutter diameter / 2",
+      "interpretation": "The corner radius must fit the derived circular tool radius. This is not a quoted supplier minimum.",
+      "mandatory": true,
+      "measured_corners": [],
+      "method": "derived_tool_compatibility",
+      "process_fact": {
+        "meaning": "Published cutter diameter. Half the diameter is the derived tool radius.",
+        "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_url": "https://docs.oshpark.com/services/two-layer/",
+        "unit": "in",
+        "value": "0.068"
+      },
+      "status": "pass",
+      "tool_radius_nm": 863600
+    },
+    {
+      "condition": "process.cutout_tool_compatibility",
+      "derivation": "tool radius = published cutter diameter / 2",
+      "interpretation": "The corner radius must fit the derived circular tool radius. This is not a quoted supplier minimum.",
+      "mandatory": true,
+      "measured_corners": [],
+      "method": "derived_tool_compatibility",
+      "process_fact": {
+        "meaning": "Published cutter diameter. Half the diameter is the derived tool radius.",
+        "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_url": "https://docs.oshpark.com/services/two-layer/",
+        "unit": "in",
+        "value": "0.040"
+      },
+      "status": "pass",
+      "tool_radius_nm": 508000
+    }
+  ],
+  "runtime": {
+    "image": "localhost/cad-skills-pcb:b6",
+    "image_id": "sha256:b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+    "kicad_version": "10.0.5"
+  },
+  "worker_sha256": "a90a071906976f31b9d26a144253836d68f701887046b57e108d541060a8892f"
+}

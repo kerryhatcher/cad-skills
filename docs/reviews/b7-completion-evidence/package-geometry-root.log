@@ -1,0 +1,103 @@
+ok   five profiles validate
+ok   profile refused: unknown division key
+ok   profile refused: duplicate division key
+ok   profile refused: limit missing from division
+ok   profile refused: text value with minimum kind
+ok   profile refused: single-layer with one page bound
+ok   content hash mismatch refused
+ok   max width 406.3/406.4/406.5
+ok   max height 558.7/558.8/558.9
+ok   min board edge 6.34/6.35/6.36 mm
+ok   min slot 19.9/20/20.1 mil
+ok   mask web 3.9/4.0/4.1 with derived bound
+ok   mask at the limit is uncertain
+ok   mask 4.1 passes
+ok   mask 3.9 fails
+ok   recommendation never fails
+ok   slot exact match passes
+ok   slot 0.000501 mm coordinate offset passes (boundary)
+ok   slot 0.000502 mm coordinate offset is a mismatch
+ok   slot endpoints in reversed order match
+ok   duplicate export record without a second board slot is a mismatch
+ok   duplicate board slot needs two export records
+ok   class swap: PTH board slot exported only as NPTH is a mismatch
+ok   missing export record is a mismatch
+ok   minor width 19.9 mil (0.5054 mm) against 20 mil export is a mismatch
+ok   near-circular slot is reported and still matched
+ok   measured NPTH file parses
+ok   reader refuses: inch units
+ok   reader refuses: M72 units
+ok   reader refuses: no metric declaration
+ok   reader refuses: no FMAT declaration
+ok   reader refuses: duplicate tool definition
+ok   reader refuses: two-decimal tool width
+ok   reader refuses: four-decimal tool width (no rounding)
+ok   reader refuses: M72 in the body
+ok   measured slot fixture passes: board
+ok   measured slot fixture passes: rot45
+ok   mask 3.9 mil fixture fails (exit 1)
+ok   mask 4.0 mil fixture is uncertain (exit 1)
+ok   mask 4.1 mil fixture passes (exit 0)
+ok   round-rect fixture: exact RoundRect web 4.0000 mil
+ok   round-rect fixture at the limit is uncertain
+ok   unknown macro or obround aperture refused (exit 2)
+ok   overlapping cluster refused (exit 2)
+ok   region output refused for automatic inspection (exit 2)
+ok   review unchanged
+ok   review harmless (changed page, equal observations)
+ok   review material: observations incomplete (exit 1)
+ok   review material: a different value (exit 1)
+ok   review refuses an unknown observation key
+ok   review refuses a path escape
+ok   gate passes an intact review
+ok   gate rejects a missing review (omission)
+ok   gate rejects changed review bytes
+ok   gate rejects altered observations (hash differs)
+ok   gate rejects another release
+ok   gate rejects another profile hash
+ok   gate rejects a live page that differs from the reviewed hash
+ok   drawing shows release identity
+ok   drawing shows units
+ok   drawing shows overall size
+ok   drawing shows holes
+ok   drawing shows stackup
+ok   drawing shows copper layers
+ok   drawing shows profile identity
+ok   drawing shows process facts
+ok   drawing shows mask web
+ok   drawing shows board hash
+ok   drawing shows profile hash
+ok   drawing shows facts hash
+ok   drawing has one page
+ok   drawing renders to PNG
+ok   two 2 mm rectangles overlapping by 1 mm are refused (exit 2)
+ok   coincident rectangles are refused (exit 2)
+ok   rectangles touching on an edge are merged_opening, not a web (exit 0)
+ok   circle inside a rectangle is refused (exit 2)
+ok   rectangles 0.05 mm apart give a web of 0.05 mm (fail below 4 mil)
+ok   a RoundRect macro with a changed primitive is refused (exit 2)
+ok   more than 2000000 candidate pairs or the time budget refuses (exit 2)
+ok   the fixture RoundRect aperture is the measured form
+ok   G1: a macro inline on the units line is refused (exit 2)
+ok   G1: a macro with a leading space is refused (exit 2)
+ok   G1: a changed RoundRect definition is refused (exit 2)
+ok   G2: the file is read once
+ok   G2: the reported hash is the hash of the measured bytes
+ok   G3: a zero time budget is refused
+ok   G4: a circle aperture with a hole is refused (exit 2)
+ok   G5: corners in diagonal order are refused (exit 2)
+ok   G5: a rotated RoundRect is refused (exit 2)
+ok   G5: a radius above half the core side now follows the overlap rule (exit 2 here, overlapping flashes)
+ok   G6: a missing terminal M30 is refused
+ok   G6: a record after M30 is refused
+ok   a radius above half the core side follows the core-distance formula (30 mil limit, web 0.7 mm fails)
+ok   a radius above half the core side keeps the overlap refusal (exit 2)
+ok   a stalled mask worker is stopped by the caller timeout (exit 2)
+ok   an existing report path is refused: no stale success (exit 2)
+ok   a fresh report path with a passing web gives exit 0 and a report
+ok   a dangling report symlink is refused (exit 2)
+ok   the dangling report link is unchanged
+ok   the link target is not created
+ok   design refuses a project with no files (not zero)
+
+101/101 passed

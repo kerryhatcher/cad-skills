@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kerryhatcher/cad-skills/contracts/board-interface.schema.json",
+  "title": "Board interface",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "cad-skills/board-interface"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "board_revision": {
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "pattern": "[\\u0000-\\u001f\\u007f]"
+      }
+    },
+    "board_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "units": {
+      "const": "mm"
+    },
+    "origin_mm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "thickness_mm": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "geometry_tolerance_mm": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "outline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      }
+    },
+    "cutouts": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        }
+      }
+    },
+    "holes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "diameter_mm": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "plated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "x",
+          "y",
+          "diameter_mm",
+          "plated"
+        ]
+      }
+    },
+    "connector_frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "\\S",
+            "not": {
+              "pattern": "[\\u0000-\\u001f\\u007f]"
+            }
+          },
+          "side": {
+            "enum": [
+              "top",
+              "bottom"
+            ]
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "rotation_deg": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMaximum": 360
+          },
+          "insertion_depth_mm": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "side",
+          "x",
+          "y",
+          "rotation_deg",
+          "insertion_depth_mm"
+        ]
+      }
+    },
+    "height_limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "top_mm": {
+          "type": "number",
+          "minimum": 0
+        },
+        "bottom_mm": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "top_mm",
+        "bottom_mm"
+      ]
+    },
+    "enclosure_clearance_mm": {
+      "type": "number",
+      "minimum": 0
+    },
+    "dimension_owners": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "outline": {
+          "enum": [
+            "electrical",
+            "mechanical"
+          ]
+        },
+        "holes": {
+          "enum": [
+            "electrical",
+            "mechanical"
+          ]
+        },
+        "connector_frames": {
+          "enum": [
+            "electrical",
+            "mechanical"
+          ]
+        },
+        "thickness": {
+          "enum": [
+            "electrical",
+            "mechanical"
+          ]
+        },
+        "height_limits": {
+          "enum": [
+            "electrical",
+            "mechanical"
+          ]
+        }
+      },
+      "required": [
+        "outline",
+        "holes",
+        "connector_frames",
+        "thickness",
+        "height_limits"
+      ]
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "board_revision",
+    "board_sha256",
+    "units",
+    "origin_mm",
+    "thickness_mm",
+    "geometry_tolerance_mm",
+    "outline",
+    "cutouts",
+    "holes",
+    "connector_frames",
+    "height_limits",
+    "enclosure_clearance_mm",
+    "dimension_owners"
+  ]
+}

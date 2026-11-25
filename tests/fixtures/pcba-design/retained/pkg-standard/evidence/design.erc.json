@@ -1,0 +1,23 @@
+{
+  "artifact": {
+    "path": "reports/erc.json",
+    "sha256": "1664ff0f30f4281e67c96d7f777823f39b5b9040600c37d86ec465b925eebd7b"
+  },
+  "check_id": "design.erc",
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_sch",
+      "sha256": "ff883a203f2b07864fe8c0e5a4e26d37afdd8a93a84ab1db1657c3f7c9f539ae"
+    }
+  ],
+  "method": "tool",
+  "notes": "violations=0",
+  "observed_on": "2026-11-15",
+  "schema_id": "cad-skills/evidence",
+  "schema_version": "1.0",
+  "status": "pass",
+  "tool": {
+    "name": "kicad-cli",
+    "version": "10.0.5"
+  }
+}

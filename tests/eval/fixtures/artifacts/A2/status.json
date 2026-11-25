@@ -1,0 +1,25 @@
+{
+  "commands": {
+    "design": 0,
+    "package": "not run",
+    "profile": 0,
+    "review-source": "not run",
+    "supplier": 1
+  },
+  "fixture": "A2",
+  "overall": "incomplete",
+  "profile": "oshpark-two-layer",
+  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
+  "reason": "The order condition fails and the manual silk condition remains pending. No source review or package ran.",
+  "supplier": {
+    "mandatory_fail": [
+      "service.order_multiple"
+    ],
+    "mandatory_pass": 16,
+    "mandatory_pending": [
+      "silk_line_min_short_text"
+    ],
+    "mandatory_total": 18,
+    "recommendations_reported": 2
+  }
+}

@@ -1,0 +1,21 @@
+Installed 6 packages in 4ms
+ok   The board outline with stroke 0 has exact centerline dimensions.
+ok   The board source with stroke 0 stays unchanged.
+{"inventory": {"copper_layers": ["F.Cu", "B.Cu"], "footprints": [], "holes": [], "kicad": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1", "outline": {"height": 6.35, "width": 406.4, "x": 0.0, "y": 0.0}, "slots": []}, "owner": "board", "source_sha256": "87bf0d0cd4f9f8d646bff83a6edde966367bf19fd8321398d2bc6d557bdab4e8", "stroke_mm": "0"}
+ok   The board outline with stroke 0.05 has exact centerline dimensions.
+ok   The board source with stroke 0.05 stays unchanged.
+{"inventory": {"copper_layers": ["F.Cu", "B.Cu"], "footprints": [], "holes": [], "kicad": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1", "outline": {"height": 6.35, "width": 406.4, "x": 0.0, "y": 0.0}, "slots": []}, "owner": "board", "source_sha256": "6d10530982a1149b03b87f54e7124eaed078d05ab0b05483710e7b4d204ae455", "stroke_mm": "0.05"}
+ok   The board outline with stroke 1.0 has exact centerline dimensions.
+ok   The board source with stroke 1.0 stays unchanged.
+{"inventory": {"copper_layers": ["F.Cu", "B.Cu"], "footprints": [], "holes": [], "kicad": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1", "outline": {"height": 6.35, "width": 406.4, "x": 0.0, "y": 0.0}, "slots": []}, "owner": "board", "source_sha256": "2fdb0dd364f7cd5d54f133745238a3666edab2949ae25c7f5c3172601592a327", "stroke_mm": "1.0"}
+ok   The footprint outline with stroke 0 has exact centerline dimensions.
+ok   The footprint source with stroke 0 stays unchanged.
+{"inventory": {"copper_layers": ["F.Cu", "B.Cu"], "footprints": [{"ref": "", "rot": 0.0, "side": "top", "x": 0.0, "y": 0.0}], "holes": [], "kicad": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1", "outline": {"height": 6.35, "width": 406.4, "x": 0.0, "y": 0.0}, "slots": []}, "owner": "footprint", "source_sha256": "b6241c397d068255f886a4b42ebd6f390b96795067e7eaa4fbb3329e078d9daa", "stroke_mm": "0"}
+ok   The footprint outline with stroke 0.05 has exact centerline dimensions.
+ok   The footprint source with stroke 0.05 stays unchanged.
+{"inventory": {"copper_layers": ["F.Cu", "B.Cu"], "footprints": [{"ref": "", "rot": 0.0, "side": "top", "x": 0.0, "y": 0.0}], "holes": [], "kicad": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1", "outline": {"height": 6.35, "width": 406.4, "x": 0.0, "y": 0.0}, "slots": []}, "owner": "footprint", "source_sha256": "d80100fe74ec6d7db544d45b6c7ecb4d8f768e06b2a06b29a2d8f46eb6c867de", "stroke_mm": "0.05"}
+ok   The footprint outline with stroke 1.0 has exact centerline dimensions.
+ok   The footprint source with stroke 1.0 stays unchanged.
+{"inventory": {"copper_layers": ["F.Cu", "B.Cu"], "footprints": [{"ref": "", "rot": 0.0, "side": "top", "x": 0.0, "y": 0.0}], "holes": [], "kicad": "10.0.5-unknown-202607221313~667fa36054~ubuntu25.10.1", "outline": {"height": 6.35, "width": 406.4, "x": 0.0, "y": 0.0}, "slots": []}, "owner": "footprint", "source_sha256": "22ae990a5b666b0cd9ad19697b8a4a9f58243bbdb32a206f747d8fbf295dae16", "stroke_mm": "1.0"}
+
+12/12 passed

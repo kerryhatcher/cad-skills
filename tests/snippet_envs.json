@@ -14,6 +14,7 @@
     "prusaslicer": "cadquery",
     "structural-analysis": "cadquery",
     "pcb-design": "pcb",
-    "pcb-fab-package": "pcb"
+    "pcb-fab-package": "pcb",
+    "pcba-design": "pcb"
   }
 }

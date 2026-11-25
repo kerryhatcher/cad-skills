@@ -1,0 +1,8 @@
+ok   test_fea_cantilever
+ok   test_fea_layer_check
+ok   test_fea_list_faces_and_set
+ok   test_printability
+ok   test_slice_profiles
+ok   test_slice_real
+
+6/6 passed

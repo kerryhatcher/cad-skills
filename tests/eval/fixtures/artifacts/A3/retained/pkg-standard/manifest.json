@@ -1,0 +1,479 @@
+{
+  "applicability": {
+    "firmware": false,
+    "panel": false,
+    "smd_parts": true,
+    "stencil": false
+  },
+  "board_revision": "A",
+  "board_sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e",
+  "checks": [
+    {
+      "evidence_path": "evidence/design.drc.json",
+      "evidence_sha256": "1615dab9bc122f5d38520066b0d8ec40caa15ca39f3d4b14090cbdbf71b7eda9",
+      "id": "design.drc",
+      "status": "fail"
+    },
+    {
+      "evidence_path": "evidence/design.erc.json",
+      "evidence_sha256": "b1238a1913555d16b46a034204db3423b35ae5c0d2bd306c4af6fa405283444e",
+      "id": "design.erc",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/design.parity.json",
+      "evidence_sha256": "69420dde3559c78ece0623aeba3b4344156a0bb2182570c8a874b7c0da2cdea8",
+      "id": "design.parity",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/fab.profile_evidence.json",
+      "evidence_sha256": "4d7e03105faeeb64e4573d38df30e89005d748c37e03eebcef8ed533ec128c22",
+      "id": "fab.profile_evidence",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/fab.export_inventory.json",
+      "evidence_sha256": "1d304384caca6b5f30770266d81810d3fc49b0b2d7b3d03e0dcd75b9de4b9ed0",
+      "id": "fab.export_inventory",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/fab.layer_order.json",
+      "evidence_sha256": "054bdb3dd0a1b9c74a5028d241e27587a3979ba417439f07adca058030f57da4",
+      "id": "fab.layer_order",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/fab.drill_split.json",
+      "evidence_sha256": "01d41ab1830f7507bdb7a546c3923b3d603d6599393fb1bae79f57b1ddfb87a4",
+      "id": "fab.drill_split",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/fab.supplier_rules.json",
+      "evidence_sha256": "8abdb8db381e79250cc80def7a1ce1ca4147cb3adc9f7b28814e7df8cfa809e0",
+      "id": "fab.supplier_rules",
+      "status": "unconfirmed"
+    },
+    {
+      "evidence_path": "evidence/asm.bom_consistent.json",
+      "evidence_sha256": "039aa9e691f3ed49be3aa5dfc891aa8a3b09024252c14e85886a0b74703c0efd",
+      "id": "asm.bom_consistent",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/asm.placement_rotation.json",
+      "evidence_sha256": "5587b213390486be552a3198cbc8572cf2a38c7b88020a3361b9d07e32b79cc5",
+      "id": "asm.placement_rotation",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/asm.variant_agreement.json",
+      "evidence_sha256": "934b7168eb39628989c78bd3cb6760c46dbe4d6e3a345a5d73bdd2979d880ac5",
+      "id": "asm.variant_agreement",
+      "status": "pass"
+    },
+    {
+      "evidence_path": "evidence/asm.stock_dated.json",
+      "evidence_sha256": "fa61a3e676d8689e27145b642e7c37b33a97d55d044ab2e80bb6d80b466770c8",
+      "id": "asm.stock_dated",
+      "status": "fail"
+    },
+    {
+      "evidence_path": "evidence/asm.test_record.json",
+      "evidence_sha256": "43a20852259e3fca59b477f7df7b2e6f57caa97fa4b9b70c3d05fc2de08f5662",
+      "id": "asm.test_record",
+      "status": "pass"
+    }
+  ],
+  "drill_applicability": [],
+  "inputs": [
+    {
+      "path": "kicad/board.kicad_pcb",
+      "role": "board",
+      "sha256": "3bda15fa26f711a5647dc6cdd2f074786095e272062bd4737a3773664240f14e"
+    },
+    {
+      "path": "mechanical/board-interface.json",
+      "role": "board_interface",
+      "sha256": "7095e4855a477d44c6605c7525e8ab39f409d0d30dcc9cfefed19634689323dd"
+    },
+    {
+      "path": "board.yaml",
+      "role": "board_record",
+      "sha256": "da6773bf8fc75debc19fe0471aa8305fb411b77dd236c2359bdff6710019874a"
+    },
+    {
+      "path": "manufacturing/export.yaml",
+      "role": "export_settings",
+      "sha256": "c56e136a6d3e5f1f7e8ec33bef66e589acfaaf580a4a0673a7143554a684830c"
+    },
+    {
+      "path": "components/cap-100n.yaml",
+      "role": "parts",
+      "sha256": "6d92bae75baf73304a9e5ed0d5dca93ab58ccc2e64fb9a8c7925fc4040ff593e"
+    },
+    {
+      "path": "components/header-2.yaml",
+      "role": "parts",
+      "sha256": "2546128f2893a074f06cb31978f58f3897d41c8c43ca5d4c3d10722b610ed2e9"
+    },
+    {
+      "path": "components/led-green.yaml",
+      "role": "parts",
+      "sha256": "449962943f98cd6a3db980d3274e92a93a60000510bcde89c0f997f7414c7faa"
+    },
+    {
+      "path": "components/parts-map.yaml",
+      "role": "parts",
+      "sha256": "0d26cc93458dd2d743f24d12901e8e92da04d36175e551c82b60066404144e08"
+    },
+    {
+      "path": "components/resistor-10k.yaml",
+      "role": "parts",
+      "sha256": "11bef0c36e83db32be23df9e0db5b8465d8e18c4b490ab70c8e6d4c1c7f308d5"
+    },
+    {
+      "path": "components/testpoint.yaml",
+      "role": "parts",
+      "sha256": "3c09b1bace014af514a78adc5a6d869403b1bda04b7410930670c35e29f3a81a"
+    },
+    {
+      "path": "kicad/board.kicad_sch",
+      "role": "schematic",
+      "sha256": "ff883a203f2b07864fe8c0e5a4e26d37afdd8a93a84ab1db1657c3f7c9f539ae"
+    },
+    {
+      "path": "manufacturing/supplier.yaml",
+      "role": "supplier_profile",
+      "sha256": "1c036fc4df5fc0562e419d3a844877f69f319b338dba6179aadaef82220e9813"
+    },
+    {
+      "path": "manufacturing/supplier-rules.yaml",
+      "role": "supplier_rules",
+      "sha256": "c62f0c61cd00ab35671eb1e33e4ce9fa1385d876f1b362144b1e4330601ebffb"
+    },
+    {
+      "path": "manufacturing/supplier-settings.yaml",
+      "role": "supplier_settings",
+      "sha256": "6e23cd77a375696ff288c8a8f10ce31b2f637ce51b364616bfc142957a5bf835"
+    },
+    {
+      "path": "toolchain.lock.json",
+      "role": "toolchain",
+      "sha256": "5eed9dc6fcda5792ca54845a49dcee9464b5ffc99958e69d9fc713af8a8d541d"
+    },
+    {
+      "path": "variants.yaml",
+      "role": "variants",
+      "sha256": "6ce057427c1d130cb5ef00fcd913a36cbb23927ff38274cea95517653759ad36"
+    }
+  ],
+  "kind": "pcba",
+  "outputs": [
+    {
+      "path": "bom/sierra-bom.xlsx",
+      "role": "bom",
+      "sha256": "c9b1ba151d80641b9752780c02517b68ed4501fc5ee2dbe7db62afa05487d961",
+      "size_bytes": 5605
+    },
+    {
+      "path": "drawings/assembly.svg",
+      "role": "assembly_drawing",
+      "sha256": "c2cd2d347512916be3cc072615a5aa29e621e9d4a753a4fd713bbe14456cb19b",
+      "size_bytes": 2495
+    },
+    {
+      "path": "drill/nonplated.drl",
+      "role": "drill_nonplated",
+      "sha256": "495676dc779adf60c5e06c2e9b7f62cde32b1ddf89d865281dd1184d8dc0211a",
+      "size_bytes": 452
+    },
+    {
+      "path": "drill/plated.drl",
+      "role": "drill_plated",
+      "sha256": "786ca9b46b3f6fc827c0190127fc1d7cc2c1816bdb130b12931005e3f37c0f6e",
+      "size_bytes": 531
+    },
+    {
+      "path": "fab/fabrication-drawing.gbr",
+      "role": "fabrication_drawing",
+      "sha256": "edebd42ec2234bbd1faafde0a079a633bd705261ab1593165fac6c651ffac065",
+      "size_bytes": 27739
+    },
+    {
+      "layer": "B.Cu",
+      "path": "fab/gerber/board-B_Cu.gbl",
+      "role": "copper",
+      "sha256": "06bb0c8cf28aa317fbe0292786dfa41d076cce35697d781bfd13d7105fdc09ea",
+      "size_bytes": 1677
+    },
+    {
+      "layer": "B.Mask",
+      "path": "fab/gerber/board-B_Mask.gbs",
+      "role": "mask",
+      "sha256": "f2765e39c8c26cc7c992a4d9e110d5dcd004d9d491cb75f8aaa650dd943b4270",
+      "size_bytes": 1455
+    },
+    {
+      "layer": "B.Paste",
+      "path": "fab/gerber/board-B_Paste.gbp",
+      "role": "paste",
+      "sha256": "9ac779369ccb8363c990e032397efddcc3a54b623e943b7c96ff5b2a23c8d450",
+      "size_bytes": 1262
+    },
+    {
+      "layer": "B.Silkscreen",
+      "path": "fab/gerber/board-B_Silkscreen.gbo",
+      "role": "silk",
+      "sha256": "ac10661071bf42a46d816d961d088430bc183078a077e339c0ea33596962d218",
+      "size_bytes": 1623
+    },
+    {
+      "layer": "Edge.Cuts",
+      "path": "fab/gerber/board-Edge_Cuts.gm1",
+      "role": "outline",
+      "sha256": "4f1d0fc6c1cee3f7e19adce59b08974eca2c39655a09ca52596a08317ee68804",
+      "size_bytes": 647
+    },
+    {
+      "layer": "F.Cu",
+      "path": "fab/gerber/board-F_Cu.gtl",
+      "role": "copper",
+      "sha256": "6b614248839a868751ed89b37165b7b7708956cfef5fa19dc5aa243179651b6d",
+      "size_bytes": 2457
+    },
+    {
+      "layer": "F.Mask",
+      "path": "fab/gerber/board-F_Mask.gts",
+      "role": "mask",
+      "sha256": "c1b3574042a9b20c00741f1ac9e9c56a2a4890ad79c24f27092c19aa7d9893cb",
+      "size_bytes": 1954
+    },
+    {
+      "layer": "F.Paste",
+      "path": "fab/gerber/board-F_Paste.gtp",
+      "role": "paste",
+      "sha256": "dc6d679380bd7ed3ad65eb080c7fb0048159687f102db173fe191c183d5e7b04",
+      "size_bytes": 1756
+    },
+    {
+      "layer": "F.Silkscreen",
+      "path": "fab/gerber/board-F_Silkscreen.gto",
+      "role": "silk",
+      "sha256": "361ad9aa255449573f4d9e7d2a8144b136453cec39a96f5b2284eecdfc02f6c3",
+      "size_bytes": 9509
+    },
+    {
+      "path": "image/board.svg",
+      "role": "image",
+      "sha256": "8ab73b0374cacecdabe23a6ea62f5d6518fad29bbb75e30b96ce892e7f786ddb",
+      "size_bytes": 65273
+    },
+    {
+      "path": "placement/sierra-xy-draft.csv",
+      "role": "placement",
+      "sha256": "85f73ef4872f9a480af0bdacd390db28e0f688c83544b322ffaee72f195ac7df",
+      "size_bytes": 608
+    },
+    {
+      "path": "reports/assembly-neutral.json",
+      "role": "report",
+      "sha256": "8b3438271d9b14401b119104aaee59b1652dd7ee2b8dbeca8de05ee25dec25fd",
+      "size_bytes": 14603
+    },
+    {
+      "path": "reports/board-hole-inventory.json",
+      "role": "report",
+      "sha256": "66b7be2de0ea81bae854a623f55971ad444f31ad50b170891a6256dbf2765856",
+      "size_bytes": 902
+    },
+    {
+      "path": "reports/drc.json",
+      "role": "report",
+      "sha256": "a319318b68ea74db5c011fe37c04a21d8a435937776903da24949bc573376106",
+      "size_bytes": 21184
+    },
+    {
+      "path": "reports/drill-split.json",
+      "role": "report",
+      "sha256": "d0fbea4f167168ffad6e13a8f2016bb91d3feac6824eb78c213ec9df1b9f0a8f",
+      "size_bytes": 304
+    },
+    {
+      "path": "reports/erc.json",
+      "role": "report",
+      "sha256": "1664ff0f30f4281e67c96d7f777823f39b5b9040600c37d86ec465b925eebd7b",
+      "size_bytes": 999
+    },
+    {
+      "path": "reports/export-inventory.json",
+      "role": "report",
+      "sha256": "ee32d519bf1ccfdb89d71fc5cdf570fd3c6f149a98b2ca056271e38e704cde19",
+      "size_bytes": 389
+    },
+    {
+      "path": "reports/layer-order.json",
+      "role": "report",
+      "sha256": "aaca6d424d78584cfffdb8b46281b6b914a71535b80a1f0f48d1095174a9b50a",
+      "size_bytes": 572
+    },
+    {
+      "path": "reports/parity.json",
+      "role": "report",
+      "sha256": "00a6e97509472ca0daff8360b3474402110f1709f5497346af2fd60a3f70c551",
+      "size_bytes": 67
+    },
+    {
+      "path": "reports/sierra-status.json",
+      "role": "report",
+      "sha256": "ff8c47857ba09e9c096fceb13ad134c76620819cc9581fe628274a2ec00b097d",
+      "size_bytes": 834
+    },
+    {
+      "path": "reports/supplier-evidence.txt",
+      "role": "report",
+      "sha256": "9b228dbf457fcdf80a5a517c2305556ff48fa6d60837729f274022e264f87c9e",
+      "size_bytes": 128
+    },
+    {
+      "path": "reports/supplier-rules.json",
+      "role": "report",
+      "sha256": "c1aae82cdfca7def31114b9f6175f626d3da3b8f09f89f6a68980129269b93d5",
+      "size_bytes": 197
+    },
+    {
+      "path": "test/test-record.json",
+      "role": "test_record",
+      "sha256": "1460d140cd1af036a369b6e524f93694eb1114108813fe0cd1b22008edabd35d",
+      "size_bytes": 649
+    },
+    {
+      "path": "evidence/asm.bom_consistent.json",
+      "role": "evidence",
+      "sha256": "039aa9e691f3ed49be3aa5dfc891aa8a3b09024252c14e85886a0b74703c0efd",
+      "size_bytes": 1643
+    },
+    {
+      "path": "evidence/asm.placement_rotation.json",
+      "role": "evidence",
+      "sha256": "5587b213390486be552a3198cbc8572cf2a38c7b88020a3361b9d07e32b79cc5",
+      "size_bytes": 1540
+    },
+    {
+      "path": "evidence/asm.stock_dated.json",
+      "role": "evidence",
+      "sha256": "fa61a3e676d8689e27145b642e7c37b33a97d55d044ab2e80bb6d80b466770c8",
+      "size_bytes": 1383
+    },
+    {
+      "path": "evidence/asm.test_record.json",
+      "role": "evidence",
+      "sha256": "43a20852259e3fca59b477f7df7b2e6f57caa97fa4b9b70c3d05fc2de08f5662",
+      "size_bytes": 1645
+    },
+    {
+      "path": "evidence/asm.variant_agreement.json",
+      "role": "evidence",
+      "sha256": "934b7168eb39628989c78bd3cb6760c46dbe4d6e3a345a5d73bdd2979d880ac5",
+      "size_bytes": 1528
+    },
+    {
+      "path": "evidence/design.drc.json",
+      "role": "evidence",
+      "sha256": "1615dab9bc122f5d38520066b0d8ec40caa15ca39f3d4b14090cbdbf71b7eda9",
+      "size_bytes": 563
+    },
+    {
+      "path": "evidence/design.erc.json",
+      "role": "evidence",
+      "sha256": "b1238a1913555d16b46a034204db3423b35ae5c0d2bd306c4af6fa405283444e",
+      "size_bytes": 547
+    },
+    {
+      "path": "evidence/design.parity.json",
+      "role": "evidence",
+      "sha256": "69420dde3559c78ece0623aeba3b4344156a0bb2182570c8a874b7c0da2cdea8",
+      "size_bytes": 704
+    },
+    {
+      "path": "evidence/fab.drill_split.json",
+      "role": "evidence",
+      "sha256": "01d41ab1830f7507bdb7a546c3923b3d603d6599393fb1bae79f57b1ddfb87a4",
+      "size_bytes": 866
+    },
+    {
+      "path": "evidence/fab.export_inventory.json",
+      "role": "evidence",
+      "sha256": "1d304384caca6b5f30770266d81810d3fc49b0b2d7b3d03e0dcd75b9de4b9ed0",
+      "size_bytes": 725
+    },
+    {
+      "path": "evidence/fab.layer_order.json",
+      "role": "evidence",
+      "sha256": "054bdb3dd0a1b9c74a5028d241e27587a3979ba417439f07adca058030f57da4",
+      "size_bytes": 706
+    },
+    {
+      "path": "evidence/fab.profile_evidence.json",
+      "role": "evidence",
+      "sha256": "4d7e03105faeeb64e4573d38df30e89005d748c37e03eebcef8ed533ec128c22",
+      "size_bytes": 596
+    },
+    {
+      "path": "evidence/fab.supplier_rules.json",
+      "role": "evidence",
+      "sha256": "8abdb8db381e79250cc80def7a1ce1ca4147cb3adc9f7b28814e7df8cfa809e0",
+      "size_bytes": 1289
+    }
+  ],
+  "reasons": [
+    {
+      "code": "drc.violations",
+      "text": "The DRC reports 15 violations."
+    },
+    {
+      "code": "drc.unconnected",
+      "text": "The DRC reports 16 unconnected items."
+    },
+    {
+      "code": "fab.plane_unconfirmed",
+      "text": "The plane interpretation is unconfirmed."
+    },
+    {
+      "code": "fab.xy_unconfirmed",
+      "text": "The placement conventions are unconfirmed: axes, midpoint_mapping, origin, rotation_direction, side_view, units, zero_orientation."
+    },
+    {
+      "code": "asm.stock_unconfirmed",
+      "text": "EX-HDR-1X02 is unconfirmed: lifecycle_nrnd."
+    },
+    {
+      "code": "asm.stock_fail",
+      "text": "EX-LED-0603-G is fail: stock_below_demand, stock_stale."
+    },
+    {
+      "code": "asm.stock_unconfirmed",
+      "text": "EX-C-0603-100N is unconfirmed: stock_unknown."
+    },
+    {
+      "code": "supplier.location_unconfirmed",
+      "text": "The fabrication and assembly locations are unconfirmed for turnkey_pro."
+    }
+  ],
+  "release_id": "pkg-standard",
+  "schema_id": "cad-skills/manifest",
+  "schema_version": "1.0",
+  "status": "unqualified",
+  "supplier": {
+    "id": "sierra-turnkey-pro",
+    "profile_sha256": "6d643ad08dbbf38bf8eb9139bc5ffd1fe6e8bd9b3bf6152df5a5cf7152946d8d",
+    "service": "Turnkey PRO"
+  },
+  "tool_versions": {
+    "kicad-cli": "10.0.5",
+    "pcba-design": "1.0"
+  },
+  "variant": "base"
+}

@@ -15,7 +15,9 @@ from fractions import Fraction
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / "skills" / "pcb-fab-package"
+from fab_fixture import fixture_skill
+
+SKILL = fixture_skill(ROOT / "skills" / "pcb-fab-package")
 SCRIPTS = SKILL / "scripts"
 FIX = ROOT / "tests" / "fixtures" / "pcb-fab-package"
 sys.path.insert(0, str(SCRIPTS))
@@ -347,8 +349,6 @@ def test_drawing(tmp):
                           capture_output=True, text=True)
     png = tmp / "drawing.png"
     check("drawing renders to PNG", proc.returncode == 0 and png.is_file() and png.stat().st_size > 1000, proc.stderr)
-    if png.is_file():
-        shutil.copy(png, ROOT / "tests" / "fixtures" / "pcb-fab-package" / "drawing-example.png")
 
 
 def test_refuses_unimplemented(tmp):

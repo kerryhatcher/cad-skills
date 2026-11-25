@@ -1,0 +1,58 @@
+{
+  "drill": {
+    "command": "kicad-cli pcb export drill",
+    "output_files": {
+      "NPTH": "board-NPTH.drl",
+      "PTH": "board-PTH.drl"
+    },
+    "output_roles": {
+      "board-NPTH.drl": "drill_npth",
+      "board-PTH.drl": "drill_pth"
+    },
+    "switches": [
+      "--drill-origin",
+      "plot",
+      "--excellon-units",
+      "mm",
+      "--excellon-separate-th"
+    ]
+  },
+  "dxf_outline": {
+    "command": "kicad-cli pcb export dxf",
+    "contours": "off",
+    "output_role": "dxf_outline",
+    "switches": [
+      "--use-drill-origin",
+      "--output-units",
+      "mm",
+      "--mode-single",
+      "--layers",
+      "Edge.Cuts",
+      "--drill-shape-opt",
+      "2"
+    ]
+  },
+  "image_id": "b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+  "image_ref": "localhost/cad-skills-pcb:b6",
+  "record": "mech-export-settings/1",
+  "step_board": {
+    "command": "kicad-cli pcb export step",
+    "excluded_switches": [
+      "--include-soldermask",
+      "--include-pads",
+      "--include-silkscreen",
+      "--include-tracks",
+      "--include-zones"
+    ],
+    "output_role": "step_board",
+    "switches": [
+      "--drill-origin",
+      "--board-only",
+      "--no-extra-pad-thickness",
+      "--min-distance",
+      "0.01mm"
+    ]
+  },
+  "test_variants_release": false,
+  "variant": "default variant only"
+}

@@ -1,0 +1,37 @@
+schema_id: cad-skills/board
+schema_version: '1.0'
+name: rc-bare-board
+circuit_source: kicad_native
+assembly: bare_board
+supplier:
+  id: oshpark-two-layer
+  service: OSH Park two-layer service
+  profile_sha256: e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9
+quantity: 5
+variant: base
+electrical_limits:
+  supply_voltage:
+    value: 3.3
+    unit: V
+  supply_current:
+    value: 0.01
+    unit: A
+mechanical:
+  width_mm: 40.0
+  height_mm: 25.0
+  thickness_mm: 1.6
+coordinate_system:
+  units: mm
+  origin:
+    x_mm: 0
+    y_mm: 0
+  x_axis: right
+  y_axis: up
+release_revision: A
+restrictions:
+- text: The template is an example RC network with no export-controlled function.
+  source: Template statement, 2026-11-14
+
+extensions:
+  fabrication:
+    via_process: standard_through

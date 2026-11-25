@@ -1,0 +1,29 @@
+schema_id: cad-skills/part
+schema_version: "1.0"
+manufacturer: Example Connectors
+mpn: EX-HDR-1X02
+package: "1x02"
+symbol: Connector:Conn_01x02
+footprint: Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+datasheet_url: https://example.com/datasheets/ex-hdr-1x02.pdf
+datasheet_revision: "1"
+supplier_part_numbers:
+  - supplier: Example Distribution
+    number: EXD-HDR2
+pin_map:
+  "1": "1"
+  "2": "2"
+polarity: nonpolarized
+ratings:
+  current:
+    value: 1.0
+    unit: A
+temperature_range_c:
+  min: -40
+  max: 105
+lifecycle: nrnd
+stock:
+  status: known
+  quantity: 500
+  source: Example Distribution product page
+  retrieved: 2026-11-10

@@ -1,0 +1,57 @@
+{
+  "commands": [
+    {
+      "command": [
+        "uv",
+        "run",
+        "tests/test_snippets.py"
+      ],
+      "exit": 0,
+      "passed": 52,
+      "skipped": 5,
+      "log": "snippets.log.gz"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "tests/test_print_tools.py"
+      ],
+      "exit": 0,
+      "passed": 6,
+      "log": "print-tools.log"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "tests/test_pcb_tools.py"
+      ],
+      "exit": 0,
+      "passed": 59,
+      "stdout_location": "lead command transcript"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "tests/test_project_io.py"
+      ],
+      "exit": 0,
+      "passed": 11,
+      "stdout_location": "lead command transcript"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "tests/test_skill_packages.py"
+      ],
+      "exit": 0,
+      "passed": 8,
+      "log": "skill-packages.log"
+    }
+  ],
+  "provider_calls": 0,
+  "pushes": 0
+}
