@@ -1,0 +1,4 @@
+390d2b586c1655f2adc7888facf01d5b856a1a2d282fd4737fa9a0007942bc7d  tests/eval/packaging.py
+785a70c04b5c89399c638425e791ab34b02551161e1b3685cd3e9365b710c850  tests/test_release_packaging.py
+fd415dc58ab60455c022112105905ede674ce389ba26b025ead80651dbee488f  skills/pcb-fab-package/sources.yaml
+0931b94b8437e3c2c202fa1f7856d45d9444664f73ffa7e6ae98388a6f9f739d  docs/reviews/release/b12-source-path-normalization-claude.md
