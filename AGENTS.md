@@ -134,6 +134,11 @@ Frequent replacements:
   - `uv run tests/test_pcb_tools.py` (record contracts in `contracts/`)
   - `uv run tests/test_project_io.py` (project lock, confined paths and package publication)
   - `uv run tests/test_skill_packages.py` (skill checks, schema copies and snippet routing)
+  - `uv run tests/test_release_packaging.py` (supplier manifests, allowlist and exclusions; no provider)
+  - `uv run tests/test_release_harness.py` (release matrix, isolation, budget ledger and scores; mock results only)
+
+Paid release evaluations are manual. They are not part of CI. The matrix in `tests/eval/matrix.yaml`
+must be accepted by the lead first. A supplier copy is not a file to distribute. See `docs/release-licensing.md`.
 - Each skill must operate alone. A skill must not use a file from a different skill.
 
 ## Herdr messages

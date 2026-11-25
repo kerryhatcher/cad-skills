@@ -1,0 +1,40 @@
+# Proposed delta to tests/eval/distribution.yaml. Not applied.
+#
+# Why this is a delta: tests/eval/distribution.yaml and tests/eval/packaging.py are in the frozen
+# set (docs/reviews/b12-final-local-repair-freeze-claude.sha256). Neither file is edited here.
+# The lead decides whether to accept this delta. Then the lead applies it with a new freeze.
+#
+# Origin: the PCBA worktree (/mnt/storage/projects/cad-skills-worktrees/pcba) retains
+# docs/reviews/sierra-source-evidence/BOM-Sample-and-Demo.xls. It is untracked there. It stays
+# excluded from distribution. Local evidence is kept.
+#
+# Open fields. Do not apply until the PCBA author supplies each one from the retrieval record:
+#   - retrieved: not recorded. The PCBA author did not fetch the page in this session. The local
+#     copy came from /tmp/cad-skills-sierra-bom.xls. Its file time, 2026-11-14T03:47:59Z, is a
+#     file time and not a retrieval time. The /tmp copy has the same SHA-256 as the retained copy.
+#   - license_state: not measured. No statement from the source page is on record. A page fetch
+#     is a supplier contact. Standing rule: no supplier contact without lead approval.
+#   - url: the link in docs/pcb-pcba-plan.md (line 519) is not verified against the bytes.
+#
+# Required code change, separate from this delta: tests/eval/packaging.py `_magic_ok` supports only
+# "markup", "%PDF" and "PK\x03\x04". Add an "OLE2" value for the bytes d0 cf 11 e0 a1 b1 1a e1.
+# Add the content type application/vnd.ms-excel to MAGIC_REQUIRED_TYPES. Add a test. This change
+# is in the frozen packaging code and needs lead acceptance.
+
+add_sources:
+  - id: sierra-bom-sample-xls
+    path: docs/reviews/sierra-source-evidence/BOM-Sample-and-Demo.xls
+    url: https://media.protoexpress.com/BOM-Sample-and-Demo.xls
+    url_state: "URL from docs/pcb-pcba-plan.md line 519. Bytes not verified against it (no supplier contact)"
+    retrieved: "PENDING: UTC retrieval time from the PCBA author"
+    sha256: 1b486a0a1da968e128cf109bd25e50837c99b5a8f83a490f748a1c1ccb1b769c
+    content_type: application/vnd.ms-excel
+    magic: "OLE2"        # requires the packaging change above
+    license_state: "not measured"
+    distribution_decision: exclude-full-copy
+
+add_excluded_patterns:
+  - docs/reviews/sierra-source-evidence/*.xls
+
+# Coverage note: check_coverage (D-1) needs this entry in the release tree before the gate runs.
+# The file must be copied into the release tree, unchanged, with its hash checked.

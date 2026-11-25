@@ -1,0 +1,25 @@
+{
+  "commands": {
+    "design": 0,
+    "package": "not run",
+    "profile": 0,
+    "review-source": "not run",
+    "supplier": 1
+  },
+  "fixture": "A2",
+  "overall": "incomplete",
+  "profile": "oshpark-two-layer",
+  "profile_sha256": "9f2da9b0e01dff82c3864b77297d32598c55040f3b7261c3e4423b4f81762690",
+  "reason": "One mandatory order condition fails and one manual evidence condition is pending. No review record exists, so no package is built.",
+  "supplier": {
+    "mandatory_fail": [
+      "service.order_multiple"
+    ],
+    "mandatory_pass": 13,
+    "mandatory_pending": [
+      "silk_line_min_short_text"
+    ],
+    "mandatory_total": 15,
+    "recommendations_reported": 2
+  }
+}

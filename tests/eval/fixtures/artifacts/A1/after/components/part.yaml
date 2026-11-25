@@ -1,0 +1,29 @@
+schema_id: cad-skills/part
+schema_version: '1.0'
+manufacturer: Example Components
+mpn: EX-LED-0603-G
+package: '0603'
+symbol: Device:LED
+footprint: LED_SMD:LED_0603_1608Metric
+datasheet_url: https://example.com/datasheets/ex-led-0603-g.pdf
+datasheet_revision: '2'
+supplier_part_numbers:
+- supplier: Example Distribution
+  number: EXD-12345
+pin_map:
+  '1': K
+  '2': A
+polarity: polarized
+ratings:
+  forward_current:
+    value: 0.02
+    unit: A
+temperature_range_c:
+  min: -40
+  max: 85
+lifecycle: active
+stock:
+  status: known
+  quantity: 1200
+  source: Example Distribution product page
+  retrieved: '2026-11-13'

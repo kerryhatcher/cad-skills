@@ -1,0 +1,8 @@
+[
+  {
+    "circuit": "rc.cir",
+    "measurement": "vtau",
+    "expected": 1.298,
+    "tolerance": 0.01298
+  }
+]

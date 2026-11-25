@@ -1,0 +1,13 @@
+4c63f21c80d54214ebe2f328be64f4ea71bf10f7f547dfdc7e11092b9d007c2d  tests/eval/packaging.py
+8b5b51188237f4399bef2e51b570e796ced9ffeeeb29369b376cab2a7ecf7037  tests/test_release_packaging.py
+fe76d4b112d239f0f926cc18d03bf2bf57b2b974cf93db57af40244be49e6582  tests/eval/distribution.yaml
+1b486a0a1da968e128cf109bd25e50837c99b5a8f83a490f748a1c1ccb1b769c  docs/reviews/sierra-source-evidence/BOM-Sample-and-Demo.xls
+23466e5b81446e7cc97d64f02762cc7854059eb0d0a7ecc29b2113200674dbf6  docs/release-licensing.md
+8530711dc037e2b896b3a45ffb5e09ce6b345dc8698f90617ea68b208e1b2309  docs/reviews/release/b12-bom-public-get-record-claude.md
+5e738ce3197c695eaa3097612281b888692438712b166a1a2144093428454d8b  docs/reviews/release/b12-bom-ole2-correction-r2-claude.md
+ea5df6a883baf282ae0ce8fd9479b7cc832fd923a4902fbb17af7375b9a0ae77  docs/reviews/release/b12-bom-ole2-review-codex.md
+4b675ac1ee48ea0bad15f6ce5800e8034e5d548bf257a527cf4ed03dceb73bb7  docs/reviews/release/b12-bom-ole2-r2-confirmation-pi.md
+846b49acf2bc3770976b6c3547fbbf3be0e84a41af3dd2c428fb9eaa198bb7ab  docs/reviews/release/b12-bom-ole2-confirmation-pi.md
+78a854b00876f38e0d3968124da5f714380aa5e66b5fd704a169cbfa4a389ac8  docs/reviews/release/b12-bom-provenance-constraints-pi.md
+2e320145fb15734efb4a1745623dde1da7c52dceecc013c775eebb0bf6a64849  docs/reviews/release/b12-bom-ole2-git-visibility-pi.md
+3f9c3ce9b792b8c06ccd173113e67aeeb2e6bf5ce783ca6e51733e3242a6f22b  docs/reviews/release/b12-bom-ole2-lead-decisions-pi.md

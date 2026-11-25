@@ -124,6 +124,22 @@ CI runs these test scripts each time that you push commits (`.github/workflows/t
 
 Write all documentation, code comments, help text, commit messages and agent messages in ASD-STE100 Simplified Technical English (STE). `AGENTS.md` gives the rules and examples. `CLAUDE.md` imports `AGENTS.md` for Claude Code.
 
+## Release checks
+
+Two local checks cover the release packaging and the release harness. They call no provider:
+
+- `uv run tests/test_release_packaging.py` checks the supplier source manifests and the distribution allowlist.
+- `uv run tests/test_release_harness.py` checks the evaluation matrix, the isolation rules and the budget rules. Its results are mock results, not provider evidence.
+
+Skill paths for each host. Claude Code paths are not measured yet:
+
+- Codex: `.agents/skills/<name>` for a project, `~/.agents/skills/<name>` for a user.
+- Pi: `.pi/skills/<name>` or `.agents/skills/<name>` for a trusted project, `~/.pi/agent/skills/<name>` or `~/.agents/skills/<name>` for a user.
+
+A copied or linked skill does not hide the repository. A host with shell access can still read it.
+
+Supplier pages and documents are local evidence. A release package does not contain them. See `docs/release-licensing.md`. The repository license is MIT. Third-party content keeps its own license.
+
 ## License
 
 MIT
