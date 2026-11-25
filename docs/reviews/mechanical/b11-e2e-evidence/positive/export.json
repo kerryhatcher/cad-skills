@@ -1,0 +1,55 @@
+{
+  "commands": {
+    "drill": "pcb export drill --drill-origin plot --excellon-units mm -o out/drill/ board.kicad_pcb",
+    "dxf": "pcb export dxf --use-drill-origin --output-units mm --mode-single --layers Edge.Cuts --drill-shape-opt 2 -o out/outline.dxf board.kicad_pcb",
+    "step": "pcb export step --drill-origin --board-only --no-extra-pad-thickness --min-distance 0.01mm -o out/board.step board.kicad_pcb"
+  },
+  "exits": {
+    "drill": 0,
+    "dxf": 0,
+    "step": 0
+  },
+  "image_id": "b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+  "image_ref": "localhost/cad-skills-pcb:b6",
+  "inputs": {
+    "board.kicad_pcb": {
+      "bytes": 1896,
+      "sha256": "37105cf50e2bb0c997f7b9f6a02affef2f101a6b0684a4024d5a78541f8e20ba"
+    },
+    "export-settings.json": {
+      "bytes": 1189,
+      "sha256": "113d3cfd68246416aec55b9c4997aa66d1733f2928849ac98a8cadf18bafcbc8"
+    },
+    "mechanical/board-interface.json": {
+      "bytes": 1748,
+      "sha256": "4a9285d7dc2aa92937beb4cdee01d1b9489e5a95367562de08be0758c3008aba"
+    },
+    "mechanical/component-evidence.json": {
+      "bytes": 1486,
+      "sha256": "fe60cc688e4565be6933a3b135c8372d590f72aacc57cdc024e8d6493d03f35d"
+    },
+    "mechanical/fixture-source.json": {
+      "bytes": 2542,
+      "sha256": "e440ee6442424fe4750bbd871c0198e9677ca8c0786581ecc17b38566710a2cf"
+    }
+  },
+  "outputs": {
+    "board.drl": {
+      "bytes": 575,
+      "role": "drill_pth",
+      "sha256": "3fc41a56fbc1c42bbbcca618d908a5a8fa64c4d9323f0fe6a981e92de4936aaf"
+    },
+    "board.step": {
+      "bytes": 14721,
+      "role": "step_board",
+      "sha256": "c4d0ad1b04743f111455992260f188172fcbfbe952febe841430a9e0f6052d16"
+    },
+    "outline.dxf": {
+      "bytes": 7266,
+      "role": "dxf_outline",
+      "sha256": "7f78d95024454e3e64793cc114c04e4c97c867e04bff04c0592230df1f066fcd"
+    }
+  },
+  "record": "mech-export/1",
+  "version": "1"
+}

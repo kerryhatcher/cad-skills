@@ -1,0 +1,2 @@
+tests/fixtures/mech-fit-a/real-export/board.step
+tests/fixtures/mech-fit-a/real-export/outline.dxf

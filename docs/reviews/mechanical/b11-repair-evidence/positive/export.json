@@ -1,0 +1,64 @@
+{
+  "commands": {
+    "drill": "pcb export drill --drill-origin plot --excellon-units mm --excellon-separate-th -o out/drill/ board.kicad_pcb",
+    "dxf": "pcb export dxf --use-drill-origin --output-units mm --mode-single --layers Edge.Cuts --drill-shape-opt 2 -o out/outline.dxf board.kicad_pcb",
+    "step": "pcb export step --drill-origin --board-only --no-extra-pad-thickness --min-distance 0.01mm -o out/board.step board.kicad_pcb"
+  },
+  "exits": {
+    "drill": 0,
+    "dxf": 0,
+    "step": 0
+  },
+  "image_id": "b2731833711a1df0d955038c10582f1893d27743df5d9fcd52e107cb35892a5f",
+  "image_ref": "localhost/cad-skills-pcb:b6",
+  "inputs": {
+    "board.kicad_pcb": {
+      "sha256": "37105cf50e2bb0c997f7b9f6a02affef2f101a6b0684a4024d5a78541f8e20ba",
+      "size": 1896
+    },
+    "export-settings.json": {
+      "sha256": "9565680898646c576aa77c252ae9021c823589b53ca9e5363d8277c2a33014d4",
+      "size": 1346
+    },
+    "mechanical/board-interface.json": {
+      "sha256": "4a9285d7dc2aa92937beb4cdee01d1b9489e5a95367562de08be0758c3008aba",
+      "size": 1748
+    },
+    "mechanical/component-evidence.json": {
+      "sha256": "6a16260eef3202ccd97fc73db75835060b37b8c2f5250197c313e4cb3439ddb6",
+      "size": 1619
+    },
+    "mechanical/fixture-source.json": {
+      "sha256": "e440ee6442424fe4750bbd871c0198e9677ca8c0786581ecc17b38566710a2cf",
+      "size": 2542
+    }
+  },
+  "outputs": {
+    "board-NPTH.drl": {
+      "path": "out/mechanical/export/board-NPTH.drl",
+      "role": "drill_npth",
+      "sha256": "f13692d44d66cec28c5b14d9e043525261d68ccf00f68b1f8b6d0004ab3b6249",
+      "size": 506
+    },
+    "board-PTH.drl": {
+      "path": "out/mechanical/export/board-PTH.drl",
+      "role": "drill_pth",
+      "sha256": "2d9c5b3f05c114b9e5e3fd29ce49175674ec64a592f61694ea16db6f8c3dede4",
+      "size": 423
+    },
+    "board.step": {
+      "path": "out/mechanical/export/board.step",
+      "role": "step_board",
+      "sha256": "036d8ceb22b371e59c913a5da2a48057488cca6951ff198bf604cd383f32ca46",
+      "size": 14721
+    },
+    "outline.dxf": {
+      "path": "out/mechanical/export/outline.dxf",
+      "role": "dxf_outline",
+      "sha256": "7f78d95024454e3e64793cc114c04e4c97c867e04bff04c0592230df1f066fcd",
+      "size": 7266
+    }
+  },
+  "record": "mech-export/1",
+  "version": "1"
+}

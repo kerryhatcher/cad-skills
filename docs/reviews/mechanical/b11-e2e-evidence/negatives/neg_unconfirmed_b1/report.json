@@ -1,0 +1,147 @@
+{
+  "export_record_sha256": "482713ce1a9083ca2c5ad385657cd389d7d9e1d3ca49390baad23ca96d8c8c31",
+  "fit_assembly": {
+    "bytes": 67405,
+    "path": "out/mechanical/fit-assembly.step",
+    "sha256": "5cf2331c64d6055ca575e728855338478166a9b3925a81d4bcc5f142bb0649e2"
+  },
+  "inputs": {
+    "board.kicad_pcb": {
+      "bytes": 1896,
+      "sha256": "37105cf50e2bb0c997f7b9f6a02affef2f101a6b0684a4024d5a78541f8e20ba"
+    },
+    "export-settings.json": {
+      "bytes": 1189,
+      "sha256": "113d3cfd68246416aec55b9c4997aa66d1733f2928849ac98a8cadf18bafcbc8"
+    },
+    "mechanical/board-interface.json": {
+      "bytes": 1748,
+      "sha256": "4a9285d7dc2aa92937beb4cdee01d1b9489e5a95367562de08be0758c3008aba"
+    },
+    "mechanical/component-evidence.json": {
+      "bytes": 1492,
+      "sha256": "6fdfa4555d314ea090f166d18c652098595da65cd7b01dc3a9df7d4a1931b380"
+    },
+    "mechanical/fixture-source.json": {
+      "bytes": 2542,
+      "sha256": "e440ee6442424fe4750bbd871c0198e9677ca8c0786581ecc17b38566710a2cf"
+    }
+  },
+  "measured": {
+    "fit_assembly_solids": 3,
+    "substrate_bbox": [
+      -3.700000000000001,
+      -17.8,
+      0.0,
+      56.3,
+      18.2,
+      1.51
+    ]
+  },
+  "record": "mech-report/1",
+  "results": [
+    {
+      "id": "C12",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C01",
+      "measured_error_mm": 4.7207330545682824e-15,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C02d",
+      "measured_error_mm": 3.972054645195637e-15,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C05",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C02",
+      "measured_error_mm": 5.0242958677880805e-15,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C03",
+      "measured_error_mm": 2.000000000279556e-06,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C04",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.0
+    },
+    {
+      "id": "closed_hole_set",
+      "reason": "",
+      "status": "pass"
+    },
+    {
+      "angle_error_deg": 0.0,
+      "id": "C06",
+      "measured_error_mm": 0.0,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C07",
+      "measured_error_mm": null,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 1e-06
+    },
+    {
+      "id": "C08",
+      "measured_error_mm": -1.1999999999999997,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C09",
+      "measured_error_mm": 7.5000000000000036,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": 0.01
+    },
+    {
+      "id": "C10",
+      "measured_error_mm": null,
+      "reason": "an evidence item is unconfirmed",
+      "status": "unconfirmed",
+      "tolerance_mm": null
+    },
+    {
+      "id": "C11",
+      "measured_error_mm": null,
+      "reason": "",
+      "status": "pass",
+      "tolerance_mm": null
+    }
+  ],
+  "status": {
+    "fit_status": "unconfirmed",
+    "geometry_status": "pass",
+    "missing": []
+  },
+  "version": "1"
+}
