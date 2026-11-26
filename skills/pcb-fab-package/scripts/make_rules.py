@@ -2,7 +2,7 @@
 # requires-python = ">=3.10"
 # dependencies = ["jsonschema==4.26.0", "pyyaml==6.0.3"]
 # ///
-"""Make or check the standalone KiCad rule files of this skill.
+"""Make or examine the standalone KiCad rule files of this skill.
 
 Each profile in `supplier/profiles/` gives one rule file in `supplier/rules/`.
 The file name is `<profile-id>.kicad_dru`. A person puts a rule file into a KiCad project.
@@ -11,13 +11,13 @@ Then the person runs the design rule check (DRC) in KiCad.
 The workflow does not read these files. The workflow makes its rules from the profile when it runs,
 with `workflow.supplier_rules_text`. This generator uses the same function. Thus both rule texts are equal.
 
-The generator does not check the supplier pages. A clean checkout has no pages.
+The generator does not examine the supplier pages. A clean checkout has no pages.
 Relative paths start at the skill directory.
 
 Exit status:
   0  the files agree with the profiles, or the write mode wrote every file that was different.
   1  the check found a difference or a missing file. Or a rule file has no profile.
-  2  a profile, an argument or a path is not acceptable. A symbolic link is in the way.
+  2  a profile, an argument or a path is not acceptable. A symbolic link is at the path.
   3  a file cannot be read or written, or the schema registry is not usable.
 """
 
@@ -72,6 +72,9 @@ def load_profile(path, registry):
     findings = VAL.validate_record(record, registry, str(path))
     if findings:
         raise Invalid(f"{path.name} does not match the profile schema. {describe(findings)}")
+    if record.get("schema_id") != "cad-skills/supplier-profile":
+        raise Invalid(f"{path.name} has the schema_id {record.get('schema_id')!r}. "
+                      "The generator needs the schema cad-skills/supplier-profile.")
     if record.get("content_sha256") != fab.content_hash(record):
         raise Invalid(f"{path.name}: content_sha256 does not match the record content. "
                       "Correct the hash, then run make_rules.py again.")
@@ -107,7 +110,7 @@ def expected_files(profiles_dir, registry):
     """Return {file name: bytes} for each profile. Raise Invalid if no profile is found."""
     paths = sorted(profiles_dir.glob("*.yaml"))
     if not paths:
-        raise Invalid(f"No profile is in {shown(profiles_dir)}. Check the --profiles argument.")
+        raise Invalid(f"No profile is in {shown(profiles_dir)}. Examine the --profiles argument.")
     expected = {}
     for path in paths:
         record = load_profile(path, registry)
@@ -127,6 +130,9 @@ def differences(rules_dir, expected):
         for path in sorted(rules_dir.iterdir()):
             if path.is_symlink():
                 raise Invalid(f"{shown(path)} is a symbolic link. Remove it. The generator does not follow it.")
+            if path.suffix == SUFFIX and path.is_dir():
+                raise Invalid(f"{shown(path)} is a directory. The generator cannot compare it with a "
+                              "profile. Remove it.")
             if path.suffix == SUFFIX:
                 present[path.name] = path
     found = []
@@ -147,7 +153,7 @@ def differences(rules_dir, expected):
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="make_rules.py",
-        description="Make or check the standalone KiCad rule files. Relative paths start at the skill directory.")
+        description="Make or examine the standalone KiCad rule files. Relative paths start at the skill directory.")
     parser.add_argument("--profiles", type=pathlib.Path, default=PROFILES,
                         help="directory of the supplier profiles (default: supplier/profiles)")
     parser.add_argument("--out", type=pathlib.Path, default=RULES,
@@ -174,7 +180,7 @@ def main(argv=None):
         print(PREFIX + str(err), file=sys.stderr)
         return EXIT_INVALID
     except OSError as err:
-        print(PREFIX + f"cannot read the rule files: {err}. Check the permissions.", file=sys.stderr)
+        print(PREFIX + f"cannot read the rule files: {err}. Examine the permissions.", file=sys.stderr)
         return EXIT_TOOL
 
     if args.check:
@@ -191,7 +197,7 @@ def main(argv=None):
         print(PREFIX + str(err), file=sys.stderr)
         return EXIT_INVALID
     except OSError as err:
-        print(PREFIX + f"cannot write the rule files: {err}. Check the permissions of the rule directory.",
+        print(PREFIX + f"cannot write the rule files: {err}. Examine the permissions of the rule directory.",
               file=sys.stderr)
         return EXIT_TOOL
     additional = [message for kind, _, message in found if kind == "additional"]

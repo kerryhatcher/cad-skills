@@ -54,7 +54,7 @@ The local tests use project-authored fixtures. They do not retrieve supplier pag
 The skill supplies one KiCad rule file for each supplier profile. The files are in `supplier/rules/`.
 The file name is the profile id, for example `supplier/rules/oshpark-two-layer.kicad_dru`.
 Use a rule file to run KiCad DRC without the workflow.
-Put the file next to the board, with the name `board.kicad_dru`. Then run DRC in KiCad.
+Copy the file next to the board as `<project-name>.kicad_dru`, with the project name of the board. Then run DRC in KiCad.
 If the board has a rule file, put only the rule lines into that file.
 
 The workflow does not read these files. The `supplier` command makes its rules from the profile when it runs.

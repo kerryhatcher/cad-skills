@@ -100,7 +100,7 @@ def test_rules_file_equals_workflow_text(tmp: Path):
         record = VAL.load_record(path)
         data = (rules_dir(SKILL) / f"{record['id']}.kicad_dru").read_bytes()
         expected = workflow.supplier_rules_text(record).encode("utf-8")
-        expect(data == expected, f"{record['id']}: the rule file differs from the workflow text.")
+        expect(data == expected, f"{record['id']}: the rule file is different from the workflow text.")
 
 
 def test_rules_values_match_profile_limits(tmp: Path):
@@ -126,7 +126,7 @@ def test_rules_values_match_profile_limits(tmp: Path):
                    f"{pid}: the value of {key} is {value} mm. The profile value is {limit['value']} {limit['unit']}.")
             found[key] = value
         expect(set(found) == set(record["division"]["kicad_dru"]),
-               f"{pid}: the rules {sorted(found)} differ from the division.")
+               f"{pid}: the rules {sorted(found)} are different from the division.")
 
 
 def test_check_passes_on_the_repository(tmp: Path):
@@ -188,7 +188,7 @@ def test_write_mode_restores_the_files(tmp: Path):
     shutil.rmtree(rules_dir(skill))
     code, _, err = run(skill)
     expect(code == 0, f"The write mode gave exit {code}: {err}")
-    expect(rule_bytes(skill) == expected, "The written bytes differ from the repository files.")
+    expect(rule_bytes(skill) == expected, "The written bytes are different from the repository files.")
     stamps = {path.name: path.stat().st_mtime_ns for path in rules_dir(skill).iterdir()}
     code, _, err = run(skill)
     expect(code == 0, f"The second run gave exit {code}: {err}")
@@ -212,7 +212,7 @@ def test_invalid_profile_is_refused(tmp: Path):
     """Each defect gives exit 2 in both modes and writes nothing. The message names the defect."""
     cases = [
         ("content hash", lambda r: r["limits"]["min_trace"].update(value=7), False, "content_sha256"),
-        ("id differs from file name", lambda r: r.update(id="oshpark-other"), True, "file name"),
+        ("id is different from the file name", lambda r: r.update(id="oshpark-other"), True, "file name"),
         ("key without a constraint",
          lambda r: (r["limits"].update(min_unknown=dict(r["limits"]["min_trace"])),
                     r["division"]["kicad_dru"].append("min_unknown")), True, "min_unknown"),
@@ -239,6 +239,28 @@ def test_schema_violation_is_refused(tmp: Path):
     expect(code == 2, f"A schema violation gave exit {code}. Expected 2.")
     expect("units" in err, f"The message does not name the schema field: {err}")
     expect(rule_bytes(skill) == before, "The generator changed a rule file after a schema violation.")
+
+
+def test_wrong_schema_id_is_refused(tmp: Path):
+    """A record of another schema gives exit 2. The generator does not give a traceback."""
+    skill = skill_copy(tmp)
+    record = {"schema_id": "cad-skills/evidence", "schema_version": "1.0",
+              "check_id": "example-check", "status": "fail", "method": "tool"}
+    path = skill / "supplier" / "profiles" / "oshpark-two-layer.yaml"
+    path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    code, _, err = run(skill, "--check")
+    expect(code == 2, f"A different schema id gave exit {code}. Expected 2.")
+    expect("supplier-profile" in err, f"The message does not name the schema: {err}")
+
+
+def test_directory_in_rules_is_refused(tmp: Path):
+    """A directory with the rule suffix in the rules directory gives exit 2, not exit 3."""
+    skill = skill_copy(tmp)
+    extra = rules_dir(skill) / "extra.kicad_dru"
+    extra.mkdir()
+    code, _, err = run(skill, "--check")
+    expect(code == 2, f"A directory in the rules directory gave exit {code}. Expected 2.")
+    expect("extra.kicad_dru" in err, f"The message does not name the directory: {err}")
 
 
 def test_symbolic_link_is_refused(tmp: Path):
@@ -280,7 +302,8 @@ def test_out_outside_the_skill_is_refused(tmp: Path):
 def test_script_uses_only_its_own_skill(tmp: Path):
     """The generator imports only the standard library and modules of its own scripts directory."""
     text = (SKILL / "scripts" / "make_rules.py").read_text(encoding="utf-8")
-    expect("skills/" not in text, "The generator names a path of another skill.")
+    expect("skills/" not in text.replace("cad-skills/", ""),
+           "The generator names a path of another skill.")
     expect("parents[" not in text, "The generator climbs the directory tree.")
     allowed = set(sys.stdlib_module_names) | {path.stem for path in (SKILL / "scripts").glob("*.py")}
     for node in ast.walk(ast.parse(text)):
