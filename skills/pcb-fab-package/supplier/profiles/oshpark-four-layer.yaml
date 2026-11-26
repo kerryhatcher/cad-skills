@@ -6,8 +6,8 @@
   "service": "OSH Park four-layer service",
   "source_url": "https://docs.oshpark.com/services/four-layer/",
   "retrieved": "2026-11-14",
-  "evidence_sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
-  "content_sha256": "3457b7e38696fc7e46f47d98851163adb50eef594d20922e1ca4f711c7f33f93",
+  "evidence_sha256": "4eb0af38b6dfaed2d33adde1c72605d9e1431e5925e61539be89ebc00c8dd1cc",
+  "content_sha256": "7e8ede2ee0db11e1dac36e10d9b19aa5426d7bed9d8fdef5778071153fbb1d35",
   "units": "mil",
   "limits": {
     "board_max_height": {
@@ -189,7 +189,7 @@
     "notes.max_drill": "Maximum Drill Size None; above 250mil larger milling tolerances. Process note, not a limit.",
     "evidence_pages": {
       "four-layer": {
-        "sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
+        "sha256": "4eb0af38b6dfaed2d33adde1c72605d9e1431e5925e61539be89ebc00c8dd1cc",
         "source_url": "https://docs.oshpark.com/services/four-layer/"
       }
     },
@@ -197,14 +197,14 @@
       "value": "0.068",
       "unit": "in",
       "source_url": "https://docs.oshpark.com/services/four-layer/",
-      "source_sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
+      "source_sha256": "4eb0af38b6dfaed2d33adde1c72605d9e1431e5925e61539be89ebc00c8dd1cc",
       "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
     },
     "process.cutout_cutter_diameter": {
       "value": "0.040",
       "unit": "in",
       "source_url": "https://docs.oshpark.com/services/four-layer/",
-      "source_sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
+      "source_sha256": "4eb0af38b6dfaed2d33adde1c72605d9e1431e5925e61539be89ebc00c8dd1cc",
       "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
     }
   }
