@@ -729,10 +729,18 @@ technical_verbs:
     part_of_speech: verb
     status: technical_verbs
     inflections: ["chamfers", "chamfered"]
+  - word: "collapse"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["collapses", "collapsed"]
   - word: "commit"
     part_of_speech: verb
     status: technical_verbs
     inflections: ["commits", "commited"]
+  - word: "decode"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["decodes", "decoded"]
   - word: "download"
     part_of_speech: verb
     status: technical_verbs
@@ -793,6 +801,10 @@ technical_verbs:
     part_of_speech: verb
     status: technical_verbs
     inflections: ["slices", "sliced"]
+  - word: "strip"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["strips", "stripped"]
   - word: "tessellate"
     part_of_speech: verb
     status: technical_verbs

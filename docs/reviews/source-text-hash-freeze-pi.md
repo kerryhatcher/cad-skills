@@ -7,7 +7,7 @@ Date: 2026-11-26 UTC. Released by the lead decision of 2026-11-26 (issue #9, "Co
 | Path | SHA-256 |
 |---|---|
 | `skills/pcb-fab-package/scripts/fetch_sources.py` | `01e6ae945cb67ae0daa38bfc8ab43466ae8c68c03458d341fc6a7ee6f5d8708e` |
-| `skills/pcb-fab-package/scripts/recheck_sources.py` | `6ef5ddbb36350b3cac8cdd252a1efd38584b6c2f8ff1fe2909c17a30ad6a3712` |
+| `skills/pcb-fab-package/scripts/recheck_sources.py` | `73195ca6e4b7325b34635ac0db3ad47075f159d75df2a3df723c8301ea3aca8d` |
 | `tests/test_source_retrieval.py` | `86b3005d3963b06cac94a5af1f64073789a2aeabf097752afb028aa306c6b68c` |
 | `tests/test_recheck_sources.py` | `e2c90b1d7f40e885b2052744975fcaf456135229ea00a05307090aa4f66387d4` |
 | `tests/fab_fixture.py` | `58162631b319c76d45b465548eb1c36adf7617c2e2d1d15d7ab1cab85354c69a` |
@@ -23,7 +23,7 @@ A manifest entry can have the optional key `text_sha256`, the SHA-256 of the vis
 1. The value must be 64 lowercase hexadecimal characters (a null value is refused).
 2. An entry with `text_sha256` must have the magic token `markup` and a non-null `sha256`.
 
-The visible text rule: replace each tag with one space. Replace each `script`, `style` and `noscript` element, and each comment, with one space. The text in `title` and `head` stays. Decode HTML entities. Collapse each run of whitespace to one space. Remove the whitespace at the two ends. Decode the page bytes as strict UTF-8; if the decode fails, the entry has no text hash.
+The visible text rule: replace each tag with one space. Replace each `script`, `style` and `noscript` element, and each comment, with one space. The text in `title` and `head` stays. Decode HTML entities. Collapse each run of whitespace to one space. Remove the whitespace at the two ends. Decode the page bytes as strict UTF-8. If the decode fails, the entry has no text hash.
 
 Outcome rules (`fetch_sources.py`):
 
@@ -35,7 +35,7 @@ Outcome rules (`fetch_sources.py`):
 - A magic mismatch on a `layout` row gives exit 1 and no write. Exit precedence 2, then 3, then 1, then 0 did not change.
 - `fetch_sources.py` reports `observed_text_sha256` for each fetched `markup` entry, also when the entry has no `text_sha256`.
 
-`recheck_sources.py` adds the `Text` column, the `layout` and `text-mismatch` statuses, the `recorded_text_sha256`, `observed_text_sha256` and `text_status` keys, and the layout and text-mismatch action texts. The report `schema_version` stays 1. There is no automatic write for a `layout` result; a person re-binds the byte hash at the next source review.
+`recheck_sources.py` adds the `Text` column, the `layout` and `text-mismatch` statuses, the `recorded_text_sha256`, `observed_text_sha256` and `text_status` keys, and the layout and text-mismatch action texts. The report `schema_version` stays 1. There is no automatic write for a `layout` result. A person rebinds the byte hash at the next source review.
 
 `tests/fab_fixture.py` removes `text_sha256` from each entry it copies, because the fixture bytes are project-authored.
 

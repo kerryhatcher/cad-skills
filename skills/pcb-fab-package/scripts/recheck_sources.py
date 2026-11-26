@@ -38,7 +38,7 @@ ACTION_CHANGED = ("Record a new source review with fab.py review-source before y
                   "Do not edit the profile or sources.yaml from this report.")
 ACTION_LAYOUT = ("The page bytes changed, but the visible text is the same. The text rules did not change. "
                  "A new source review of {profile} is not necessary. fetch_sources.py does not write this page. "
-                 "A person re-binds the byte hash at the next source review. "
+                 "A person rebinds the byte hash at the next source review. "
                  "Do not edit the profile or sources.yaml from this report.")
 ACTION_TEXT_MISMATCH = ("The page bytes match, but the text hash does not match. Examine text_sha256 in "
                         "sources.yaml and the text rule in fetch_sources.py. Do not edit {profile} from this report.")
