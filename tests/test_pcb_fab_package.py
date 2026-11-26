@@ -274,7 +274,8 @@ def test_mask_units(tmp):
                   code == 0 and all(item in args for item in wanted)
                   and ("--limit-mil" in args) == ("--limit-mil" in wanted), (code, args))
         for index, (value, kwargs) in enumerate((("4", {"unit": "cm"}), ("abc", {"unit": "in"}),
-                                                ("abc", {}), ("0", {"unit": "mm"}), ("nan", {})), start=5):
+                                                ("abc", {}), ("0", {"unit": "mm"}), ("nan", {}),
+                                                ("1/0", {"unit": "in"}), ("1/3", {"unit": "in"})), start=5):
             report = tmp / f"r{index}.json"
             code = fab.run_mask_worker(g, value, str(report), **kwargs)
             check(f"run_mask_worker refuses {value} {kwargs} with exit 2 and no report",

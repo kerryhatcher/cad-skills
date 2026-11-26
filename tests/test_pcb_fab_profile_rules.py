@@ -92,11 +92,13 @@ def test_rules_text_unknown_rule():
 
 def test_rules_text_bad_value():
     """A rule value that is not a finite number greater than 0 gives exit 2."""
-    for value in ("abc", "NaN", "Infinity", 0, -1):
+    for value, unit in (("abc", "mm"), ("NaN", "mm"), ("Infinity", "mm"), (0, "mm"), (-1, "mm"),
+                        ("1/0", "in"), ("1/3", "in")):
         profile = profile_copy()
-        profile["limits"]["min_trace"] = dict(profile["limits"]["min_trace"], value=value)
-        code, _ = stop_of(workflow.supplier_rules_text, profile)
-        expect(code == workflow.EXIT_UNSUPPORTED, f"The value {value!r} gives the code {code}, not 2.")
+        profile["limits"]["min_trace"] = dict(profile["limits"]["min_trace"], value=value, unit=unit)
+        code, message = stop_of(workflow.supplier_rules_text, profile)
+        expect(code == workflow.EXIT_UNSUPPORTED,
+               f"The value {value!r} in {unit} gives the code {code} and the message {message!r}, not 2.")
 
 
 def test_rules_text_exact_28_digits():
@@ -237,7 +239,7 @@ def test_check_division_refuses():
     profile["extensions"]["service.order_multiple"] = {"kind": "not_stated"}
     cases.append((profile, "The profile states no order multiple. The workflow cannot examine the order quantity."))
     for key in ("min_trace", "edge_keepout", "mask_web_min"):
-        for value in ("abc", "nan", "inf", 0, -1):
+        for value in ("abc", "nan", "inf", 0, -1, "1/0", "1/3"):
             profile = profile_copy()
             profile["limits"][key] = dict(profile["limits"][key], value=value)
             cases.append((profile, f"the limit {key} must have a finite value greater than 0"))

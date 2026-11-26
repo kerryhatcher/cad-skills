@@ -22,6 +22,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from decimal import Decimal
 from fractions import Fraction
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -324,13 +325,14 @@ def supplier_rules_text(profile):
         unit = limit.get("unit")
         if not isinstance(unit, str) or unit not in RULE_UNIT_MM:
             raise Stop(EXIT_UNSUPPORTED, f"the rule {key} has the unsupported unit {unit!r}. Use mm, mil or in.")
-        try:
-            mm = Fraction(str(limit["value"])) * RULE_UNIT_MM[unit]
-        except ValueError:
-            raise Stop(EXIT_UNSUPPORTED, f"the value of the rule {key} is not a number.")
-        if mm <= 0:
+        number = _limit_number(limit["value"])
+        if number is None:
             raise Stop(EXIT_UNSUPPORTED, f"the rule {key} must have a finite value greater than 0.")
-        lines.append(f'(rule "supplier_{key}" (constraint {RULE_CONSTRAINT[key]} (min {fab.mm_text(mm)}mm)))')
+        try:
+            text = fab.mm_text(number * RULE_UNIT_MM[unit])
+        except ValueError:
+            raise Stop(EXIT_UNSUPPORTED, f"the value of the rule {key} is not a terminating decimal.")
+        lines.append(f'(rule "supplier_{key}" (constraint {RULE_CONSTRAINT[key]} (min {text}mm)))')
     return "\n".join(lines) + "\n"
 
 
@@ -389,12 +391,17 @@ def manual_rows(profile, silk_row):
 
 
 def _limit_number(value):
-    """The exact number of a limit value, or None when the value is not a finite number greater than 0."""
+    """The exact number of a limit value, or None when the value is not a finite number greater than 0.
+
+    Decimal refuses the slash form "1/0" and "1/3". A decimal string stays exact. A float value is already
+    rounded before this function sees it."""
     try:
-        number = Fraction(str(value))
-    except (ValueError, TypeError):
+        decimal_value = Decimal(str(value))
+    except (ValueError, TypeError, ArithmeticError):
         return None
-    return number if number > 0 else None
+    if not decimal_value.is_finite() or decimal_value <= 0:
+        return None
+    return Fraction(decimal_value)
 
 
 def check_division(profile):

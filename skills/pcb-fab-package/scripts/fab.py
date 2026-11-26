@@ -27,6 +27,7 @@ import pathlib
 import signal
 import subprocess
 import sys
+from decimal import Decimal
 from fractions import Fraction
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -420,13 +421,17 @@ def run_mask_worker(gerber, limit, report, unit="mil"):
     if rep.exists() or rep.is_symlink():
         return _fail(EXIT_ARGS, "the report path exists; give a fresh report path")
     try:
-        number = Fraction(str(limit))
-    except (ValueError, TypeError):
+        decimal_value = Decimal(str(limit))
+    except (ValueError, TypeError, ArithmeticError):
         return _fail(EXIT_ARGS, f"the mask limit {limit!r} is not a number")
-    if number <= 0:
+    if not decimal_value.is_finite() or decimal_value <= 0:
         return _fail(EXIT_ARGS, "the mask limit must be a finite number greater than 0")
-    if unit == "in":
-        limit, unit = mm_text(number * UNIT_MM["in"]), "mm"
+    try:
+        number = Fraction(decimal_value)
+        if unit == "in":
+            limit, unit = mm_text(number * UNIT_MM["in"]), "mm"
+    except ValueError:
+        return _fail(EXIT_ARGS, f"the mask limit {limit!r} is not a terminating decimal")
     if unit not in MASK_LIMIT_FLAGS:
         return _fail(EXIT_ARGS, f"the mask limit unit {unit!r} is not supported. Use mm, mil or in.")
     worker = os.environ.get("PCB_FAB_MASK_WORKER") or str(HERE / "inspect_mask.py")
