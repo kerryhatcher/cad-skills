@@ -1,0 +1,268 @@
+{
+  "schema_id": "cad-skills/supplier-profile",
+  "schema_version": "1.0",
+  "id": "pcbway-two-layer",
+  "revision": "2026-11-26",
+  "service": "PCBWay standard two-layer FR-4 service, 1 oz outer copper",
+  "source_url": "https://www.pcbway.com/capabilities.html",
+  "retrieved": "2026-11-26",
+  "evidence_sha256": "07c42c853e7ad2b936f48c65d6271791db7a7daacc0fe68384df53bb2eb3fb81",
+  "content_sha256": "c0699d2be4f9b1f58f452e48c7583d20017e0f7077cbf6e7a80c6b52f2fdc09c",
+  "units": "mm",
+  "limits": {
+    "board_max_height": {
+      "kind": "maximum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 1200,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "board_max_width": {
+      "kind": "maximum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 600,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "board_min_edge": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 3,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "board_thickness_condition": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "The normal process gives a maximum board thickness for each drill size. A 0.20 mm hole: 1.6 mm. A 0.25 mm hole: 2.0 mm. A 0.30 mm to 0.35 mm hole: 3.2 mm. A 0.40 mm to 0.55 mm hole: 4.8 mm. A hole larger than 0.55 mm: 6.4 mm.",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "board_thickness_options": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "Board thickness: 0.2 mm to 3.2 mm. The standard table lists 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.6, 2.0, 2.4, 2.6, 2.8, 3.0 and 3.2 mm.",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "copper_weight_outer": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "Outer layer copper: 1 oz to 8 oz (35 um to 280 um) on the standard table. The profile limits apply to 1 oz outer copper.",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "edge_keepout": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.25,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "mask_web_min": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 4.5,
+      "unit": "mil",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "min_annular_ring": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.15,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "min_drill": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.15,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "min_plated_slot_size": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.5,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "min_slot_size": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.8,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "min_space": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.1,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "min_trace": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.1,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "pad_hole_to_hole_min": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 16,
+      "unit": "mil",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "plated_half_hole_min_diameter": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.4,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "silk_line_min_short_text": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.15,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "silk_text_min_height": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.8,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "soldermask_bridge_by_color": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "Normal process, copper less than 2 oz: 4 mil for green oil when the spacing between ICs is 8 mil. 4.5 mil or more for variegated or black oil. Copper of 2 oz or more: 5 mil.",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "soldermask_colors": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "Standard table: green, red, yellow, blue, white, black, matt green, matte black, purple and none. The page gives no extra charge for green, red, yellow and blue.",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "via_hole_to_hole_min": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 11,
+      "unit": "mil",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    }
+  },
+  "division": {
+    "kicad_dru": [
+      "min_trace",
+      "min_space",
+      "min_annular_ring",
+      "min_drill",
+      "edge_keepout"
+    ],
+    "project_settings": [],
+    "geometric_tests": [
+      "min_slot_size",
+      "mask_web_min",
+      "board_min_edge",
+      "board_max_width",
+      "board_max_height"
+    ],
+    "manual_evidence": [
+      "silk_line_min_short_text",
+      "silk_text_min_height",
+      "min_plated_slot_size",
+      "pad_hole_to_hole_min",
+      "via_hole_to_hole_min",
+      "plated_half_hole_min_diameter",
+      "copper_weight_outer",
+      "board_thickness_options",
+      "board_thickness_condition",
+      "soldermask_colors",
+      "soldermask_bridge_by_color"
+    ]
+  },
+  "extensions": {
+    "evidence_pages": {
+      "pcbway-capabilities": {
+        "sha256": "07c42c853e7ad2b936f48c65d6271791db7a7daacc0fe68384df53bb2eb3fb81",
+        "source_url": "https://www.pcbway.com/capabilities.html"
+      }
+    },
+    "notes.advanced_conflicts": "The advanced table gives other values for four items. The profile uses the standard table (decision P0). Maximum finished board size: 508 x 610 mm for single-sided and double-sided boards, normal process. Minimum finished board size: 20 mm, normal process. Minimum board thickness: 0.3 mm for single-sided and double-sided boards, normal process. Outer trace and space at 35 um copper: 5 mil and 6 mil, normal process, row 15. A user who needs these values must check them with the supplier.",
+    "notes.aspect_ratio": "The normal process has a thickness to diameter ratio of 8 or less. No check reads the board thickness or the ratio.",
+    "notes.board_size": "The standard table gives 600 x 1200 mm for single-sided and double-sided boards. The page gives no board axis. The profile uses 600 mm and 1200 mm in the page order.",
+    "notes.copper_condition": "The limits apply to 1 oz outer copper. The page gives other values for heavier copper.",
+    "notes.edge_source": "The standard table states no copper to edge distance. The advanced table gives 0.25 mm for CNC milling as the normal process.",
+    "notes.edge_vcut": "The page states no copper to V-score edge distance.",
+    "notes.manual_conditions": "No workflow row enforces the copper weight, board thickness, mask color or mask bridge limits. These limits are text for manual review. The supplier stop (decision P2, amendment H) is the control for these conditions.",
+    "notes.mask_bridge": "For copper less than 2 oz, the bridge is 4 mil for green oil and 4.5 mil or more for variegated or black oil. The profile uses 4.5 mil, the stricter value.",
+    "notes.max_drill": "The page gives a drill diameter to 6.0 mm. Process note, not a limit.",
+    "notes.min_drill": "The page gives a drill range of 0.15 mm to 6.0 mm. A hole smaller than 0.2 mm or larger than 6 mm has an extra charge.",
+    "notes.not_stated": [
+      "process.outline_cutter_diameter",
+      "process.cutout_cutter_diameter",
+      "service.order_multiple",
+      "service.substrate",
+      "service.finished_thickness_display_mm"
+    ],
+    "notes.slot": "The advanced table gives a plated slot of 0.5 mm or more and a non-plated slot of 0.8 mm or more, normal process. The profile uses 0.5 mm for plated slots and 0.8 mm for the slot minimum.",
+    "notes.via_construction": "The page lists blind and buried vias only for HDI boards in the advanced table. This profile is the standard service. It refuses blind, buried and via-in-pad vias.",
+    "service.copper": "1 oz outer",
+    "service.layers": {
+      "kind": "requirement",
+      "value": 2
+    },
+    "service.order_multiple": {
+      "kind": "not_stated"
+    },
+    "service.via_construction_prohibited": [
+      "blind",
+      "buried",
+      "filled_plated_via_in_pad"
+    ]
+  }
+}

@@ -47,6 +47,8 @@ PROFILE_PAGES = {
     "oshpark-six-layer": {"six-layer"},
     "jlcpcb-two-layer": {"jlcpcb-pcb-capabilities"},
     "jlcpcb-four-layer": {"jlcpcb-pcb-capabilities"},
+    "pcbway-two-layer": {"pcbway-capabilities"},
+    "pcbway-four-layer": {"pcbway-capabilities"},
 }
 # Only these profiles have the OSH Park facts that the workflow uses. Other profiles have data only (decision Q2).
 WORKFLOW_PROFILES = {"oshpark-single-layer", "oshpark-two-layer", "oshpark-two-layer-hhdc",
@@ -166,7 +168,7 @@ def refuse_data_only(profile_path, command):
         raise workflow.Stop(workflow.EXIT_UNSUPPORTED,
                             f"the profile {pid} has data only. The command {command} does not run for it. "
                             "Use profile, judge or review-source. "
-                            "See references/jlcpcb-kicad-setup.md.")
+                            f"See references/{pid.split('-')[0]}-kicad-setup.md.")
 
 
 def _confined(root, rel):
