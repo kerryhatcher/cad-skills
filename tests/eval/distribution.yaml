@@ -85,6 +85,7 @@ sources:
 allowlist:
   - skills/pcb-fab-package/sources.yaml
   - skills/pcb-fab-package/supplier/profiles/*.yaml
+  - skills/pcb-fab-package/supplier/rules/*.kicad_dru
   - skills/pcb-fab-package/supplier/fetch_*.py
   - docs/reviews/sierra-source-evidence/drill-probe.py
   - docs/reviews/sierra-source-evidence/drill-probe.json

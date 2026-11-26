@@ -23,6 +23,7 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fab.py inspect-slots --board-inventory FILE --pth FILE --npth FILE --report FILE` | slot comparison | every slot matches | mismatch | unsupported record | missing input |
 | `fab.py inspect-mask --gerber FILE --limit-mil N --report FILE` | mask web measurement | every web passes | fail or uncertain | unsupported construct or limit | tool failure |
 | `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | every fetched entry matches, or every entry is skipped | a candidate, changed or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
+| `make_rules.py [--profiles DIR] [--out DIR] [--check]` | make or compare the rule files | files agree, or written | a file is different or missing, or a rule file has no profile | incorrect profile, argument or symbolic link | file or schema error |
 | `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments, or a link at `--out` | not used |
 
 ## Source setup
@@ -47,6 +48,26 @@ The local tests use project-authored fixtures. They do not retrieve supplier pag
 3. Run `supplier`. It writes `out/fab/supplier/`. Mandatory manual conditions need a manual record (`--manual`) that names the artifact and the current board and silk-layer hashes.
 4. Run `review-source`. It writes the review record and the observation copy. Keep the printed review hash.
 5. Run `package` with the review hash. The package is built in a staging directory and published only at the end.
+
+## Rule files for KiCad DRC
+
+The skill supplies one KiCad rule file for each supplier profile. The files are in `supplier/rules/`.
+The file name is the profile id, for example `supplier/rules/oshpark-two-layer.kicad_dru`.
+Use a rule file to run KiCad DRC without the workflow.
+Put the file next to the board, with the name `board.kicad_dru`. Then run DRC in KiCad.
+If the board has a rule file, put only the rule lines into that file.
+
+The workflow does not read these files. The `supplier` command makes its rules from the profile when it runs.
+`scripts/make_rules.py` makes the files with the same function. Thus the two rule texts are equal.
+The files contain only the limits that KiCad checks (`division.kicad_dru` of the profile).
+For the other supplier conditions, use the `supplier` command.
+
+After you make a change to a profile, run the generator from the skill directory:
+
+```sh
+uv run scripts/make_rules.py
+uv run scripts/make_rules.py --check
+```
 
 ## Limits and rules
 
@@ -107,6 +128,7 @@ The radius comparison uses the pcbnew integer nanometer radius, not the topology
 
 - `references/oshpark-kicad-setup.md`: project-authored KiCad setup for the OSH Park Gerber route. It separates checked values, recommendations, margins and manual steps.
 - `scripts/fetch_sources.py`: source retrieval for the manifest. It checks every entry before the first fetch, confines the profile and destination paths, and never writes a profile or a changed source.
+- `scripts/make_rules.py`: generator for `supplier/rules/*.kicad_dru`. The generator uses the rule function of `workflow.py`.
 - `scripts/fab.py`: command line.
 - `scripts/workflow.py`: design, supplier and package.
 - `scripts/review.py`: source review and gate.
@@ -117,4 +139,4 @@ The radius comparison uses the pcbnew integer nanometer radius, not the topology
 - `scripts/via_inventory.py`: container worker that measures via spans without a board change.
 - `scripts/corner_inventory.py`: container worker that measures supported corner geometry.
 - `scripts/board_inventory.py`, `scripts/validate.py`, `scripts/project_io.py`: byte copies.
-- `contracts/`, `runtime/`, `supplier/`: byte copies and the five profile records.
+- `contracts/`, `runtime/`, `supplier/`: byte copies, the five profile records and the five generated rule files.
