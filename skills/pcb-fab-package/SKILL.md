@@ -22,8 +22,9 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fab.py package --project P --profile FILE --release ID --review FILE --review-sha256 H --dest DIR` | build and publish the package | qualified | unqualified (reasons in the manifest) | existing destination or missing prerequisite | tool failure |
 | `fab.py inspect-slots --board-inventory FILE --pth FILE --npth FILE --report FILE` | slot comparison | every slot matches | mismatch | unsupported record | missing input |
 | `fab.py inspect-mask --gerber FILE --limit-mil N --report FILE` | mask web measurement | every web passes | fail or uncertain | unsupported construct or limit | tool failure |
-| `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | every fetched entry matches, or every entry is skipped | a candidate, changed or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
+| `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | each fetched entry matches, or each entry is skipped | a candidate, changed or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
 | `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments, or a link at `--out` | not used |
+| `recheck_sources.py --manifest FILE [--entry ID ...] [--format F] [--allow-ci]` | release re-check of the live pages. Writes no file and changes no profile | each fetched page has its recorded hash | a candidate, changed or magic mismatch | arguments, manifest or watch problem, or CI | fetch failure |
 
 ## Source setup
 
@@ -39,6 +40,20 @@ Run this command from the skill directory. The command contacts the source URLs.
 It writes only bytes that match the recorded hash and format.
 If the source changes, record a new source review before you change a profile.
 The local tests use project-authored fixtures. They do not retrieve supplier pages.
+
+## Release re-check
+
+Before a release, compare the live supplier pages with the manifest:
+
+```sh
+uv run scripts/recheck_sources.py --manifest sources.yaml
+```
+
+The command runs `fetch_sources.py` in check-only mode. The command writes no file and does not change a profile.
+The command prints a report with the status of each page and the watch items.
+If a page changed, record a new source review before you change a profile.
+The command is a release step. It does not run when the shell sets the `CI` variable.
+The repository release checklist gives the full procedure.
 
 ## Flow
 
@@ -107,6 +122,7 @@ The radius comparison uses the pcbnew integer nanometer radius, not the topology
 
 - `references/oshpark-kicad-setup.md`: project-authored KiCad setup for the OSH Park Gerber route. It separates checked values, recommendations, margins and manual steps.
 - `scripts/fetch_sources.py`: source retrieval for the manifest. It checks every entry before the first fetch, confines the profile and destination paths, and never writes a profile or a changed source.
+- `scripts/recheck_sources.py`: release re-check. It runs `fetch_sources.py` in check-only mode and prints a report.
 - `scripts/fab.py`: command line.
 - `scripts/workflow.py`: design, supplier and package.
 - `scripts/review.py`: source review and gate.
