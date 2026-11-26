@@ -6,7 +6,8 @@
 
 The command runs fetch_sources.py in check-only mode. It compares the live page bytes with the recorded hashes.
 It writes no file and changes no profile. It prints a report. It is a release step, not a CI step.
-Exit codes: 2 for a bad argument or manifest, 3 for a fetch failure, 1 for a changed page, 0 when each page matches.
+Exit codes: 2 for a bad argument or manifest, 3 for a fetch failure, 1 for a changed page or a text mismatch,
+0 when each page matches or has only a layout change.
 """
 import argparse
 import datetime
@@ -35,6 +36,12 @@ WATCH_ITEMS = (
 FALLBACK_PROFILE = "the profile that uses this page"
 ACTION_CHANGED = ("Record a new source review with fab.py review-source before you change {profile}. "
                   "Do not edit the profile or sources.yaml from this report.")
+ACTION_LAYOUT = ("The page bytes changed, but the visible text is the same. The text rules did not change. "
+                 "A new source review of {profile} is not necessary. fetch_sources.py does not write this page. "
+                 "A person re-binds the byte hash at the next source review. "
+                 "Do not edit the profile or sources.yaml from this report.")
+ACTION_TEXT_MISMATCH = ("The page bytes match, but the text hash does not match. Examine text_sha256 in "
+                        "sources.yaml and the text rule in fetch_sources.py. Do not edit {profile} from this report.")
 ACTION_FETCH = "Run the re-check again. If the failure continues, examine the URL by hand."
 CI_REFUSAL = ("This command contacts the supplier pages. It is a release step, not a CI step. "
               "Use --allow-ci only for a manual run.")
@@ -85,6 +92,8 @@ def classify(row):
         return "fetch-error"
     if row["magic_status"] == "mismatch":
         return "magic-mismatch"
+    if row["hash_status"] == "match" and row.get("text_status") == "changed":
+        return "text-mismatch"
     return row["hash_status"]
 
 
@@ -94,6 +103,10 @@ def action_for(status, binding):
         return ACTION_CHANGED.format(profile=binding or FALLBACK_PROFILE)
     if status == "fetch-error":
         return ACTION_FETCH
+    if status == "layout":
+        return ACTION_LAYOUT.format(profile=binding or FALLBACK_PROFILE)
+    if status == "text-mismatch":
+        return ACTION_TEXT_MISMATCH.format(profile=binding or FALLBACK_PROFILE)
     return None
 
 
@@ -109,7 +122,10 @@ def build_report(code, fs_report, entries, watch, selected, now, manifest_bytes)
             "url": spec["url"],
             "retrieved": spec["retrieved"],
             "recorded_sha256": spec["sha256"],
+            "recorded_text_sha256": spec.get("text_sha256"),
             "observed_sha256": row.get("observed_sha256"),
+            "observed_text_sha256": row.get("observed_text_sha256"),
+            "text_status": row.get("text_status"),
             "candidate_sha256": row.get("candidate_sha256"),
             "magic_status": row["magic_status"],
             "status": status,
@@ -155,13 +171,14 @@ def render_markdown(report):
         "",
         "## Entries",
         "",
-        "| Entry | Status | Recorded SHA-256 | Observed SHA-256 | Magic | Fetch error |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Entry | Status | Text | Recorded SHA-256 | Observed SHA-256 | Magic | Fetch error |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in report["entries"]:
         observed = row["observed_sha256"] or row["candidate_sha256"]
         lines.append("| " + " | ".join(_cell(v) for v in (
-            row["id"], row["status"], row["recorded_sha256"], observed, row["magic_status"], row["fetch_error"]))
+            row["id"], row["status"], row["text_status"], row["recorded_sha256"], observed,
+            row["magic_status"], row["fetch_error"]))
             + " |")
     lines += ["", "## Watch items", "", "| Entry | Since | Status | What to examine |", "| --- | --- | --- | --- |"]
     for item in report["watch"]:

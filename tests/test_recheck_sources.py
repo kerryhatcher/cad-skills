@@ -447,11 +447,12 @@ def test_layout_action(tmp):
 def test_markdown_text_column(tmp):
     manifest = layout_manifest(tmp, "recheckmarkdown", text_sha256=FS.text_sha256(LAYOUT_A))
     code, md = run_check(["--manifest", str(manifest)], Fake({PAGE_URL: LAYOUT_B}))
-    table = [line for line in md.splitlines() if line.startswith("|")]
+    table = md.split("## Watch items")[0]
+    lines = [line for line in table.splitlines() if line.startswith("|")]
     header = "| Entry | Status | Text | Recorded SHA-256 | Observed SHA-256 | Magic | Fetch error |"
     check("30: the Markdown table has a Text column and the entry row shows layout and match",
-          code == 0 and table[0] == header and "| page | layout | match |" in md
-          and all(line.count("|") == table[0].count("|") for line in table), md[:400])
+          code == 0 and lines[0] == header and "| page | layout | match |" in md
+          and all(line.count("|") == lines[0].count("|") for line in lines), md[:400])
 
 
 def test_text_mismatch_status(tmp):
@@ -474,7 +475,7 @@ def test_text_changed_status(tmp):
 def test_no_text_key_row(tmp):
     root = layout_root(tmp, "rechecknotext")
     manifest = write_manifest(root, [entry("page", PAGE_PATH, body=LAYOUT_A, profile_binding=BOUND)])
-    fake = Fake({PAGE_URL: PAGE})
+    fake = Fake({PAGE_URL: LAYOUT_A})
     code, md = run_check(["--manifest", str(manifest)], fake)
     row = json.loads(run_check(["--manifest", str(manifest), "--format", "json"],
                                fake)[1])["entries"][0]
@@ -499,7 +500,7 @@ def test_watch_item_layout(tmp):
 
 
 def test_layout_report_has_no_page_text(tmp):
-    manifest = layout_manifest(tmp, "rechecknotext", text_sha256=FS.text_sha256(LAYOUT_A))
+    manifest = layout_manifest(tmp, "rechecknopagetext", text_sha256=FS.text_sha256(LAYOUT_A))
     fake = Fake({PAGE_URL: LAYOUT_B})
     _, js = run_check(["--manifest", str(manifest), "--format", "json"], fake)
     _, md = run_check(["--manifest", str(manifest)], fake)
