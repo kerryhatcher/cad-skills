@@ -6,7 +6,7 @@ Source page: https://jlcpcb.com/capabilities/pcb-capabilities
 
 ## Status of the JLCPCB profiles
 
-- The JLCPCB profiles have data only. The workflow does not run for them.
+- The JLCPCB profiles contain only values. The workflow does not run for them.
 - Three commands work for a JLCPCB profile:
   - `profile` examines the profile record.
   - `judge` compares one measured value with one limit.
@@ -22,7 +22,7 @@ Source page: https://jlcpcb.com/capabilities/pcb-capabilities
 
 ## Limit values
 
-Each value is in millimeters. No workflow row of a JLCPCB profile examines these values. Use the `judge` command to compare one measured value with one limit. Each limit is data only.
+Each value is in millimeters. No workflow row of a JLCPCB profile examines these values. Use the `judge` command to compare one measured value with one limit. Each limit is only a value.
 
 | Setting | Two-layer profile | Four-layer profile | Note |
 |---|---|---|---|

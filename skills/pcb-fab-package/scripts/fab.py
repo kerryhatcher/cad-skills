@@ -50,7 +50,7 @@ PROFILE_PAGES = {
     "pcbway-two-layer": {"pcbway-capabilities"},
     "pcbway-four-layer": {"pcbway-capabilities"},
 }
-# Only these profiles have the OSH Park facts that the workflow uses. Other profiles have data only (decision Q2).
+# Only these profiles have the OSH Park facts that the workflow uses. Other profiles contain only values (decision Q2).
 WORKFLOW_PROFILES = {"oshpark-single-layer", "oshpark-two-layer", "oshpark-two-layer-hhdc",
                      "oshpark-four-layer", "oshpark-six-layer"}
 DIVISION_KEYS = ("kicad_dru", "project_settings", "geometric_tests", "manual_evidence")
@@ -159,14 +159,14 @@ def check_profile(path):
 
 
 def refuse_data_only(profile_path, command):
-    """Stop a command that reads the OSH Park facts when the profile has data only (decision Q2).
+    """Stop a command that reads the OSH Park facts when the profile contains only values (decision Q2).
 
     Read only the profile id. Read no page, no project and no lock. A profile id that is not
     in WORKFLOW_PROFILES is refused, so a new profile gets the same stop by default."""
     pid = VAL.load_record(profile_path)["id"]
     if pid not in WORKFLOW_PROFILES:
         raise workflow.Stop(workflow.EXIT_UNSUPPORTED,
-                            f"the profile {pid} has data only. The command {command} does not run for it. "
+                            f"the profile {pid} contains only values. The command {command} does not run for it. "
                             "Use profile, judge or review-source. "
                             f"See references/{pid.split('-')[0]}-kicad-setup.md.")
 
