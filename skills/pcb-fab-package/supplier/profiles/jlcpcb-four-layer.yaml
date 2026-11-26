@@ -7,7 +7,7 @@
   "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
   "retrieved": "2026-11-26",
   "evidence_sha256": "4193afa719af2144c3c25f097ba93c3787d250a8f2db70051a37a91caaced169",
-  "content_sha256": "fffc07a85f34c98d029af317faf1468f2f7f084376b8f3778989244f6b09e81d",
+  "content_sha256": "27446f92e61053ae7f99eefae6bbb18fb9d4ebca46e2835a62000eb27dc6bd30",
   "units": "mm",
   "limits": {
     "board_max_height": {
@@ -180,6 +180,38 @@
       "unit": "mm",
       "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
       "retrieved": "2026-11-26"
+    },
+    "copper_weight_outer": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "1 oz finished outer copper. The page gives larger trace, space, annular ring and bridge values for 2 oz copper.",
+      "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
+      "retrieved": "2026-11-26"
+    },
+    "board_thickness_options": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "FR4: 0.4, 0.6, 0.8, 1.0, 1.2, 1.6 and 2.0 mm.",
+      "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
+      "retrieved": "2026-11-26"
+    },
+    "board_thickness_condition": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "The minimum board size applies at 0.6 mm or thicker. The maximum board size applies at 0.8 mm or thicker: 670 x 600 mm for two-layer and 663 x 593 mm for four-layer FR4. The page sends thinner boards to manual review.",
+      "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
+      "retrieved": "2026-11-26"
+    },
+    "soldermask_bridge_by_color": {
+      "kind": "recommendation",
+      "scope": "fabrication",
+      "value_kind": "text",
+      "value": "1 oz: 0.10 mm for green, red, yellow, blue and purple. 0.13 mm for black and white. 2 oz: 0.20 mm for all colors.",
+      "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
+      "retrieved": "2026-11-26"
     }
   },
   "division": {
@@ -207,7 +239,11 @@
       "pad_to_silk_min",
       "via_hole_to_hole_min",
       "pad_hole_to_hole_min",
-      "pth_hole_to_internal_copper"
+      "pth_hole_to_internal_copper",
+      "copper_weight_outer",
+      "board_thickness_options",
+      "board_thickness_condition",
+      "soldermask_bridge_by_color"
     ]
   },
   "extensions": {
@@ -239,6 +275,7 @@
     "notes.board_dimension": "The page gives 663 x 593 mm for four-layer FR4 at 0.8 mm or more. The profile uses the thinner FR4 value, 599 x 497 mm. The page also gives 1016 x 596 mm in a note. The profile does not use it.",
     "notes.thickness_condition": "The minimum board dimension of 3 x 3 mm applies to 0.6 mm or thicker. JLCPCB reviews a thinner board manually.",
     "notes.copper_condition": "The limits apply to 1 oz finished outer copper. The page gives larger limits for 2 oz copper and heavier. The inner copper is 0.5 oz by default.",
+    "notes.manual_conditions": "No workflow row enforces the copper weight, board thickness or mask color limits. These limits are text for manual review. The supplier stop (decision Q2, amendment H) is the control for these conditions.",
     "evidence_pages": {
       "jlcpcb-pcb-capabilities": {
         "sha256": "4193afa719af2144c3c25f097ba93c3787d250a8f2db70051a37a91caaced169",

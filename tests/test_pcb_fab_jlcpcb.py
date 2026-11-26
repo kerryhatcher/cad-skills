@@ -357,6 +357,27 @@ def test_jlcpcb_no_cutter_facts():
             expect(key in extensions["notes.not_stated"], f"{pid}: notes.not_stated does not list {key}.")
 
 
+def test_jlcpcb_manual_text_limits():
+    """Each JLCPCB profile has text limits for the copper weight, the board thickness and the mask bridge that the
+    page states (amendment I). Each is manual evidence, has no unit and no workflow row, and the note names the control."""
+    expected = {"copper_weight_outer", "board_thickness_options", "board_thickness_condition",
+                "soldermask_bridge_by_color"}
+    for pid in JLCPCB:
+        record = repo_profile(pid)
+        text_keys = {key for key, limit in record["limits"].items() if limit["value_kind"] == "text"}
+        expect(text_keys == expected, f"{pid}: the text limits are {sorted(text_keys)}.")
+        for key in expected:
+            limit = record["limits"][key]
+            expect(record["division"]["manual_evidence"].count(key) == 1, f"{pid}: {key} is not manual evidence.")
+            expect(limit["kind"] == "recommendation" and "unit" not in limit,
+                   f"{pid}: {key} must be a recommendation without a unit.")
+            expect(isinstance(limit["value"], str) and limit["value"].strip() != "",
+                   f"{pid}: {key} has no text value.")
+        note = record["extensions"].get("notes.manual_conditions", "").lower()
+        expect("no workflow row" in note and "control" in note,
+               f"{pid}: the note does not name the control for the manual conditions.")
+
+
 TESTS = [value for name, value in list(globals().items()) if name.startswith("test_") and callable(value)]
 
 
