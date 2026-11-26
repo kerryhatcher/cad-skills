@@ -105,6 +105,76 @@ def limit_in_mm(limit):
     return Fraction(str(limit["value"])) * UNIT_MM[limit["unit"]]
 
 
+def _positive_fraction(value, where):
+    """Return a positive exact Fraction for a finite number, or raise Invalid."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise Invalid(f"{where} must be a positive number")
+    try:
+        dec = Decimal(str(value))
+    except (ValueError, TypeError, ArithmeticError):
+        raise Invalid(f"{where} must be a positive number")
+    if not dec.is_finite() or dec <= 0:
+        raise Invalid(f"{where} must be greater than 0")
+    return Fraction(dec)
+
+
+def _check_fabrication_options(record):
+    """Validate structured fabrication_options against the profile limits and layer count."""
+    opts = record.get("fabrication_options")
+    if opts is None:
+        return
+    if not isinstance(opts, dict):
+        raise Invalid("fabrication_options must be a mapping")
+    layers = record["extensions"]["service.layers"]["value"]
+    limits = record["limits"]
+    cw = opts.get("copper_weight")
+    if not isinstance(cw, dict) or not isinstance(cw.get("outer_oz"), list) or not cw["outer_oz"]:
+        raise Invalid("fabrication_options.copper_weight.outer_oz must be a non-empty list")
+    for val in cw["outer_oz"]:
+        _positive_fraction(val, "fabrication_options.copper_weight.outer_oz")
+    if "inner_oz" in cw:
+        if not isinstance(cw["inner_oz"], list) or not cw["inner_oz"]:
+            raise Invalid("fabrication_options.copper_weight.inner_oz must be a non-empty list")
+        for val in cw["inner_oz"]:
+            _positive_fraction(val, "fabrication_options.copper_weight.inner_oz")
+    elif layers >= 4:
+        raise Invalid("fabrication_options.copper_weight.inner_oz is necessary for four or more layers")
+    bt = opts.get("board_thickness")
+    if not isinstance(bt, dict) or not isinstance(bt.get("allowed_mm"), list) or not bt["allowed_mm"]:
+        raise Invalid("fabrication_options.board_thickness.allowed_mm must be a non-empty list")
+    min_mm = _positive_fraction(bt.get("min_mm"), "fabrication_options.board_thickness.min_mm")
+    max_mm = _positive_fraction(bt.get("max_mm"), "fabrication_options.board_thickness.max_mm")
+    if min_mm > max_mm:
+        raise Invalid("fabrication_options.board_thickness.min_mm must be at or below max_mm")
+    for val in bt["allowed_mm"]:
+        frac = _positive_fraction(val, "fabrication_options.board_thickness.allowed_mm")
+        if frac < min_mm or frac > max_mm:
+            raise Invalid("fabrication_options.board_thickness.allowed_mm must stay between min_mm and max_mm")
+    if "manual_review_below_mm" in bt:
+        review_mm = _positive_fraction(bt["manual_review_below_mm"], "fabrication_options.board_thickness.manual_review_below_mm")
+        if review_mm < min_mm or review_mm > max_mm:
+            raise Invalid("fabrication_options.board_thickness.manual_review_below_mm must stay between min_mm and max_mm")
+    if "board_min_thickness" in limits and min_mm != limit_in_mm(limits["board_min_thickness"]):
+        raise Invalid("fabrication_options.board_thickness.min_mm differs from board_min_thickness")
+    mc = opts.get("mask_color")
+    if not isinstance(mc, dict) or not isinstance(mc.get("allowed"), list) or not mc["allowed"]:
+        raise Invalid("fabrication_options.mask_color.allowed must be a non-empty list")
+    for color in mc["allowed"]:
+        if not isinstance(color, str) or not color.strip() or any(ord(c) < 32 or ord(c) == 127 for c in color):
+            raise Invalid("fabrication_options.mask_color.allowed must hold non-empty names")
+    if "bridge_min_by_color" in mc:
+        bridge = mc["bridge_min_by_color"]
+        if not isinstance(bridge, dict) or set(bridge) != set(mc["allowed"]):
+            raise Invalid("fabrication_options.mask_color.bridge_min_by_color must name each allowed color")
+        bridges_mm = []
+        for color, entry in bridge.items():
+            if not isinstance(entry, dict) or entry.get("unit") not in UNIT_MM:
+                raise Invalid(f"fabrication_options.mask_color.bridge_min_by_color.{color} has an invalid unit")
+            bridges_mm.append(_positive_fraction(entry.get("value"), f"bridge_min_by_color.{color}") * UNIT_MM[entry["unit"]])
+        if "mask_web_min" in limits and limit_in_mm(limits["mask_web_min"]) < max(bridges_mm):
+            raise Invalid("mask_web_min is smaller than the strictest color mask bridge")
+
+
 def check_profile(path):
     """Validate a profile. Return the record. Raise Invalid for any defect that the profile rules name."""
     record = VAL.load_record(path)
@@ -156,6 +226,7 @@ def check_profile(path):
     if record["evidence_sha256"] != bound_pages[sorted(required)[0]]["sha256"]:
         if record["evidence_sha256"] not in {e["sha256"] for e in bound_pages.values()}:
             raise Invalid("evidence_sha256 is not a bound page hash")
+    _check_fabrication_options(record)
     return record
 
 
@@ -308,7 +379,60 @@ def _limit_text(p, name, label):
     return f"{label} {value} {unit}"
 
 
-def drawing_facts(inventory, profile, board_bytes, release, profile_bytes):
+def _drawing_board_facts(profile, board_record):
+    """Return (substrate, finished_thickness_mm, copper) from the profile or the board record."""
+    ext = profile["extensions"]
+    opts = profile.get("fabrication_options")
+    fab_ext = None
+    if board_record is not None:
+        extensions = board_record.get("extensions", {})
+        if not isinstance(extensions, dict):
+            raise Invalid("the board extensions must be a mapping")
+        fab_ext = extensions.get("fabrication", {})
+        if not isinstance(fab_ext, dict):
+            raise Invalid("extensions.fabrication must be a mapping")
+    if "service.substrate" in ext:
+        substrate = ext["service.substrate"]
+    else:
+        if fab_ext is None:
+            raise Invalid("the drawing facts need board.yaml with extensions.fabrication.substrate")
+        substrate = fab_ext.get("substrate")
+        if not isinstance(substrate, str) or not substrate.strip() or not all(32 <= ord(c) <= 126 for c in substrate):
+            raise Invalid("extensions.fabrication.substrate must be printable ASCII text")
+    if "service.finished_thickness_display_mm" in ext:
+        thickness = ext["service.finished_thickness_display_mm"]
+    else:
+        if board_record is None or not isinstance(board_record.get("mechanical"), dict):
+            raise Invalid("the drawing facts need board.yaml with mechanical.thickness_mm")
+        thickness = board_record["mechanical"].get("thickness_mm")
+        thick_mm = _positive_fraction(thickness, "mechanical.thickness_mm")
+        if opts is not None:
+            bt = opts["board_thickness"]
+            allowed = [Fraction(str(v)) for v in bt["allowed_mm"]]
+            if thick_mm < Fraction(str(bt["min_mm"])) or thick_mm > Fraction(str(bt["max_mm"])) or thick_mm not in allowed:
+                raise Invalid("mechanical.thickness_mm is not an allowed thickness of the profile")
+    copper = ext.get("service.copper")
+    if opts is not None and fab_ext is not None:
+        cw = opts["copper_weight"]
+        outer = fab_ext.get("copper_outer_oz")
+        if outer is not None and outer != "unconfirmed":
+            outer_frac = _positive_fraction(outer, "extensions.fabrication.copper_outer_oz")
+            if outer_frac not in [Fraction(str(v)) for v in cw["outer_oz"]]:
+                raise Invalid("extensions.fabrication.copper_outer_oz is not an allowed copper weight of the profile")
+            copper = f"{outer} oz outer"
+            if "inner_oz" in cw:
+                inner = fab_ext.get("copper_inner_oz")
+                if inner is not None and inner != "unconfirmed":
+                    inner_frac = _positive_fraction(inner, "extensions.fabrication.copper_inner_oz")
+                    if inner_frac not in [Fraction(str(v)) for v in cw["inner_oz"]]:
+                        raise Invalid("extensions.fabrication.copper_inner_oz is not an allowed copper weight of the profile")
+                    copper = f"{outer} oz outer, {inner} oz inner"
+    if not isinstance(copper, str) or not copper.strip():
+        raise Invalid("the drawing facts need service.copper or extensions.fabrication.copper_outer_oz")
+    return substrate, thickness, copper
+
+
+def drawing_facts(inventory, profile, board_bytes, release, profile_bytes, board_record=None):
     """Build the facts that the drawing sheet shows. The inventory comes from board_inventory_slots.py."""
     outline = inventory["outline"]
     holes = inventory.get("holes", []) + inventory.get("slots", [])
@@ -318,9 +442,8 @@ def drawing_facts(inventory, profile, board_bytes, release, profile_bytes):
     for name, _ in DRAWING_LIMITS:
         limit = profile["limits"][name]
         shown[f"{name}_{limit['unit']}"] = limit["value"]
-    shown.update({"substrate": profile["extensions"]["service.substrate"],
-                  "finished_thickness_mm": profile["extensions"]["service.finished_thickness_display_mm"],
-                  "copper": profile["extensions"]["service.copper"]})
+    substrate, thickness, copper = _drawing_board_facts(profile, board_record)
+    shown.update({"substrate": substrate, "finished_thickness_mm": thickness, "copper": copper})
     return {"release_id": release, "unit": "mm",
             "board_sha256": sha(board_bytes), "profile_sha256": profile["content_sha256"],
             "profile_file_sha256": sha(profile_bytes),
@@ -463,6 +586,21 @@ def _args(argv, names):
     return values
 
 
+def _all_args(argv, name):
+    """Return every value given after repeated occurrences of one option flag."""
+    values = []
+    i = 0
+    while i < len(argv):
+        if argv[i] == name:
+            if i + 1 >= len(argv):
+                raise SystemExit(_fail(EXIT_ARGS, f"give {name}"))
+            values.append(argv[i + 1])
+            i += 2
+        else:
+            i += 1
+    return values
+
+
 def _fail(code, message):
     print(f"fab: {message}", file=sys.stderr)
     return code
@@ -543,8 +681,10 @@ def main(argv):
             refuse_data_only(profile_path, cmd)
             profile = check_profile(profile_path)
             inventory = json.loads(pathlib.Path(a["--inventory"]).read_text())
+            board_recs = _all_args(rest, "--board-record")
+            board_record = VAL.load_record(board_recs[-1]) if board_recs else None
             facts = drawing_facts(inventory, profile, pathlib.Path(a["--board"]).read_bytes(), a["--release"],
-                                  profile_path.read_bytes())
+                                  profile_path.read_bytes(), board_record=board_record)
             write_standalone(a["--out"], (json.dumps(facts, indent=2, sort_keys=True) + "\n").encode("utf-8"))
             return EXIT_OK
         if cmd == "drawing":
@@ -570,7 +710,8 @@ def main(argv):
             project = pathlib.Path(a["--project"])
             design_dir = pathlib.Path(rest[rest.index("--design-dir") + 1]) if "--design-dir" in rest else project / "out" / "fab" / "design"
             out = pathlib.Path(rest[rest.index("--out") + 1]) if "--out" in rest else project / "out" / "fab" / "supplier"
-            manual = pathlib.Path(rest[rest.index("--manual") + 1]) if "--manual" in rest else None
+            manuals = _all_args(rest, "--manual")
+            manual = None if not manuals else (pathlib.Path(manuals[0]) if len(manuals) == 1 else [pathlib.Path(p) for p in manuals])
             code, _ = workflow.supplier(project, pathlib.Path(a["--profile"]), out, design_dir, manual)
             return code
         if cmd == "package":

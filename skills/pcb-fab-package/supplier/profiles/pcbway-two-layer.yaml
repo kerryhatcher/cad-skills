@@ -7,7 +7,7 @@
   "source_url": "https://www.pcbway.com/capabilities.html",
   "retrieved": "2026-11-26",
   "evidence_sha256": "07c42c853e7ad2b936f48c65d6271791db7a7daacc0fe68384df53bb2eb3fb81",
-  "content_sha256": "7ed83a91d441eef01d6a87ecaf9df6563e5d16f90409dc51a6ab5e29741b70e2",
+  "content_sha256": "ba8fa0cb3bc991098091120350a5d0c4e8c17a9f5c01ca2964abb63ce11e52d5",
   "units": "mm",
   "limits": {
     "board_max_height": {
@@ -218,22 +218,93 @@
       "mask_web_min",
       "board_min_edge",
       "board_max_width",
-      "board_max_height"
+      "board_max_height",
+      "board_min_thickness",
+      "min_plated_slot_size",
+      "via_hole_to_hole_min",
+      "pad_hole_to_hole_min"
     ],
     "manual_evidence": [
       "silk_line_min_short_text",
       "silk_text_min_height",
-      "min_plated_slot_size",
-      "pad_hole_to_hole_min",
-      "via_hole_to_hole_min",
       "plated_half_hole_min_diameter",
       "copper_weight_outer",
       "board_thickness_options",
       "board_thickness_condition",
       "soldermask_colors",
-      "soldermask_bridge_by_color",
-      "board_min_thickness"
+      "soldermask_bridge_by_color"
     ]
+  },
+  "fabrication_options": {
+    "copper_weight": {
+      "outer_oz": [
+        1
+      ]
+    },
+    "board_thickness": {
+      "allowed_mm": [
+        0.4,
+        0.6,
+        0.8,
+        1.0,
+        1.2,
+        1.6,
+        2.0,
+        2.4,
+        2.6,
+        2.8,
+        3.0,
+        3.2
+      ],
+      "min_mm": 0.3,
+      "max_mm": 3.2
+    },
+    "mask_color": {
+      "allowed": [
+        "green",
+        "matt green",
+        "blue",
+        "red",
+        "black",
+        "matte black",
+        "white",
+        "yellow"
+      ],
+      "bridge_min_by_color": {
+        "green": {
+          "value": 4,
+          "unit": "mil"
+        },
+        "matt green": {
+          "value": 4.5,
+          "unit": "mil"
+        },
+        "blue": {
+          "value": 4.5,
+          "unit": "mil"
+        },
+        "red": {
+          "value": 4.5,
+          "unit": "mil"
+        },
+        "black": {
+          "value": 4.5,
+          "unit": "mil"
+        },
+        "matte black": {
+          "value": 4.5,
+          "unit": "mil"
+        },
+        "white": {
+          "value": 4.5,
+          "unit": "mil"
+        },
+        "yellow": {
+          "value": 4.5,
+          "unit": "mil"
+        }
+      }
+    }
   },
   "extensions": {
     "evidence_pages": {
@@ -249,7 +320,7 @@
     "notes.copper_condition": "The limits apply to 1 oz outer copper. The page gives other values for heavier copper.",
     "notes.edge_source": "The standard table states no copper to edge distance. The advanced table gives 0.25 mm for CNC milling as the normal process.",
     "notes.edge_vcut": "The page states no copper to V-score edge distance.",
-    "notes.manual_conditions": "No workflow row enforces the copper weight, board thickness, mask color or mask bridge limits. These limits are text for manual review. The supplier stop (decision P2, amendment H) is the control for these conditions.",
+    "notes.manual_conditions": "fabrication_options gives the structured copper weight, board thickness and mask color values that the workflow compares with board.yaml and manufacturing/supplier.yaml. The text limits stay as recommendation notes. The supplier stop (decision P2, amendment H) stays active until phase 5.",
     "notes.mask_bridge": "For copper less than 2 oz, the bridge is 4 mil for green oil and 4.5 mil or more for variegated or black oil. The profile uses 4.5 mil, the stricter value.",
     "notes.max_drill": "The page gives a drill diameter to 6.0 mm. Process note, not a limit.",
     "notes.min_drill": "Advanced table, row 5, normal process: a drill of 0.20 mm or more. The standard table gives 0.15 mm. The profile uses 0.2 mm. The standard table gives a range to 6.0 mm. A hole smaller than 0.2 mm or larger than 6 mm has an extra charge.",

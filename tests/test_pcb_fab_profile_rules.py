@@ -355,6 +355,221 @@ def test_commands_stop_before_container():
             workflow.podman, workflow.runtime_identity = old_podman, old_runtime
 
 
+def _board_for(profile, *, thickness_mm=1.6, outer_oz=1, inner_oz=None, mask_color="green", substrate="FR4",
+               supplier_id=None, profile_sha=None):
+    """Return a minimal board record matching the given profile and fabrication options."""
+    fab_ext = {"via_process": "standard_through"}
+    if outer_oz is not None:
+        fab_ext["copper_outer_oz"] = outer_oz
+    if inner_oz is not None:
+        fab_ext["copper_inner_oz"] = inner_oz
+    if mask_color is not None:
+        fab_ext["mask_color"] = mask_color
+    if substrate is not None:
+        fab_ext["substrate"] = substrate
+    return {
+        "supplier": {"id": supplier_id or profile["id"],
+                     "profile_sha256": profile_sha or profile["content_sha256"]},
+        "mechanical": {"width_mm": 40.0, "height_mm": 25.0, "thickness_mm": thickness_mm},
+        "extensions": {"fabrication": fab_ext},
+    }
+
+
+def _row_map(rows):
+    return {r["condition"]: r for r in rows}
+
+
+def test_fabrication_option_conditions():
+    """Structured options compare copper weight, board thickness and mask color with board.yaml and supplier.yaml."""
+    expect(workflow.fabrication_option_conditions(repo_profile("oshpark-two-layer"), {}) == [],
+           "OSH Park profile must return no option rows.")
+    for pid, inner in (("jlcpcb-two-layer", None), ("jlcpcb-four-layer", 0.5),
+                       ("pcbway-two-layer", None), ("pcbway-four-layer", 1)):
+        prof = repo_profile(pid)
+        board = _board_for(prof, inner_oz=inner)
+        rows = _row_map(workflow.fabrication_option_conditions(prof, board, prof))
+        expect(all(rows[k]["status"] == "pass" for k in workflow.FABRICATION_OPTION_ROWS),
+               f"{pid}: valid options did not pass: {rows}")
+        # Pending when outer copper or mask color is absent or unconfirmed.
+        pending = _row_map(workflow.fabrication_option_conditions(
+            prof, _board_for(prof, outer_oz=None, inner_oz=inner, mask_color="unconfirmed"), prof))
+        expect(pending["service.copper_weight"]["status"] == "pending"
+               and pending["service.mask_color"]["status"] == "pending",
+               f"{pid}: missing or unconfirmed declarations did not stay pending: {pending}")
+        # Wrong copper weight fails.
+        bad_cu = _row_map(workflow.fabrication_option_conditions(prof, _board_for(prof, outer_oz=2, inner_oz=inner), prof))
+        expect(bad_cu["service.copper_weight"]["status"] == "fail", f"{pid}: 2 oz outer copper did not fail.")
+        # Wrong mask color fails.
+        bad_color = _row_map(workflow.fabrication_option_conditions(
+            prof, _board_for(prof, inner_oz=inner, mask_color="orange"), prof))
+        expect(bad_color["service.mask_color"]["status"] == "fail", f"{pid}: orange mask color did not fail.")
+        # Wrong board thickness fails.
+        bad_thick = _row_map(workflow.fabrication_option_conditions(
+            prof, _board_for(prof, thickness_mm=1.5, inner_oz=inner), prof))
+        expect(bad_thick["service.board_thickness"]["status"] == "fail", f"{pid}: 1.5 mm thickness did not fail.")
+        # Mismatched supplier.yaml or board.yaml supplier stops with EXIT_FAIL.
+        other_sup = copy.deepcopy(prof)
+        other_sup["fabrication_options"]["mask_color"]["allowed"].append("orange")
+        code, _ = stop_of(workflow.fabrication_option_conditions, prof, board, other_sup)
+        expect(code == workflow.EXIT_FAIL, f"{pid}: mismatched supplier.yaml gave {code}, not 1.")
+        code, _ = stop_of(workflow.fabrication_option_conditions, prof,
+                          _board_for(prof, inner_oz=inner, profile_sha="0" * 64), prof)
+        expect(code == workflow.EXIT_FAIL, f"{pid}: mismatched board.yaml supplier hash gave {code}, not 1.")
+        # Invalid declaration types stop with EXIT_UNSUPPORTED.
+        code, _ = stop_of(workflow.fabrication_option_conditions, prof,
+                          _board_for(prof, outer_oz=True, inner_oz=inner), prof)
+        expect(code == workflow.EXIT_UNSUPPORTED, f"{pid}: bool copper weight gave {code}, not 2.")
+        code, _ = stop_of(workflow.fabrication_option_conditions, prof,
+                          _board_for(prof, inner_oz=inner, mask_color=123), prof)
+        expect(code == workflow.EXIT_UNSUPPORTED, f"{pid}: non-string mask color gave {code}, not 2.")
+
+    # JLCPCB 0.4 mm thickness is allowed by list but below 0.6 mm manual review threshold -> pending.
+    jlc2 = repo_profile("jlcpcb-two-layer")
+    thin = _row_map(workflow.fabrication_option_conditions(jlc2, _board_for(jlc2, thickness_mm=0.4), jlc2))
+    expect(thin["service.board_thickness"]["status"] == "pending", f"0.4 mm JLCPCB did not stay pending: {thin}")
+    # Mask bridge mismatch: green mask with weakened mask_web_min < bridge_min_by_color[color] fails.
+    weak = copy.deepcopy(jlc2)
+    weak["limits"]["mask_web_min"]["value"] = 0.08
+    weak_rows = _row_map(workflow.fabrication_option_conditions(weak, _board_for(weak, mask_color="green"), weak))
+    expect(weak_rows["service.mask_color"]["status"] == "fail", "Mask bridge mismatch did not fail.")
+
+
+def test_optional_geometric_rows():
+    """Optional geometric_tests check board_min_thickness, min_plated_slot_size, via_hole_to_hole_min and pad_hole_to_hole_min."""
+    prof = repo_profile("pcbway-two-layer")
+    # PCBWay 2L: board_min_thickness 0.3 mm, min_plated_slot_size 0.5 mm, via_hole_to_hole_min 11 mil (0.2794 mm), pad_hole_to_hole_min 16 mil (0.4064 mm)
+    inv_pass = {
+        "slots": [{"attr": "pth", "minor_mm": 0.5}, {"attr": "npth", "minor_mm": 0.4}],
+        "holes": [
+            {"kind": "via", "x": 0.0, "y": 0.0, "diameter": 0.3},
+            {"kind": "via", "x": 0.5794, "y": 0.0, "diameter": 0.3},  # center 0.5794 - 0.3 = 0.2794 mm == 11 mil
+            {"kind": "pad", "x": 10.0, "y": 0.0, "diameter": 1.0},
+            {"kind": "pad", "x": 11.4064, "y": 0.0, "diameter": 1.0},  # edge gap 0.4064 mm == 16 mil
+        ],
+    }
+    rows = _row_map(workflow.optional_geometric_rows(prof, inv_pass, _board_for(prof, thickness_mm=0.3), slot_code=0))
+    expect(all(rows[k]["status"] == "pass" for k in ("board_min_thickness", "min_plated_slot_size",
+                                                      "via_hole_to_hole_min", "pad_hole_to_hole_min")),
+           f"Boundary passing cases failed: {rows}")
+    inv_fail = {
+        "slots": [{"attr": "pth", "minor_mm": 0.499}],
+        "holes": [
+            {"kind": "via", "x": 0.0, "y": 0.0, "diameter": 0.3},
+            {"kind": "via", "x": 0.579399, "y": 0.0, "diameter": 0.3},
+            {"kind": "pad", "x": 10.0, "y": 0.0, "diameter": 1.0},
+            {"kind": "pad", "x": 10.0, "y": 0.0, "diameter": 1.0},  # coincident
+        ],
+    }
+    rows_fail = _row_map(workflow.optional_geometric_rows(prof, inv_fail, _board_for(prof, thickness_mm=0.29), slot_code=0))
+    expect(all(rows_fail[k]["status"] == "fail" for k in ("board_min_thickness", "min_plated_slot_size",
+                                                           "via_hole_to_hole_min", "pad_hole_to_hole_min")),
+           f"Failing cases did not fail: {rows_fail}")
+
+
+def test_extra_manual_procedures_and_rows():
+    """Manual procedures check board_sha256 and optional silk_gerber_sha256 and populate manual_rows."""
+    import hashlib
+    prof = repo_profile("jlcpcb-four-layer")
+    board_bytes = b"board-bytes"
+    silk_bytes = b"silk-bytes"
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        proj = tmp / "project"
+        out = proj / "out/fab/supplier"
+        out.mkdir(parents=True)
+        art = proj / "out/fab/manual/check.txt"
+        art.parent.mkdir(parents=True)
+        art.write_bytes(b"manual check artifact\n")
+        art_sha = hashlib.sha256(art.read_bytes()).hexdigest()
+        board_sha = hashlib.sha256(board_bytes).hexdigest()
+        silk_sha = hashlib.sha256(silk_bytes).hexdigest()
+        outputs = workflow.Outputs(proj, out)
+
+        def write_rec(name, cond, inputs, result="pass"):
+            p = tmp / f"{name}.json"
+            p.write_text(json.dumps({
+                "schema_id": "pcb-fab-package/manual-evidence", "schema_version": 1, "condition": cond,
+                "result": result, "procedure": "Checked manually.", "artifact_path": "out/fab/manual/check.txt",
+                "artifact_sha256": art_sha, "inputs": inputs, "reviewer": "R. Reviewer", "statement": "Checked.",
+            }))
+            return p
+
+        p_pth = write_rec("pth", "pth_hole_to_internal_copper", {"board_sha256": board_sha}, "pass")
+        info, status, interp = workflow.check_manual_record(
+            p_pth, p_pth.read_bytes(), art.read_bytes(), board_bytes, silk_bytes,
+            "pth_hole_to_internal_copper", out, outputs)
+        expect(status == "pass" and info["path"] == "manual-pth_hole_to_internal_copper-evidence.json",
+               f"Unexpected manual record result: {info}, {status}")
+        rows = _row_map(workflow.manual_rows(
+            prof, SILK, {"pth_hole_to_internal_copper": {"condition": "pth_hole_to_internal_copper",
+                                                         "method": "manual_evidence", "mandatory": True,
+                                                         "status": status, "interpretation": interp}}))
+        expect(rows["pth_hole_to_internal_copper"]["status"] == "pass"
+               and rows["silk_text_min_height"]["status"] == "pending",
+               f"manual_rows did not keep unspecified conditions pending: {rows}")
+        # Wrong input keys (including silk_gerber_sha256 for pth_hole_to_internal_copper) must stop.
+        bad_keys = write_rec("badkeys", "pth_hole_to_internal_copper",
+                             {"board_sha256": board_sha, "silk_gerber_sha256": silk_sha})
+        code, _ = stop_of(workflow.check_manual_record, bad_keys, bad_keys.read_bytes(), art.read_bytes(),
+                          board_bytes, silk_bytes, "pth_hole_to_internal_copper", out, outputs)
+        expect(code == workflow.EXIT_FAIL, f"Wrong manual input keys gave {code}, not 1.")
+        # Stale board hash must stop for silk_text_min_height.
+        stale = write_rec("stale", "silk_text_min_height", {"board_sha256": "0" * 64, "silk_gerber_sha256": silk_sha})
+        code, _ = stop_of(workflow.check_manual_record, stale, stale.read_bytes(), art.read_bytes(),
+                          board_bytes, silk_bytes, "silk_text_min_height", out, outputs)
+        expect(code == workflow.EXIT_FAIL, f"Stale manual record gave {code}, not 1.")
+
+
+def test_drawing_facts_with_board_record():
+    """drawing_facts reads substrate, thickness and copper from board.yaml when the profile omits them."""
+    inv = {"outline": {"width": 40.0, "height": 25.0}, "holes": [], "slots": [], "copper_layers": ["F.Cu", "B.Cu"]}
+    for pid, inner in (("jlcpcb-two-layer", None), ("pcbway-four-layer", 2)):
+        prof = repo_profile(pid)
+        board = _board_for(prof, thickness_mm=1.6, outer_oz=1, inner_oz=inner, substrate="FR4 TG155")
+        facts = fab.drawing_facts(inv, prof, b"board", "r1", b"prof", board_record=board)
+        expect(facts["profile"]["substrate"] == "FR4 TG155"
+               and facts["profile"]["finished_thickness_mm"] == 1.6,
+               f"{pid}: unexpected drawing facts {facts['profile']}")
+        if inner is not None:
+            expect(facts["profile"]["copper"] == "1 oz outer, 2 oz inner",
+                   f"{pid}: unexpected copper string {facts['profile']['copper']!r}")
+        pdf = fab.drawing_pdf(facts)
+        expect(pdf.startswith(b"%PDF-1.4\n"), f"{pid}: drawing_pdf did not build a PDF.")
+        # Missing board_record or missing substrate refuses with fab.Invalid.
+        for bad_board in (None, _board_for(prof, inner_oz=inner, substrate=None),
+                          _board_for(prof, thickness_mm=1.5, inner_oz=inner)):
+            try:
+                fab.drawing_facts(inv, prof, b"board", "r1", b"prof", board_record=bad_board)
+            except fab.Invalid:
+                pass
+            else:
+                raise AssertionError(f"{pid}: invalid board_record passed drawing_facts.")
+
+
+def test_check_profile_fabrication_options():
+    """fab.check_profile refuses inconsistent fabrication_options."""
+    base = json.loads((SKILL / "supplier/profiles/pcbway-four-layer.yaml").read_text())
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        cases = [
+            lambda r: r["fabrication_options"]["copper_weight"].pop("inner_oz"),
+            lambda r: r["fabrication_options"]["board_thickness"].update(min_mm=0.5),
+            lambda r: r["limits"]["mask_web_min"].update(value=3.0),
+        ]
+        for idx, mutate in enumerate(cases):
+            rec = copy.deepcopy(base)
+            mutate(rec)
+            rec["content_sha256"] = fab.content_hash(rec)
+            p = tmp / f"bad-{idx}.yaml"
+            p.write_text(json.dumps(rec))
+            try:
+                fab.check_profile(p)
+            except fab.Invalid:
+                pass
+            else:
+                raise AssertionError(f"Case {idx} passed check_profile.")
+
+
 TESTS = [value for name, value in list(globals().items()) if name.startswith("test_") and callable(value)]
 
 

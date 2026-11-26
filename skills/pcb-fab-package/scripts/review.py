@@ -96,11 +96,13 @@ def _relative(value, where):
 
 
 def fact_items(profile):
-    """Every material fact of the profile: each limit, and each service or process or note extension.
+    """Every material fact of the profile: each limit, each option, and each service or process or note extension.
     Return {key: (value, unit, source_url)}."""
     facts = {}
     for key, limit in profile["limits"].items():
         facts[key] = (limit["value"], limit.get("unit", ""), limit["source_url"])
+    for key, val in profile.get("fabrication_options", {}).items():
+        facts[f"fabrication_options.{key}"] = (val, "", profile["source_url"])
     for key, val in profile["extensions"].items():
         if key == "evidence_pages":
             continue
@@ -124,7 +126,11 @@ def value_matches(observed, expected):
     if isinstance(expected, str):
         return isinstance(observed, str) and observed == expected
     if isinstance(expected, list):
-        return isinstance(observed, list) and observed == expected
+        return isinstance(observed, list) and len(observed) == len(expected) and all(
+            value_matches(a, b) for a, b in zip(observed, expected))
+    if isinstance(expected, dict):
+        return isinstance(observed, dict) and set(observed) == set(expected) and all(
+            value_matches(observed[k], expected[k]) for k in expected)
     return observed == expected
 
 

@@ -39,7 +39,7 @@ PROFILES = SKILL / "supplier" / "profiles"
 RULES = SKILL / "supplier" / "rules"
 SCHEMAS = SKILL / "contracts" / "schemas"
 SUFFIX = ".kicad_dru"
-RULE_UNITS = ("mm", "mil")
+RULE_UNITS = ("mm", "mil", "in")
 PREFIX = "make_rules: "
 EXIT_OK, EXIT_DIFF, EXIT_INVALID, EXIT_TOOL = 0, 1, 2, 3
 
@@ -85,7 +85,7 @@ def load_profile(path, registry):
 
 
 def check_rule_limits(record):
-    """Refuse a rule that the generator cannot write exactly. Each rule needs a minimum limit in mil or mm."""
+    """Refuse a rule that the generator cannot write exactly. Each rule needs a minimum limit in mm, mil or in."""
     pid = record["id"]
     for key in record["division"].get("kicad_dru", []):
         if key not in workflow.RULE_CONSTRAINT:
@@ -97,13 +97,16 @@ def check_rule_limits(record):
         if limit.get("kind") != "minimum" or limit.get("value_kind") != "number":
             raise Invalid(f"{pid}: the limit {key} must be a minimum with a number value.")
         if limit.get("unit") not in RULE_UNITS:
-            raise Invalid(f"{pid}: the limit {key} must use the unit mil or mm.")
+            raise Invalid(f"{pid}: the limit {key} must use the unit mm, mil or in.")
 
 
 def rules_text(record):
     """Return the rule file bytes of one profile. The workflow function makes the text."""
     check_rule_limits(record)
-    return workflow.supplier_rules_text(record).encode("utf-8")
+    try:
+        return workflow.supplier_rules_text(record).encode("utf-8")
+    except workflow.Stop as err:
+        raise Invalid(str(err))
 
 
 def expected_files(profiles_dir, registry):

@@ -595,6 +595,40 @@ def test_text_limit_unit_and_part_variants(tmp: Path):
     assert not any("variant" in name for name in schema["properties"])
 
 
+def test_fabrication_options(tmp: Path):
+    base_opts = {
+        "copper_weight": {"outer_oz": [1], "inner_oz": [0.5]},
+        "board_thickness": {"allowed_mm": [0.4, 0.8, 1.6], "min_mm": 0.4, "max_mm": 1.6, "manual_review_below_mm": 0.6},
+        "mask_color": {
+            "allowed": ["green", "black"],
+            "bridge_min_by_color": {"green": {"value": 0.1, "unit": "mm"}, "black": {"value": 0.13, "unit": "mm"}},
+        },
+    }
+
+    def opts(change):
+        def apply(record):
+            record["fabrication_options"] = copy.deepcopy(base_opts)
+            change(record["fabrication_options"])
+            reseal(record)
+        return mutated("supplier-profile.yaml", apply)
+
+    assert finds(tmp, "s.json", opts(lambda o: None)) == []
+    only(finds(tmp, "s.json", opts(lambda o: o.pop("copper_weight"))), "schema.invalid", "/fabrication_options/copper_weight")
+    only(finds(tmp, "s.json", opts(lambda o: o["copper_weight"].update(outer_oz=[True]))), "schema.invalid", "/fabrication_options/copper_weight/outer_oz/0")
+    only(finds(tmp, "s.json", opts(lambda o: o["copper_weight"].update(outer_oz=[0]))), "schema.invalid", "/fabrication_options/copper_weight/outer_oz/0")
+    only(finds(tmp, "s.json", opts(lambda o: o["mask_color"]["bridge_min_by_color"]["green"].update(unit="cm"))),
+         "schema.invalid", "/fabrication_options/mask_color/bridge_min_by_color/green/unit")
+    only(finds(tmp, "s.json", opts(lambda o: o.update(extra=1))), "schema.unknown_field", "/fabrication_options/extra")
+    only(finds(tmp, "s.json", opts(lambda o: o["board_thickness"].update(min_mm=2.0))),
+         "profile.options_invalid", "/fabrication_options/board_thickness")
+    only(finds(tmp, "s.json", opts(lambda o: o["board_thickness"].update(allowed_mm=[0.3, 1.6]))),
+         "profile.options_invalid", "/fabrication_options/board_thickness/allowed_mm/0")
+    only(finds(tmp, "s.json", opts(lambda o: o["board_thickness"].update(manual_review_below_mm=2.0))),
+         "profile.options_invalid", "/fabrication_options/board_thickness/manual_review_below_mm")
+    only(finds(tmp, "s.json", opts(lambda o: o["mask_color"]["bridge_min_by_color"].pop("black"))),
+         "profile.options_invalid", "/fabrication_options/mask_color/bridge_min_by_color")
+
+
 def test_documented_limits(tmp: Path):
     # The README states these limits. The test makes sure that they stay true.
     assert V.parse_record(b"a: 1e-999\n", ".yaml") == {"a": 0.0}, "underflow becomes 0.0"

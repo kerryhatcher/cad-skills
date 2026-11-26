@@ -85,6 +85,7 @@ The hash has these properties:
 - Each supplier limit has a `scope`. The value `fabrication` is for a bare-board limit. The value `assembly` is for an assembly limit. The value `margin` is for a project margin. A consumer selects the limits for its package from `scope`. The field `division` shows where the project enforces a limit. It does not show the scope.
 - `variants.yaml` is the only owner of assembly variants and DNP data. A part record does not repeat them. The check that the selected variant exists is in B2. The check that each variant covers each component reference is in B9.
 - `extensions` holds data that does not affect manufacturing. It cannot replace a mandatory field.
+- A supplier profile can include `fabrication_options` with `copper_weight`, `board_thickness` and `mask_color`.
 - The validator redefines the JSON Schema types `integer` and `number`. An integer is not a boolean and not `1.0`. A number is finite and is not a boolean.
 
 ## Records for a project and a package
