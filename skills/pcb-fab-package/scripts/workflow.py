@@ -22,7 +22,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -52,6 +52,8 @@ REPORT_KEYS = {
     "plated_drill_to_internal_copper": ("hole_clearance",),
     "edge_keepout": ("copper_edge_clearance",),
 }
+# The exact factor of each supported unit to millimeters. The values are decimal, thus the rule text is exact.
+RULE_UNIT_MM = {"mm": Decimal(1), "mil": Decimal("0.0254"), "in": Decimal("25.4")}
 
 
 def violations_for(counts, key):
@@ -317,10 +319,19 @@ def supplier_rules_text(profile):
     """The generated KiCad rules, one per supplier limit that KiCad checks. Values are exact decimals in mm."""
     lines = ['(version 1)']
     for key in sorted(profile["division"]["kicad_dru"]):
+        if key not in RULE_CONSTRAINT:
+            raise Stop(EXIT_UNSUPPORTED, f"the rule {key} has no KiCad constraint. Remove it from division.kicad_dru.")
         limit = profile["limits"][key]
-        mm = Decimal(str(limit["value"])) * (Decimal("0.0254") if limit["unit"] == "mil" else Decimal(1))
-        constraint = RULE_CONSTRAINT[key]
-        lines.append(f'(rule "supplier_{key}" (constraint {constraint} (min {mm.normalize()}mm)))')
+        unit = limit.get("unit")
+        if not isinstance(unit, str) or unit not in RULE_UNIT_MM:
+            raise Stop(EXIT_UNSUPPORTED, f"the rule {key} has the unsupported unit {unit!r}. Use mm, mil or in.")
+        try:
+            mm = Decimal(str(limit["value"])) * RULE_UNIT_MM[unit]
+        except InvalidOperation:
+            raise Stop(EXIT_UNSUPPORTED, f"the value of the rule {key} is not a number.")
+        if not mm.is_finite() or mm <= 0:
+            raise Stop(EXIT_UNSUPPORTED, f"the rule {key} must have a finite value greater than 0.")
+        lines.append(f'(rule "supplier_{key}" (constraint {RULE_CONSTRAINT[key]} (min {format(mm.normalize(), "f")}mm)))')
     return "\n".join(lines) + "\n"
 
 
