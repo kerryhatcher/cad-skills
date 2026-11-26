@@ -8,101 +8,106 @@ sources:
   - id: oshpark-single-layer-html
     path: supplier/pages/single-layer.html
     url: https://docs.oshpark.com/services/single-layer/
-    retrieved: "2026-11-14"
-    sha256: e937f343e7d4ce37d75770df6aff567c71de430b5421a1c34d63f430ffbacbc1
+    retrieved: "2026-11-26"
+    sha256: 07f95f3cbc3fedda605f9c1751c87834aea1ea451c929e1a42aed3951657ee9b
+    text_sha256: ce48f1dd32c83d362161e678c1931adb881c48af42e630dc0727a746a08ec843
     content_type: text/html
     magic: markup
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-full-copy
     profile_binding: supplier/profiles/oshpark-single-layer.yaml
   - id: oshpark-single-layer-headers
     path: supplier/pages/single-layer.headers
     url: https://docs.oshpark.com/services/single-layer/
-    retrieved: "2026-11-14"
-    sha256: cfbae8b562ccdc183b77169835a3d868d20b4239ebef4c413868da220e9403a8
+    retrieved: "2026-11-26"
+    sha256: 747146e89774873c9cc10a02e5ad9e6d8b0ac01dba9c316acbf7fe89f8363050
     content_type: text/plain
     magic: null
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-local-evidence
     profile_binding: null
   - id: oshpark-two-layer-html
     path: supplier/pages/two-layer.html
     url: https://docs.oshpark.com/services/two-layer/
-    retrieved: "2026-11-14"
-    sha256: d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25
+    retrieved: "2026-11-26"
+    sha256: fae87affe67341bcd6674a406add9f705ae0465da797e23463aef86b3004c2d1
+    text_sha256: ecd1d62828ac8bbfe1023db7e87d10ce4bf68f921464787ec624a4ad1bac727f
     content_type: text/html
     magic: markup
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-full-copy
     profile_binding: supplier/profiles/oshpark-two-layer.yaml
   - id: oshpark-two-layer-headers
     path: supplier/pages/two-layer.headers
     url: https://docs.oshpark.com/services/two-layer/
-    retrieved: "2026-11-14"
-    sha256: e9442a47ac1bf72699a4f7037e0417045d57338ab2cf371e7bdd6fd9ab23117d
+    retrieved: "2026-11-26"
+    sha256: 6c45403a897bd085a5091fbaf1281a3a39b81994c12c67a26f3eef860a7f3b81
     content_type: text/plain
     magic: null
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-local-evidence
     profile_binding: null
   - id: oshpark-two-layer-hhdc-html
     path: supplier/pages/two-layer-hhdc.html
     url: https://docs.oshpark.com/services/two-layer-hhdc/
-    retrieved: "2026-11-14"
-    sha256: 641310abcd61e5b6c588b8f12554990e07941399f3d6cefce07c5602e16f1471
+    retrieved: "2026-11-26"
+    sha256: 3ed7a43401b10ea7a781e10a40e973a6155b14d9955b96f718ef643d1a23fd58
+    text_sha256: 549433196665c0c122db6afef0be333ff44980711d1828acac9a101b775e43da
     content_type: text/html
     magic: markup
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-full-copy
     profile_binding: supplier/profiles/oshpark-two-layer-hhdc.yaml
   - id: oshpark-two-layer-hhdc-headers
     path: supplier/pages/two-layer-hhdc.headers
     url: https://docs.oshpark.com/services/two-layer-hhdc/
-    retrieved: "2026-11-14"
-    sha256: 99b99c13fc56bac85c094710e62a271f1081ee38bc6ed76c98da41246d542e22
+    retrieved: "2026-11-26"
+    sha256: 5d4917a48afe360e6597deefcd5fbac4c6e76d173552ad1a078e9fe6baa2ad40
     content_type: text/plain
     magic: null
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-local-evidence
     profile_binding: null
   - id: oshpark-four-layer-html
     path: supplier/pages/four-layer.html
     url: https://docs.oshpark.com/services/four-layer/
-    retrieved: "2026-11-14"
-    sha256: 566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38
+    retrieved: "2026-11-26"
+    sha256: 4eb0af38b6dfaed2d33adde1c72605d9e1431e5925e61539be89ebc00c8dd1cc
+    text_sha256: 94ad5301df55e3f408ffe651087872d0a724f8836a471eb2eea7a160316a91fd
     content_type: text/html
     magic: markup
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-full-copy
     profile_binding: supplier/profiles/oshpark-four-layer.yaml
   - id: oshpark-four-layer-headers
     path: supplier/pages/four-layer.headers
     url: https://docs.oshpark.com/services/four-layer/
-    retrieved: "2026-11-14"
-    sha256: 598679daf273ed9af75a755c847736aa5afdaf27f75a30f751e8ebfb449d79c5
+    retrieved: "2026-11-26"
+    sha256: 3e465be86038832bcc0d656eed9c2ae649744feae3ef1a521adaf2e6858d586f
     content_type: text/plain
     magic: null
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-local-evidence
     profile_binding: null
   - id: oshpark-six-layer-html
     path: supplier/pages/six-layer.html
     url: https://docs.oshpark.com/services/six-layer/
-    retrieved: "2026-11-14"
-    sha256: e174c3a58bfa776f6f860b4fd2441174520dd7c20f6c51f4af273beb95060cfa
+    retrieved: "2026-11-26"
+    sha256: f92c6f15f673801569db0fe097d12e73d9b85aea297644915c43966a451ab4e2
+    text_sha256: bc02ae797ce7f0f24ebe95293de7ad4867b30e7feb314eaf6507c6fbb7ae7f3a
     content_type: text/html
     magic: markup
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-full-copy
     profile_binding: supplier/profiles/oshpark-six-layer.yaml
   - id: oshpark-six-layer-headers
     path: supplier/pages/six-layer.headers
     url: https://docs.oshpark.com/services/six-layer/
-    retrieved: "2026-11-14"
-    sha256: 05e8297451e3a8ef26f80031bcd0ad6e1231b570ed33fe1c297d006b81373ac2
+    retrieved: "2026-11-26"
+    sha256: 9d0f0065c4cbd6ea988de86bc770d00daf02539544c06cfce824230cbe5abb11
     content_type: text/plain
     magic: null
-    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
+    license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-local-evidence
     profile_binding: null
   - id: jlcpcb-pcb-capabilities-html

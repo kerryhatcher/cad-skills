@@ -27,6 +27,7 @@ import pathlib
 import signal
 import subprocess
 import sys
+from decimal import Decimal
 from fractions import Fraction
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -50,7 +51,7 @@ PROFILE_PAGES = {
     "pcbway-two-layer": {"pcbway-capabilities"},
     "pcbway-four-layer": {"pcbway-capabilities"},
 }
-# Only these profiles have the OSH Park facts that the workflow uses. Other profiles have data only (decision Q2).
+# Only these profiles have the OSH Park facts that the workflow uses. Other profiles contain only values (decision Q2).
 WORKFLOW_PROFILES = {"oshpark-single-layer", "oshpark-two-layer", "oshpark-two-layer-hhdc",
                      "oshpark-four-layer", "oshpark-six-layer"}
 DIVISION_KEYS = ("kicad_dru", "project_settings", "geometric_tests", "manual_evidence")
@@ -159,14 +160,14 @@ def check_profile(path):
 
 
 def refuse_data_only(profile_path, command):
-    """Stop a command that reads the OSH Park facts when the profile has data only (decision Q2).
+    """Stop a command that reads the OSH Park facts when the profile contains only values (decision Q2).
 
     Read only the profile id. Read no page, no project and no lock. A profile id that is not
     in WORKFLOW_PROFILES is refused, so a new profile gets the same stop by default."""
     pid = VAL.load_record(profile_path)["id"]
     if pid not in WORKFLOW_PROFILES:
         raise workflow.Stop(workflow.EXIT_UNSUPPORTED,
-                            f"the profile {pid} has data only. The command {command} does not run for it. "
+                            f"the profile {pid} contains only values. The command {command} does not run for it. "
                             "Use profile, judge or review-source. "
                             f"See references/{pid.split('-')[0]}-kicad-setup.md.")
 
@@ -292,26 +293,41 @@ def review_gate(project, profile, review_path, expected_sha, release):
     return problems
 
 
+# The process limits on the drawing sheet: the limit name and the label. The facts key has the unit of the limit.
+DRAWING_LIMITS = (("min_trace", "min trace"), ("min_space", "min space"), ("min_drill", "min drill"),
+                  ("mask_web_min", "mask web min"))
+DRAWING_UNITS = ("mil", "mm", "in")
+
+
+def _limit_text(p, name, label):
+    """The sheet text of one process limit. The facts must give the limit in exactly one unit."""
+    found = [(unit, p[f"{name}_{unit}"]) for unit in DRAWING_UNITS if f"{name}_{unit}" in p]
+    if len(found) != 1:
+        raise Invalid(f"the drawing facts must give one unit for {name}")
+    unit, value = found[0]
+    return f"{label} {value} {unit}"
+
+
 def drawing_facts(inventory, profile, board_bytes, release, profile_bytes):
     """Build the facts that the drawing sheet shows. The inventory comes from board_inventory_slots.py."""
     outline = inventory["outline"]
     holes = inventory.get("holes", []) + inventory.get("slots", [])
     diameters = sorted({h.get("diameter", h.get("minor_mm")) for h in holes})
     layers = inventory["copper_layers"]
+    shown = {"profile": profile["id"], "source_page": "stored supplier page"}
+    for name, _ in DRAWING_LIMITS:
+        limit = profile["limits"][name]
+        shown[f"{name}_{limit['unit']}"] = limit["value"]
+    shown.update({"substrate": profile["extensions"]["service.substrate"],
+                  "finished_thickness_mm": profile["extensions"]["service.finished_thickness_display_mm"],
+                  "copper": profile["extensions"]["service.copper"]})
     return {"release_id": release, "unit": "mm",
             "board_sha256": sha(board_bytes), "profile_sha256": profile["content_sha256"],
             "profile_file_sha256": sha(profile_bytes),
             "overall_width_mm": outline["width"], "overall_height_mm": outline["height"],
             "holes": {"count": len(holes), "diameters_mm": diameters},
             "copper_layers": layers, "stackup": f"{len(layers)}-layer",
-            "profile": {"profile": profile["id"], "source_page": "stored supplier page",
-                        "min_trace_mil": profile["limits"]["min_trace"]["value"],
-                        "min_space_mil": profile["limits"]["min_space"]["value"],
-                        "min_drill_mil": profile["limits"]["min_drill"]["value"],
-                        "mask_web_min_mil": profile["limits"]["mask_web_min"]["value"],
-                        "substrate": profile["extensions"]["service.substrate"],
-                        "finished_thickness_mm": profile["extensions"]["service.finished_thickness_display_mm"],
-                        "copper": profile["extensions"]["service.copper"]}}
+            "profile": shown}
 
 
 def _pdf_escape(text):
@@ -330,8 +346,7 @@ def drawing_pdf(facts):
         (f"Holes: {facts['holes']['count']} (diameters mm: {', '.join(str(d) for d in facts['holes']['diameters_mm'])})", 11),
         (f"Copper layers: {', '.join(facts['copper_layers'])}; stackup: {facts['stackup']}", 11),
         (f"Profile: {p['profile']} (source: {p['source_page']})", 11),
-        (f"Process: min trace {p['min_trace_mil']} mil, min space {p['min_space_mil']} mil, "
-         f"min drill {p['min_drill_mil']} mil, mask web min {p['mask_web_min_mil']} mil", 11),
+        ("Process: " + ", ".join(_limit_text(p, name, label) for name, label in DRAWING_LIMITS), 11),
         (f"Substrate: {p['substrate']}; finished thickness {p['finished_thickness_mm']} mm; copper {p['copper']}", 11),
         (f"Board SHA-256: {facts['board_sha256']}", 9),
         (f"Profile SHA-256: {facts['profile_sha256']}", 9),
@@ -366,21 +381,61 @@ def drawing_pdf(facts):
     return bytes(out)
 
 
+def mm_text(value):
+    """The exact decimal text of a millimeter value, without trailing zeros.
+
+    The value must be a terminating decimal. Otherwise the function raises ValueError.
+    """
+    value = Fraction(value)
+    num, den = value.numerator, value.denominator
+    twos = fives = 0
+    while den % 2 == 0:
+        den //= 2
+        twos += 1
+    while den % 5 == 0:
+        den //= 5
+        fives += 1
+    if den != 1:
+        raise ValueError(f"the value {value} is not a terminating decimal")
+    digits = max(twos, fives)
+    whole, frac = divmod(num, value.denominator)
+    if frac == 0:
+        return str(whole)
+    scaled = frac * 10 ** digits // value.denominator
+    return f"{whole}.{str(scaled).rjust(digits, '0').rstrip('0')}"
+
+
 MASK_TIMEOUT_SECONDS = 2.0
+MASK_LIMIT_FLAGS = {"mil": "--limit-mil", "mm": "--limit-mm"}  # the worker flag for each unit of the limit
 
 
-def run_mask_worker(gerber, limit, report):
+def run_mask_worker(gerber, limit, report, unit="mil"):
     """Run the mask worker once through uv, with a caller timeout of MASK_TIMEOUT_SECONDS.
 
     The helper budget inside the worker checks elapsed time only at its checkpoints. The caller timeout stops
     the whole process group after the time limit. A timeout returns exit 2 and writes no report. The report
     path must be fresh, so an old result is never used. Process start and stop overhead is not removed.
+    The unit is the unit of the profile limit: mm, mil or in. A value in inches goes to the worker in millimeters.
     """
     rep = pathlib.Path(report)
     if rep.exists() or rep.is_symlink():
         return _fail(EXIT_ARGS, "the report path exists; give a fresh report path")
+    try:
+        decimal_value = Decimal(str(limit))
+    except (ValueError, TypeError, ArithmeticError):
+        return _fail(EXIT_ARGS, f"the mask limit {limit!r} is not a number")
+    if not decimal_value.is_finite() or decimal_value <= 0:
+        return _fail(EXIT_ARGS, "the mask limit must be a finite number greater than 0")
+    try:
+        number = Fraction(decimal_value)
+        if unit == "in":
+            limit, unit = mm_text(number * UNIT_MM["in"]), "mm"
+    except ValueError:
+        return _fail(EXIT_ARGS, f"the mask limit {limit!r} is not a terminating decimal")
+    if unit not in MASK_LIMIT_FLAGS:
+        return _fail(EXIT_ARGS, f"the mask limit unit {unit!r} is not supported. Use mm, mil or in.")
     worker = os.environ.get("PCB_FAB_MASK_WORKER") or str(HERE / "inspect_mask.py")
-    cmd = ["uv", "run", "--quiet", worker, "--gerber", gerber, "--limit-mil", limit, "--report", report]
+    cmd = ["uv", "run", "--quiet", worker, "--gerber", gerber, MASK_LIMIT_FLAGS[unit], limit, "--report", report]
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
     try:
         out, err = proc.communicate(timeout=MASK_TIMEOUT_SECONDS)
@@ -429,16 +484,17 @@ def _review_source(a, project):
     profile_path = pathlib.Path(a["--profile"])
     profile = check_profile(profile_path)
     out = pathlib.Path(a["--out"])
+    # Make sure that the path is in the project first. Thus an outside path never gets the destination message.
+    PIO.confine(project, out)
     if out.exists():
         return _fail(EXIT_ARGS, "the destination exists")
-    review_record = review.build_review(pathlib.Path(a["--observations"]).read_bytes(), profile,
-                                        profile_path.read_bytes(), a["--release"], project)
+    raw_obs = pathlib.Path(a["--observations"]).read_bytes()
+    review_record = review.build_review(raw_obs, profile, profile_path.read_bytes(), a["--release"], project)
     if review_record["reviewer"] != a["--reviewer"]:
         return _fail(EXIT_FAIL, "the reviewer differs from the observation file")
-    PIO.confine(project, out)
     out.parent.mkdir(parents=True, exist_ok=True)
     PIO.atomic_write(project, out, (json.dumps(review_record, indent=2, sort_keys=True) + "\n").encode("utf-8"))
-    PIO.atomic_write(project, out.parent / "observations.json", pathlib.Path(a["--observations"]).read_bytes())
+    PIO.atomic_write(project, out.parent / "observations.json", raw_obs)
     print(json.dumps({"decision": review_record["decision"], "problems": review_record["problems"],
                       "review_sha256": hashlib.sha256(out.read_bytes()).hexdigest()}))
     return EXIT_FAIL if review_record["decision"] == "material" else EXIT_OK
@@ -529,6 +585,14 @@ def main(argv):
         return _fail(EXIT_ARGS, f"the project is locked: {err}")
     except workflow.Stop as err:
         return _fail(err.code, str(err))
+    # PIO.SymlinkTarget subclasses PIO.PathEscape. Thus it must come first.
+    # These clauses apply to each command. PIO.atomic_write raises them in other commands too.
+    except PIO.SymlinkTarget as err:
+        return _fail(EXIT_ARGS, f"{err} Give an output path that is not a symbolic link.")
+    except PIO.PathEscape as err:
+        return _fail(EXIT_ARGS, f"{err} Give a path in the project.")
+    except review.ReviewError as err:
+        return _fail(EXIT_FAIL, f"invalid observation file: {err}. Correct the file and run the command again.")
     except VAL.RecordError as err:
         return _fail(EXIT_FAIL, f"invalid record: {err}")
     except (OSError, ValueError, KeyError) as err:

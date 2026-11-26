@@ -9,7 +9,7 @@
   "fixture": "A2",
   "overall": "incomplete",
   "profile": "oshpark-two-layer",
-  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
+  "profile_sha256": "5d53abbbd708a29f5ae0ed711869c6a3726816daf548c632b3038d92c0ab13b2",
   "reason": "The order condition fails and the manual silk condition remains pending. No source review or package ran.",
   "supplier": {
     "mandatory_fail": [

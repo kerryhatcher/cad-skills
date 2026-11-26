@@ -1,0 +1,71 @@
+{
+  "entries": [
+    {
+      "distribution": "exclude-full-copy",
+      "fetch_error": null,
+      "hash_status": "changed",
+      "id": "oshpark-single-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "dd166f898e748543b22ea73e07572e997067e29112b8d26929a885988808232c",
+      "observed_text_sha256": "ce48f1dd32c83d362161e678c1931adb881c48af42e630dc0727a746a08ec843",
+      "path": "supplier/pages/single-layer.html",
+      "text_status": null,
+      "write_status": null,
+      "written": false
+    },
+    {
+      "distribution": "exclude-full-copy",
+      "fetch_error": null,
+      "hash_status": "changed",
+      "id": "oshpark-two-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "751a172278e15a368a31b3302650e310e038726b6dc7be2b2e8a739461dc868d",
+      "observed_text_sha256": "ecd1d62828ac8bbfe1023db7e87d10ce4bf68f921464787ec624a4ad1bac727f",
+      "path": "supplier/pages/two-layer.html",
+      "text_status": null,
+      "write_status": null,
+      "written": false
+    },
+    {
+      "distribution": "exclude-full-copy",
+      "fetch_error": null,
+      "hash_status": "changed",
+      "id": "oshpark-two-layer-hhdc-html",
+      "magic_status": "ok",
+      "observed_sha256": "f8605e967e0278334d7fefd8b06990e21fe5161caa70457de10f1939c45c4f17",
+      "observed_text_sha256": "549433196665c0c122db6afef0be333ff44980711d1828acac9a101b775e43da",
+      "path": "supplier/pages/two-layer-hhdc.html",
+      "text_status": null,
+      "write_status": null,
+      "written": false
+    },
+    {
+      "distribution": "exclude-full-copy",
+      "fetch_error": null,
+      "hash_status": "changed",
+      "id": "oshpark-four-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "0a00bb79596b67429b10b6b24eeb392f7ae8db67cf8e798c1a7db59c5d4c6fa4",
+      "observed_text_sha256": "94ad5301df55e3f408ffe651087872d0a724f8836a471eb2eea7a160316a91fd",
+      "path": "supplier/pages/four-layer.html",
+      "text_status": null,
+      "write_status": null,
+      "written": false
+    },
+    {
+      "distribution": "exclude-full-copy",
+      "fetch_error": null,
+      "hash_status": "changed",
+      "id": "oshpark-six-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "b0c108787189a181cc760956fb3ee30eb8190670ad261de28fdd1ffd49b5db27",
+      "observed_text_sha256": "bc02ae797ce7f0f24ebe95293de7ad4867b30e7feb314eaf6507c6fbb7ae7f3a",
+      "path": "supplier/pages/six-layer.html",
+      "text_status": null,
+      "write_status": null,
+      "written": false
+    }
+  ],
+  "exit": 1,
+  "overall": "not all match"
+}

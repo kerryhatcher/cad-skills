@@ -278,7 +278,7 @@ def test_jlcpcb_cli_stops():
             for cmd, args in commands.items():
                 code, out = run_cli(path_env, *args)
                 expect(code == 2, f"{pid} {cmd}: exit {code}. Expected 2. Output: {out}")
-                expect("has data only" in out and f"The command {cmd} does not run" in out,
+                expect("contains only values" in out and f"The command {cmd} does not run" in out,
                        f"{pid} {cmd}: the stop message is missing. Output: {out}")
             expect(not marker.exists(), f"{pid}: a container job started (the podman stub ran).")
             expect(sorted(p.name for p in project.iterdir()) == ["board.yaml"],
@@ -298,7 +298,7 @@ def test_oshpark_cli_not_stopped():
                             "--review", str(tmp / "missing.json"), "--expect-sha256", ZERO_HASH, "--release", "r1")
         expect(code == 1, f"review-gate with an OSH Park profile gave exit {code}. Expected 1. Output: {out}")
         expect("the source review record is missing" in out, f"Unexpected output: {out}")
-        expect("has data only" not in out, "The OSH Park profile is refused as data only.")
+        expect("contains only values" not in out, "The OSH Park profile is refused as a profile that contains only values.")
 
 
 def test_jlcpcb_corner_stop_unit():

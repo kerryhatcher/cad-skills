@@ -6,8 +6,8 @@
   "service": "OSH Park single-layer service (two-layer process)",
   "source_url": "https://docs.oshpark.com/services/single-layer/",
   "retrieved": "2026-11-14",
-  "evidence_sha256": "e937f343e7d4ce37d75770df6aff567c71de430b5421a1c34d63f430ffbacbc1",
-  "content_sha256": "a544f6f9bf0493ac38e425c1e5702195496ceb2bd55962961f996c35b77c82e4",
+  "evidence_sha256": "07f95f3cbc3fedda605f9c1751c87834aea1ea451c929e1a42aed3951657ee9b",
+  "content_sha256": "c7e286ab307d76131d31c113bb309d125d891b9b0c0b8c137b1ae37b69fa8f9c",
   "units": "mil",
   "limits": {
     "board_max_height": {
@@ -179,11 +179,11 @@
     "notes.max_drill": "Maximum Drill Size None; above 250mil larger milling tolerances. Process note, not a limit.",
     "evidence_pages": {
       "single-layer": {
-        "sha256": "e937f343e7d4ce37d75770df6aff567c71de430b5421a1c34d63f430ffbacbc1",
+        "sha256": "07f95f3cbc3fedda605f9c1751c87834aea1ea451c929e1a42aed3951657ee9b",
         "source_url": "https://docs.oshpark.com/services/single-layer/"
       },
       "two-layer": {
-        "sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "sha256": "fae87affe67341bcd6674a406add9f705ae0465da797e23463aef86b3004c2d1",
         "source_url": "https://docs.oshpark.com/services/two-layer/"
       }
     },
@@ -191,14 +191,14 @@
       "value": "0.068",
       "unit": "in",
       "source_url": "https://docs.oshpark.com/services/two-layer/",
-      "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+      "source_sha256": "fae87affe67341bcd6674a406add9f705ae0465da797e23463aef86b3004c2d1",
       "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
     },
     "process.cutout_cutter_diameter": {
       "value": "0.040",
       "unit": "in",
       "source_url": "https://docs.oshpark.com/services/two-layer/",
-      "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+      "source_sha256": "fae87affe67341bcd6674a406add9f705ae0465da797e23463aef86b3004c2d1",
       "meaning": "Published cutter diameter. Half the diameter is the derived tool radius."
     }
   }

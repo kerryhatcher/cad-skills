@@ -6,7 +6,7 @@ Source page: https://www.pcbway.com/capabilities.html
 
 ## Status of the PCBWay profiles
 
-- The PCBWay profiles have data only. The workflow does not run for them.
+- The PCBWay profiles contain only values. The workflow does not run for them.
 - Three commands work for a PCBWay profile:
   - `profile` checks the profile record.
   - `judge` compares one measured value with one limit.

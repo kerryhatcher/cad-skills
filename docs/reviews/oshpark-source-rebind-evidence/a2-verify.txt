@@ -1,0 +1,5 @@
+binding_sha256 ok: [2, 2]
+content_sha256 ok: [2, 2]
+file-map hashes ok: [59, 59]
+unresolved keys: 0 []
+mismatches: 0 []

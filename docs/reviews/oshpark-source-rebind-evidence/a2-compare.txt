@@ -1,0 +1,13 @@
+substitutions:
+  e3f2789d1033 -> 5d53abbbd708
+  d757495f505f -> fae87affe673
+  5db39340d5b4 -> 852c0b4b74b6
+  b93f39912727 -> b083ff922844
+  01c135b8e378 -> 1bb8b294c7ac
+changed files: 46
+counts: {'text_equal_after_subst_and_dates': 26, 'json_equal_after_subst_and_dates': 24, 'pdf_equal_after_dates': 5, 'derived_hash_listed': 0}
+timestamp-only JSON values: 6
+derived 64-hex JSON values (count): 59
+UNEXPLAINED: 0
+derived by file: Counter({'fab/design/design-result.json': 20, 'fab/design/design-binding.json': 18, 'fab/supplier/supplier-binding.json': 11, 'fab/supplier/supplier-result.json': 8, 'fab/supplier/mask-bottom.json': 1, 'fab/supplier/mask.json': 1})
+derived by key: Counter({'gbr': 24, 'json': 11, 'drl': 8, 'pdf': 6, 'gbrjob': 2, 'binding_sha256': 2, 'content_sha256': 2, 'gerber_sha256': 2, 'design_binding_sha256': 1, 'design_binding': 1})

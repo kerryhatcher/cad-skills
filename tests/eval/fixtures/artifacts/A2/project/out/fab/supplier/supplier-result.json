@@ -1,7 +1,7 @@
 {
-  "binding_sha256": "7ef22779acf4202e3e4633db592bf0967184e1829855cd1b7c1c33ed074c8382",
-  "content_sha256": "a644c8a3be94e090b969814a6b9b483e40b2eebb5e195f9056cfebc6cb553caf",
-  "design_binding": "8cdd14d04e1b85ae660600b62d31b2d0558a4dae2bc4077377ff4b0b11772c5f",
+  "binding_sha256": "d62366c0ebbce487ed45ab647b48eecd73e2818535eb34b652ee47f064e42c17",
+  "content_sha256": "782263f67a3f1503375b6b6e969431fd20fc7f8e89d261ad82b57a3b764e694d",
+  "design_binding": "c550cc9dbca2bca086063b93ac79e84c943a6e376188b49637ba5cc6138406d9",
   "effective": {
     "board.kicad_dru": "a4a5a9a0ca074ca8beeb541cb92c5bd60d3d92d28dd127e2c76f1d5b1627a571",
     "board.kicad_pro": "57352e7388d0443e13d5879c09000733625fd399d5975dbcb8cde32be315b763"
@@ -9,15 +9,15 @@
   "exit": 1,
   "manual": null,
   "measure_inputs": {
-    "export/board-B_Mask.gbr": "aba6b030c7b44ad86456b116122c5aa86e6236e3a10b7cecd62dcd386969b8d5",
-    "export/board-F_Mask.gbr": "6951cf7f77e6f95f158bc9f272c12d934269ea050e379b80856e701cec30a4ec",
-    "export/board-F_Silkscreen.gbr": "efcc530cbff267b79163c5e5433460e81bd58bf3bd583d147ca53be5f2b58539",
-    "export/board-NPTH.drl": "593906245ce11dbe5fa6b638e094491d5993ee2d05386b04be2715d39c59c6d0",
-    "export/board-PTH.drl": "1afbf403389d6bfb045b3ce878b765aa4f8312af0d1286996aa3ab4c78964001",
+    "export/board-B_Mask.gbr": "5f1dffd6c56142ec74909dc8830c9671f2d4c0646f08a830bc37cbcfc624dd7e",
+    "export/board-F_Mask.gbr": "da3fa2925c6f86ce0b271638bad7a8f40dc9d0d8b1ef4760f84bc7a8442cf9a3",
+    "export/board-F_Silkscreen.gbr": "403efdb544001ddaf230e9f899e95c6d48a6b664c538b20f9c26db00c9066ee6",
+    "export/board-NPTH.drl": "3eec09efc5043cc4fbec060cded9d3a01a3e5def645a099cd9bfc075f2c8541e",
+    "export/board-PTH.drl": "eca3f09bff3db4288f0b8a95c368af72d92c8af5d2dae772a6ebf29b5fd0f227",
     "inventory.json": "27ce12e4ab789a5437749a6b2a569fdce0619646d6c68263baefb018c97d3fa6"
   },
   "profile": "oshpark-two-layer",
-  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
+  "profile_sha256": "5d53abbbd708a29f5ae0ed711869c6a3726816daf548c632b3038d92c0ab13b2",
   "rows": [
     {
       "condition": "service.via_construction_prohibited",
@@ -38,7 +38,7 @@
       "method": "derived_tool_compatibility",
       "process_fact": {
         "meaning": "Published cutter diameter. Half the diameter is the derived tool radius.",
-        "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_sha256": "fae87affe67341bcd6674a406add9f705ae0465da797e23463aef86b3004c2d1",
         "source_url": "https://docs.oshpark.com/services/two-layer/",
         "unit": "in",
         "value": "0.068"
@@ -55,7 +55,7 @@
       "method": "derived_tool_compatibility",
       "process_fact": {
         "meaning": "Published cutter diameter. Half the diameter is the derived tool radius.",
-        "source_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+        "source_sha256": "fae87affe67341bcd6674a406add9f705ae0465da797e23463aef86b3004c2d1",
         "source_url": "https://docs.oshpark.com/services/two-layer/",
         "unit": "in",
         "value": "0.040"
@@ -196,16 +196,16 @@
   "schema_id": "pcb-fab-package/supplier-result",
   "schema_version": 1,
   "source_sha256": {
-    "board.yaml": "5db39340d5b4cfc52e7ee2fcc825cf3d3101aa1f3a5d413edddc9ef9435824d4",
+    "board.yaml": "852c0b4b74b6a576deb1daaa363dd8d2fee5b02d1d7cbcd710a2077ccdb39d26",
     "kicad/board.kicad_dru": "absent",
     "kicad/board.kicad_pcb": "befb05abe79c644fe266b49474b92936ddc1c6e7cfaf1411de67ebfdae17632f",
     "kicad/board.kicad_pro": "fa0616f9cd2c2d5f8f09754d4d7b7b46ebd6c12a500f16be095005c4bcfdc3ee",
     "kicad/board.kicad_sch": "a0934ec606be522821ded5a3e7d31f4a9fa187452e1e8c5fa00afade0434d26c",
     "manufacturing/export.yaml": "e9ae3ee89c0b088f7468e5d002a7f47967358f1b922443bcb09eed99b2c22235",
-    "manufacturing/supplier.yaml": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
+    "manufacturing/supplier.yaml": "b083ff9228441d87acb34753cd8da28e41f4677817852e6a20864b57c941d2ec",
     "manufacturing/waivers.yaml": "ea5bbc9e8d942845487a965c110f8a9cf95063cd7c0640c92d76a6145e617b53",
     "mechanical/board-interface.json": "5254508d3d203f0870b57b611cc70b47dfe4fb4d4c23aaee8287e2fe73a3b4bc",
-    "profile": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
+    "profile": "b083ff9228441d87acb34753cd8da28e41f4677817852e6a20864b57c941d2ec",
     "toolchain.lock.json": "104e23fc50127689d6c94a8ffabd43c3ed3d23d4444e0173f5deeb5e508b8b79",
     "variants.yaml": "e293a931f41f3b3181fa000ebf203c68a90feac2439b40820647b3f2614c1c3e"
   }

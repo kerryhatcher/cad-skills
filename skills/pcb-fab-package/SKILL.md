@@ -18,16 +18,16 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fab.py design --project P --profile FILE [--out DIR]` | ERC, DRC with parity, exports, inventory, drawing sheet | all checks pass | a check fails | unsupported board, missing input, wrong tool identity | KiCad failure |
 | `fab.py supplier --project P --profile FILE [--design-dir DIR] [--out DIR] [--manual FILE]` | supplier conditions on a staged copy | every mandatory condition passes | a condition fails, is pending, or the source changed | unsupported mask construct or resource limit | tool failure |
 | `fab.py review-source --project P --profile FILE --release ID --observations FILE --reviewer NAME --out FILE` | source review | decision unchanged or harmless | decision material or invalid record | arguments or existing destination | not used |
-| `fab.py review-gate --project P --profile FILE --review FILE --expect-sha256 H --release ID` | re-check a review record | intact | any problem | data-only profile | not used |
+| `fab.py review-gate --project P --profile FILE --review FILE --expect-sha256 H --release ID` | re-check a review record | intact | any problem | profile that contains only values | not used |
 | `fab.py package --project P --profile FILE --release ID --review FILE --review-sha256 H --dest DIR` | build and publish the package | qualified | unqualified (reasons in the manifest) | existing destination or missing prerequisite | tool failure |
 | `fab.py inspect-slots --board-inventory FILE --pth FILE --npth FILE --report FILE` | slot comparison | every slot matches | mismatch | unsupported record | missing input |
 | `fab.py inspect-mask --gerber FILE --limit-mil N --report FILE` | mask web measurement | every web passes | fail or uncertain | unsupported construct or limit | tool failure |
-| `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | each fetched entry matches, or each entry is skipped | a candidate, changed or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
+| `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | each fetched entry matches or has only a layout change (`layout`), or each entry is skipped | a candidate, changed, text mismatch or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
 | `make_rules.py [--profiles DIR] [--out DIR] [--check]` | make or compare the rule files | files agree, or written | a file is different or missing, or a rule file has no profile | incorrect profile, argument or symbolic link | file or schema error |
 | `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments, or a link at `--out` | not used |
-| `recheck_sources.py --manifest FILE [--entry ID ...] [--format F] [--allow-ci]` | release re-check of the live pages. Writes no file and changes no profile | each fetched page has its recorded hash | a candidate, changed or magic mismatch | arguments, manifest or watch problem, or CI | fetch failure |
+| `recheck_sources.py --manifest FILE [--entry ID ...] [--format F] [--allow-ci]` | release re-check of the live pages. Writes no file and changes no profile | each fetched page has its recorded hash, or only a layout change (`layout`) | a candidate, changed, text mismatch (`text-mismatch`) or magic mismatch | arguments, manifest or watch problem, or CI | fetch failure |
 
-Note: the JLCPCB and PCBWay profiles have data only. For those profiles, the commands `design`, `drawing-facts`, `supplier`, `review-gate` and `package` stop with exit 2. See `references/jlcpcb-kicad-setup.md` and `references/pcbway-kicad-setup.md`.
+Note: the JLCPCB and PCBWay profiles contain only values. For those profiles, the commands `design`, `drawing-facts`, `supplier`, `review-gate` and `package` stop with exit 2. See `references/jlcpcb-kicad-setup.md` and `references/pcbway-kicad-setup.md`.
 
 ## Source setup
 
@@ -44,6 +44,13 @@ It writes only bytes that match the recorded hash and format.
 If the source changes, record a new source review before you change a profile.
 The local tests use project-authored fixtures. They do not retrieve supplier pages.
 
+An entry can have the optional key `text_sha256`. It is the SHA-256 of the visible page text.
+To make the visible text, the command replaces each tag, each `script`, `style` and `noscript` element, and each comment with one space.
+It turns each HTML entity into its character and changes each run of whitespace to one space.
+
+If the bytes are different and the text hash matches, the status is `layout`. The command writes no page for this entry and exits 0.
+The byte hash stays the binding evidence.
+
 ## Release re-check
 
 Before a release, compare the live supplier pages with the manifest:
@@ -55,6 +62,9 @@ uv run scripts/recheck_sources.py --manifest sources.yaml
 The command runs `fetch_sources.py` in check-only mode. The command writes no file and does not change a profile.
 The command prints a report with the status of each page and the watch items.
 If a page changed, record a new source review before you change a profile.
+
+If only the layout changed, the status is `layout`. A new source review is not necessary.
+
 The command is a release step. It does not run when the shell sets the `CI` variable.
 The repository release checklist gives the full procedure.
 
@@ -124,7 +134,7 @@ The B6 inventory worker remains unchanged.
 ## Corner tool compatibility
 
 The profile records published cutter diameters under `process.outline_cutter_diameter` and `process.cutout_cutter_diameter`.
-Each fact retains its inch value, source URL and source hash.
+Each fact retains its value, its unit (mm, mil or in), source URL and source hash.
 The supplier command derives the circular tool radius as half that diameter.
 It compares this radius with measured concave outline corners and cutout corners.
 The result is derived tool compatibility. It is not a quoted supplier minimum or a general manufacturing guarantee.
@@ -144,8 +154,8 @@ The radius comparison uses the pcbnew integer nanometer radius, not the topology
 ## Files
 
 - `references/oshpark-kicad-setup.md`: project-authored KiCad setup for the OSH Park Gerber route. It separates checked values, recommendations, margins and manual steps.
-- `references/jlcpcb-kicad-setup.md`: project-authored KiCad setup for the JLCPCB route. The JLCPCB profiles have data only. See this file for the commands that end with exit 2.
-- `references/pcbway-kicad-setup.md`: project-authored KiCad setup for the PCBWay route. The PCBWay profiles have data only. See this file for the commands that end with exit 2.
+- `references/jlcpcb-kicad-setup.md`: project-authored KiCad setup for the JLCPCB route. The JLCPCB profiles contain only values. See this file for the commands that end with exit 2.
+- `references/pcbway-kicad-setup.md`: project-authored KiCad setup for the PCBWay route. The PCBWay profiles contain only values. See this file for the commands that end with exit 2.
 - `scripts/fetch_sources.py`: source retrieval for the manifest. It checks every entry before the first fetch, confines the profile and destination paths, and never writes a profile or a changed source.
 - `scripts/recheck_sources.py`: release re-check. It runs `fetch_sources.py` in check-only mode and prints a report.
 - `scripts/make_rules.py`: generator for `supplier/rules/*.kicad_dru`. The generator uses the rule function of `workflow.py`.
@@ -159,4 +169,4 @@ The radius comparison uses the pcbnew integer nanometer radius, not the topology
 - `scripts/via_inventory.py`: container worker that measures via spans without a board change.
 - `scripts/corner_inventory.py`: container worker that measures supported corner geometry.
 - `scripts/board_inventory.py`, `scripts/validate.py`, `scripts/project_io.py`: byte copies.
-- `contracts/`, `runtime/`, `supplier/`: byte copies, the nine profile records and the nine generated rule files. The JLCPCB and PCBWay profiles have data only. See `references/jlcpcb-kicad-setup.md` and `references/pcbway-kicad-setup.md`.
+- `contracts/`, `runtime/`, `supplier/`: byte copies, the nine profile records and the nine generated rule files. The JLCPCB and PCBWay profiles contain only values. See `references/jlcpcb-kicad-setup.md` and `references/pcbway-kicad-setup.md`.

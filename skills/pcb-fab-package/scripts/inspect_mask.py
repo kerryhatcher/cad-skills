@@ -4,7 +4,7 @@
 # ///
 """Measure the solder-mask webs of an exported mask Gerber with the exact distance method.
 
-Usage: uv run scripts/inspect_mask.py --gerber FILE.gbr --limit-mil N --report OUT.json
+Usage: uv run scripts/inspect_mask.py --gerber FILE.gbr (--limit-mil N | --limit-mm N) --report OUT.json
 
 Exit status: 0 every web passes, 1 a web fails or is uncertain, 2 an unsupported construct or a resource limit,
 3 a tool failure.
@@ -223,15 +223,20 @@ def inspect(path, limit_mm, max_seconds=MAX_SECONDS):
 def main(argv):
     def arg(key):
         return argv[argv.index(key) + 1] if key in argv and argv.index(key) + 1 < len(argv) else None
-    gerber, limit, report = arg("--gerber"), arg("--limit-mil"), arg("--report")
-    if not gerber or not limit or not report:
-        print("inspect_mask: give --gerber, --limit-mil and --report", file=sys.stderr)
+    gerber, report = arg("--gerber"), arg("--report")
+    limit_mil_text, limit_mm_text = arg("--limit-mil"), arg("--limit-mm")
+    if not gerber or not report or (limit_mil_text is None) == (limit_mm_text is None):
+        print("inspect_mask: give --gerber, --report and one of --limit-mil or --limit-mm", file=sys.stderr)
         return 2
+    flag, text = ("--limit-mil", limit_mil_text) if limit_mil_text is not None else ("--limit-mm", limit_mm_text)
     try:
-        limit_mm = float(limit) * MIL_MM
+        value = float(text)
     except ValueError:
-        print("inspect_mask: --limit-mil must be a number", file=sys.stderr)
+        value = math.nan
+    if not math.isfinite(value) or value <= 0:
+        print(f"inspect_mask: {flag} must be a finite number greater than 0", file=sys.stderr)
         return 2
+    limit_mil, limit_mm = (value, value * MIL_MM) if flag == "--limit-mil" else (None, value)
     try:
         status, body = inspect(gerber, limit_mm)
     except Unsupported as err:
@@ -242,7 +247,7 @@ def main(argv):
     except Exception as err:  # a parser failure on malformed input is a tool failure.
         print(f"inspect_mask: the parser failed: {err}", file=sys.stderr)
         return EXIT_TOOL
-    body.update({"limit_mil": float(limit), "limit_mm": limit_mm, "error_bound_mm": ERROR_BOUND_MM,
+    body.update({"limit_mil": limit_mil, "limit_mm": limit_mm, "error_bound_mm": ERROR_BOUND_MM,
                  "error_bound_basis": "derived from 6-decimal Gerber coordinates, not measured",
                  "time_limit_seconds": MAX_SECONDS, "exit": status})
     pathlib.Path(report).write_text(json.dumps(body, indent=2, sort_keys=True) + "\n")

@@ -1,0 +1,24 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: rc step response of the trial circuit
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+in                                           0
+out                                          0
+v1#branch                                    0
+
+
+No. of Data Rows : 5022
+vtau                =  2.085997e+00
+vtau = 2.085997e+00
+Note: Simulation executed from .control section 

@@ -21,3 +21,5 @@ The matrix binds these produced files to their recorded hashes.
 The commands `review-source` and `package` did not run. The fixture does not claim a qualified package.
 The two recommendations do not change the mandatory result.
 The tests make no supplier contact or provider call. The fixture uses no network at test time.
+
+The fixture ran again on 2026-11-26 after the OSH Park source rebind (issue #10). The profile copy has the new page hash and the new content hash. The exits and the condition results did not change. The note `docs/reviews/oshpark-source-rebind-claude.md` records the run.

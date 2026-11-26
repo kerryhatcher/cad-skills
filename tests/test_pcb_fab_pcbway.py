@@ -368,7 +368,7 @@ def test_pcbway_cli_stops():
             for cmd, args in commands.items():
                 code, out = run_cli(path_env, *args)
                 expect(code == 2, f"{pid} {cmd}: exit {code}. Expected 2. Output: {out}")
-                expect("has data only" in out and f"The command {cmd} does not run" in out,
+                expect("contains only values" in out and f"The command {cmd} does not run" in out,
                        f"{pid} {cmd}: the stop message is missing. Output: {out}")
                 expect("references/pcbway-kicad-setup.md" in out,
                        f"{pid} {cmd}: the message does not name the PCBWay note. Output: {out}")
@@ -524,6 +524,18 @@ def test_pcbway_manual_text_limits():
         note = record["extensions"].get("notes.manual_conditions", "").lower()
         expect("no workflow row" in note and "control" in note,
                f"{pid}: the note does not name the control for the manual conditions.")
+
+
+def test_no_data_only_wording():
+    """The skill text says "contain only values", not "data only" (issue #13)."""
+    texts = {}
+    for path in (REPO / "SKILL.md", REPO / "references" / "jlcpcb-kicad-setup.md",
+                 REPO / "references" / "pcbway-kicad-setup.md", REPO / "scripts" / "fab.py"):
+        text = path.read_text(encoding="utf-8").lower()
+        expect("data only" not in text and "data-only" not in text, f"{path.name} still has the words data only.")
+        texts[path.name] = text
+    for name in ("SKILL.md", "jlcpcb-kicad-setup.md", "pcbway-kicad-setup.md"):
+        expect("contain only values" in texts[name], f"{name} does not say that the profiles contain only values.")
 
 
 TESTS = [value for name, value in list(globals().items()) if name.startswith("test_") and callable(value)]

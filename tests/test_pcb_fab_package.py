@@ -203,6 +203,18 @@ def mask(name, limit="4"):
     return proc.returncode, data
 
 
+def mask_args(name, *args):
+    tmp = Path(tempfile.mkdtemp())
+    report = tmp / "mask.json"
+    proc = subprocess.run(["uv", "run", "--quiet", str(SCRIPTS / "inspect_mask.py"), "--gerber",
+                           str(FIX / "mask" / f"{name}.gts"), *args, "--report", str(report)],
+                          capture_output=True, text=True)
+    existed = report.exists()
+    data = json.loads(report.read_text()) if existed else {}
+    shutil.rmtree(tmp)
+    return proc.returncode, data, existed
+
+
 def test_mask():
     code, data = mask("m39")
     check("mask 3.9 mil fixture fails (exit 1)", code == 1 and data.get("result") == "fail", (code, data.get("result")))
@@ -219,6 +231,65 @@ def test_mask():
     check("overlapping cluster refused (exit 2)", code == 2 and "overlapping cluster" in data.get("unsupported", ""), (code, data))
     code, data = mask("m39merge")
     check("region output refused for automatic inspection (exit 2)", code == 2 and "Region" in data.get("unsupported", ""), (code, data))
+
+
+def test_mask_units(tmp):
+    """The mask command accepts the limit in mm or mil. An incorrect limit gives exit 2 and no report."""
+    for name, expected in (("m39", "fail"), ("m40", "uncertain"), ("m41", "pass")):
+        code_mil, data_mil = mask(name)
+        code_mm, data_mm, existed = mask_args(name, "--limit-mm", "0.1016")
+        check(f"mask {name}: the limit in mm gives the same result as the limit in mil",
+              (code_mm, data_mm.get("result"), data_mm.get("counts"), data_mm.get("minimum_web_mm"))
+              == (code_mil, data_mil.get("result"), data_mil.get("counts"), data_mil.get("minimum_web_mm"))
+              and data_mm.get("result") == expected and existed,
+              (code_mil, code_mm, data_mil.get("result"), data_mm.get("result")))
+    code, data, existed = mask_args("m41", "--limit-mm", "0.1016")
+    check("the report for a limit in mm has no mil value and the given mm value",
+          data.get("limit_mil") is None and data.get("limit_mm") == 0.1016, (data.get("limit_mil"), data.get("limit_mm")))
+    code, data, existed = mask_args("m41", "--limit-mil", "4", "--limit-mm", "0.1016")
+    check("two limit flags give exit 2 and no report", code == 2 and not existed, (code, existed))
+    code, data, existed = mask_args("m41")
+    check("no limit flag gives exit 2 and no report", code == 2 and not existed, (code, existed))
+    for flag in ("--limit-mil", "--limit-mm"):
+        for value in ("abc", "0", "-1", "nan", "inf"):
+            code, data, existed = mask_args("m41", flag, value)
+            check(f"{flag} {value} gives exit 2 and no report", code == 2 and not existed, (code, existed))
+    stub = tmp / "stub.py"
+    stub.write_text('# /// script\n# requires-python = ">=3.10"\n# dependencies = []\n# ///\n'
+                    'import json\nimport sys\nargs = sys.argv[1:]\n'
+                    'open(args[args.index("--report") + 1], "w").write(json.dumps(args))\n')
+    old = os.environ.get("PCB_FAB_MASK_WORKER")
+    os.environ["PCB_FAB_MASK_WORKER"] = str(stub)
+    try:
+        g = str(FIX / "mask" / "m41.gts")
+        cases = [("4", {}, ["--limit-mil", "4"]),
+                 ("4", {"unit": "mil"}, ["--limit-mil", "4"]),
+                 ("0.13", {"unit": "mm"}, ["--limit-mm", "0.13"]),
+                 ("0.005", {"unit": "in"}, ["--limit-mm", "0.127"])]
+        for index, (value, kwargs, wanted) in enumerate(cases, start=1):
+            report = tmp / f"r{index}.json"
+            code = fab.run_mask_worker(g, value, str(report), **kwargs)
+            args = json.loads(report.read_text()) if report.exists() else []
+            check(f"run_mask_worker {value} {kwargs} gives the worker arguments {wanted}",
+                  code == 0 and all(item in args for item in wanted)
+                  and ("--limit-mil" in args) == ("--limit-mil" in wanted), (code, args))
+        for index, (value, kwargs) in enumerate((("4", {"unit": "cm"}), ("abc", {"unit": "in"}),
+                                                ("abc", {}), ("0", {"unit": "mm"}), ("nan", {}),
+                                                ("1/0", {"unit": "in"}), ("1/3", {"unit": "in"})), start=5):
+            report = tmp / f"r{index}.json"
+            code = fab.run_mask_worker(g, value, str(report), **kwargs)
+            check(f"run_mask_worker refuses {value} {kwargs} with exit 2 and no report",
+                  code == 2 and not report.exists(), (code, report.exists()))
+        report = tmp / "r10.json"
+        code = fab.run_mask_worker(g, "0.1234567890123456789012345678", str(report), unit="in")
+        args = json.loads(report.read_text()) if report.exists() else []
+        check("run_mask_worker converts a 28-digit value in inches exactly to millimeters",
+              code == 0 and "3.13580244091358024409135802212" in args, (code, args))
+    finally:
+        if old is None:
+            os.environ.pop("PCB_FAB_MASK_WORKER", None)
+        else:
+            os.environ["PCB_FAB_MASK_WORKER"] = old
 
 
 # ------------------------------------------------------------------ source review
@@ -349,6 +420,69 @@ def test_drawing(tmp):
                           capture_output=True, text=True)
     png = tmp / "drawing.png"
     check("drawing renders to PNG", proc.returncode == 0 and png.is_file() and png.stat().st_size > 1000, proc.stderr)
+
+
+def process_line(pdf):
+    """The text of the Process line of the drawing sheet."""
+    text = pdf.decode("ascii", errors="replace")
+    for part in text.split("\n"):
+        if part.startswith("BT /F1") and " Tj" in part:
+            line = part.split("(", 1)[1].rsplit(") Tj", 1)[0].replace("\\(", "(").replace("\\)", ")")
+            if line.startswith("Process: "):
+                return line
+    return None
+
+
+def test_drawing_units(tmp):
+    """The drawing facts and the sheet show the unit of each process limit."""
+    profile = load_profile()
+    inv_data = json.loads((FIX / "inventory" / "board_rot45.inventory.json").read_text())
+    board = FIX / "inventory" / "board_rot45.inventory.json"
+    facts = fab.drawing_facts(inv_data, profile, board.read_bytes(), "trial-1", PROFILE.read_bytes())
+    check("drawing facts of the OSH Park profile have the same profile keys",
+          set(facts["profile"]) == {"profile", "source_page", "min_trace_mil", "min_space_mil", "min_drill_mil",
+                                    "mask_web_min_mil", "substrate", "finished_thickness_mm", "copper"},
+          sorted(facts["profile"]))
+    check("the OSH Park process line does not change",
+          process_line(fab.drawing_pdf(facts))
+          == "Process: min trace 6 mil, min space 6 mil, min drill 10 mil, mask web min 4 mil",
+          process_line(fab.drawing_pdf(facts)))
+    changed = copy.deepcopy(load_profile())
+    for name, value, unit in (("min_trace", 0.1, "mm"), ("min_drill", 0.2, "mm"),
+                              ("mask_web_min", 0.13, "mm"), ("min_space", 6, "mil")):
+        changed["limits"][name] = dict(changed["limits"][name], value=value, unit=unit)
+    facts = fab.drawing_facts(inv_data, changed, board.read_bytes(), "trial-1", PROFILE.read_bytes())
+    keys = set(facts["profile"])
+    check("a limit in mm gives a key in mm and no key in mil",
+          {"min_trace_mm", "min_drill_mm", "mask_web_min_mm", "min_space_mil"} <= keys and "min_trace_mil" not in keys,
+          sorted(keys))
+    check("the process line shows the unit of each limit",
+          process_line(fab.drawing_pdf(facts))
+          == "Process: min trace 0.1 mm, min space 6 mil, min drill 0.2 mm, mask web min 0.13 mm",
+          process_line(fab.drawing_pdf(facts)))
+    mm_facts = facts
+    changed = copy.deepcopy(load_profile())
+    changed["limits"]["min_drill"] = dict(changed["limits"]["min_drill"], value=0.01, unit="in")
+    facts = fab.drawing_facts(inv_data, changed, board.read_bytes(), "trial-1", PROFILE.read_bytes())
+    check("a limit in in gives a key in in and the text in in",
+          "min_drill_in" in facts["profile"] and "min drill 0.01 in" in process_line(fab.drawing_pdf(facts)),
+          (sorted(facts["profile"]), process_line(fab.drawing_pdf(facts))))
+    two = copy.deepcopy(mm_facts)
+    two["profile"]["min_trace_mil"] = 6
+    try:
+        fab.drawing_pdf(two)
+        refused = False
+    except fab.Invalid:
+        refused = True
+    check("the sheet refuses two units for one limit", refused)
+    none = copy.deepcopy(mm_facts)
+    del none["profile"]["min_trace_mm"]
+    try:
+        fab.drawing_pdf(none)
+        refused = False
+    except fab.Invalid:
+        refused = True
+    check("the sheet refuses a limit with no unit", refused)
 
 
 def test_refuses_unimplemented(tmp):
@@ -533,9 +667,11 @@ def main():
         test_export_reader(tmp)
         test_measured_slot_fixtures()
         test_mask()
+        test_mask_units(tmp / "mu") if (tmp / "mu").mkdir() is None else None
         test_source_review(tmp / "rv") if (tmp / "rv").mkdir() is None else None
         test_review_gate(tmp / "gt") if (tmp / "gt").mkdir() is None else None
         test_drawing(tmp / "dr") if (tmp / "dr").mkdir() is None else None
+        test_drawing_units(tmp / "du") if (tmp / "du").mkdir() is None else None
         test_geometry_focused(tmp / "geo") if (tmp / "geo").mkdir() is None else None
         test_geometry_corrections(tmp / "corr") if (tmp / "corr").mkdir() is None else None
         test_final_decisions(tmp / "final") if (tmp / "final").mkdir() is None else None
