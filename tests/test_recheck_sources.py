@@ -42,6 +42,13 @@ FIXED = datetime.datetime(2026, 11, 25, 12, 0, 0, tzinfo=datetime.timezone.utc)
 BOUND = "supplier/profiles/fixture-two-layer.yaml"
 PAGE_PATH = "supplier/pages/two-layer.html"
 PAGE_URL = "https://example.invalid/page"
+LAYOUT_A = (b'<!doctype html>\n<html><head><title>Fixture</title><style>p{color:red}</style>'
+            b'<script>var build="a1";</script></head>\n<body><!-- build a1 --><p>Trace 6 mil &amp; space</p>'
+            b'<noscript>Enable scripts</noscript><p>Drill 10 mil</p></body></html>\n')
+LAYOUT_B = (b'<!doctype html>\n<html lang="en"><head><title>Fixture</title><style>p{color:blue}</style>'
+            b'<script src="/app.js?v=b2"></script></head>\n<body class="v2"><!-- build b2 --><p id="t">Trace  6\tmil &#38; space</p>'
+            b'<noscript>Scripts are off</noscript><p>Drill 10 mil</p></body></html>\n')
+RULE_CHANGE = LAYOUT_A.replace(b"Drill 10 mil", b"Drill 12 mil")
 
 
 def check(name, cond, detail=""):
@@ -80,6 +87,13 @@ def new_root(tmp, label):
     (root / "supplier" / "pages").mkdir(parents=True)
     (root / "supplier" / "profiles").mkdir(parents=True)
     (root / "supplier" / "profiles" / "fixture-two-layer.yaml").write_text(profile_text("two-layer", sha(PAGE)))
+    return root
+
+
+def layout_root(tmp, label):
+    """Make a root whose two-layer profile binds the LAYOUT_A bytes. Each label must be unique."""
+    root = new_root(tmp, label)
+    (root / "supplier" / "profiles" / "fixture-two-layer.yaml").write_text(profile_text("two-layer", sha(LAYOUT_A)))
     return root
 
 
@@ -400,6 +414,97 @@ def test_main_subprocess_ci(tmp):
     check("27: the __main__ path with CI set exits 2, writes the refusal to stderr, and contacts no page",
           done.returncode == 2 and done.stdout == "" and "--allow-ci" in done.stderr
           and "No such file" not in done.stderr, (done.returncode, done.stdout, done.stderr))
+
+
+def layout_manifest(tmp, label, **over):
+    root = layout_root(tmp, label)
+    manifest = write_manifest(root, [entry("page", PAGE_PATH, body=LAYOUT_A, profile_binding=BOUND, **over)])
+    return manifest
+
+
+def test_layout_status(tmp):
+    manifest = layout_manifest(tmp, "rechecklayout", text_sha256=FS.text_sha256(LAYOUT_A))
+    code, text = run_check(["--manifest", str(manifest), "--format", "json"], Fake({PAGE_URL: LAYOUT_B}))
+    report = json.loads(text)
+    row = report["entries"][0]
+    check("28: a layout change exits 0 with status layout, equal text hashes, and overall match or layout",
+          code == 0 and row["status"] == "layout" and row["text_status"] == "match"
+          and row["recorded_text_sha256"] == FS.text_sha256(LAYOUT_A)
+          and row["observed_text_sha256"] == FS.text_sha256(LAYOUT_A)
+          and report["overall"] == "match or layout", (code, row, report["overall"]))
+
+
+def test_layout_action(tmp):
+    manifest = layout_manifest(tmp, "recheckaction", text_sha256=FS.text_sha256(LAYOUT_A))
+    code, text = run_check(["--manifest", str(manifest), "--format", "json"], Fake({PAGE_URL: LAYOUT_B}))
+    report = json.loads(text)
+    action = report["entries"][0]["action"]
+    check("29: the layout action names the profile binding, says not necessary, and is the only action",
+          code == 0 and BOUND in action and "not necessary" in action and report["actions"] == [action]
+          and "fab.py review-source" not in action, (code, action, report["actions"]))
+
+
+def test_markdown_text_column(tmp):
+    manifest = layout_manifest(tmp, "recheckmarkdown", text_sha256=FS.text_sha256(LAYOUT_A))
+    code, md = run_check(["--manifest", str(manifest)], Fake({PAGE_URL: LAYOUT_B}))
+    table = [line for line in md.splitlines() if line.startswith("|")]
+    header = "| Entry | Status | Text | Recorded SHA-256 | Observed SHA-256 | Magic | Fetch error |"
+    check("30: the Markdown table has a Text column and the entry row shows layout and match",
+          code == 0 and table[0] == header and "| page | layout | match |" in md
+          and all(line.count("|") == table[0].count("|") for line in table), md[:400])
+
+
+def test_text_mismatch_status(tmp):
+    manifest = layout_manifest(tmp, "recheckmismatch", text_sha256=FS.text_sha256(RULE_CHANGE))
+    code, text = run_check(["--manifest", str(manifest), "--format", "json"], Fake({PAGE_URL: LAYOUT_A}))
+    row = json.loads(text)["entries"][0]
+    check("31: a byte match with a text mismatch exits 1 with status text-mismatch and an action that names text_sha256",
+          code == 1 and row["status"] == "text-mismatch" and "text_sha256" in row["action"], (code, row))
+
+
+def test_text_changed_status(tmp):
+    manifest = layout_manifest(tmp, "rechecktextchanged", text_sha256=FS.text_sha256(LAYOUT_A))
+    code, text = run_check(["--manifest", str(manifest), "--format", "json"], Fake({PAGE_URL: RULE_CHANGE}))
+    row = json.loads(text)["entries"][0]
+    check("32: a text change with the text key exits 1 with status changed and the changed action",
+          code == 1 and row["status"] == "changed" and row["text_status"] == "changed"
+          and row["action"] == RC.ACTION_CHANGED.format(profile=BOUND), (code, row))
+
+
+def test_no_text_key_row(tmp):
+    root = layout_root(tmp, "rechecknotext")
+    manifest = write_manifest(root, [entry("page", PAGE_PATH, body=LAYOUT_A, profile_binding=BOUND)])
+    fake = Fake({PAGE_URL: PAGE})
+    code, md = run_check(["--manifest", str(manifest)], fake)
+    row = json.loads(run_check(["--manifest", str(manifest), "--format", "json"],
+                               fake)[1])["entries"][0]
+    check("33: an entry without a text key reports no text hash and the Markdown row shows a dash",
+          code == 0 and row["recorded_text_sha256"] is None and row["text_status"] is None
+          and "| match | - |" in md, (code, row))
+
+
+def test_watch_item_layout(tmp):
+    def add_text(rows):
+        rows[0]["sha256"] = sha(LAYOUT_A)
+        rows[0]["text_sha256"] = FS.text_sha256(LAYOUT_A)
+
+    manifest = watch_root(tmp, "watchlayout", edit=add_text)
+    (tmp / "watchlayout" / "supplier" / "profiles" / "four-layer.yaml").write_text(
+        profile_text("four-layer", sha(LAYOUT_A)))
+    fake = Fake({WATCH_URLS["oshpark-four-layer-html"]: LAYOUT_B, WATCH_URLS["oshpark-six-layer-html"]: PAGE})
+    code, text = run_check(["--manifest", str(manifest), "--format", "json"], fake, watch=RC.WATCH_ITEMS)
+    watch = {row["entry"]: row["status"] for row in json.loads(text)["watch"]}
+    check("34: a watch page with only a layout change exits 0 and its watch row has status layout",
+          code == 0 and watch["oshpark-four-layer-html"] == "layout", (code, watch))
+
+
+def test_layout_report_has_no_page_text(tmp):
+    manifest = layout_manifest(tmp, "rechecknotext", text_sha256=FS.text_sha256(LAYOUT_A))
+    fake = Fake({PAGE_URL: LAYOUT_B})
+    _, js = run_check(["--manifest", str(manifest), "--format", "json"], fake)
+    _, md = run_check(["--manifest", str(manifest)], fake)
+    check("35: neither the JSON nor the Markdown report holds page text",
+          "Trace" not in js and "Drill" not in js and "Trace" not in md and "Drill" not in md, "marker found")
 
 
 def main():

@@ -30,6 +30,14 @@ PAGE = b"<!doctype html>\n<title>fixture page</title>\n"
 OTHER = b"<!doctype html>\n<title>other fixture</title>\n"
 OLE = bytes.fromhex("D0CF11E0A1B11AE1") + b"fixture"
 PLAIN = b"plain fixture bytes\n"
+LAYOUT_A = (b'<!doctype html>\n<html><head><title>Fixture</title><style>p{color:red}</style>'
+            b'<script>var build="a1";</script></head>\n<body><!-- build a1 --><p>Trace 6 mil &amp; space</p>'
+            b'<noscript>Enable scripts</noscript><p>Drill 10 mil</p></body></html>\n')
+LAYOUT_B = (b'<!doctype html>\n<html lang="en"><head><title>Fixture</title><style>p{color:blue}</style>'
+            b'<script src="/app.js?v=b2"></script></head>\n<body class="v2"><!-- build b2 --><p id="t">Trace  6\tmil &#38; space</p>'
+            b'<noscript>Scripts are off</noscript><p>Drill 10 mil</p></body></html>\n')
+RULE_CHANGE = LAYOUT_A.replace(b"Drill 10 mil", b"Drill 12 mil")
+NOT_UTF8 = b"<p>\xff\xfe</p>"
 
 
 def check(name, cond, detail=""):
@@ -68,6 +76,17 @@ def new_root(tmp, label):
     (root / "supplier" / "pages").mkdir(parents=True)
     (root / "supplier" / "profiles").mkdir(parents=True)
     (root / "supplier" / "profiles" / "fixture-two-layer.yaml").write_text(profile_text("two-layer", sha(PAGE)))
+    return root
+
+
+def text_sha(data):
+    return FS.text_sha256(data)
+
+
+def layout_root(tmp, label):
+    """Make a root whose two-layer profile binds the LAYOUT_A bytes. Each label must be unique."""
+    root = new_root(tmp, label)
+    (root / "supplier" / "profiles" / "fixture-two-layer.yaml").write_text(profile_text("two-layer", sha(LAYOUT_A)))
     return root
 
 
@@ -692,6 +711,159 @@ def test_alias_normal_guidance(tmp):
     check("56: a normal guidance destination is not refused and is written with exit 0",
           code == 0 and fake.calls == ["https://example.invalid/guide"]
           and (root / "supplier/guidance/full.html").read_bytes() == PAGE, code)
+
+
+def test_text_rule(tmp):
+    text = FS.visible_text(LAYOUT_A)
+    check("57: the visible text keeps the title and paragraph text, drops tags, comments, script, style and"
+          " noscript text and attribute values, decodes entities, and gives adjacent tags the same hash",
+          text == "Fixture Trace 6 mil & space Drill 10 mil" and "a1" not in text and "red" not in text
+          and "build" not in text and "Enable scripts" not in text
+          and FS.visible_text(LAYOUT_B) == "Fixture Trace 6 mil & space Drill 10 mil"
+          and FS.text_sha256(b"<p>A</p><p>B</p>") == FS.text_sha256(b"<p>A</p>\n<p>B</p>"), text)
+
+
+def test_text_hash_value(tmp):
+    check("58: the text hash is the SHA-256 of the UTF-8 visible text, layout bytes share one text hash,"
+          " and a text change gives a different hash",
+          FS.text_sha256(LAYOUT_A) == sha(FS.visible_text(LAYOUT_A).encode("utf-8"))
+          and FS.text_sha256(LAYOUT_A) == FS.text_sha256(LAYOUT_B)
+          and FS.text_sha256(LAYOUT_A) != FS.text_sha256(RULE_CHANGE)
+          and sha(LAYOUT_A) != sha(LAYOUT_B), FS.text_sha256(LAYOUT_A))
+
+
+def test_text_hash_not_utf8(tmp):
+    check("59: bytes that are not UTF-8 give no text hash", FS.text_sha256(NOT_UTF8) is None,
+          FS.text_sha256(NOT_UTF8))
+
+
+def test_text_key_type(tmp):
+    root = new_root(tmp, "textkeytype")
+    fake = Fake({"https://example.invalid/page": PAGE})
+    cases = [("uppercase", "A" * 64), ("short", "a" * 63), ("null", None), ("integer", 1)]
+    results = []
+    for label, value in cases:
+        code, report = run(write_manifest(
+            root, [entry("page", "supplier/pages/two-layer.html", text_sha256=value)]), fake)
+        results.append(code == 2 and fake.calls == []
+                       and "64 lowercase hexadecimal characters" in str(report))
+        fake.calls.clear()
+    check("60: a text_sha256 that is uppercase, short, null, or not a string exits 2 before any fetch", all(results),
+          results)
+
+
+def test_text_key_magic(tmp):
+    root = new_root(tmp, "textkeymagic")
+    fake = Fake({"https://example.invalid/page": PAGE})
+    code, report = run(write_manifest(root, [entry("page", "supplier/pages/plain.html", body=PLAIN,
+                                                   magic=None, content_type="text/plain",
+                                                   text_sha256="a" * 64)]), fake)
+    check("61: text_sha256 on an entry without the markup magic exits 2 before any fetch and names markup",
+          code == 2 and fake.calls == [] and "markup" in str(report), (code, report))
+
+
+def test_text_key_candidate(tmp):
+    root = new_root(tmp, "textkeycandidate")
+    fake = Fake({"https://example.invalid/page": PAGE})
+    code, report = run(write_manifest(root, [entry("page", "supplier/pages/two-layer.html", sha256=None,
+                                                   text_sha256="a" * 64)]), fake)
+    check("62: text_sha256 on an entry without a sha256 exits 2 before any fetch and names the sha256 rule",
+          code == 2 and fake.calls == [] and "a sha256 value" in str(report), (code, report))
+
+
+def layout_entry(tmp, label, **over):
+    root = layout_root(tmp, label)
+    manifest = write_manifest(root, [entry("page", "supplier/pages/two-layer.html", body=LAYOUT_A,
+                                           profile_binding="supplier/profiles/fixture-two-layer.yaml", **over)])
+    return root, manifest
+
+
+def test_layout_write_mode(tmp):
+    root, manifest = layout_entry(tmp, "layoutwrite", text_sha256=text_sha(LAYOUT_A))
+    before = {name: snapshot(root / name) for name in
+              ["sources.yaml", "supplier/profiles/fixture-two-layer.yaml"]}
+    fake = Fake({"https://example.invalid/page": LAYOUT_B})
+    code, report = run(manifest, fake)
+    row = rows_by_id(report)["page"]
+    after = {name: snapshot(root / name) for name in before}
+    check("63: a layout change in write mode exits 0, writes nothing, and leaves the manifest and profile unchanged",
+          code == 0 and row["hash_status"] == "layout" and row["text_status"] == "match"
+          and row["written"] is False and report["overall"] == "none written"
+          and not (root / "supplier/pages/two-layer.html").exists() and before == after, (code, row, report))
+
+
+def test_layout_check_only(tmp):
+    _, manifest = layout_entry(tmp, "layoutcheck", text_sha256=text_sha(LAYOUT_A))
+    code, report = run(manifest, Fake({"https://example.invalid/page": LAYOUT_B}), "--check-only")
+    row = rows_by_id(report)["page"]
+    check("64: a layout change in check-only mode exits 0 with overall match or layout and both observed hashes",
+          code == 0 and report["overall"] == "match or layout" and row["hash_status"] == "layout"
+          and row["observed_text_sha256"] == text_sha(LAYOUT_B)
+          and row["observed_sha256"] == sha(LAYOUT_B), (code, row, report))
+
+
+def test_text_changed(tmp):
+    root, manifest = layout_entry(tmp, "textchanged", text_sha256=text_sha(LAYOUT_A))
+    code, report = run(manifest, Fake({"https://example.invalid/page": RULE_CHANGE}))
+    row = rows_by_id(report)["page"]
+    check("65: a text change exits 1 with status changed and writes nothing",
+          code == 1 and row["hash_status"] == "changed" and row["text_status"] == "changed"
+          and row["written"] is False and not (root / "supplier/pages/two-layer.html").exists(), (code, row))
+
+
+def test_text_mismatch_on_byte_match(tmp):
+    root = new_root(tmp, "textmismatch")
+    manifest = write_manifest(root, [entry("page", "supplier/pages/two-layer.html", body=LAYOUT_A,
+                                           text_sha256=text_sha(RULE_CHANGE))])
+    code, report = run(manifest, Fake({"https://example.invalid/page": LAYOUT_A}))
+    row = rows_by_id(report)["page"]
+    check("66: a byte match with a text mismatch exits 1, writes the page, and gives overall partial",
+          code == 1 and row["hash_status"] == "match" and row["text_status"] == "changed"
+          and row["written"] is True
+          and (root / "supplier/pages/two-layer.html").read_bytes() == LAYOUT_A
+          and report["overall"] == "partial", (code, row, report))
+
+
+def test_no_text_key_as_before(tmp):
+    root = new_root(tmp, "notextkey")
+    manifest = write_manifest(root, [entry("page", "supplier/pages/two-layer.html", body=LAYOUT_A)])
+    code, report = run(manifest, Fake({"https://example.invalid/page": LAYOUT_B}))
+    row = rows_by_id(report)["page"]
+    check("67: an entry without text_sha256 keeps the old behavior and still reports the observed text hash",
+          code == 1 and row["hash_status"] == "changed" and row["text_status"] is None
+          and row["observed_text_sha256"] == text_sha(LAYOUT_B), (code, row))
+
+
+def test_layout_and_magic(tmp):
+    root = new_root(tmp, "layoutmagic")
+    manifest = write_manifest(root, [entry("page", "supplier/pages/two-layer.html", body=b"<p>A</p>",
+                                           text_sha256=text_sha(b"<p>A</p>"))])
+    code, report = run(manifest, Fake({"https://example.invalid/page": b"A"}))
+    row = rows_by_id(report)["page"]
+    check("68: a layout change with a magic mismatch exits 1 and writes nothing",
+          code == 1 and row["hash_status"] == "layout" and row["magic_status"] == "mismatch"
+          and row["written"] is False and not (root / "supplier/pages/two-layer.html").exists(), (code, row))
+
+
+def test_text_not_utf8_recorded(tmp):
+    root = new_root(tmp, "notutf8recorded")
+    manifest = write_manifest(root, [entry("page", "supplier/pages/two-layer.html", body=LAYOUT_A,
+                                           text_sha256=text_sha(LAYOUT_A))])
+    code, report = run(manifest, Fake({"https://example.invalid/page": NOT_UTF8}))
+    row = rows_by_id(report)["page"]
+    check("69: bytes that are not UTF-8 exit 1 with status changed and no observed text hash",
+          code == 1 and row["hash_status"] == "changed" and row["text_status"] == "changed"
+          and row["observed_text_sha256"] is None, (code, row))
+
+
+def test_text_plain_entry(tmp):
+    root = new_root(tmp, "textplain")
+    manifest = write_manifest(root, [entry("page", "supplier/pages/plain.html", body=PLAIN,
+                                           magic=None, content_type="text/plain")])
+    code, report = run(manifest, Fake({"https://example.invalid/page": PLAIN}))
+    row = rows_by_id(report)["page"]
+    check("70: a plain-text entry with a byte match exits 0 and reports no text hash",
+          code == 0 and row["observed_text_sha256"] is None and row["text_status"] is None, (code, row))
 
 
 def main():
