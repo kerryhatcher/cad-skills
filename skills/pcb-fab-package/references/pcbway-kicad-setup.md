@@ -20,7 +20,7 @@ Source page: https://www.pcbway.com/capabilities.html
 
 ## Source rule
 
-The profiles fail closed. For each item, the profile uses the stricter of the standard-table value and the normal-process value of the advanced table. If the standard table gives no value, the profile uses the normal-process value.
+The profiles fail closed. For each item, the profile uses the stricter of the standard-table value and the normal-process value of the advanced table. If the standard table gives no value for an item that the profile records, the profile uses the normal-process value.
 
 The profile notes give the standard-table values for each item that changed.
 
@@ -31,7 +31,7 @@ Each row gives its unit. Some values are in mil.
 | Setting | Two-layer profile | Four-layer profile | Note |
 |---|---|---|---|
 | Minimum trace width | 5 mil | 5 mil | Advanced table, normal process, 35 um outer copper. Standard table: 4 mil |
-| Minimum trace spacing | 6 mil | 6 mil | Advanced table, normal process, 35 um outer copper. The inner layers allow 5 mil |
+| Minimum trace spacing | 6 mil | 6 mil | Advanced table, normal process, 35 um outer copper. The normal process gives 5 mil on the inner layers |
 | Minimum annular ring | 10 mil (0.254 mm) | 10 mil (0.254 mm) | Advanced table, row 17, normal process, component hole. Standard table: 6 mil for a via pad |
 | Minimum drill | 0.2 mm | 0.2 mm | Advanced table, row 5, normal process. Standard table: 0.15 mm. A hole smaller than 0.2 mm or larger than 6 mm has an extra charge |
 | Copper to board edge, CNC milling | 0.25 mm | 0.25 mm | Advanced table, normal process |
@@ -59,13 +59,13 @@ Notes on the table:
 
 - The workflow has one minimum slot value for all slots. The profile uses 0.8 mm, the value for a non-plated slot. A plated slot from 0.5 mm to less than 0.8 mm fails this value. The profile keeps the plated value as manual evidence.
 - The four-layer profile limits each side to 600 mm. If a side is larger than 600 mm, the inner hole to copper spacing must be 15 mil or more.
-- The four-layer profile uses 5 mil and 6 mil for all layers. The normal process allows 4 mil width and 5 mil spacing on the inner layers. The profile is stricter there.
+- The four-layer profile uses 5 mil and 6 mil for all layers. The normal process gives 4 mil width and 5 mil spacing on the inner layers. The profile is stricter there.
 
 ## Conditions that no command examines
 
 No workflow row reads the board thickness, the mask color or the copper weight. The profiles record the values of the page as text limits in `manual_evidence`. The stop of the PCBWay profiles is the control for these conditions.
 
-- **Copper weight.** The profiles apply to 1 oz outer copper. The normal process of the advanced table, row 22, gives 0.5 oz to 4 oz for the outer layers. The standard table gives 1 oz to 8 oz. The 1 oz limit is inside both ranges. The four-layer profile records the inner copper weights of the standard table. The page gives no default inner copper weight.
+- **Copper weight.** The profiles apply to 1 oz outer copper. The normal process of the advanced table, row 22, gives 0.5 oz to 4 oz for the outer layers. The standard table gives 1 oz to 8 oz. The 1 oz limit is in both ranges. The four-layer profile records the inner copper weights of the standard table. The page gives no default inner copper weight.
 - **Board thickness.** The standard table gives 0.2 mm to 3.2 mm, in 13 options. The profile uses 0.3 mm (two-layer) or 0.6 mm (four-layer) as the minimum, as the table above shows. The 0.2 mm option is below both minimums. The normal process gives a maximum board thickness for each drill size. For a 0.20 mm hole, the maximum board thickness is 1.6 mm. The profile does not check the board thickness.
 - **Mask color.** The standard table gives ten options, including purple and none. The normal process, row 24, gives eight: green, matt green, blue, red, black, matte black, white and yellow. The page gives no extra charge for green, red, yellow and blue. The bridge depends on the oil color. Green oil uses 4 mil when the spacing between ICs is 8 mil. Variegated or black oil uses 4.5 mil or more. The profile uses 4.5 mil for each color.
 

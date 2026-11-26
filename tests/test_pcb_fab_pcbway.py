@@ -234,8 +234,8 @@ def test_pcbway_strict_values():
 
 # The one rule of the source (review M1, amendment J). The profile notes and the reference both state it.
 RULE_SENTENCE = ("For each item, the profile uses the stricter of the standard-table value and the normal-process "
-                 "value of the advanced table. If the standard table gives no value, the profile uses the "
-                 "normal-process value.")
+                 "value of the advanced table. If the standard table gives no value for an item that the profile "
+                 "records, the profile uses the normal-process value.")
 # Each compared limit: its kind, and the page values (value, unit) of the standard table and the normal process.
 # The profile value must be the stricter of these values. A limit with one value uses that value.
 COMPARED_TWO_LAYER = {
