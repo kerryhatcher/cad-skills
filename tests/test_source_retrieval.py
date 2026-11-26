@@ -727,6 +727,17 @@ def test_text_rule(tmp):
           and FS.visible_text(b"<p>A<br>B</p>") == "A B", text)
 
 
+def test_text_rule_decl_pi_cdata_bom(tmp):
+    check("72: a doctype, a processing instruction and a CDATA section each give one space, and one leading"
+          " U+FEFF is removed",
+          FS.visible_text(b"A<!DOCTYPE x>B") == "A B" and FS.visible_text(b"A<?xml x?>B") == "A B"
+          and FS.visible_text(b"A<![CDATA[x]]>B") == "A B"
+          and FS.visible_text(b"\xef\xbb\xbfA") == "A"
+          and FS.visible_text(b"\xef\xbb\xbf<p>A</p>") == "A",
+          (FS.visible_text(b"A<!DOCTYPE x>B"), FS.visible_text(b"A<?xml x?>B"),
+           FS.visible_text(b"A<![CDATA[x]]>B"), FS.visible_text(b"\xef\xbb\xbfA")))
+
+
 
 def test_text_hash_value(tmp):
     check("58: the text hash is the SHA-256 of the UTF-8 visible text, layout bytes share one text hash,"

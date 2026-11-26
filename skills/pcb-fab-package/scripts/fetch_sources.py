@@ -97,7 +97,8 @@ def magic_status(token, data):
 
 
 class _VisibleText(html.parser.HTMLParser):
-    """Collect the visible page text. Each tag, removed element and comment becomes one space."""
+    """Collect the visible page text. Each tag, removed element, comment, declaration, processing
+    instruction and CDATA section becomes one space."""
 
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -117,6 +118,15 @@ class _VisibleText(html.parser.HTMLParser):
     def handle_comment(self, data):
         self.parts.append(" ")
 
+    def handle_decl(self, decl):
+        self.parts.append(" ")
+
+    def handle_pi(self, data):
+        self.parts.append(" ")
+
+    def unknown_decl(self, data):
+        self.parts.append(" ")
+
     def handle_data(self, data):
         if self.hidden == 0:
             self.parts.append(data)
@@ -125,13 +135,17 @@ class _VisibleText(html.parser.HTMLParser):
 def visible_text(data):
     """Return the visible page text of the bytes.
 
-    Replace each tag with one space. Replace each script, style and noscript element, and each comment,
-    with one space. Their text is not visible page text. Decode HTML entities. Collapse each run of
-    whitespace to one space. Remove the whitespace at the two ends. Decode the bytes as strict UTF-8
-    and raise UnicodeDecodeError for bytes that are not UTF-8.
+    Replace each tag, doctype, processing instruction, CDATA section, removed script, style and noscript
+    element, and comment, with one space. Their text is not visible page text. Decode HTML entities.
+    Collapse each run of whitespace to one space. Remove the whitespace at the two ends. Remove one leading
+    U+FEFF before the rule. Decode the bytes as strict UTF-8 and raise UnicodeDecodeError for bytes that
+    are not UTF-8.
     """
     parser = _VisibleText()
-    parser.feed(data.decode("utf-8"))
+    text = data.decode("utf-8")
+    if text.startswith("\ufeff"):
+        text = text[1:]  # one leading U+FEFF is a byte order mark, not page text
+    parser.feed(text)
     parser.close()
     return " ".join("".join(parser.parts).split())
 
