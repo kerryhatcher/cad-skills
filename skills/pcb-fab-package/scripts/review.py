@@ -42,6 +42,8 @@ PAGE_SETS = {
     "oshpark-six-layer": {"six-layer"},
     "jlcpcb-two-layer": {"jlcpcb-pcb-capabilities"},
     "jlcpcb-four-layer": {"jlcpcb-pcb-capabilities"},
+    "pcbway-two-layer": {"pcbway-capabilities"},
+    "pcbway-four-layer": {"pcbway-capabilities"},
 }
 DECISIONS = ("unchanged", "harmless", "material")
 CONTROL = re.compile(r"[\x00-\x1f\x7f]")

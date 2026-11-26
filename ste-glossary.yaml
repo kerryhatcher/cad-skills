@@ -666,6 +666,50 @@ technical_nouns:
     inflections: []
   - word: "stop"
     inflections: ["stops"]
+  - word: "mm"
+    inflections: []
+  - word: "mil"
+    inflections: []
+  - word: "oz"
+    inflections: []
+  - word: "um"
+    inflections: []
+  - word: "copper"
+    inflections: []
+  - word: "standard table"
+    inflections: ["standard tables"]
+  - word: "advanced table"
+    inflections: ["advanced tables"]
+  - word: "normal process"
+    inflections: ["normal processes"]
+  - word: "multilayer"
+    inflections: []
+  - word: "single-sided"
+    inflections: []
+  - word: "double-sided"
+    inflections: []
+  - word: "blind via"
+    inflections: ["blind vias"]
+  - word: "buried via"
+    inflections: ["buried vias"]
+  - word: "HDI"
+    inflections: []
+  - word: "IC"
+    inflections: ["ICs"]
+  - word: "oil"
+    inflections: []
+  - word: "variegated"
+    inflections: []
+  - word: "mask bridge"
+    inflections: ["mask bridges"]
+  - word: "mask color"
+    inflections: ["mask colors"]
+  - word: "reviewer"
+    inflections: ["reviewers"]
+  - word: "CNC milling"
+    inflections: []
+  - word: "mill tool"
+    inflections: ["mill tools"]
 technical_verbs:
   - word: "build"
     part_of_speech: verb

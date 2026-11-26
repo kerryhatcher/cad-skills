@@ -143,6 +143,7 @@ The radius comparison uses the pcbnew integer nanometer radius, not the topology
 
 - `references/oshpark-kicad-setup.md`: project-authored KiCad setup for the OSH Park Gerber route. It separates checked values, recommendations, margins and manual steps.
 - `references/jlcpcb-kicad-setup.md`: project-authored KiCad setup for the JLCPCB route. The JLCPCB profiles have data only. See this file for the commands that end with exit 2.
+- `references/pcbway-kicad-setup.md`: project-authored KiCad setup for the PCBWay route. The PCBWay profiles have data only. See this file for the commands that end with exit 2.
 - `scripts/fetch_sources.py`: source retrieval for the manifest. It checks every entry before the first fetch, confines the profile and destination paths, and never writes a profile or a changed source.
 - `scripts/recheck_sources.py`: release re-check. It runs `fetch_sources.py` in check-only mode and prints a report.
 - `scripts/make_rules.py`: generator for `supplier/rules/*.kicad_dru`. The generator uses the rule function of `workflow.py`.
@@ -156,4 +157,4 @@ The radius comparison uses the pcbnew integer nanometer radius, not the topology
 - `scripts/via_inventory.py`: container worker that measures via spans without a board change.
 - `scripts/corner_inventory.py`: container worker that measures supported corner geometry.
 - `scripts/board_inventory.py`, `scripts/validate.py`, `scripts/project_io.py`: byte copies.
-- `contracts/`, `runtime/`, `supplier/`: byte copies, the seven profile records and the seven generated rule files. The JLCPCB profiles have data only. See `references/jlcpcb-kicad-setup.md`.
+- `contracts/`, `runtime/`, `supplier/`: byte copies, the nine profile records and the nine generated rule files. The JLCPCB and PCBWay profiles have data only. See `references/jlcpcb-kicad-setup.md` and `references/pcbway-kicad-setup.md`.
