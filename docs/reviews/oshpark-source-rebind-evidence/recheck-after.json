@@ -1,0 +1,111 @@
+{
+  "actions": [
+    "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-four-layer.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+    "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-single-layer.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+    "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-six-layer.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+    "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-two-layer-hhdc.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+    "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-two-layer.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report."
+  ],
+  "entries": [
+    {
+      "action": "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-single-layer.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-single-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "68db5396f11073ff49daf4af4ee257e9fd291b57fcb60bd349fe53df216307bb",
+      "observed_text_sha256": "ce48f1dd32c83d362161e678c1931adb881c48af42e630dc0727a746a08ec843",
+      "profile_binding": "supplier/profiles/oshpark-single-layer.yaml",
+      "recorded_sha256": "07f95f3cbc3fedda605f9c1751c87834aea1ea451c929e1a42aed3951657ee9b",
+      "recorded_text_sha256": "ce48f1dd32c83d362161e678c1931adb881c48af42e630dc0727a746a08ec843",
+      "retrieved": "2026-11-26",
+      "status": "layout",
+      "text_status": "match",
+      "url": "https://docs.oshpark.com/services/single-layer/"
+    },
+    {
+      "action": "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-two-layer.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-two-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "466f8a7455af1d2338f469baad317438a160bd26b961f44e59b3df1c96d18843",
+      "observed_text_sha256": "ecd1d62828ac8bbfe1023db7e87d10ce4bf68f921464787ec624a4ad1bac727f",
+      "profile_binding": "supplier/profiles/oshpark-two-layer.yaml",
+      "recorded_sha256": "fae87affe67341bcd6674a406add9f705ae0465da797e23463aef86b3004c2d1",
+      "recorded_text_sha256": "ecd1d62828ac8bbfe1023db7e87d10ce4bf68f921464787ec624a4ad1bac727f",
+      "retrieved": "2026-11-26",
+      "status": "layout",
+      "text_status": "match",
+      "url": "https://docs.oshpark.com/services/two-layer/"
+    },
+    {
+      "action": "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-two-layer-hhdc.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-two-layer-hhdc-html",
+      "magic_status": "ok",
+      "observed_sha256": "46bef21f78793f6a655c5d98249c32e8de6ed508dbc46f7598525470acd3768b",
+      "observed_text_sha256": "549433196665c0c122db6afef0be333ff44980711d1828acac9a101b775e43da",
+      "profile_binding": "supplier/profiles/oshpark-two-layer-hhdc.yaml",
+      "recorded_sha256": "3ed7a43401b10ea7a781e10a40e973a6155b14d9955b96f718ef643d1a23fd58",
+      "recorded_text_sha256": "549433196665c0c122db6afef0be333ff44980711d1828acac9a101b775e43da",
+      "retrieved": "2026-11-26",
+      "status": "layout",
+      "text_status": "match",
+      "url": "https://docs.oshpark.com/services/two-layer-hhdc/"
+    },
+    {
+      "action": "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-four-layer.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-four-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "e2e31e41e00e5605efa50fbefb12182d2f5ac96097a6d336e8a8f65aabb7a702",
+      "observed_text_sha256": "94ad5301df55e3f408ffe651087872d0a724f8836a471eb2eea7a160316a91fd",
+      "profile_binding": "supplier/profiles/oshpark-four-layer.yaml",
+      "recorded_sha256": "4eb0af38b6dfaed2d33adde1c72605d9e1431e5925e61539be89ebc00c8dd1cc",
+      "recorded_text_sha256": "94ad5301df55e3f408ffe651087872d0a724f8836a471eb2eea7a160316a91fd",
+      "retrieved": "2026-11-26",
+      "status": "layout",
+      "text_status": "match",
+      "url": "https://docs.oshpark.com/services/four-layer/"
+    },
+    {
+      "action": "The page bytes changed, but the visible text is the same. The text rules did not change. A new source review of supplier/profiles/oshpark-six-layer.yaml is not necessary. fetch_sources.py does not write this page. A person rebinds the byte hash at the next source review. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-six-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "7f9816823d7e7429760fa68b76124767c6552b8d4b0f1e622e556a1952cd92f5",
+      "observed_text_sha256": "bc02ae797ce7f0f24ebe95293de7ad4867b30e7feb314eaf6507c6fbb7ae7f3a",
+      "profile_binding": "supplier/profiles/oshpark-six-layer.yaml",
+      "recorded_sha256": "f92c6f15f673801569db0fe097d12e73d9b85aea297644915c43966a451ab4e2",
+      "recorded_text_sha256": "bc02ae797ce7f0f24ebe95293de7ad4867b30e7feb314eaf6507c6fbb7ae7f3a",
+      "retrieved": "2026-11-26",
+      "status": "layout",
+      "text_status": "match",
+      "url": "https://docs.oshpark.com/services/six-layer/"
+    }
+  ],
+  "exit": 0,
+  "manifest_sha256": "1bd7c4661cd11739385a3a62a3eefc1c199bfadf247d4a2195bd74842f91eb79",
+  "overall": "match or layout",
+  "run_utc": "2026-11-26T18:15:42Z",
+  "schema": "cad-skills/source-recheck",
+  "schema_version": 1,
+  "watch": [
+    {
+      "entry": "oshpark-four-layer-html",
+      "note": "Examine the temporary alternate stackup note on the page.",
+      "since": "2026-01-28",
+      "status": "layout"
+    },
+    {
+      "entry": "oshpark-six-layer-html",
+      "note": "Examine the lead time on the page. It changed on 2025-12-15.",
+      "since": "2025-12-15",
+      "status": "layout"
+    }
+  ]
+}

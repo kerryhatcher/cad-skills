@@ -25,8 +25,8 @@
     "source_page": "stored supplier page",
     "substrate": "175Tg FR4 (Kingboard KB6167F)"
   },
-  "profile_file_sha256": "b93f39912727df298ae332db3b840818587158e723a349a135864b4760e02cab",
-  "profile_sha256": "e3f2789d1033aa284750002b6d71798ca2931d079a5fc0d989938bf9d8b172b9",
+  "profile_file_sha256": "b083ff9228441d87acb34753cd8da28e41f4677817852e6a20864b57c941d2ec",
+  "profile_sha256": "5d53abbbd708a29f5ae0ed711869c6a3726816daf548c632b3038d92c0ab13b2",
   "release_id": "design-run",
   "stackup": "2-layer",
   "unit": "mm"
