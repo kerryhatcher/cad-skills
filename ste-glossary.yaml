@@ -650,6 +650,22 @@ technical_nouns:
     inflections: ["watch items"]
   - word: "checklist"
     inflections: ["checklists"]
+  - word: "substrate"
+    inflections: ["substrates"]
+  - word: "laminate"
+    inflections: ["laminates"]
+  - word: "via-in-pad"
+    inflections: []
+  - word: "order multiple"
+    inflections: ["order multiples"]
+  - word: "copper weight"
+    inflections: []
+  - word: "cutter diameter"
+    inflections: ["cutter diameters"]
+  - word: "finished thickness"
+    inflections: []
+  - word: "stop"
+    inflections: ["stops"]
 technical_verbs:
   - word: "build"
     part_of_speech: verb

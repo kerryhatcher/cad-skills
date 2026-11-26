@@ -105,3 +105,23 @@ sources:
     license_state: "copyright 2023 OSH Park, LLC shown on the page; no license or reuse terms found (fetched 2026-11-15); not a permission"
     distribution_decision: exclude-local-evidence
     profile_binding: null
+  - id: jlcpcb-pcb-capabilities-html
+    path: supplier/pages/jlcpcb-pcb-capabilities.html
+    url: https://jlcpcb.com/capabilities/pcb-capabilities
+    retrieved: "2026-11-26"
+    sha256: 4193afa719af2144c3c25f097ba93c3787d250a8f2db70051a37a91caaced169
+    content_type: text/html
+    magic: markup
+    license_state: "copyright 2026 JLCPCB.COM shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
+    distribution_decision: exclude-full-copy
+    profile_binding: supplier/profiles/jlcpcb-two-layer.yaml
+  - id: jlcpcb-pcb-capabilities-headers
+    path: supplier/pages/jlcpcb-pcb-capabilities.headers
+    url: https://jlcpcb.com/capabilities/pcb-capabilities
+    retrieved: "2026-11-26"
+    sha256: 38feee70df40ba6393d7c7ef0376158b03dff184c1a2b330062b593021dcaf02
+    content_type: text/plain
+    magic: null
+    license_state: "copyright 2026 JLCPCB.COM shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
+    distribution_decision: exclude-local-evidence
+    profile_binding: null

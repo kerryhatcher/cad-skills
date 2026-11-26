@@ -57,7 +57,7 @@ def mutated_profile(tmp, change):
 def test_profiles(tmp):
     for path in sorted((SKILL / "supplier" / "profiles").glob("*.yaml")):
         fab.check_profile(path)
-    check("five profiles validate", len(list((SKILL / "supplier" / "profiles").glob("*.yaml"))) == 5)
+    check("seven profiles validate", len(list((SKILL / "supplier" / "profiles").glob("*.yaml"))) == 7)
     for label, change, text in [
         ("unknown division key", lambda p: p["division"]["kicad_dru"].append("no_such_limit"), "names no limit"),
         ("duplicate division key", lambda p: p["division"]["geometric_tests"].append("min_trace"), "used twice"),
