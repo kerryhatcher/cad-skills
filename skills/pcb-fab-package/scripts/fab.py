@@ -429,7 +429,7 @@ def _review_source(a, project):
     profile_path = pathlib.Path(a["--profile"])
     profile = check_profile(profile_path)
     out = pathlib.Path(a["--out"])
-    # Confine the path first, so that an outside path never gets the destination message.
+    # Make sure that the path is in the project first. Thus an outside path never gets the destination message.
     PIO.confine(project, out)
     if out.exists():
         return _fail(EXIT_ARGS, "the destination exists")
@@ -530,8 +530,8 @@ def main(argv):
         return _fail(EXIT_ARGS, f"the project is locked: {err}")
     except workflow.Stop as err:
         return _fail(err.code, str(err))
-    # PIO.SymlinkTarget subclasses PIO.PathEscape, so it must come first.
-    # These clauses apply to every command. PIO.atomic_write raises them in other commands too.
+    # PIO.SymlinkTarget subclasses PIO.PathEscape. Thus it must come first.
+    # These clauses apply to each command. PIO.atomic_write raises them in other commands too.
     except PIO.SymlinkTarget as err:
         return _fail(EXIT_ARGS, f"{err} Give an output path that is not a symbolic link.")
     except PIO.PathEscape as err:
