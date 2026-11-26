@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cad-skills",
+  "description": "Agent skills for CAD, 3D printing and PCB work",
+  "owner": {
+    "name": "Kerry Hatcher"
+  },
+  "plugins": [
+    {
+      "name": "cad-skills",
+      "source": "./plugins/cad-skills",
+      "description": "Skills for code-CAD with CadQuery, FEA, FDM print preparation, PrusaSlicer, and KiCad PCB and PCBA work.",
+      "version": "1.0.0",
+      "category": "development",
+      "homepage": "https://github.com/kerryhatcher/cad-skills",
+      "keywords": ["cad", "cadquery", "3d-printing", "fea", "prusaslicer", "kicad", "pcb", "pcba"]
+    }
+  ]
+}

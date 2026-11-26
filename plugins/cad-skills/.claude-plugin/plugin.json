@@ -1,0 +1,10 @@
+{
+  "name": "cad-skills",
+  "version": "1.0.0",
+  "description": "Skills for code-CAD with CadQuery, FEA, FDM print preparation, PrusaSlicer, and KiCad PCB and PCBA work.",
+  "author": { "name": "Kerry Hatcher" },
+  "homepage": "https://github.com/kerryhatcher/cad-skills",
+  "repository": "https://github.com/kerryhatcher/cad-skills",
+  "license": "MIT",
+  "keywords": ["cad", "cadquery", "3d-printing", "fea", "prusaslicer", "kicad", "pcb", "pcba"]
+}
