@@ -234,7 +234,7 @@ def test_mask():
 
 
 def test_mask_units(tmp):
-    """The mask command accepts the limit in mm or mil. A bad limit gives exit 2 and no report."""
+    """The mask command accepts the limit in mm or mil. An incorrect limit gives exit 2 and no report."""
     for name, expected in (("m39", "fail"), ("m40", "uncertain"), ("m41", "pass")):
         code_mil, data_mil = mask(name)
         code_mm, data_mm, existed = mask_args(name, "--limit-mm", "0.1016")
@@ -279,6 +279,11 @@ def test_mask_units(tmp):
             code = fab.run_mask_worker(g, value, str(report), **kwargs)
             check(f"run_mask_worker refuses {value} {kwargs} with exit 2 and no report",
                   code == 2 and not report.exists(), (code, report.exists()))
+        report = tmp / "r10.json"
+        code = fab.run_mask_worker(g, "0.1234567890123456789012345678", str(report), unit="in")
+        args = json.loads(report.read_text()) if report.exists() else []
+        check("run_mask_worker converts a 28-digit value in inches exactly to millimeters",
+              code == 0 and "3.13580244091358024409135802212" in args, (code, args))
     finally:
         if old is None:
             os.environ.pop("PCB_FAB_MASK_WORKER", None)

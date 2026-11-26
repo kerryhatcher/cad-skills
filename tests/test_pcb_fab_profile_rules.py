@@ -99,6 +99,16 @@ def test_rules_text_bad_value():
         expect(code == workflow.EXIT_UNSUPPORTED, f"The value {value!r} gives the code {code}, not 2.")
 
 
+def test_rules_text_exact_28_digits():
+    """A value with 28 significant digits converts exactly to millimeters."""
+    profile = profile_copy()
+    profile["limits"]["min_trace"] = dict(profile["limits"]["min_trace"],
+                                          value="0.1234567890123456789012345678", unit="in")
+    text = workflow.supplier_rules_text(profile)
+    expect('(rule "supplier_min_trace" (constraint track_width (min 3.13580244091358024409135802212mm)))' in text,
+           f"The 28-digit rule text is incorrect:\n{text}")
+
+
 def test_unit_tables_agree():
     """The workflow and fab tables give the same factor for each unit."""
     expect(set(workflow.RULE_UNIT_MM) == set(fab.UNIT_MM), "The two unit tables have different units.")
@@ -226,6 +236,11 @@ def test_check_division_refuses():
     profile = profile_copy()
     profile["extensions"]["service.order_multiple"] = {"kind": "not_stated"}
     cases.append((profile, "The profile states no order multiple. The workflow cannot examine the order quantity."))
+    for key in ("min_trace", "edge_keepout", "mask_web_min"):
+        for value in ("abc", "nan", "inf", 0, -1):
+            profile = profile_copy()
+            profile["limits"][key] = dict(profile["limits"][key], value=value)
+            cases.append((profile, f"the limit {key} must have a finite value greater than 0"))
     try:
         for profile, wanted in cases:
             code, message = stop_of(workflow.check_division, profile)
@@ -280,17 +295,25 @@ def test_validate_optional_rows_from_profile():
 
 
 def test_commands_stop_before_container():
-    """The design and supplier commands stop a bad division before any container job."""
+    """The design and supplier commands stop an incorrect division before any container job."""
     import test_pcb_fab_workflow as base
     with tempfile.TemporaryDirectory() as directory:
         tmp = Path(directory)
+        records = {}
         record = json.loads((SKILL / "supplier/profiles/oshpark-two-layer.yaml").read_text())
         record["division"]["geometric_tests"].remove("board_max_height")
         del record["limits"]["board_max_height"]
         record["content_sha256"] = fab.content_hash(record)
-        bad = tmp / "bad.yaml"
-        bad.write_text(json.dumps(record, indent=2) + "\n")
-        fab.check_profile(bad)
+        records["missing"] = record
+        record = json.loads((SKILL / "supplier/profiles/oshpark-two-layer.yaml").read_text())
+        record["limits"]["min_trace"] = dict(record["limits"]["min_trace"], value="abc")
+        record["content_sha256"] = fab.content_hash(record)
+        records["value"] = record
+        bad = {}
+        for label, record in records.items():
+            bad[label] = tmp / f"{label}.yaml"
+            bad[label].write_text(json.dumps(record, indent=2) + "\n")
+            fab.check_profile(bad[label])
         calls = []
 
         def no_container(*args, **kwargs):
@@ -301,13 +324,14 @@ def test_commands_stop_before_container():
         workflow.podman, workflow.runtime_identity = no_container, no_container
         try:
             project = base.fresh_project(tmp, "bad")
-            code, message = stop_of(workflow.design, project, bad, project / "out/fab/design")
-            expect(code == 2 and "board_max_height" in message and calls == [],
-                   f"design gives the code {code} and the message {message!r}.")
-            code, message = stop_of(workflow.supplier, project, bad, project / "out/fab/supplier",
-                                    project / "out/fab/design")
-            expect(code == 2 and "board_max_height" in message and calls == [],
-                   f"supplier gives the code {code} and the message {message!r}.")
+            for label, name in (("missing", "board_max_height"), ("value", "min_trace")):
+                code, message = stop_of(workflow.design, project, bad[label], project / "out/fab/design")
+                expect(code == 2 and name in message and calls == [],
+                       f"design for {label} gives the code {code} and the message {message!r}.")
+                code, message = stop_of(workflow.supplier, project, bad[label], project / "out/fab/supplier",
+                                        project / "out/fab/design")
+                expect(code == 2 and name in message and calls == [],
+                       f"supplier for {label} gives the code {code} and the message {message!r}.")
         finally:
             workflow.podman, workflow.runtime_identity = old_podman, old_runtime
 

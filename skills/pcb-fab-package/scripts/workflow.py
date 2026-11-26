@@ -22,7 +22,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -52,8 +51,8 @@ REPORT_KEYS = {
     "plated_drill_to_internal_copper": ("hole_clearance",),
     "edge_keepout": ("copper_edge_clearance",),
 }
-# The exact factor of each supported unit to millimeters. The values are decimal, thus the rule text is exact.
-RULE_UNIT_MM = {"mm": Decimal(1), "mil": Decimal("0.0254"), "in": Decimal("25.4")}
+# The exact factor of each supported unit to millimeters, as a fraction. The rule text is exact.
+RULE_UNIT_MM = {"mm": Fraction(1), "mil": Fraction(127, 5000), "in": Fraction(127, 5)}
 
 
 def violations_for(counts, key):
@@ -326,12 +325,12 @@ def supplier_rules_text(profile):
         if not isinstance(unit, str) or unit not in RULE_UNIT_MM:
             raise Stop(EXIT_UNSUPPORTED, f"the rule {key} has the unsupported unit {unit!r}. Use mm, mil or in.")
         try:
-            mm = Decimal(str(limit["value"])) * RULE_UNIT_MM[unit]
-        except InvalidOperation:
+            mm = Fraction(str(limit["value"])) * RULE_UNIT_MM[unit]
+        except ValueError:
             raise Stop(EXIT_UNSUPPORTED, f"the value of the rule {key} is not a number.")
-        if not mm.is_finite() or mm <= 0:
+        if mm <= 0:
             raise Stop(EXIT_UNSUPPORTED, f"the rule {key} must have a finite value greater than 0.")
-        lines.append(f'(rule "supplier_{key}" (constraint {RULE_CONSTRAINT[key]} (min {format(mm.normalize(), "f")}mm)))')
+        lines.append(f'(rule "supplier_{key}" (constraint {RULE_CONSTRAINT[key]} (min {fab.mm_text(mm)}mm)))')
     return "\n".join(lines) + "\n"
 
 
@@ -346,7 +345,7 @@ def effective_pro(project_pro_bytes, profile):
     return json.dumps(data, indent=2, sort_keys=True) + "\n"
 
 
-# The division names that the workflow measures. Each profile must have all of them (decision B2).
+# The division names that the workflow measures. Each profile must have all five of them.
 GEOMETRIC_ROWS = ("board_min_edge", "board_max_width", "board_max_height", "min_slot_size", "mask_web_min")
 CORE_KICAD_DRU = ("min_trace", "min_space", "min_annular_ring", "min_drill", "edge_keepout")
 MASK_SIDE_ROWS = ("mask_web_min_top", "mask_web_min_bottom")
@@ -389,8 +388,18 @@ def manual_rows(profile, silk_row):
     return rows
 
 
+def _limit_number(value):
+    """The exact number of a limit value, or None when the value is not a finite number greater than 0."""
+    try:
+        number = Fraction(str(value))
+    except (ValueError, TypeError):
+        return None
+    return number if number > 0 else None
+
+
 def check_division(profile):
-    """Stop a division that the workflow cannot measure. The core checks are required for each profile (decision B2)."""
+    """Stop a division that the workflow cannot measure. Each profile must have the five geometric tests
+    and the five core KiCad rules."""
     division = profile["division"]
     dru = division.get("kicad_dru", [])
     geometric = division.get("geometric_tests", [])
@@ -412,6 +421,10 @@ def check_division(profile):
             if name not in names:
                 raise Stop(EXIT_UNSUPPORTED, f"the profile has no {name} in division.{section}. "
                            "The workflow must examine this limit. Add it to the profile.")
+    for section in ("geometric_tests", "kicad_dru"):
+        for key in division.get(section, []):
+            if _limit_number(profile["limits"].get(key, {}).get("value")) is None:
+                raise Stop(EXIT_UNSUPPORTED, f"the limit {key} must have a finite value greater than 0.")
     manual = division.get("manual_evidence", [])
     if ("silk_line_min_short_text" not in manual
             or profile["limits"].get("silk_line_min_short_text", {}).get("kind") != "minimum"):

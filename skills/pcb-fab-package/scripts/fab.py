@@ -27,7 +27,6 @@ import pathlib
 import signal
 import subprocess
 import sys
-from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -381,6 +380,30 @@ def drawing_pdf(facts):
     return bytes(out)
 
 
+def mm_text(value):
+    """The exact decimal text of a millimeter value, without trailing zeros.
+
+    The value must be a terminating decimal. Otherwise the function raises ValueError.
+    """
+    value = Fraction(value)
+    num, den = value.numerator, value.denominator
+    twos = fives = 0
+    while den % 2 == 0:
+        den //= 2
+        twos += 1
+    while den % 5 == 0:
+        den //= 5
+        fives += 1
+    if den != 1:
+        raise ValueError(f"the value {value} is not a terminating decimal")
+    digits = max(twos, fives)
+    whole, frac = divmod(num, value.denominator)
+    if frac == 0:
+        return str(whole)
+    scaled = frac * 10 ** digits // value.denominator
+    return f"{whole}.{str(scaled).rjust(digits, '0').rstrip('0')}"
+
+
 MASK_TIMEOUT_SECONDS = 2.0
 MASK_LIMIT_FLAGS = {"mil": "--limit-mil", "mm": "--limit-mm"}  # the worker flag for each unit of the limit
 
@@ -397,13 +420,13 @@ def run_mask_worker(gerber, limit, report, unit="mil"):
     if rep.exists() or rep.is_symlink():
         return _fail(EXIT_ARGS, "the report path exists; give a fresh report path")
     try:
-        number = Decimal(limit)
-    except (InvalidOperation, TypeError):
+        number = Fraction(str(limit))
+    except (ValueError, TypeError):
         return _fail(EXIT_ARGS, f"the mask limit {limit!r} is not a number")
-    if not number.is_finite() or number <= 0:
+    if number <= 0:
         return _fail(EXIT_ARGS, "the mask limit must be a finite number greater than 0")
     if unit == "in":
-        limit, unit = format((number * Decimal("25.4")).normalize(), "f"), "mm"
+        limit, unit = mm_text(number * UNIT_MM["in"]), "mm"
     if unit not in MASK_LIMIT_FLAGS:
         return _fail(EXIT_ARGS, f"the mask limit unit {unit!r} is not supported. Use mm, mil or in.")
     worker = os.environ.get("PCB_FAB_MASK_WORKER") or str(HERE / "inspect_mask.py")

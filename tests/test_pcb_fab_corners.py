@@ -16,7 +16,7 @@ M_FAIL = {"corners": [{"location": "outline", "radius_nm": 863599}, {"location":
 
 
 def unit_checks():
-    """The cutter facts accept mm, mil and in with the same exact radius. A bad fact gives exit 2."""
+    """The cutter facts accept mm, mil and in with the same exact radius. An incorrect fact gives exit 2."""
     w = base.workflow
     profile = base.fab.check_profile(base.PROFILE)
 
