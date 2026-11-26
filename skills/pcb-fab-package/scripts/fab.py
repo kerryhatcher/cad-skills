@@ -48,10 +48,10 @@ PROFILE_PAGES = {
     "jlcpcb-two-layer": {"jlcpcb-pcb-capabilities"},
     "jlcpcb-four-layer": {"jlcpcb-pcb-capabilities"},
 }
-# Only these profiles have the OSH Park facts that the workflow needs. Other profiles have data only (decision Q2).
+# Only these profiles have the OSH Park facts that the workflow uses. Other profiles have data only (decision Q2).
 WORKFLOW_PROFILES = {"oshpark-single-layer", "oshpark-two-layer", "oshpark-two-layer-hhdc",
                      "oshpark-four-layer", "oshpark-six-layer"}
-DIVISION_KEYS = ("kicad_dru","project_settings", "geometric_tests", "manual_evidence")
+DIVISION_KEYS = ("kicad_dru", "project_settings", "geometric_tests", "manual_evidence")
 EXIT_OK, EXIT_FAIL, EXIT_ARGS, EXIT_TOOL = 0, 1, 2, 3
 UNIT_MM = {"mm": Fraction(1), "mil": Fraction(254, 10000), "in": Fraction(254, 10)}
 LIVE_DIR = ("out", "fab", "source-review", "live")
@@ -157,15 +157,15 @@ def check_profile(path):
 
 
 def refuse_data_only(profile_path, command):
-    """Stop a command that needs OSH Park facts when the profile has data only (decision Q2).
+    """Stop a command that reads the OSH Park facts when the profile has data only (decision Q2).
 
     Read only the profile id. Read no page, no project and no lock. A profile id that is not
     in WORKFLOW_PROFILES is refused, so a new profile gets the same stop by default."""
     pid = VAL.load_record(profile_path)["id"]
     if pid not in WORKFLOW_PROFILES:
         raise workflow.Stop(workflow.EXIT_UNSUPPORTED,
-                            f"the profile {pid} has data only. The command {command} needs facts that only "
-                            "the OSH Park profiles have. Use profile, judge or review-source. "
+                            f"the profile {pid} has data only. The command {command} does not run for it. "
+                            "Use profile, judge or review-source. "
                             "See references/jlcpcb-kicad-setup.md.")
 
 

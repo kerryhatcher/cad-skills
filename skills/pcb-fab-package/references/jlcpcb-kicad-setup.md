@@ -1,6 +1,6 @@
 # KiCad board setup for the JLCPCB route
 
-This reference is project-written. It describes the JLCPCB capability page for rigid PCBs. The project read the page on 2026-11-26 UTC. This reference does not copy the page text.
+This reference is project-authored. It describes the JLCPCB capability page for rigid PCBs. The project read the page on 2026-11-26 UTC. This reference does not copy the page text.
 
 Source page: https://jlcpcb.com/capabilities/pcb-capabilities
 
@@ -22,7 +22,7 @@ Source page: https://jlcpcb.com/capabilities/pcb-capabilities
 
 ## Limit values
 
-Each value is in millimeters. No command examines these values for a JLCPCB profile. Each limit is data only.
+Each value is in millimeters. No workflow row of a JLCPCB profile examines these values. Use the `judge` command to compare one measured value with one limit. Each limit is data only.
 
 | Setting | Two-layer profile | Four-layer profile | Note |
 |---|---|---|---|
@@ -52,7 +52,7 @@ Limit direction:
 
 Notes on the table:
 
-- The workflow has one minimum slot value for all slots. The profile uses 1.0 mm, the value for a non-plated slot. A plated slot of 0.5 mm or 0.35 mm would fail this value. The profile keeps the plated value as manual evidence.
+- The workflow has one minimum slot value for all slots. The profile uses 1.0 mm, the value for a non-plated slot. A plated slot of 0.5 mm or 0.35 mm fails this value. The profile keeps the plated value as manual evidence.
 - Where the page gives more than one value for a setting, the profile uses the safer value.
 
 ## Conditions that no command examines
@@ -61,7 +61,7 @@ The workflow reads no board thickness, no mask color and no copper weight. The p
 
 Do not describe a JLCPCB package from this repository as ready for production. A follow-up must add these facts to the board record first.
 
-- **Thickness.** The page gives a minimum board dimension for thicknesses of 0.6 mm or more. The page sends thinner boards to manual review. The profile uses the lower maximum board dimension for all thicknesses.
+- **Thickness.** The page gives a minimum board dimension for thicknesses of 0.6 mm or more. The page gives manual review for a thickness below 0.6 mm. The maximum board size is 599 x 497 mm below 0.8 mm. The page gives 670 x 600 mm for two-layer and 663 x 593 mm for four-layer FR4 at 0.8 mm or more. The profile uses the lower maximum board dimension for all thicknesses.
 - **Mask color.** The profile uses the bridge value for black and white. Other colors can use a smaller bridge. The profile value is larger than needed for those colors.
 - **Copper weight.** The profiles apply to 1 oz finished outer copper only. The page gives larger values for trace, space, annular ring and bridge at 2 oz and heavier copper. These values are out of scope. The inner copper of the four-layer profile is 0.5 oz by default.
 

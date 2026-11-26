@@ -7,7 +7,7 @@
   "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
   "retrieved": "2026-11-26",
   "evidence_sha256": "4193afa719af2144c3c25f097ba93c3787d250a8f2db70051a37a91caaced169",
-  "content_sha256": "7f89486aad3fef2e27e6ac4bbadb821aec40b4b912efc6c02da07a53e936bc20",
+  "content_sha256": "dff3a0a03866e813107963ea8fa80987a15c4792a0a86b09d5ac131653b1f4a8",
   "units": "mm",
   "limits": {
     "board_max_height": {
@@ -183,7 +183,7 @@
       "kind": "recommendation",
       "scope": "fabrication",
       "value_kind": "text",
-      "value": "The minimum board size applies at 0.6 mm or thicker. The maximum board size applies at 0.8 mm or thicker: 670 x 600 mm for two-layer and 663 x 593 mm for four-layer FR4. The page sends thinner boards to manual review.",
+      "value": "The minimum board size applies at 0.6 mm or thicker. The page gives manual review for a board thinner than 0.6 mm. The maximum board size applies at 0.8 mm or thicker: 670 x 600 mm for two-layer and 663 x 593 mm for four-layer FR4. Below 0.8 mm, the maximum board size is 599 x 497 mm.",
       "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
       "retrieved": "2026-11-26"
     },

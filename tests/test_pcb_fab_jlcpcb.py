@@ -278,7 +278,7 @@ def test_jlcpcb_cli_stops():
             for cmd, args in commands.items():
                 code, out = run_cli(path_env, *args)
                 expect(code == 2, f"{pid} {cmd}: exit {code}. Expected 2. Output: {out}")
-                expect("has data only" in out and f"The command {cmd} needs" in out,
+                expect("has data only" in out and f"The command {cmd} does not run" in out,
                        f"{pid} {cmd}: the stop message is missing. Output: {out}")
             expect(not marker.exists(), f"{pid}: a container job started (the podman stub ran).")
             expect(sorted(p.name for p in project.iterdir()) == ["board.yaml"],
