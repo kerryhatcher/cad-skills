@@ -375,6 +375,16 @@ technical_nouns:
     inflections: ["rotations"]
   - word: "rule"
     inflections: ["rules"]
+  - word: "rule file"
+    inflections: ["rule files"]
+  - word: "generator"
+    inflections: ["generators"]
+  - word: "board"
+    inflections: ["boards"]
+  - word: "command"
+    inflections: ["commands"]
+  - word: "workflow"
+    inflections: ["workflows"]
   - word: "safety factor"
     inflections: ["safety factors"]
   - word: "scikit-fem"
