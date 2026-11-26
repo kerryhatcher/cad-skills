@@ -634,6 +634,12 @@ technical_nouns:
     inflections: []
   - word: "handoff"
     inflections: []
+  - word: "re-check"
+    inflections: ["re-checks"]
+  - word: "watch item"
+    inflections: ["watch items"]
+  - word: "checklist"
+    inflections: ["checklists"]
 technical_verbs:
   - word: "build"
     part_of_speech: verb
