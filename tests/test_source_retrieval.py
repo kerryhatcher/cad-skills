@@ -20,10 +20,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "skills" / "pcb-fab-package" / "scripts"
+SKILL = ROOT / "skills" / "pcb-fab-package"
 PROFILES = ROOT / "skills" / "pcb-fab-package" / "supplier" / "profiles"
 sys.path.insert(0, str(SCRIPTS))
 import fetch_sources as FS  # noqa: E402
 import project_io as PIO  # noqa: E402
+sys.path.insert(0, str(ROOT / "tests"))
+import fab_fixture  # noqa: E402
 
 RESULTS = []
 PAGE = b"<!doctype html>\n<title>fixture page</title>\n"
@@ -864,6 +867,23 @@ def test_text_plain_entry(tmp):
     row = rows_by_id(report)["page"]
     check("70: a plain-text entry with a byte match exits 0 and reports no text hash",
           code == 0 and row["observed_text_sha256"] is None and row["text_status"] is None, (code, row))
+
+
+def test_fixture_drops_text_hash(tmp):
+    source = tmp / "fixture-source" / "pcb-fab-package"
+    shutil.copytree(SKILL, source, ignore=shutil.ignore_patterns("pages", "__pycache__"))
+    source_manifest = source / "sources.yaml"
+    data = yaml.safe_load(source_manifest.read_text())
+    for row in data["sources"]:
+        if row["distribution_decision"] == "exclude-full-copy":
+            row["text_sha256"] = "0" * 64
+    source_manifest.write_text(yaml.safe_dump(data, sort_keys=False))
+    skill = fab_fixture.fixture_skill(source)
+    out = yaml.safe_load((skill / "sources.yaml").read_text())
+    table = {row["url"]: (skill / row["path"]).read_bytes() for row in out["sources"]}
+    code, report = FS.main(["--manifest", str(skill / "sources.yaml"), "--check-only"], fetch=Fake(table))
+    check("71: the fixture manifest has no text_sha256 and its pages pass check-only",
+          all("text_sha256" not in row for row in out["sources"]) and code == 0, (code, report))
 
 
 def main():
