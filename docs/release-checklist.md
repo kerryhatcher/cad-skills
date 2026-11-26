@@ -47,7 +47,7 @@ Do not commit the report without the lead's approval.
 |---|---|---|
 | 0 | The hash of each fetched page matches the recorded hash, or only the layout changed (`layout`). | No new source review. For `layout`, do not edit the profile. |
 | 1 | A page changed, has no recorded hash, or has an incorrect magic token. | Follow "If a page changed". |
-| 1 | The bytes match, but the text hash does not match the visible text (`text-mismatch`). | Follow "If a page changed". |
+| 1 | The bytes match, but the text hash does not match the visible text (`text-mismatch`). | Follow "If only the text hash does not match". |
 | 2 | An argument, manifest, binding or watch problem. The command fetched no page. | Repair the problem. Run the command again. |
 | 3 | A fetch failed. The report also gives the pages that changed. | Follow "If a fetch failed". |
 
@@ -71,8 +71,21 @@ Read these two live pages by hand at each release, also when the hash is the sam
 4. If a rule value changes, change the profile in a separate commit. Then change the hash in `sources.yaml` and in the profile `evidence_pages`.
    When you change the `sha256` of an entry, also examine its `text_sha256`.
    If the entry is `markup` and `observed_text_sha256` is not `null`, write this value as `text_sha256` in `sources.yaml`.
-   If the entry is not `markup` or the value is `null`, do not write `text_sha256`.
+   If the entry is not `markup` or the value is `null`, remove `text_sha256` from the entry.
 5. Run `fetch_sources.py` again. Then run the re-check again. The re-check must give exit 0.
+
+### If only the text hash does not match
+
+The status `text-mismatch` tells you that the page bytes match the recorded `sha256`.
+Thus the supplier text did not change, and a new source review is not necessary.
+The recorded `text_sha256` is incorrect, or the text rule in `fetch_sources.py` changed.
+
+1. Do not change the profile.
+2. Examine the history of `text_sha256` in `sources.yaml` and of `visible_text` in `fetch_sources.py`.
+   Record the cause in the release notes.
+3. If `observed_text_sha256` is not `null`, write this value as `text_sha256` in `sources.yaml`.
+4. If `observed_text_sha256` is `null`, remove `text_sha256` from the entry.
+5. Run the re-check again. The re-check must give exit 0.
 
 ## 6. If a fetch failed
 
