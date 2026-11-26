@@ -30,7 +30,7 @@ Each page has one saved download. The `sha256` is the hash of the saved bytes. T
 | four-layer | `566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38` | `4eb0af38b6dfaed2d33adde1c72605d9e1431e5925e61539be89ebc00c8dd1cc` | `94ad5301df55e3f408ffe651087872d0a724f8836a471eb2eea7a160316a91fd` | `3e465be86038832bcc0d656eed9c2ae649744feae3ef1a521adaf2e6858d586f` | changed | layout |
 | six-layer | `e174c3a58bfa776f6f860b4fd2441174520dd7c20f6c51f4af273beb95060cfa` | `f92c6f15f673801569db0fe097d12e73d9b85aea297644915c43966a451ab4e2` | `bc02ae797ce7f0f24ebe95293de7ad4867b30e7feb314eaf6507c6fbb7ae7f3a` | `9d0f0065c4cbd6ea988de86bc770d00daf02539544c06cfce824230cbe5abb11` | changed | layout |
 
-The re-check before the rebind gives `changed` for each page. The re-check after the rebind gives `layout`. `layout` means that the bytes differ and the visible text matches. The exit is 0.
+The re-check before the rebind gives `changed` for each page. The re-check after the rebind gives `layout`. `layout` means that the bytes differ and the visible text matches. The exit is 0. The byte change is the Cloudflare email-protection token in the footer of each page.
 
 Each headers file starts with `HTTP/2 200`. The headers change on each response, so the saved headers file is the evidence for each page.
 
@@ -219,14 +219,14 @@ These items are notes only. The profiles do not change for them.
 - single-layer turn time: `ship within 10-12 days`. The page says that its turn time is identical to the 2 layer service. The two-layer page gives `ship within 9-12 calendar days`, and `90%` of its orders ship in 10 calendar days.
 - two-layer-hhdc turn time: `shipped within 12-21 calendar days of ordering`. The changelog of `2025-AUG-02` documents a stackup change in the page. The change is documentation only.
 - four-layer turn time: `ship within 9-14 calendar days of ordering`.
-- four-layer stackup note: the changelog of `28-JAN-2026` says `Added notes regarding the temporary alternate stackup used for some 4 layer orders.` The page does not name EM528. The page gives no order or ship dates for this stackup. The last changelog date is 2026-01-28.
+- four-layer stackup note: the changelog of `28-JAN-2026` says `Added notes regarding the temporary alternate stackup used for some 4 layer orders.` The page does name EM528. The name is in two HTML comments directly before the Material Specs table. The comments are not visible text, so `fetch_sources.visible_text` removes them. The first comment gives the window 2026JUN9 to 2026JUN22 for orders in production and shipped. The second comment gives the window 2025-Dec-20 to 2026-Jan-28 for the alternate stackup. The old copy at `b5872c5^` has the same two comments. Thus the EM528 note is not new since 2026-11-14. This item stays a note only. The visible Substrate row still gives `190Tg FR408-HR`. The last changelog date is 2026-01-28.
 - six-layer turn time: `ship within 12-21 calendar days of ordering`. The changelog of `15-DEC-2025` says `Adjusted official turn time from 9-14 days to 12-21 days due to order volumes.` The last changelog date is 2025-12-15.
 - Copyright (Q3): the line `© Copyright 2023 OSH Park, LLC` is the same on all five pages. The date in `license_state` changed to 2026-11-26.
 - Watch dates (Q5): the newest changelog dates of the four-layer and six-layer pages equal the watch dates of `recheck_sources.py`. The script did not change.
 
 ## 7. Changed files
 
-The file `docs/reviews/oshpark-source-rebind-files.sha256` lists the 57 files of commit `5c86077`. Its format is the `sha256sum` format. The table gives the main files.
+The file `docs/reviews/oshpark-source-rebind-files.sha256` lists the 57 files of commit `5c86077`. It also lists this note and `a2-commands.json`. Its format is the `sha256sum` format. The table gives the main files.
 
 | File | SHA-256 |
 |---|---|
@@ -257,7 +257,7 @@ The commands ran in the podman image `localhost/cad-skills-pcb:b6`. The image ID
 - The comparison (`a2-compare.txt`) finds 46 changed files. Each difference has a reason. We find no other difference.
 - The changes follow from the new hashes. The profile hash `e3f2789d` changed to `5d53abbb`. The page hash `d757495f` changed to `fae87aff`. The hash of `board.yaml` changed to `852c0b4b`. The hash of the manufacturing copy changed to `b083ff92`. The facts hash of the drawing changed from `01c135b8` to `1bb8b294`.
 - We check the derived hashes (`a2-verify.txt`). Two of two `binding_sha256` values match the binding file. Two of two `content_sha256` values match `fab.content_hash`. Fifty-nine of fifty-nine file hashes match the file they name.
-- The 20 rows of `supplier-result.json` do not change. The comparison replaces the profile and page hashes before it compares the rows. There are 18 mandatory rows. 16 rows pass. `service.order_multiple` fails. `silk_line_min_short_text` is pending. `status.json` reports 2 recommendations.
+- Rows 1 and 2 of `supplier-result.json` change only `process_fact.source_sha256`, the page hash. The comparison replaces the profile and page hashes before it compares the rows. There are 18 mandatory rows. 16 rows pass. `service.order_multiple` fails. `silk_line_min_short_text` is pending. `status.json` reports 2 recommendations.
 - Ruling: the G04 header and the DRILL header of each Gerber and drill file also hold a timestamp, and these lines changed too. We accept them as timestamps. The plan named only `TF.CreationDate`. Cost if wrong: a reviewer must accept these timestamp lines.
 - Expected failure: `test_a2_source_manifest_matches_the_repository_sources`. Four lines differ (Q4): `skills/pcb-fab-package/sources.yaml`, `skills/pcb-fab-package/supplier/profiles/oshpark-two-layer.yaml`, `tests/eval/fixtures/artifacts/A2/project/board.yaml` and `tests/eval/fixtures/artifacts/A2/project/manufacturing/supplier.yaml`. The integrator must accept these four hash lines.
 

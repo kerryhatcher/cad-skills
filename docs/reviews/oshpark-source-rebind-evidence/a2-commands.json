@@ -41,7 +41,7 @@
       "exit": 1
     }
   ],
-  "base_commit": "b25f478b0b3030e166622a9e3020ea22d7dbd177",
+  "base_freeze": "b25f478b0b3030e166622a9e3020ea22d7dbd177",
   "outputs_before": "scratch copy of the tracked A2 outputs before this run (not kept in the repository)",
   "runtime": {
     "image": "localhost/cad-skills-pcb:b6",

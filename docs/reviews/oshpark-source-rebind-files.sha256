@@ -55,3 +55,5 @@ d62366c0ebbce487ed45ab647b48eecd73e2818535eb34b652ee47f064e42c17  tests/eval/fix
 8e2799b4d42820ff0a8c201e1d0e256b7944e571ff8bf5f5c84252d0d57244a9  tests/eval/fixtures/artifacts/A2/project/out/fab/supplier/work/drc.json
 5f63c904e8c147ec37b1b98a1b57ea39c6cc4e2d55a74fcd77f1466054b6004f  tests/eval/fixtures/artifacts/A2/README.md
 8cccfca1f20a712356f9bc8c454fc0a6c29ac70ebc1d86622c57dc33c022cd4f  tests/eval/fixtures/artifacts/A2/status.json
+63039f21b90dcc6d272bd6eb0bd988c413dcea7c766209c87abc1513241e745f  docs/reviews/oshpark-source-rebind-claude.md
+d34b653442da3856b3a6b96db34ced7aba3e21d5007527e2d1556d095024535a  docs/reviews/oshpark-source-rebind-evidence/a2-commands.json
