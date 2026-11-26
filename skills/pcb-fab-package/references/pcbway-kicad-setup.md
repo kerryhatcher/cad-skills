@@ -37,17 +37,17 @@ Each row gives its unit. Some values are in mil.
 | Copper to board edge, CNC milling | 0.25 mm | 0.25 mm | Advanced table, normal process |
 | Inner hole to inner copper | not used | 7 mil | Four-layer only. Advanced table, normal process |
 | Minimum board edge | 20 mm | 20 mm | Advanced table, normal process. Standard table: 3 x 3 mm |
-| Minimum board thickness | 0.3 mm | 0.6 mm | Advanced table, normal process. Manual evidence only |
+| Minimum board thickness | 0.3 mm | 0.6 mm | Geometric test in `division.geometric_tests` |
 | Maximum board width | 508 mm | 508 mm | Advanced table, normal process |
 | Maximum board height | 610 mm | 600 mm | Advanced table, normal process. The four-layer profile limits each side to 600 mm |
 | Minimum slot | 0.8 mm | 0.8 mm | Non-plated slot. Advanced table, normal process |
-| Minimum plated slot | 0.5 mm | 0.5 mm | Manual evidence only |
+| Minimum plated slot | 0.5 mm | 0.5 mm | Geometric test in `division.geometric_tests` |
 | Soldermask bridge | 4.5 mil | 4.5 mil | The stricter value. Green oil uses 4 mil |
-| Silkscreen line | 0.15 mm | 0.15 mm | Manual evidence only |
-| Silkscreen text height | 0.8 mm | 0.8 mm | Manual evidence only |
-| Pad hole to pad hole | 16 mil | 16 mil | Manual evidence only |
-| Via hole to via hole | 11 mil | 11 mil | Manual evidence only. For vias up to 0.45 mm |
-| Plated half hole diameter | 0.5 mm | 0.5 mm | Advanced table, row 12, normal process. Standard table: 0.4 mm. Manual evidence only |
+| Silkscreen line | 0.15 mm | 0.15 mm | Manual evidence with `board_sha256` and `silk_gerber_sha256` |
+| Silkscreen text height | 0.8 mm | 0.8 mm | Manual evidence with `board_sha256` and `silk_gerber_sha256` |
+| Pad hole to pad hole | 16 mil | 16 mil | Geometric test in `division.geometric_tests` |
+| Via hole to via hole | 11 mil | 11 mil | Geometric test in `division.geometric_tests` |
+| Plated half hole diameter | 0.5 mm | 0.5 mm | Advanced table, row 12, normal process. Standard table: 0.4 mm. Manual evidence with `board_sha256` |
 
 Limit direction:
 
@@ -57,17 +57,18 @@ Limit direction:
 
 Notes on the table:
 
-- The workflow has one minimum slot value for all slots. The profile uses 0.8 mm, the value for a non-plated slot. A plated slot from 0.5 mm to less than 0.8 mm fails this value. The profile keeps the plated value as manual evidence.
+- The workflow applies the `0.8 mm` slot minimum to non-plated slots. If `min_plated_slot_size` is declared in `division.geometric_tests`, the `0.5 mm` minimum applies to plated slots.
 - The four-layer profile limits each side to 600 mm. If a side is larger than 600 mm, the inner hole to copper spacing must be 15 mil or more.
 - The four-layer profile uses 5 mil and 6 mil for all layers. The normal process gives 4 mil width and 5 mil spacing on the inner layers. The profile is stricter there.
 
-## Conditions that no command examines
+## Structured options and manual conditions
 
-No workflow row reads the board thickness, the mask color or the copper weight. The profiles record the values of the page as text limits in `manual_evidence`. The stop of the PCBWay profiles is the control for these conditions.
+The PCBWay profiles include `fabrication_options` for copper weight, board thickness and mask color. The workflow compares these options with `board.yaml` and `${PROJECT}/manufacturing/supplier.yaml`. The stop of the PCBWay profiles stays active until phase 5.
 
-- **Copper weight.** The profiles apply to 1 oz outer copper. The normal process of the advanced table, row 22, gives 0.5 oz to 4 oz for the outer layers. The standard table gives 1 oz to 8 oz. The 1 oz limit is in both ranges. The four-layer profile records the inner copper weights of the standard table. The page gives no default inner copper weight.
-- **Board thickness.** The standard table gives 0.2 mm to 3.2 mm, in 13 options. The profile uses 0.3 mm (two-layer) or 0.6 mm (four-layer) as the minimum, as the table above shows. The 0.2 mm option is below both minimums. The normal process gives a maximum board thickness for each drill size. For a 0.20 mm hole, the maximum board thickness is 1.6 mm. The profile does not check the board thickness.
-- **Mask color.** The standard table gives ten options, including purple and none. The normal process, row 24, gives eight: green, matt green, blue, red, black, matte black, white and yellow. The page gives no extra charge for green, red, yellow and blue. The bridge depends on the oil color. Green oil uses 4 mil when the spacing between ICs is 8 mil. Variegated or black oil uses 4.5 mil or more. The profile uses 4.5 mil for each color.
+- **Copper weight.** `extensions.fabrication.copper_outer_oz` must be `1`. The four-layer profile accepts `extensions.fabrication.copper_inner_oz` of `1` only. The trace and space rows cover 1 oz copper only. Heavier inner copper needs vendor minima before the profile can allow it. Missing or `unconfirmed` values keep the row `pending`.
+- **Board thickness.** `mechanical.thickness_mm` in `board.yaml` must match `fabrication_options.board_thickness.allowed_mm` and `board_min_thickness` (`0.3 mm` two-layer, `0.6 mm` four-layer). `drawing_facts` reads `mechanical.thickness_mm` and `extensions.fabrication.substrate` from `board.yaml`.
+- **Mask color.** `extensions.fabrication.mask_color` must name one of the eight normal-process colors (`green`, `matt green`, `blue`, `red`, `black`, `matte black`, `white` or `yellow`). Missing or `unconfirmed` values keep the row `pending`. The workflow checks `mask_web_min` against `bridge_min_by_color`.
+- **Manual minimums.** `silk_line_min_short_text`, `silk_text_min_height` and `plated_half_hole_min_diameter` use `manual-evidence` JSON records passed through `--manual`.
 
 ## Standard-table values replaced
 

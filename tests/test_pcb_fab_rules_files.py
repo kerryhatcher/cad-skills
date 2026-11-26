@@ -35,6 +35,7 @@ import workflow  # noqa: E402
 
 RULE_LINE = re.compile(r'^\(rule "supplier_([a-z_]+)" \(constraint ([a-z_]+) \(min ([0-9.]+)mm\)\)\)$')
 MIL_MM = Fraction(254, 10000)
+UNIT_MM = {"mm": Fraction(1), "mil": MIL_MM, "in": Fraction(254, 10)}
 
 
 def expect(condition, message):
@@ -121,7 +122,7 @@ def test_rules_values_match_profile_limits(tmp: Path):
             expect(key in workflow.RULE_CONSTRAINT, f"{pid}: the rule {key} has no constraint.")
             expect(constraint == workflow.RULE_CONSTRAINT[key], f"{pid}: the constraint of {key} is {constraint}.")
             limit = record["limits"][key]
-            factor = MIL_MM if limit["unit"] == "mil" else Fraction(1)
+            factor = UNIT_MM[limit["unit"]]
             expect(Fraction(value) == Fraction(str(limit["value"])) * factor,
                    f"{pid}: the value of {key} is {value} mm. The profile value is {limit['value']} {limit['unit']}.")
             found[key] = value
@@ -216,7 +217,7 @@ def test_invalid_profile_is_refused(tmp: Path):
         ("key without a constraint",
          lambda r: (r["limits"].update(min_unknown=dict(r["limits"]["min_trace"])),
                     r["division"]["kicad_dru"].append("min_unknown")), True, "min_unknown"),
-        ("unit in", lambda r: r["limits"]["min_trace"].update(unit="in"), True, "min_trace"),
+        ("unit cm", lambda r: r["limits"]["min_trace"].update(unit="cm"), True, "min_trace"),
         ("maximum kind", lambda r: r["limits"]["min_trace"].update(kind="maximum"), True, "min_trace"),
     ]
     for index, (label, mutate, rehash, needle) in enumerate(cases):
@@ -228,6 +229,17 @@ def test_invalid_profile_is_refused(tmp: Path):
             expect(code == 2, f"{label}: exit {code} with {args}. Expected 2.")
             expect(needle in err, f"{label}: the message does not name {needle!r}: {err}")
             expect(rule_bytes(skill) == before, f"{label}: the generator changed a rule file.")
+
+
+def test_in_unit_is_accepted_and_exact(tmp: Path):
+    """A kicad_dru limit in inches writes the exact millimeter rule."""
+    skill = skill_copy(tmp)
+    edit_profile(skill, "oshpark-two-layer", lambda r: r["limits"]["min_trace"].update(value=0.006, unit="in"))
+    code, _, err = run(skill)
+    expect(code == 0, f"The write mode with unit in gave exit {code}: {err}")
+    text = (rules_dir(skill) / "oshpark-two-layer.kicad_dru").read_text(encoding="utf-8")
+    expect('(rule "supplier_min_trace" (constraint track_width (min 0.1524mm)))' in text,
+           f"The written file does not hold the exact trace width:\n{text}")
 
 
 def test_schema_violation_is_refused(tmp: Path):

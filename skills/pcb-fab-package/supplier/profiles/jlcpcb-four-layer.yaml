@@ -7,7 +7,7 @@
   "source_url": "https://jlcpcb.com/capabilities/pcb-capabilities",
   "retrieved": "2026-11-26",
   "evidence_sha256": "4193afa719af2144c3c25f097ba93c3787d250a8f2db70051a37a91caaced169",
-  "content_sha256": "c3c0ffee77e8a1a4cc5b03841bb86dca6225c61c760f09aa80b686895720975b",
+  "content_sha256": "ebd06fbb1f80526bff8d24aa28cd73333bc144f7dfc9a3d5bf99ac0979a45c25",
   "units": "mm",
   "limits": {
     "board_max_height": {
@@ -229,22 +229,87 @@
       "mask_web_min",
       "board_min_edge",
       "board_max_width",
-      "board_max_height"
+      "board_max_height",
+      "min_plated_slot_size",
+      "via_hole_to_hole_min",
+      "pad_hole_to_hole_min"
     ],
     "manual_evidence": [
       "silk_line_min_short_text",
       "min_annular_ring_recommended",
-      "min_plated_slot_size",
       "silk_text_min_height",
       "pad_to_silk_min",
-      "via_hole_to_hole_min",
-      "pad_hole_to_hole_min",
       "pth_hole_to_internal_copper",
       "copper_weight_outer",
       "board_thickness_options",
       "board_thickness_condition",
       "soldermask_bridge_by_color"
     ]
+  },
+  "fabrication_options": {
+    "copper_weight": {
+      "outer_oz": [
+        1
+      ],
+      "inner_oz": [
+        0.5
+      ]
+    },
+    "board_thickness": {
+      "allowed_mm": [
+        0.4,
+        0.6,
+        0.8,
+        1.0,
+        1.2,
+        1.6,
+        2.0
+      ],
+      "min_mm": 0.4,
+      "max_mm": 2.0,
+      "manual_review_below_mm": 0.6
+    },
+    "mask_color": {
+      "allowed": [
+        "green",
+        "red",
+        "yellow",
+        "blue",
+        "purple",
+        "black",
+        "white"
+      ],
+      "bridge_min_by_color": {
+        "green": {
+          "value": 0.1,
+          "unit": "mm"
+        },
+        "red": {
+          "value": 0.1,
+          "unit": "mm"
+        },
+        "yellow": {
+          "value": 0.1,
+          "unit": "mm"
+        },
+        "blue": {
+          "value": 0.1,
+          "unit": "mm"
+        },
+        "purple": {
+          "value": 0.1,
+          "unit": "mm"
+        },
+        "black": {
+          "value": 0.13,
+          "unit": "mm"
+        },
+        "white": {
+          "value": 0.13,
+          "unit": "mm"
+        }
+      }
+    }
   },
   "extensions": {
     "service.layers": {
@@ -275,7 +340,7 @@
     "notes.board_dimension": "The page gives 663 x 593 mm for four-layer FR4 at 0.8 mm or more. The profile uses the thinner FR4 value, 599 x 497 mm. The page also gives 1016 x 596 mm in a note. The profile does not use it.",
     "notes.thickness_condition": "The minimum board dimension of 3 x 3 mm applies to 0.6 mm or thicker. JLCPCB reviews a thinner board manually.",
     "notes.copper_condition": "The limits apply to 1 oz finished outer copper. The page gives larger limits for 2 oz copper and heavier. The inner copper is 0.5 oz by default.",
-    "notes.manual_conditions": "No workflow row enforces the copper weight, board thickness or mask color limits. These limits are text for manual review. The supplier stop (decision Q2, amendment H) is the control for these conditions.",
+    "notes.manual_conditions": "fabrication_options gives the structured copper weight, board thickness and mask color values that the workflow compares with board.yaml and manufacturing/supplier.yaml. The text limits stay as recommendation notes. The supplier stop (decision Q2, amendment H) stays active until phase 5.",
     "evidence_pages": {
       "jlcpcb-pcb-capabilities": {
         "sha256": "4193afa719af2144c3c25f097ba93c3787d250a8f2db70051a37a91caaced169",

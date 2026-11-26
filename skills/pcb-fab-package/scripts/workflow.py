@@ -349,11 +349,21 @@ def effective_pro(project_pro_bytes, profile):
 
 # The division names that the workflow measures. Each profile must have all ten of these limits.
 GEOMETRIC_ROWS = ("board_min_edge", "board_max_width", "board_max_height", "min_slot_size", "mask_web_min")
+OPTIONAL_GEOMETRIC_ROWS = ("board_min_thickness", "min_plated_slot_size", "via_hole_to_hole_min", "pad_hole_to_hole_min")
+SUPPORTED_GEOMETRIC_ROWS = GEOMETRIC_ROWS + OPTIONAL_GEOMETRIC_ROWS
 CORE_KICAD_DRU = ("min_trace", "min_space", "min_annular_ring", "min_drill", "edge_keepout")
 MASK_SIDE_ROWS = ("mask_web_min_top", "mask_web_min_bottom")
 # These rows come from the extensions and the measurements, not from a limit.
 FIXED_ROWS = ("service.layers", "service.order_multiple", "service.via_construction_prohibited",
               "process.outline_tool_compatibility", "process.cutout_tool_compatibility")
+FABRICATION_OPTION_ROWS = ("service.copper_weight", "service.board_thickness", "service.mask_color")
+MANUAL_PROCEDURES = {
+    "silk_line_min_short_text": ("board_sha256", "silk_gerber_sha256"),
+    "silk_text_min_height": ("board_sha256", "silk_gerber_sha256"),
+    "pad_to_silk_min": ("board_sha256", "silk_gerber_sha256"),
+    "pth_hole_to_internal_copper": ("board_sha256",),
+    "plated_half_hole_min_diameter": ("board_sha256",),
+}
 MANUAL_KINDS = ("minimum", "maximum", "recommendation")
 PENDING_TEXT = "Give manual evidence. The row stays pending until then."
 FINDING_TEXT = "recommendation: reported, never a failure"
@@ -376,14 +386,19 @@ def optional_conditions(profile):
     return manual_conditions(profile)[1]
 
 
-def manual_rows(profile, silk_row):
+def manual_rows(profile, silk_row, extra_rows=None):
     """The manual-evidence rows in division order. A minimum or a maximum without a procedure is pending, thus the result stays fail-closed."""
+    extra_rows = extra_rows or {}
     mandatory, optional = manual_conditions(profile)
     rows = []
     for key in mandatory:
-        rows.append(silk_row if key == "silk_line_min_short_text" else
-                    {"condition": key, "method": "manual_evidence", "mandatory": True, "status": "pending",
-                     "interpretation": PENDING_TEXT})
+        if key == "silk_line_min_short_text":
+            rows.append(silk_row)
+        elif key in extra_rows:
+            rows.append(extra_rows[key])
+        else:
+            rows.append({"condition": key, "method": "manual_evidence", "mandatory": True, "status": "pending",
+                         "interpretation": PENDING_TEXT})
     for key in optional:
         rows.append({"condition": key, "method": "manual_evidence", "mandatory": False, "status": "finding",
                      "interpretation": FINDING_TEXT})
@@ -417,7 +432,7 @@ def check_division(profile):
         if key not in REPORT_KEYS:
             raise Stop(EXIT_UNSUPPORTED, f"the rule {key} has no DRC report keys. Remove it from division.kicad_dru.")
     for key in geometric:
-        if key not in GEOMETRIC_ROWS:
+        if key not in SUPPORTED_GEOMETRIC_ROWS:
             raise Stop(EXIT_UNSUPPORTED, f"the geometric test {key} has no workflow measurement. Remove it from division.geometric_tests.")
     if division.get("project_settings"):
         raise Stop(EXIT_UNSUPPORTED, "the workflow cannot apply division.project_settings. Remove the keys "
@@ -467,8 +482,170 @@ def rows_exit(rows):
 def mandatory_conditions(profile):
     """The mandatory condition names that the selected profile requires."""
     division = profile["division"]
+    option_rows = set(FABRICATION_OPTION_ROWS) if "fabrication_options" in profile else set()
     return (set(division["kicad_dru"]) | set(division["geometric_tests"]) | set(MASK_SIDE_ROWS) | set(FIXED_ROWS)
-            | set(manual_conditions(profile)[0]))
+            | option_rows | set(manual_conditions(profile)[0]))
+
+
+def _holes_clearance_ok(holes, min_mm):
+    """Return True when every hole pair keeps at least min_mm edge-to-edge distance."""
+    pts = [(Fraction(str(h["x"])), Fraction(str(h["y"])), Fraction(str(h["diameter"]))) for h in holes]
+    for i in range(len(pts)):
+        x1, y1, d1 = pts[i]
+        for j in range(i + 1, len(pts)):
+            x2, y2, d2 = pts[j]
+            dx, dy = x1 - x2, y1 - y2
+            req = (d1 + d2) / 2 + min_mm
+            if dx * dx + dy * dy < req * req:
+                return False
+    return True
+
+
+def general_slot_minors(profile, inventory):
+    """Return the minor dimensions that the min_slot_size row checks.
+
+    When the profile declares min_plated_slot_size, the plated slots have their own row.
+    The min_slot_size row then checks the non-plated slots only.
+    """
+    plated_checked = "min_plated_slot_size" in profile["division"].get("geometric_tests", [])
+    return [Fraction(str(s["minor_mm"])) for s in inventory.get("slots", [])
+            if not (plated_checked and s.get("attr") == "pth")]
+
+
+def _slot_bounding_circle(slot):
+    """Return the circle that contains a slot. Its diameter is the major dimension of the slot."""
+    (x1, y1), (x2, y2) = slot["endpoints_mm"]
+    return {"x": (Fraction(str(x1)) + Fraction(str(x2))) / 2,
+            "y": (Fraction(str(y1)) + Fraction(str(y2))) / 2,
+            "diameter": slot["major_mm"]}
+
+
+def optional_geometric_rows(profile, inventory, board_record, slot_code=0):
+    """Measure the optional geometric_tests declared by the profile."""
+    geom = set(profile["division"].get("geometric_tests", []))
+    rows = []
+    if "board_min_thickness" in geom:
+        thick_raw = board_record.get("mechanical", {}).get("thickness_mm")
+        thick = _limit_number(thick_raw) if not isinstance(thick_raw, bool) and isinstance(thick_raw, (int, float)) else None
+        if thick is None:
+            raise Stop(EXIT_UNSUPPORTED, "board.yaml mechanical.thickness_mm must be a positive number.")
+        limit = profile["limits"]["board_min_thickness"]
+        rows.append({"condition": "board_min_thickness", "method": "geometric_test", "mandatory": True,
+                     "status": "pass" if thick >= fab.limit_in_mm(limit) else "fail",
+                     "interpretation": "board thickness from board.yaml compared with the profile minimum"})
+    if "min_plated_slot_size" in geom:
+        min_plated = fab.limit_in_mm(profile["limits"]["min_plated_slot_size"])
+        pth_slots = [Fraction(str(s["minor_mm"])) for s in inventory.get("slots", []) if s.get("attr") == "pth"]
+        rows.append({"condition": "min_plated_slot_size", "method": "slot_inspection", "mandatory": True,
+                     "status": "pass" if (slot_code == 0 and all(m >= min_plated for m in pth_slots)) else "fail",
+                     "interpretation": "minor dimension of every drilled plated slot and record match"})
+    if "via_hole_to_hole_min" in geom:
+        vias = [h for h in inventory.get("holes", []) if h.get("kind") == "via"]
+        ok = _holes_clearance_ok(vias, fab.limit_in_mm(profile["limits"]["via_hole_to_hole_min"]))
+        rows.append({"condition": "via_hole_to_hole_min", "method": "geometric_test", "mandatory": True,
+                     "status": "pass" if ok else "fail",
+                     "interpretation": "edge-to-edge distance between via holes from the saved inventory"})
+    if "pad_hole_to_hole_min" in geom:
+        pads = [h for h in inventory.get("holes", []) if h.get("kind") == "pad"]
+        # The inventory keeps oblong drills under slots. Each slot joins the check as its bounding circle.
+        # That circle is at least as large as the slot, so the check cannot pass a pair that is too close.
+        pads += [_slot_bounding_circle(s) for s in inventory.get("slots", [])]
+        ok = _holes_clearance_ok(pads, fab.limit_in_mm(profile["limits"]["pad_hole_to_hole_min"]))
+        rows.append({"condition": "pad_hole_to_hole_min", "method": "geometric_test", "mandatory": True,
+                     "status": "pass" if ok else "fail",
+                     "interpretation": "edge-to-edge distance between drilled pad holes and slots from the saved inventory, "
+                                       "a slot measured as its bounding circle"})
+    return rows
+
+
+def _declared_oz(fabrication, key):
+    """Parse one declared copper weight from extensions.fabrication."""
+    val = fabrication.get(key)
+    if val is None or val == "unconfirmed":
+        return "pending", None
+    if isinstance(val, bool) or not isinstance(val, (int, float)):
+        raise Stop(EXIT_UNSUPPORTED, f"extensions.fabrication.{key} must be a positive number or unconfirmed.")
+    frac = _limit_number(val)
+    if frac is None:
+        raise Stop(EXIT_UNSUPPORTED, f"extensions.fabrication.{key} must be a positive finite number.")
+    return "declared", frac
+
+
+def fabrication_option_conditions(profile, board_record, supplier_record=None):
+    """Compare copper weight, board thickness and mask color with the profile fabrication_options."""
+    opts = profile.get("fabrication_options")
+    if opts is None:
+        return []
+    if supplier_record is not None:
+        if (supplier_record.get("id") != profile["id"]
+                or supplier_record.get("content_sha256") != profile["content_sha256"]
+                or supplier_record.get("fabrication_options") != opts):
+            raise Stop(EXIT_FAIL, "manufacturing/supplier.yaml differs from the selected profile.")
+    board_sup = board_record.get("supplier")
+    if (not isinstance(board_sup, dict) or board_sup.get("id") != profile["id"]
+            or board_sup.get("profile_sha256") != profile["content_sha256"]):
+        raise Stop(EXIT_FAIL, "board.yaml supplier differs from the selected profile.")
+    extensions = board_record.get("extensions", {})
+    if not isinstance(extensions, dict):
+        raise Stop(EXIT_UNSUPPORTED, "The board extensions must be an object.")
+    fabrication = extensions.get("fabrication", {})
+    if not isinstance(fabrication, dict):
+        raise Stop(EXIT_UNSUPPORTED, "extensions.fabrication must be an object.")
+
+    cw = opts["copper_weight"]
+    outer_state, outer_frac = _declared_oz(fabrication, "copper_outer_oz")
+    outer_allowed = [Fraction(str(v)) for v in cw["outer_oz"]]
+    if "inner_oz" in cw:
+        inner_state, inner_frac = _declared_oz(fabrication, "copper_inner_oz")
+        inner_allowed = [Fraction(str(v)) for v in cw["inner_oz"]]
+    else:
+        inner_state, inner_frac, inner_allowed = "unused", None, []
+        if fabrication.get("copper_inner_oz") is not None:
+            raise Stop(EXIT_UNSUPPORTED, "extensions.fabrication.copper_inner_oz does not apply to this profile.")
+    if ((outer_state == "declared" and outer_frac not in outer_allowed)
+            or (inner_state == "declared" and inner_frac not in inner_allowed)):
+        cw_status, cw_text = "fail", "The declared copper weight is not allowed by the profile."
+    elif outer_state == "pending" or inner_state == "pending":
+        cw_status, cw_text = "pending", "Declare copper weight in extensions.fabrication."
+    else:
+        cw_status, cw_text = "pass", "The declared copper weight matches the profile."
+
+    thick_raw = board_record.get("mechanical", {}).get("thickness_mm")
+    thick = _limit_number(thick_raw) if not isinstance(thick_raw, bool) and isinstance(thick_raw, (int, float)) else None
+    if thick is None:
+        raise Stop(EXIT_UNSUPPORTED, "board.yaml mechanical.thickness_mm must be a positive number.")
+    bt = opts["board_thickness"]
+    allowed_thick = [Fraction(str(v)) for v in bt["allowed_mm"]]
+    min_mm, max_mm = Fraction(str(bt["min_mm"])), Fraction(str(bt["max_mm"]))
+    if thick < min_mm or thick > max_mm or thick not in allowed_thick:
+        bt_status, bt_text = "fail", "The board thickness in board.yaml is not allowed by the profile."
+    elif "manual_review_below_mm" in bt and thick < Fraction(str(bt["manual_review_below_mm"])):
+        bt_status, bt_text = "pending", "The board thickness needs manual supplier review under the profile threshold."
+    else:
+        bt_status, bt_text = "pass", "The board thickness in board.yaml is allowed by the profile."
+
+    mc = opts["mask_color"]
+    color = fabrication.get("mask_color")
+    if color is None or color == "unconfirmed":
+        mc_status, mc_text = "pending", "Declare extensions.fabrication.mask_color in board.yaml."
+    elif not isinstance(color, str) or not color.strip() or any(ord(c) < 32 or ord(c) == 127 for c in color):
+        raise Stop(EXIT_UNSUPPORTED, "extensions.fabrication.mask_color must be a non-empty text without control characters.")
+    elif color not in mc["allowed"]:
+        mc_status, mc_text = "fail", "The declared soldermask color is not allowed by the profile."
+    elif ("bridge_min_by_color" in mc
+          and fab.limit_in_mm(profile["limits"]["mask_web_min"]) < fab.limit_in_mm(mc["bridge_min_by_color"][color])):
+        mc_status, mc_text = "fail", "The profile mask_web_min is smaller than the minimum bridge of the declared mask color."
+    else:
+        mc_status, mc_text = "pass", "The declared soldermask color is allowed by the profile."
+
+    return [
+        {"condition": "service.copper_weight", "method": "profile_option_check", "mandatory": True,
+         "status": cw_status, "interpretation": cw_text},
+        {"condition": "service.board_thickness", "method": "profile_option_check", "mandatory": True,
+         "status": bt_status, "interpretation": bt_text},
+        {"condition": "service.mask_color", "method": "profile_option_check", "mandatory": True,
+         "status": mc_status, "interpretation": mc_text},
+    ]
 
 
 def validate_supplier_result(result, profile):
@@ -571,8 +748,11 @@ def _design(project, profile_path, out):
     after = source_hashes(project, {"profile": profile_path})
     if after != before:
         raise Stop(EXIT_FAIL, "the source files changed during the design run")
+    if consumed["board.yaml"] is None:
+        raise Stop(EXIT_UNSUPPORTED, "missing prerequisite board.yaml")
+    board_record = VAL.parse_record(consumed["board.yaml"], ".yaml", "board.yaml")
     fact_obj = fab.drawing_facts(inventory, profile, consumed["kicad/board.kicad_pcb"],
-                                 "design-run", consumed["manufacturing/supplier.yaml"])
+                                 "design-run", consumed["manufacturing/supplier.yaml"], board_record=board_record)
     outputs.write(out / "drawing-facts.json", (json.dumps(fact_obj, indent=2, sort_keys=True) + "\n").encode())
     outputs.write(out / "fabrication-drawing.pdf", fab.drawing_pdf(fact_obj))
     result = {"schema_id": "pcb-fab-package/design-result", "schema_version": 1,
@@ -713,20 +893,59 @@ def measure_corners(consumed, out, outputs, runtime, profile):
     return rows
 
 
+def _manual_list(manual_path):
+    """Return a list of manual evidence paths from None, one path or a sequence of paths."""
+    if manual_path is None:
+        return []
+    if isinstance(manual_path, (str, pathlib.Path)):
+        return [pathlib.Path(manual_path)]
+    return [pathlib.Path(p) for p in manual_path]
+
+
+def _manual_condition(raw):
+    """Read the condition field from a captured manual evidence record."""
+    try:
+        rec = VAL.parse_record(raw, ".json", "manual-evidence")
+    except VAL.RecordError as err:
+        raise Stop(EXIT_FAIL, f"the manual evidence record is invalid: {err}")
+    cond = rec.get("condition") if isinstance(rec, dict) else None
+    if not isinstance(cond, str) or not cond:
+        raise Stop(EXIT_FAIL, "the manual evidence record names no condition")
+    return cond
+
+
+def _manual_names(condition):
+    """Return (snapshot key, artifact snapshot key, evidence filename, artifact filename) for one condition."""
+    if condition == "silk_line_min_short_text":
+        return "manual", "manual-artifact", "manual-evidence.json", "manual-artifact.txt"
+    return f"manual:{condition}", f"manual-artifact:{condition}", f"manual-{condition}-evidence.json", f"manual-{condition}-artifact.txt"
+
+
 def _supplier(project, profile_path, out, design_dir, manual_path=None):
     """Run the supplier checks on a staged copy. Return (exit, result).
 
     The design outputs are read once, checked against the design binding, and copied into a private execution
     directory. The measurements read only those copies."""
     extra_inputs = {"profile": profile_path}
-    if manual_path is not None:
-        extra_inputs["manual"] = manual_path
-        extra_inputs["manual-artifact"] = manual_artifact_path(project, pathlib.Path(manual_path).read_bytes())
+    manual_items = []
+    seen_conditions = set()
+    extra_dests = []
+    for path in _manual_list(manual_path):
+        raw = path.read_bytes()
+        cond = _manual_condition(raw)
+        if cond in seen_conditions:
+            raise Stop(EXIT_FAIL, f"manual evidence for {cond} is listed twice")
+        seen_conditions.add(cond)
+        m_key, a_key, ev_name, art_name = _manual_names(cond)
+        extra_inputs[m_key] = path
+        extra_inputs[a_key] = manual_artifact_path(project, raw)
+        extra_dests.extend([out / ev_name, out / art_name])
+        manual_items.append((cond, path, m_key, a_key, ev_name, art_name))
     consumed = captured(project, extra_inputs)
     confine(project, out)
     for child in ("export", "logs", "work", "captured"):
         confine(project, out / child)
-    refuse_links(project, supplier_destinations(out))
+    refuse_links(project, supplier_destinations(out) + extra_dests)
     outputs = Outputs(project, out)
     profile = profile_from_bytes(project, consumed["profile"], out / "captured")
     outputs.items["captured/profile.yaml"] = sha(consumed["profile"])
@@ -774,14 +993,14 @@ def _supplier(project, profile_path, out, design_dir, manual_path=None):
             (exec_dir / rel).parent.mkdir(parents=True, exist_ok=True)
             (exec_dir / rel).write_bytes(data)
     try:
-        return _supplier_measure(project, profile, out, extra_inputs, manual_path, consumed, outputs, stage,
+        return _supplier_measure(project, profile, out, extra_inputs, manual_items, consumed, outputs, stage,
                                  exec_dir, measure, inventory, design_result_raw, design_binding_raw, dru_text,
                                  runtime, before, via_row, corner_rows)
     finally:
         shutil.rmtree(exec_dir, ignore_errors=True)
 
 
-def _supplier_measure(project, profile, out, extra_inputs, manual_path, consumed, outputs, stage, exec_dir, measure,
+def _supplier_measure(project, profile, out, extra_inputs, manual_items, consumed, outputs, stage, exec_dir, measure,
                       inventory, design_result_raw, design_binding_raw, dru_text, runtime, before, via_row, corner_rows):
     """The measurements, the outputs and the binding of one supplier run. The inputs are in exec_dir."""
     rc, _, err = podman(stage, ["kicad-cli", "pcb", "drc", "--severity-all", "--format", "json", "-o", "/work/drc.json",
@@ -825,11 +1044,16 @@ def _supplier_measure(project, profile, out, extra_inputs, manual_path, consumed
     if slot_report.is_file():
         outputs.write(out / "slots.json", slot_report.read_bytes())
     min_slot_mm = fab.limit_in_mm(profile["limits"]["min_slot_size"])
-    minors = [Fraction(str(s["minor_mm"])) for s in inventory.get("slots", [])]
-    slot_ok = all(m >= min_slot_mm for m in minors)
+    slot_ok = all(m >= min_slot_mm for m in general_slot_minors(profile, inventory))
     rows.append({"condition": "min_slot_size", "method": "slot_inspection", "mandatory": True,
                  "status": "pass" if (code_slot == 0 and slot_ok) else "fail",
-                 "interpretation": "minor dimension of every drilled slot and record match"})
+                 "interpretation": "minor dimension of each slot in scope and record match"})
+    board_record = VAL.parse_record(consumed["board.yaml"], ".yaml", "board.yaml")
+    supplier_record = (VAL.parse_record(consumed["manufacturing/supplier.yaml"], ".yaml", "manufacturing/supplier.yaml")
+                       if consumed["manufacturing/supplier.yaml"] is not None else None)
+    if "fabrication_options" in profile and supplier_record is None:
+        raise Stop(EXIT_FAIL, "manufacturing/supplier.yaml is missing")
+    rows.extend(optional_geometric_rows(profile, inventory, board_record, code_slot))
     # The top mask: the worker reads the private copy, and the report must bind to the measured bytes.
     mask_limit = profile["limits"]["mask_web_min"]
     top_report = exec_dir / "mask.json"
@@ -871,18 +1095,34 @@ def _supplier_measure(project, profile, out, extra_inputs, manual_path, consumed
                  "status": "pass" if len(inventory["copper_layers"]) == layers_needed else "fail",
                  "interpretation": "copper layers of the saved board equal the service layer count"})
     multiple = profile["extensions"]["service.order_multiple"]["value"]
-    quantity = VAL.parse_record(consumed["board.yaml"], ".yaml", "board.yaml")["quantity"]
+    quantity = board_record["quantity"]
     rows.append({"condition": "service.order_multiple", "method": "geometric_test", "mandatory": True,
                  "status": "pass" if quantity % multiple == 0 else "fail",
                  "interpretation": f"order quantity {quantity} is a multiple of {multiple} (board record)"})
+    rows.extend(fabrication_option_conditions(profile, board_record, supplier_record))
+    mandatory_manual = set(manual_conditions(profile)[0])
     manual_info = None
+    manual_extra_info = []
+    extra_manual_rows = {}
     silk_row = {"condition": "silk_line_min_short_text", "method": "manual_evidence", "mandatory": True,
                 "status": "pending", "interpretation": "manual evidence is required before qualification"}
-    if manual_path is not None:
-        manual_info, silk_row["status"], silk_row["interpretation"] = check_manual(
-            manual_path, consumed["manual"], consumed["manual-artifact"], consumed["kicad/board.kicad_pcb"],
-            measure[SILK_INPUT], "silk_line_min_short_text", out, outputs)
-    rows.extend(manual_rows(profile, silk_row))
+    extra_digest_names = []
+    for cond, path, m_key, a_key, ev_name, art_name in manual_items:
+        if cond not in mandatory_manual:
+            raise Stop(EXIT_FAIL, f"the manual evidence names {cond}, which is not a mandatory condition of this profile")
+        info, status, interp = check_manual_record(
+            path, consumed[m_key], consumed[a_key], consumed["kicad/board.kicad_pcb"],
+            measure[SILK_INPUT], cond, out, outputs, evidence_name=ev_name, artifact_name=art_name)
+        if cond == "silk_line_min_short_text":
+            manual_info = info
+            silk_row["status"], silk_row["interpretation"] = status, interp
+        else:
+            info = dict(info, condition=cond, artifact_out_path=art_name)
+            manual_extra_info.append(info)
+            extra_manual_rows[cond] = {"condition": cond, "method": "manual_evidence", "mandatory": True,
+                                       "status": status, "interpretation": interp}
+            extra_digest_names.extend([ev_name, art_name])
+    rows.extend(manual_rows(profile, silk_row, extra_manual_rows))
     after = source_hashes(project, extra_inputs)
     if after != before:
         raise Stop(EXIT_FAIL, "the source files changed during the supplier run")
@@ -899,12 +1139,17 @@ def _supplier_measure(project, profile, out, extra_inputs, manual_path, consumed
               "measure_inputs": measured,
               "effective": {"board.kicad_dru": sha(dru_bytes), "board.kicad_pro": sha(pro_bytes)},
               "exit": code}
+    digest_names = ["supplier.kicad_dru", "supplier.kicad_pro", "supplier-drc.json", "slots.json",
+                    "mask.json", "manual-artifact.txt", "manual-evidence.json", "mask-bottom.json",
+                    "via-report.json", "corner-report.json"] + sorted(extra_digest_names)
     binding = {"schema_id": "pcb-fab-package/supplier-binding", "schema_version": 1, "snapshot": before,
                "design_binding_sha256": sha(design_binding_raw), "manual": manual_info,
                "measure_inputs": measured,
-               "outputs": outputs.digests(["supplier.kicad_dru", "supplier.kicad_pro", "supplier-drc.json", "slots.json",
-                                           "mask.json", "manual-artifact.txt", "manual-evidence.json", "mask-bottom.json",
-                                           "via-report.json", "corner-report.json"])}
+               "outputs": outputs.digests(digest_names)}
+    if manual_extra_info:
+        manual_extra_sorted = sorted(manual_extra_info, key=lambda item: item["condition"])
+        result["manual_extra"] = manual_extra_sorted
+        binding["manual_extra"] = manual_extra_sorted
     binding_bytes = (json.dumps(binding, indent=2, sort_keys=True) + "\n").encode("utf-8")
     PIO.atomic_write(project, out / "supplier-binding.json", binding_bytes)
     result["binding_sha256"] = sha(binding_bytes)
@@ -931,10 +1176,11 @@ def manual_artifact_path(project, raw):
     return project.joinpath(*art_rel.parts)
 
 
-def check_manual(manual_path, raw, art_bytes, board_bytes, silk_bytes, condition, out, outputs):
-    """Check the captured manual evidence record, artifact, board and silk bytes. Return (info, status, interpretation).
-
-    The inputs are the captured bytes. The retained copies are written through the outputs helper. Raise Stop for a defect."""
+def check_manual_record(manual_path, raw, art_bytes, board_bytes, silk_bytes, condition, out, outputs,
+                        evidence_name=None, artifact_name=None):
+    """Check one captured manual evidence record, its artifact and required input hashes."""
+    if condition not in MANUAL_PROCEDURES:
+        raise Stop(EXIT_FAIL, f"no manual procedure exists for {condition}")
     try:
         rec = VAL.parse_record(raw, ".json", "manual-evidence")
     except VAL.RecordError as err:
@@ -952,20 +1198,30 @@ def check_manual(manual_path, raw, art_bytes, board_bytes, silk_bytes, condition
         raise Stop(EXIT_FAIL, "the manual artifact must be under out/fab/manual/")
     if art_bytes is None or sha(art_bytes) != rec["artifact_sha256"]:
         raise Stop(EXIT_FAIL, "the manual artifact is missing or its hash differs")
-    outputs.write(out / "manual-artifact.txt", art_bytes)
+    required_inputs = set(MANUAL_PROCEDURES[condition])
     inputs = rec["inputs"]
-    if not isinstance(inputs, dict) or set(inputs) != {"board_sha256", "silk_gerber_sha256"}:
-        raise Stop(EXIT_FAIL, "the manual inputs must name board_sha256 and silk_gerber_sha256")
+    if not isinstance(inputs, dict) or set(inputs) != required_inputs:
+        raise Stop(EXIT_FAIL, f"the manual inputs must name {', '.join(sorted(required_inputs))}")
     if inputs["board_sha256"] != sha(board_bytes):
         raise Stop(EXIT_FAIL, "the manual evidence is stale: the board hash differs")
-    if silk_bytes is None or inputs["silk_gerber_sha256"] != sha(silk_bytes):
+    if "silk_gerber_sha256" in required_inputs and (silk_bytes is None or inputs["silk_gerber_sha256"] != sha(silk_bytes)):
         raise Stop(EXIT_FAIL, "the manual evidence is stale: the silk Gerber hash differs")
-    outputs.write(out / "manual-evidence.json", raw)
-    info = {"path": "manual-evidence.json", "sha256": sha(raw),
+    if evidence_name is None or artifact_name is None:
+        _, _, default_ev, default_art = _manual_names(condition)
+        evidence_name = evidence_name or default_ev
+        artifact_name = artifact_name or default_art
+    outputs.write(out / artifact_name, art_bytes)
+    outputs.write(out / evidence_name, raw)
+    info = {"path": evidence_name, "sha256": sha(raw),
             "artifact_path": rec["artifact_path"], "artifact_sha256": rec["artifact_sha256"],
             "original_path": str(pathlib.Path(manual_path).resolve()),
             "original_sha256": sha(raw)}
     return info, rec["result"], f"manual evidence by {rec['reviewer']}: {rec['procedure']}"
+
+
+def check_manual(manual_path, raw, art_bytes, board_bytes, silk_bytes, condition, out, outputs):
+    """Check the captured manual evidence record, artifact, board and silk bytes. Return (info, status, interpretation)."""
+    return check_manual_record(manual_path, raw, art_bytes, board_bytes, silk_bytes, condition, out, outputs)
 
 
 def supplier_inputs_now(project, profile_path, supplier_result):
@@ -975,6 +1231,10 @@ def supplier_inputs_now(project, profile_path, supplier_result):
     if manual:
         extra["manual"] = manual["original_path"]
         extra["manual-artifact"] = project.joinpath(*pathlib.PurePosixPath(manual["artifact_path"]).parts)
+    for item in supplier_result.get("manual_extra", []):
+        m_key, a_key, _, _ = _manual_names(item["condition"])
+        extra[m_key] = item["original_path"]
+        extra[a_key] = project.joinpath(*pathlib.PurePosixPath(item["artifact_path"]).parts)
     return snapshot(project, extra)
 
 
@@ -1038,11 +1298,15 @@ def final_gate(project, profile_path, design_dir, supplier_dir, design_result, s
         original = pathlib.Path(manual.get("original_path", ""))
         if not original.is_file() or sha_file(original) != manual.get("original_sha256"):
             problems.append("the original manual record changed before publication")
+    for item in supplier_result.get("manual_extra", []):
+        original = pathlib.Path(item.get("original_path", ""))
+        if not original.is_file() or sha_file(original) != item.get("original_sha256"):
+            problems.append(f"the original manual record for {item.get('condition')} changed before publication")
     problems.extend(staged_problems(staging, manifest, manifest_bytes))
     return problems
 
 
-def drawing_problem(design_dir, reader, board_bytes, profile, supplier_bytes):
+def drawing_problem(design_dir, reader, board_bytes, profile, supplier_bytes, board_record=None):
     """Return None when the design drawing matches the captured facts, or the reason it does not.
 
     The facts come from the design inventory, the captured board and the captured supplier record. The drawing
@@ -1052,7 +1316,8 @@ def drawing_problem(design_dir, reader, board_bytes, profile, supplier_bytes):
     inventory_raw = reader.optional(design_dir / "inventory.json")
     if facts_raw is None or pdf_raw is None or inventory_raw is None:
         return "the drawing, its facts or the board inventory is missing"
-    expected = fab.drawing_facts(json.loads(inventory_raw), profile, board_bytes, "design-run", supplier_bytes)
+    expected = fab.drawing_facts(json.loads(inventory_raw), profile, board_bytes, "design-run", supplier_bytes,
+                                 board_record=board_record)
     if facts_raw != (json.dumps(expected, indent=2, sort_keys=True) + "\n").encode():
         return "the drawing facts differ from the captured board inventory and profile"
     if pdf_raw != fab.drawing_pdf(expected):
@@ -1073,8 +1338,9 @@ def _package(project, profile_path, release, review_path, dest, design_dir, supp
     refuse_links(project, [final, staging, supplier_dir / "captured" / "profile.yaml", supplier_dir / "package-check"])
     reader = Reader()
     profile = profile_from_bytes(project, consumed["profile"], supplier_dir / "captured")
+    board_record = VAL.parse_record(consumed["board.yaml"], ".yaml", "board.yaml")
     problem = drawing_problem(design_dir, reader, consumed["kicad/board.kicad_pcb"], profile,
-                              consumed["manufacturing/supplier.yaml"])
+                              consumed["manufacturing/supplier.yaml"], board_record=board_record)
     if problem is not None:
         raise Stop(EXIT_FAIL, problem)
     design_raw = reader.bytes(design_dir / "design-result.json")
@@ -1177,6 +1443,9 @@ def _package(project, profile_path, release, review_path, dest, design_dir, supp
     if supplier_result.get("manual"):
         out_item(supplier_dir / "manual-evidence.json", "reports/manual-evidence.json", "report")
         out_item(supplier_dir / "manual-artifact.txt", "reports/manual-artifact.txt", "report")
+    for item in supplier_result.get("manual_extra", []):
+        out_item(supplier_dir / item["path"], f"reports/{item['path']}", "report")
+        out_item(supplier_dir / item["artifact_out_path"], f"reports/{item['artifact_out_path']}", "report")
     if review_bytes is not None:
         out_item(review_path, "reports/REVIEW.json", "report")
     evidence_page = PAGES_OF(profile)
@@ -1211,6 +1480,10 @@ def _package(project, profile_path, release, review_path, dest, design_dir, supp
         art = project.joinpath(*pathlib.PurePosixPath(supplier_result["manual"]["artifact_path"]).parts)
         if not art.is_file() or sha_file(art) != supplier_result["manual"]["artifact_sha256"]:
             reasons.append("the manual artifact changed after its measurement")
+    for item in supplier_result.get("manual_extra", []):
+        art = project.joinpath(*pathlib.PurePosixPath(item["artifact_path"]).parts)
+        if not art.is_file() or sha_file(art) != item["artifact_sha256"]:
+            reasons.append(f"the manual artifact for {item['condition']} changed after its measurement")
     checks = []
     if consumed["manufacturing/supplier.yaml"] != consumed["profile"]:
         reasons.append("the project supplier record differs from the profile")
@@ -1240,7 +1513,6 @@ def _package(project, profile_path, release, review_path, dest, design_dir, supp
         ev = out_item_json(project, staging, check_id, evidence, outputs)
         checks.append({"id": check_id, "status": status, "evidence_path": ev["path"], "evidence_sha256": ev["sha256"]})
     shutil.rmtree(checkdir, ignore_errors=True)
-    board_record = VAL.parse_record(consumed["board.yaml"], ".yaml", "board.yaml")
     manifest = {"schema_id": "cad-skills/manifest", "schema_version": "1.0", "release_id": release,
                 "kind": "bare_board", "board_revision": board_record["release_revision"],
                 "board_sha256": sha(consumed["kicad/board.kicad_pcb"]),

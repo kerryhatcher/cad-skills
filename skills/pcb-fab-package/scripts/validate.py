@@ -441,6 +441,24 @@ def _rules_supplier_profile(file, record):
             out.append(finding("profile.limit_incomplete", file, loc, "The limit has no " + ", ".join(missing) + "."))
         elif limit["kind"] in ("minimum", "maximum") and limit["value_kind"] != "number":
             out.append(finding("profile.limit_not_numeric", file, loc, "A minimum or maximum limit must have a numeric value."))
+    opts = record.get("fabrication_options")
+    if opts is not None:
+        bt = opts["board_thickness"]
+        if bt["min_mm"] > bt["max_mm"]:
+            out.append(finding("profile.options_invalid", file, "/fabrication_options/board_thickness",
+                               "The minimum board thickness is larger than the maximum."))
+        else:
+            for i, val in enumerate(bt["allowed_mm"]):
+                if val < bt["min_mm"] or val > bt["max_mm"]:
+                    out.append(finding("profile.options_invalid", file, f"/fabrication_options/board_thickness/allowed_mm/{i}",
+                                       "The allowed thickness is outside the minimum and maximum limits."))
+            if "manual_review_below_mm" in bt and not (bt["min_mm"] <= bt["manual_review_below_mm"] <= bt["max_mm"]):
+                out.append(finding("profile.options_invalid", file, "/fabrication_options/board_thickness/manual_review_below_mm",
+                                   "The manual-review thickness is outside the minimum and maximum limits."))
+        mc = opts["mask_color"]
+        if "bridge_min_by_color" in mc and set(mc["bridge_min_by_color"]) != set(mc["allowed"]):
+            out.append(finding("profile.options_invalid", file, "/fabrication_options/mask_color/bridge_min_by_color",
+                               "The mask bridge map keys differ from the allowed mask colors."))
     return out
 
 

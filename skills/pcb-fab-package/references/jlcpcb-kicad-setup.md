@@ -36,13 +36,13 @@ Each value is in millimeters. No workflow row of a JLCPCB profile examines these
 | Maximum board width | 599 mm | 599 mm | The thinner FR4 value. It is lower than the thick FR4 value |
 | Maximum board height | 497 mm | 497 mm | The thinner FR4 value |
 | Minimum slot | 1.0 mm | 1.0 mm | One value for all slots (see below) |
-| Minimum plated slot | 0.5 mm | 0.35 mm | Manual evidence only |
+| Minimum plated slot | 0.5 mm | 0.35 mm | Geometric test in `division.geometric_tests` |
 | Soldermask bridge | 0.13 mm | 0.13 mm | Black and white. Green and other colors use 0.10 mm |
-| Silkscreen line | 0.15 mm | 0.15 mm | Manual evidence only |
-| Silkscreen text height | 1.0 mm | 1.0 mm | Manual evidence only |
-| Pad to silkscreen | 0.15 mm | 0.15 mm | Manual evidence only |
-| Via hole to via hole | 0.2 mm | 0.2 mm | Manual evidence only |
-| Pad hole to pad hole | 0.45 mm | 0.45 mm | Manual evidence only |
+| Silkscreen line | 0.15 mm | 0.15 mm | Manual evidence with `board_sha256` and `silk_gerber_sha256` |
+| Silkscreen text height | 1.0 mm | 1.0 mm | Manual evidence with `board_sha256` and `silk_gerber_sha256` |
+| Pad to silkscreen | 0.15 mm | 0.15 mm | Manual evidence with `board_sha256` and `silk_gerber_sha256` |
+| Via hole to via hole | 0.2 mm | 0.2 mm | Geometric test in `division.geometric_tests` |
+| Pad hole to pad hole | 0.45 mm | 0.45 mm | Geometric test in `division.geometric_tests` |
 
 Limit direction:
 
@@ -52,18 +52,17 @@ Limit direction:
 
 Notes on the table:
 
-- The workflow has one minimum slot value for all slots. The profile uses 1.0 mm, the value for a non-plated slot. A plated slot of 0.5 mm or 0.35 mm fails this value. The profile keeps the plated value as manual evidence.
+- The workflow has one minimum slot value for all slots (`1.0 mm`) and a plated slot minimum (`0.5 mm` or `0.35 mm`) in `division.geometric_tests`.
 - Where the page gives more than one value for a setting, the profile uses the safer value.
 
-## Conditions that no command examines
+## Structured options and manual conditions
 
-The workflow reads no board thickness, no mask color and no copper weight. The profiles record the values that the page states as text limits in `manual_evidence`. No workflow row enforces them. For these conditions, the stop of the JLCPCB profiles (see above) is the control.
+The JLCPCB profiles include `fabrication_options` for copper weight, board thickness and mask color. The workflow compares these options with `board.yaml` and `${PROJECT}/manufacturing/supplier.yaml`. The stop of the JLCPCB profiles stays active until phase 5.
 
-Do not describe a JLCPCB package from this repository as ready for production. A follow-up must add these facts to the board record first.
-
-- **Thickness.** The page gives a minimum board dimension for thicknesses of 0.6 mm or more. The page gives manual review for a thickness below 0.6 mm. The maximum board size is 599 x 497 mm below 0.8 mm. The page gives 670 x 600 mm for two-layer and 663 x 593 mm for four-layer FR4 at 0.8 mm or more. The profile uses the lower maximum board dimension for all thicknesses.
-- **Mask color.** The profile uses the bridge value for black and white. Other colors can use a smaller bridge. The profile value is larger than needed for those colors.
-- **Copper weight.** The profiles apply to 1 oz finished outer copper only. The page gives larger values for trace, space, annular ring and bridge at 2 oz and heavier copper. These values are out of scope. The inner copper of the four-layer profile is 0.5 oz by default.
+- **Thickness.** `mechanical.thickness_mm` in `board.yaml` must match `fabrication_options.board_thickness.allowed_mm` (`0.4` to `2.0 mm`). A board thinner than `0.6 mm` keeps the status `pending` for manual review. `drawing_facts` reads `mechanical.thickness_mm` and `extensions.fabrication.substrate` from `board.yaml`.
+- **Mask color.** `extensions.fabrication.mask_color` in `board.yaml` must name an allowed color (`green`, `red`, `yellow`, `blue`, `purple`, `black` or `white`). Missing or `unconfirmed` values keep the row `pending`. The workflow checks `mask_web_min` against `bridge_min_by_color`.
+- **Copper weight.** `extensions.fabrication.copper_outer_oz` must be `1`. The four-layer profile also checks `extensions.fabrication.copper_inner_oz` against `0.5`. Missing or `unconfirmed` values keep the row `pending`. The profiles keep the text limits as recommendation notes.
+- **Manual minimums.** `silk_line_min_short_text`, `silk_text_min_height`, `pad_to_silk_min` and `pth_hole_to_internal_copper` (four-layer) use `manual-evidence` JSON records passed through `--manual`.
 
 ## Vias
 

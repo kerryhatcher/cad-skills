@@ -196,18 +196,20 @@ def test_pcbway_kicad_dru_units():
 
 
 def test_pcbway_mandatory_limits_present():
-    """Each mandatory name is a limit. The seven named exclusions are rows or extensions (review 3, CHANGE 2)."""
+    """Each mandatory name is a limit. The non-limit rows and extensions match the profile."""
+    option_rows = set(workflow.FABRICATION_OPTION_ROWS)
     for pid in PCBWAY:
         record = repo_profile(pid)
         missing = []
         for name in sorted(workflow.mandatory_conditions(record)):
-            if name in ROW_NAMES or name in EXTENSION_NAMES:
+            if name in ROW_NAMES or name in EXTENSION_NAMES or name in option_rows:
                 continue
             if name not in record["limits"]:
                 missing.append(name)
         expect(not missing, f"{pid}: the mandatory names that are not limits: {missing}")
         for name in EXTENSION_NAMES:
             expect(name in record["extensions"], f"{pid}: the extension {name} is missing.")
+        expect("fabrication_options" in record, f"{pid}: fabrication_options is missing.")
 
 
 def test_pcbway_strict_values():
@@ -486,12 +488,13 @@ def test_pcbway_judge_boundaries():
 
 
 def test_pcbway_fact_items_complete():
-    """review.fact_items gives one fact for each limit and each extension except evidence_pages. No KeyError."""
+    """review.fact_items gives one fact for each limit, each option and each extension except evidence_pages. No KeyError."""
     for pid in PCBWAY:
         record = repo_profile(pid)
         facts = review.fact_items(record)
-        expected = set(record["limits"]) | (set(record["extensions"]) - {"evidence_pages"})
-        expect(set(facts) == expected, f"{pid}: the facts differ from the limits and extensions.")
+        expected = (set(record["limits"]) | (set(record["extensions"]) - {"evidence_pages"})
+                    | {f"fabrication_options.{k}" for k in record.get("fabrication_options", {})})
+        expect(set(facts) == expected, f"{pid}: the facts differ from the limits, options and extensions.")
 
 
 def test_pcbway_no_cutter_facts():
@@ -507,8 +510,7 @@ def test_pcbway_no_cutter_facts():
 
 
 def test_pcbway_manual_text_limits():
-    """Each PCBWay profile has the text limits of the page for copper, thickness and mask color (amendment I).
-    Each is manual evidence, has no unit and no workflow row. The note names the control."""
+    """Each PCBWay profile has text limits and structured fabrication_options for copper, thickness and mask color."""
     for pid in PCBWAY:
         record = repo_profile(pid)
         expected = set(TEXT_KEYS_COMMON) | ({"copper_weight_inner"} if pid == "pcbway-four-layer" else set())
@@ -521,9 +523,22 @@ def test_pcbway_manual_text_limits():
                    f"{pid}: {key} must be a recommendation without a unit.")
             expect(isinstance(limit["value"], str) and limit["value"].strip() != "",
                    f"{pid}: {key} has no text value.")
+        opts = record.get("fabrication_options", {})
+        expect(set(opts) == {"copper_weight", "board_thickness", "mask_color"},
+               f"{pid}: unexpected fabrication_options keys {sorted(opts)}.")
         note = record["extensions"].get("notes.manual_conditions", "").lower()
-        expect("no workflow row" in note and "control" in note,
-               f"{pid}: the note does not name the control for the manual conditions.")
+        expect("fabrication_options" in note and "phase 5" in note,
+               f"{pid}: the note does not describe fabrication_options and phase 5.")
+
+
+def test_pcbway_geometric_tests():
+    """Board thickness, plated slot and hole-to-hole limits are in division.geometric_tests."""
+    moved = ("board_min_thickness", "min_plated_slot_size", "via_hole_to_hole_min", "pad_hole_to_hole_min")
+    for pid in PCBWAY:
+        division = repo_profile(pid)["division"]
+        for key in moved:
+            expect(key in division["geometric_tests"], f"{pid}: {key} is not in geometric_tests.")
+            expect(key not in division["manual_evidence"], f"{pid}: {key} is still in manual_evidence.")
 
 
 def test_no_data_only_wording():

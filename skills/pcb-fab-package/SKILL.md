@@ -16,7 +16,7 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fab.py profile --profile FILE` | validate a profile and its page bindings | valid | invalid record or binding | arguments | not used |
 | `fab.py judge --kind K --measured V --threshold T --unit U` | judge one value | pass or finding | fail | arguments | not used |
 | `fab.py design --project P --profile FILE [--out DIR]` | ERC, DRC with parity, exports, inventory, drawing sheet | all checks pass | a check fails | unsupported board, missing input, wrong tool identity | KiCad failure |
-| `fab.py supplier --project P --profile FILE [--design-dir DIR] [--out DIR] [--manual FILE]` | supplier conditions on a staged copy | every mandatory condition passes | a condition fails, is pending, or the source changed | unsupported mask construct or resource limit | tool failure |
+| `fab.py supplier --project P --profile FILE [--design-dir DIR] [--out DIR] [--manual FILE]...` | supplier conditions on a staged copy | every mandatory condition passes | a condition fails, is pending, or the source changed | unsupported mask construct or resource limit | tool failure |
 | `fab.py review-source --project P --profile FILE --release ID --observations FILE --reviewer NAME --out FILE` | source review | decision unchanged or harmless | decision material or invalid record | arguments or existing destination | not used |
 | `fab.py review-gate --project P --profile FILE --review FILE --expect-sha256 H --release ID` | re-check a review record | intact | any problem | profile that contains only values | not used |
 | `fab.py package --project P --profile FILE --release ID --review FILE --review-sha256 H --dest DIR` | build and publish the package | qualified | unqualified (reasons in the manifest) | existing destination or missing prerequisite | tool failure |
@@ -27,7 +27,7 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments, or a link at `--out` | not used |
 | `recheck_sources.py --manifest FILE [--entry ID ...] [--format F] [--allow-ci]` | release re-check of the live pages. Writes no file and changes no profile | each fetched page has its recorded hash, or only a layout change (`layout`) | a candidate, changed, text mismatch (`text-mismatch`) or magic mismatch | arguments, manifest or watch problem, or CI | fetch failure |
 
-Note: the JLCPCB and PCBWay profiles contain only values. For those profiles, the commands `design`, `drawing-facts`, `supplier`, `review-gate` and `package` stop with exit 2. See `references/jlcpcb-kicad-setup.md` and `references/pcbway-kicad-setup.md`.
+Note: the JLCPCB and PCBWay profiles contain only values. For those profiles, the commands `design`, `drawing-facts`, `supplier`, `review-gate` and `package` stop with exit 2. See `references/jlcpcb-kicad-setup.md` and `references/pcbway-kicad-setup.md`. When a profile has `fabrication_options`, `workflow.py` compares copper weight, board thickness and mask color with `board.yaml` and `${PROJECT}/manufacturing/supplier.yaml`. `fab.py drawing-facts` accepts `--board-record FILE` for profiles without `service.substrate` or `service.finished_thickness_display_mm`.
 
 ## Source setup
 
@@ -72,7 +72,7 @@ The repository release checklist gives the full procedure.
 
 1. Validate the profile with `profile`.
 2. Run `design`. It writes `out/fab/design/`, including the inventory and the drawing sheet.
-3. Run `supplier`. It writes `out/fab/supplier/`. Mandatory manual conditions need a manual record (`--manual`) that names the artifact and the current board and silk-layer hashes.
+3. Run `supplier`. It writes `out/fab/supplier/`. Each mandatory manual condition needs a manual record (`--manual`) that names the artifact and the required input hashes. Pass `--manual` again for each additional condition.
 4. Run `review-source`. It writes the review record and the observation copy. Keep the printed review hash.
 5. Run `package` with the review hash. The package is built in a staging directory and published only at the end.
 

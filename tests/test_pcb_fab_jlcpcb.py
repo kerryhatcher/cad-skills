@@ -337,12 +337,13 @@ def test_jlcpcb_judge_boundaries():
 
 
 def test_jlcpcb_fact_items_complete():
-    """review.fact_items gives one fact for each limit and each extension except evidence_pages. No KeyError."""
+    """review.fact_items gives one fact for each limit, each option and each extension except evidence_pages. No KeyError."""
     for pid in JLCPCB:
         record = repo_profile(pid)
         facts = review.fact_items(record)
-        expected = set(record["limits"]) | (set(record["extensions"]) - {"evidence_pages"})
-        expect(set(facts) == expected, f"{pid}: the facts differ from the limits and extensions.")
+        expected = (set(record["limits"]) | (set(record["extensions"]) - {"evidence_pages"})
+                    | {f"fabrication_options.{k}" for k in record.get("fabrication_options", {})})
+        expect(set(facts) == expected, f"{pid}: the facts differ from the limits, options and extensions.")
 
 
 def test_jlcpcb_no_cutter_facts():
@@ -358,8 +359,7 @@ def test_jlcpcb_no_cutter_facts():
 
 
 def test_jlcpcb_manual_text_limits():
-    """Each JLCPCB profile has text limits for the copper weight, the board thickness and the mask bridge that the
-    page states (amendment I). Each is manual evidence, has no unit and no workflow row, and the note names the control."""
+    """Each JLCPCB profile has text limits and structured fabrication_options for copper, thickness and mask color."""
     expected = {"copper_weight_outer", "board_thickness_options", "board_thickness_condition",
                 "soldermask_bridge_by_color"}
     for pid in JLCPCB:
@@ -373,9 +373,24 @@ def test_jlcpcb_manual_text_limits():
                    f"{pid}: {key} must be a recommendation without a unit.")
             expect(isinstance(limit["value"], str) and limit["value"].strip() != "",
                    f"{pid}: {key} has no text value.")
+        opts = record.get("fabrication_options", {})
+        expect(set(opts) == {"copper_weight", "board_thickness", "mask_color"},
+               f"{pid}: unexpected fabrication_options keys {sorted(opts)}.")
+        expect(opts["board_thickness"]["manual_review_below_mm"] == 0.6,
+               f"{pid}: manual_review_below_mm is not 0.6.")
         note = record["extensions"].get("notes.manual_conditions", "").lower()
-        expect("no workflow row" in note and "control" in note,
-               f"{pid}: the note does not name the control for the manual conditions.")
+        expect("fabrication_options" in note and "phase 5" in note,
+               f"{pid}: the note does not describe fabrication_options and phase 5.")
+
+
+def test_jlcpcb_geometric_tests():
+    """Plated slot and hole-to-hole limits are in division.geometric_tests."""
+    moved = ("min_plated_slot_size", "via_hole_to_hole_min", "pad_hole_to_hole_min")
+    for pid in JLCPCB:
+        division = repo_profile(pid)["division"]
+        for key in moved:
+            expect(key in division["geometric_tests"], f"{pid}: {key} is not in geometric_tests.")
+            expect(key not in division["manual_evidence"], f"{pid}: {key} is still in manual_evidence.")
 
 
 TESTS = [value for name, value in list(globals().items()) if name.startswith("test_") and callable(value)]

@@ -237,6 +237,128 @@
     },
     "extensions": {
       "type": "object"
+    },
+    "fabrication_options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "copper_weight": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "outer_oz": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "inner_oz": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "outer_oz"
+          ]
+        },
+        "board_thickness": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "allowed_mm": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "min_mm": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "max_mm": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "manual_review_below_mm": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "allowed_mm",
+            "min_mm",
+            "max_mm"
+          ]
+        },
+        "mask_color": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "allowed": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "\\S",
+                "not": {
+                  "pattern": "[\\u0000-\\u001f\\u007f]"
+                }
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "bridge_min_by_color": {
+              "type": "object",
+              "minProperties": 1,
+              "propertyNames": {
+                "pattern": "\\S",
+                "not": {
+                  "pattern": "[\\u0000-\\u001f\\u007f]"
+                }
+              },
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "value": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "unit": {
+                    "enum": [
+                      "mm",
+                      "mil",
+                      "in"
+                    ]
+                  }
+                },
+                "required": [
+                  "value",
+                  "unit"
+                ]
+              }
+            }
+          },
+          "required": [
+            "allowed"
+          ]
+        }
+      },
+      "required": [
+        "copper_weight",
+        "board_thickness",
+        "mask_color"
+      ]
     }
   },
   "required": [
