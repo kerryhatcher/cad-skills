@@ -100,8 +100,8 @@ def test_real_coverage_every_supplier_source_has_an_entry(tmp: Path):
     """Each local supplier source has a manifest entry. Public source can omit all local copies."""
     dist = real_distribution()
     entry_paths = {entry["path"] for entry in dist["sources"]}
-    if len(entry_paths) != 17:
-        raise AssertionError(f"The manifest has {len(entry_paths)} source paths. Expected 17.")
+    if len(entry_paths) != 19:
+        raise AssertionError(f"The manifest has {len(entry_paths)} source paths. Expected 19.")
     expect_no_findings(P.check_coverage(ROOT, dist, entry_paths), "coverage")
 
 
@@ -455,8 +455,8 @@ def test_repository_manifest_relative_bindings_resolve_under_their_directory(tmp
     """Each binding of the repository skill manifest resolves under its manifest directory and exists."""
     bindings = [entry["profile_binding"] for entry in P.load_yaml(PCB_FAB / "sources.yaml")["sources"]
                 if entry.get("profile_binding")]
-    if len(bindings) != 5:
-        raise AssertionError(f"expected five bindings, found {len(bindings)}")
+    if len(bindings) != 6:
+        raise AssertionError(f"expected six bindings, found {len(bindings)}")
     for binding in bindings:
         if binding.startswith("skills/"):
             raise AssertionError(f"binding is not relative to its manifest directory: {binding}")

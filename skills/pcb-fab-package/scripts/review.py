@@ -40,8 +40,10 @@ PAGE_SETS = {
     "oshpark-two-layer-hhdc": {"two-layer-hhdc"},
     "oshpark-four-layer": {"four-layer"},
     "oshpark-six-layer": {"six-layer"},
+    "jlcpcb-two-layer": {"jlcpcb-pcb-capabilities"},
+    "jlcpcb-four-layer": {"jlcpcb-pcb-capabilities"},
 }
-DECISIONS = ("unchanged", "harmless", "material")
+DECISIONS = ("unchanged","harmless", "material")
 CONTROL = re.compile(r"[\x00-\x1f\x7f]")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 

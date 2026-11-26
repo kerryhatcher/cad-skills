@@ -45,8 +45,13 @@ PROFILE_PAGES = {
     "oshpark-two-layer-hhdc": {"two-layer-hhdc"},
     "oshpark-four-layer": {"four-layer"},
     "oshpark-six-layer": {"six-layer"},
+    "jlcpcb-two-layer": {"jlcpcb-pcb-capabilities"},
+    "jlcpcb-four-layer": {"jlcpcb-pcb-capabilities"},
 }
-DIVISION_KEYS = ("kicad_dru", "project_settings", "geometric_tests", "manual_evidence")
+# Only these profiles have the OSH Park facts that the workflow needs. Other profiles have data only (decision Q2).
+WORKFLOW_PROFILES = {"oshpark-single-layer", "oshpark-two-layer", "oshpark-two-layer-hhdc",
+                     "oshpark-four-layer", "oshpark-six-layer"}
+DIVISION_KEYS = ("kicad_dru","project_settings", "geometric_tests", "manual_evidence")
 EXIT_OK, EXIT_FAIL, EXIT_ARGS, EXIT_TOOL = 0, 1, 2, 3
 UNIT_MM = {"mm": Fraction(1), "mil": Fraction(254, 10000), "in": Fraction(254, 10)}
 LIVE_DIR = ("out", "fab", "source-review", "live")
@@ -126,7 +131,14 @@ def check_profile(path):
     ext = record["extensions"]
     if not isinstance(ext["service.layers"]["value"], int) or isinstance(ext["service.layers"]["value"], bool):
         raise Invalid("service.layers must be an integer")
-    if not isinstance(ext["service.order_multiple"]["value"], int):
+    order = ext.get("service.order_multiple")
+    if isinstance(order, dict) and order.get("kind") == "not_stated":
+        # The marked form states that the page gives no order multiple. It must not carry a value.
+        if "value" in order:
+            raise Invalid("service.order_multiple is not_stated, so it must not have a value")
+        if pid in WORKFLOW_PROFILES:
+            raise Invalid("service.order_multiple must be an integer for a profile that the workflow uses")
+    elif not isinstance(order, dict) or not isinstance(order.get("value"), int):
         raise Invalid("service.order_multiple must be an integer")
     bound_pages = ext["evidence_pages"]
     required = PROFILE_PAGES.get(pid)
@@ -142,6 +154,19 @@ def check_profile(path):
         if record["evidence_sha256"] not in {e["sha256"] for e in bound_pages.values()}:
             raise Invalid("evidence_sha256 is not a bound page hash")
     return record
+
+
+def refuse_data_only(profile_path, command):
+    """Stop a command that needs OSH Park facts when the profile has data only (decision Q2).
+
+    Read only the profile id. Read no page, no project and no lock. A profile id that is not
+    in WORKFLOW_PROFILES is refused, so a new profile gets the same stop by default."""
+    pid = VAL.load_record(profile_path)["id"]
+    if pid not in WORKFLOW_PROFILES:
+        raise workflow.Stop(workflow.EXIT_UNSUPPORTED,
+                            f"the profile {pid} has data only. The command {command} needs facts that only "
+                            "the OSH Park profiles have. Use profile, judge or review-source. "
+                            "See references/jlcpcb-kicad-setup.md.")
 
 
 def _confined(root, rel):
@@ -442,6 +467,7 @@ def main(argv):
         if cmd == "review-gate":
             a = _args(rest, ["--project", "--profile", "--review", "--expect-sha256", "--release"])
             profile_path = pathlib.Path(a["--profile"])
+            refuse_data_only(profile_path, cmd)
             profile = check_profile(profile_path)
             rpath = pathlib.Path(a["--review"])
             problems = review.gate(pathlib.Path(a["--project"]), profile, profile_path.read_bytes(),
@@ -452,6 +478,7 @@ def main(argv):
         if cmd == "drawing-facts":
             a = _args(rest, ["--inventory", "--profile", "--board", "--release", "--out"])
             profile_path = pathlib.Path(a["--profile"])
+            refuse_data_only(profile_path, cmd)
             profile = check_profile(profile_path)
             inventory = json.loads(pathlib.Path(a["--inventory"]).read_text())
             facts = drawing_facts(inventory, profile, pathlib.Path(a["--board"]).read_bytes(), a["--release"],
@@ -470,12 +497,14 @@ def main(argv):
             return run_mask_worker(a["--gerber"], a["--limit-mil"], a["--report"])
         if cmd == "design":
             a = _args(rest, ["--project", "--profile"])
+            refuse_data_only(pathlib.Path(a["--profile"]), cmd)
             project = pathlib.Path(a["--project"])
             out = pathlib.Path(rest[rest.index("--out") + 1]) if "--out" in rest else project / "out" / "fab" / "design"
             code, _ = workflow.design(project, pathlib.Path(a["--profile"]), out)
             return code
         if cmd == "supplier":
             a = _args(rest, ["--project", "--profile"])
+            refuse_data_only(pathlib.Path(a["--profile"]), cmd)
             project = pathlib.Path(a["--project"])
             design_dir = pathlib.Path(rest[rest.index("--design-dir") + 1]) if "--design-dir" in rest else project / "out" / "fab" / "design"
             out = pathlib.Path(rest[rest.index("--out") + 1]) if "--out" in rest else project / "out" / "fab" / "supplier"
@@ -484,6 +513,7 @@ def main(argv):
             return code
         if cmd == "package":
             a = _args(rest, ["--project", "--profile", "--release", "--review", "--review-sha256", "--dest"])
+            refuse_data_only(pathlib.Path(a["--profile"]), cmd)
             project = pathlib.Path(a["--project"])
             design_dir = project / "out" / "fab" / "design"
             supplier_dir = project / "out" / "fab" / "supplier"
