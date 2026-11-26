@@ -346,7 +346,85 @@ def effective_pro(project_pro_bytes, profile):
     return json.dumps(data, indent=2, sort_keys=True) + "\n"
 
 
-OPTIONAL_CONDITIONS = ("silk_line_recommended", "overlapping_drill_clearance")
+# The division names that the workflow measures. Each profile must have all of them (decision B2).
+GEOMETRIC_ROWS = ("board_min_edge", "board_max_width", "board_max_height", "min_slot_size", "mask_web_min")
+CORE_KICAD_DRU = ("min_trace", "min_space", "min_annular_ring", "min_drill", "edge_keepout")
+MASK_SIDE_ROWS = ("mask_web_min_top", "mask_web_min_bottom")
+# These rows come from the extensions and the measurements, not from a limit.
+FIXED_ROWS = ("service.layers", "service.order_multiple", "service.via_construction_prohibited",
+              "process.outline_tool_compatibility", "process.cutout_tool_compatibility")
+MANUAL_KINDS = ("minimum", "maximum", "recommendation")
+PENDING_TEXT = "Give manual evidence. The row stays pending until then."
+FINDING_TEXT = "recommendation: reported, never a failure"
+
+
+def manual_conditions(profile):
+    """The mandatory and optional manual-evidence names, in division order."""
+    mandatory, optional = [], []
+    for key in profile["division"].get("manual_evidence", []):
+        kind = profile["limits"].get(key, {}).get("kind")
+        if kind in ("minimum", "maximum"):
+            mandatory.append(key)
+        elif kind == "recommendation":
+            optional.append(key)
+    return tuple(mandatory), tuple(optional)
+
+
+def optional_conditions(profile):
+    """The optional manual-evidence names of the profile."""
+    return manual_conditions(profile)[1]
+
+
+def manual_rows(profile, silk_row):
+    """The manual-evidence rows in division order. A minimum or a maximum without a procedure is pending, thus the result stays fail-closed."""
+    mandatory, optional = manual_conditions(profile)
+    rows = []
+    for key in mandatory:
+        rows.append(silk_row if key == "silk_line_min_short_text" else
+                    {"condition": key, "method": "manual_evidence", "mandatory": True, "status": "pending",
+                     "interpretation": PENDING_TEXT})
+    for key in optional:
+        rows.append({"condition": key, "method": "manual_evidence", "mandatory": False, "status": "finding",
+                     "interpretation": FINDING_TEXT})
+    return rows
+
+
+def check_division(profile):
+    """Stop a division that the workflow cannot measure. The core checks are required for each profile (decision B2)."""
+    division = profile["division"]
+    dru = division.get("kicad_dru", [])
+    geometric = division.get("geometric_tests", [])
+    for key in dru:
+        if key not in RULE_CONSTRAINT:
+            raise Stop(EXIT_UNSUPPORTED, f"the rule {key} has no KiCad constraint. Remove it from division.kicad_dru.")
+    for key in dru:
+        if key not in REPORT_KEYS:
+            raise Stop(EXIT_UNSUPPORTED, f"the rule {key} has no DRC report keys. Remove it from division.kicad_dru.")
+    for key in geometric:
+        if key not in GEOMETRIC_ROWS:
+            raise Stop(EXIT_UNSUPPORTED, f"the geometric test {key} has no workflow measurement. Remove it from division.geometric_tests.")
+    if division.get("project_settings"):
+        raise Stop(EXIT_UNSUPPORTED, "the workflow cannot apply division.project_settings. Remove the keys "
+                   f"{sorted(division['project_settings'])}.")
+    for section, names, required in (("geometric_tests", geometric, GEOMETRIC_ROWS),
+                                     ("kicad_dru", dru, CORE_KICAD_DRU)):
+        for name in required:
+            if name not in names:
+                raise Stop(EXIT_UNSUPPORTED, f"the profile has no {name} in division.{section}. "
+                           "The workflow must examine this limit. Add it to the profile.")
+    manual = division.get("manual_evidence", [])
+    if ("silk_line_min_short_text" not in manual
+            or profile["limits"].get("silk_line_min_short_text", {}).get("kind") != "minimum"):
+        raise Stop(EXIT_UNSUPPORTED, "the profile has no silk_line_min_short_text in division.manual_evidence "
+                   "with the kind minimum. The workflow must examine this limit. Add it to the profile.")
+    for key in manual:
+        kind = profile["limits"].get(key, {}).get("kind")
+        if kind not in MANUAL_KINDS:
+            raise Stop(EXIT_UNSUPPORTED, f"the manual-evidence limit {key} has the kind {kind!r}. "
+                       "Use minimum, maximum or recommendation.")
+    if profile["extensions"].get("service.order_multiple", {}).get("kind") == "not_stated":
+        raise Stop(EXIT_UNSUPPORTED, "The profile states no order multiple. The workflow cannot examine the order quantity.")
+    return None
 
 
 def rows_exit(rows):
@@ -363,11 +441,9 @@ def rows_exit(rows):
 
 def mandatory_conditions(profile):
     """The mandatory condition names that the selected profile requires."""
-    return set(sorted(profile["division"]["kicad_dru"])) | {
-        "board_min_edge", "board_max_width", "board_max_height", "min_slot_size", "mask_web_min",
-        "mask_web_min_top", "mask_web_min_bottom", "service.layers", "service.order_multiple",
-        "silk_line_min_short_text", "service.via_construction_prohibited",
-        "process.outline_tool_compatibility", "process.cutout_tool_compatibility"}
+    division = profile["division"]
+    return (set(division["kicad_dru"]) | set(division["geometric_tests"]) | set(MASK_SIDE_ROWS) | set(FIXED_ROWS)
+            | set(manual_conditions(profile)[0]))
 
 
 def validate_supplier_result(result, profile):
@@ -390,7 +466,7 @@ def validate_supplier_result(result, profile):
             if row.get("status") not in ("pass", "fail", "uncertain", "pending"):
                 raise Stop(EXIT_FAIL, f"the supplier row {row.get('condition')} has an invalid status")
         elif row.get("mandatory") is False:
-            if row.get("condition") not in OPTIONAL_CONDITIONS or row.get("status") != "finding":
+            if row.get("condition") not in optional_conditions(profile) or row.get("status") != "finding":
                 raise Stop(EXIT_FAIL, f"the supplier row {row.get('condition')} is not a recommendation")
         else:
             raise Stop(EXIT_FAIL, f"the supplier row {row.get('condition')} has no mandatory flag")
@@ -415,6 +491,7 @@ def _design(project, profile_path, out):
     outputs = Outputs(project, out)
     profile = profile_from_bytes(project, consumed["profile"], out / "captured")
     outputs.items["captured/profile.yaml"] = sha(consumed["profile"])
+    check_division(profile)
     runtime = runtime_identity(consumed["toolchain.lock.json"])
     stage = out / "work"
     before = stage_from(consumed, stage)
@@ -628,6 +705,7 @@ def _supplier(project, profile_path, out, design_dir, manual_path=None):
     outputs = Outputs(project, out)
     profile = profile_from_bytes(project, consumed["profile"], out / "captured")
     outputs.items["captured/profile.yaml"] = sha(consumed["profile"])
+    check_division(profile)
     runtime = runtime_identity(consumed["toolchain.lock.json"])
     via_row = measure_vias(consumed, out, outputs, runtime, profile)
     if via_row["prohibited_spans"]:
@@ -779,10 +857,7 @@ def _supplier_measure(project, profile, out, extra_inputs, manual_path, consumed
         manual_info, silk_row["status"], silk_row["interpretation"] = check_manual(
             manual_path, consumed["manual"], consumed["manual-artifact"], consumed["kicad/board.kicad_pcb"],
             measure[SILK_INPUT], "silk_line_min_short_text", out, outputs)
-    rows.append(silk_row)
-    for key in ("silk_line_recommended", "overlapping_drill_clearance"):
-        rows.append({"condition": key, "method": "manual_evidence", "mandatory": False, "status": "finding",
-                     "interpretation": "recommendation: reported, never a failure"})
+    rows.extend(manual_rows(profile, silk_row))
     after = source_hashes(project, extra_inputs)
     if after != before:
         raise Stop(EXIT_FAIL, "the source files changed during the supplier run")
