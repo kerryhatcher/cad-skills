@@ -1,0 +1,111 @@
+{
+  "actions": [
+    "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-four-layer.yaml. Do not edit the profile or sources.yaml from this report.",
+    "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-single-layer.yaml. Do not edit the profile or sources.yaml from this report.",
+    "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-six-layer.yaml. Do not edit the profile or sources.yaml from this report.",
+    "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-two-layer-hhdc.yaml. Do not edit the profile or sources.yaml from this report.",
+    "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-two-layer.yaml. Do not edit the profile or sources.yaml from this report."
+  ],
+  "entries": [
+    {
+      "action": "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-single-layer.yaml. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-single-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "d37b8d8a79d94f47cc46895fdb215aebcd398c8ae3398909b46d342b95d21e80",
+      "observed_text_sha256": "ce48f1dd32c83d362161e678c1931adb881c48af42e630dc0727a746a08ec843",
+      "profile_binding": "supplier/profiles/oshpark-single-layer.yaml",
+      "recorded_sha256": "e937f343e7d4ce37d75770df6aff567c71de430b5421a1c34d63f430ffbacbc1",
+      "recorded_text_sha256": null,
+      "retrieved": "2026-11-14",
+      "status": "changed",
+      "text_status": null,
+      "url": "https://docs.oshpark.com/services/single-layer/"
+    },
+    {
+      "action": "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-two-layer.yaml. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-two-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "704fa6d2e571dd19176f15a667e6a8e9ae523d57cda862c4499943762187899f",
+      "observed_text_sha256": "ecd1d62828ac8bbfe1023db7e87d10ce4bf68f921464787ec624a4ad1bac727f",
+      "profile_binding": "supplier/profiles/oshpark-two-layer.yaml",
+      "recorded_sha256": "d757495f505f67436d6e9dc3b15d724c3d513d256372cbf7eb69523ae5913e25",
+      "recorded_text_sha256": null,
+      "retrieved": "2026-11-14",
+      "status": "changed",
+      "text_status": null,
+      "url": "https://docs.oshpark.com/services/two-layer/"
+    },
+    {
+      "action": "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-two-layer-hhdc.yaml. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-two-layer-hhdc-html",
+      "magic_status": "ok",
+      "observed_sha256": "b335348b7797f4a9738926e702f27871bb2277e63218203f71c76d3bf51c9e68",
+      "observed_text_sha256": "549433196665c0c122db6afef0be333ff44980711d1828acac9a101b775e43da",
+      "profile_binding": "supplier/profiles/oshpark-two-layer-hhdc.yaml",
+      "recorded_sha256": "641310abcd61e5b6c588b8f12554990e07941399f3d6cefce07c5602e16f1471",
+      "recorded_text_sha256": null,
+      "retrieved": "2026-11-14",
+      "status": "changed",
+      "text_status": null,
+      "url": "https://docs.oshpark.com/services/two-layer-hhdc/"
+    },
+    {
+      "action": "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-four-layer.yaml. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-four-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "dce90a00e8d2f2bc7e012ef27b7c2647b0e48b416647443f72bb75e629ff91d9",
+      "observed_text_sha256": "94ad5301df55e3f408ffe651087872d0a724f8836a471eb2eea7a160316a91fd",
+      "profile_binding": "supplier/profiles/oshpark-four-layer.yaml",
+      "recorded_sha256": "566570a807c779c60841a44c773e1f40f9ff4abc961c1d6b960025a7e22d3e38",
+      "recorded_text_sha256": null,
+      "retrieved": "2026-11-14",
+      "status": "changed",
+      "text_status": null,
+      "url": "https://docs.oshpark.com/services/four-layer/"
+    },
+    {
+      "action": "Record a new source review with fab.py review-source before you change supplier/profiles/oshpark-six-layer.yaml. Do not edit the profile or sources.yaml from this report.",
+      "candidate_sha256": null,
+      "fetch_error": null,
+      "id": "oshpark-six-layer-html",
+      "magic_status": "ok",
+      "observed_sha256": "56198f8694e7ef84a4a310a5caa9ce6b28700711fd059f5077714e0eb880cef5",
+      "observed_text_sha256": "bc02ae797ce7f0f24ebe95293de7ad4867b30e7feb314eaf6507c6fbb7ae7f3a",
+      "profile_binding": "supplier/profiles/oshpark-six-layer.yaml",
+      "recorded_sha256": "e174c3a58bfa776f6f860b4fd2441174520dd7c20f6c51f4af273beb95060cfa",
+      "recorded_text_sha256": null,
+      "retrieved": "2026-11-14",
+      "status": "changed",
+      "text_status": null,
+      "url": "https://docs.oshpark.com/services/six-layer/"
+    }
+  ],
+  "exit": 1,
+  "manifest_sha256": "d933587b95dd3479db20b187d3daef045f546b6f9408d02b75bbd92aa4f32c42",
+  "overall": "not all match",
+  "run_utc": "2026-11-26T18:11:57Z",
+  "schema": "cad-skills/source-recheck",
+  "schema_version": 1,
+  "watch": [
+    {
+      "entry": "oshpark-four-layer-html",
+      "note": "Examine the temporary alternate stackup note on the page.",
+      "since": "2026-01-28",
+      "status": "changed"
+    },
+    {
+      "entry": "oshpark-six-layer-html",
+      "note": "Examine the lead time on the page. It changed on 2025-12-15.",
+      "since": "2025-12-15",
+      "status": "changed"
+    }
+  ]
+}
