@@ -41,10 +41,10 @@ Outcome rules (`fetch_sources.py`):
 
 ## Tests
 
-- Tests 57 to 70 in `tests/test_source_retrieval.py` and tests 28 to 35 in `tests/test_recheck_sources.py` are new. Tests 60, 62, 70 and 35 are guard tests; they keep a behavior and also passed before the change.
+- Tests 57 to 70 in `tests/test_source_retrieval.py` and tests 28 to 35 in `tests/test_recheck_sources.py` are new. Tests 60, 61 and 62 prove the new key checks. Tests 35 and 70 prove the new report keys. Only test 71 is a guard test, and it also passes on the base scripts (commit `e3bdbca`).
 - Test counts before (base `2823b6c`): `test_source_retrieval.py` 56/56, `test_recheck_sources.py` 28/28, `test_release_packaging.py` 37/37.
-- Test counts after: `test_source_retrieval.py` 71/71, `test_recheck_sources.py` 36/36, `test_release_packaging.py` 37/37, `test_snippets.py` 52/52 blocks, `test_skill_packages.py` 8/8, `test_print_tools.py` 6/6, `test_pcb_tools.py` 60/60, `test_project_io.py` 11/11, `test_release_harness.py` 65/65, `test_release_isolation.py` 29/29, `test_artifact_expectations.py` 35/35, `test_pcb_fab_standalone.py` exit 0, `test_pcb_fab_jlcpcb.py` 19/19, `test_pcb_fab_pcbway.py` 23/23.
-- Known expected failure: `test_artifact_fixtures.py` 15/16. `test_a2_source_manifest_matches_the_repository_sources` fails for `fetch_sources.py` (and would for `recheck_sources.py`) because the retained A2 evidence names the old hashes. Per the lead decision of 2026-11-26, the retained A2 files are not edited; the integrator re-accepts the hash lines after the merge.
+- Test counts after: `test_source_retrieval.py` 71/71, `test_recheck_sources.py` 36/36, `test_release_packaging.py` 37/37, `test_snippets.py` 52/52 blocks, `test_skill_packages.py` 8/8, `test_print_tools.py` 6/6, `test_pcb_tools.py` 60/60, `test_project_io.py` 11/11, `test_release_harness.py` 65/65, `test_release_isolation.py` 29/29, `test_artifact_expectations.py` 35/35, `test_pcb_fab_standalone.py` exit 0, `test_pcb_fab_jlcpcb.py` 19/19, `test_pcb_fab_pcbway.py` 24/24.
+- Known expected failure: `test_artifact_fixtures.py` 15/16. `test_a2_source_manifest_matches_the_repository_sources` fails for `fetch_sources.py` because the retained A2 evidence names the old hashes. Per the lead decision of 2026-11-26, the retained A2 files are not edited. The integrator re-accepts the hash lines after the merge.
 
 ## Review request
 
