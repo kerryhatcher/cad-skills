@@ -58,6 +58,11 @@ cover/
 
 # Django stuff:
 *.log
+# Keep the retained ngspice logs of the PCB trial. Do not ignore them.
+# tests/test_trial_exports.py reads final_r2/rc. The hash file
+# docs/reviews/b5-correction-files-v2.sha256 lists the logs of final/rc too.
+!examples/pcb-trial/results/final/rc/*.log
+!examples/pcb-trial/results/final_r2/rc/*.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
