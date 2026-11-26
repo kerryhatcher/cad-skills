@@ -18,7 +18,7 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fab.py design --project P --profile FILE [--out DIR]` | ERC, DRC with parity, exports, inventory, drawing sheet | all checks pass | a check fails | unsupported board, missing input, wrong tool identity | KiCad failure |
 | `fab.py supplier --project P --profile FILE [--design-dir DIR] [--out DIR] [--manual FILE]` | supplier conditions on a staged copy | every mandatory condition passes | a condition fails, is pending, or the source changed | unsupported mask construct or resource limit | tool failure |
 | `fab.py review-source --project P --profile FILE --release ID --observations FILE --reviewer NAME --out FILE` | source review | decision unchanged or harmless | decision material or invalid record | arguments or existing destination | not used |
-| `fab.py review-gate --project P --profile FILE --review FILE --expect-sha256 H --release ID` | re-check a review record | intact | any problem | not used | not used |
+| `fab.py review-gate --project P --profile FILE --review FILE --expect-sha256 H --release ID` | re-check a review record | intact | any problem | data-only profile | not used |
 | `fab.py package --project P --profile FILE --release ID --review FILE --review-sha256 H --dest DIR` | build and publish the package | qualified | unqualified (reasons in the manifest) | existing destination or missing prerequisite | tool failure |
 | `fab.py inspect-slots --board-inventory FILE --pth FILE --npth FILE --report FILE` | slot comparison | every slot matches | mismatch | unsupported record | missing input |
 | `fab.py inspect-mask --gerber FILE --limit-mil N --report FILE` | mask web measurement | every web passes | fail or uncertain | unsupported construct or limit | tool failure |
@@ -26,6 +26,8 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `make_rules.py [--profiles DIR] [--out DIR] [--check]` | make or compare the rule files | files agree, or written | a file is different or missing, or a rule file has no profile | incorrect profile, argument or symbolic link | file or schema error |
 | `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments, or a link at `--out` | not used |
 | `recheck_sources.py --manifest FILE [--entry ID ...] [--format F] [--allow-ci]` | release re-check of the live pages. Writes no file and changes no profile | each fetched page has its recorded hash | a candidate, changed or magic mismatch | arguments, manifest or watch problem, or CI | fetch failure |
+
+Note: the JLCPCB and PCBWay profiles have data only. For those profiles, the commands `design`, `drawing-facts`, `supplier`, `review-gate` and `package` stop with exit 2. See `references/jlcpcb-kicad-setup.md` and `references/pcbway-kicad-setup.md`.
 
 ## Source setup
 
