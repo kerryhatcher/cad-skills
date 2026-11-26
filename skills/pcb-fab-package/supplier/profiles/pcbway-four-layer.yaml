@@ -7,7 +7,7 @@
   "source_url": "https://www.pcbway.com/capabilities.html",
   "retrieved": "2026-11-26",
   "evidence_sha256": "07c42c853e7ad2b936f48c65d6271791db7a7daacc0fe68384df53bb2eb3fb81",
-  "content_sha256": "89c48c500ebd9f6bb35f5a1e14d170d4f82ec97eae45b1b7a62b9bb972e6e71a",
+  "content_sha256": "b0956a8b6efd83a288203ea87d59eef941d892b434d6e288064799b2a8adf8b9",
   "units": "mm",
   "limits": {
     "board_max_height": {
@@ -260,11 +260,7 @@
         1
       ],
       "inner_oz": [
-        1,
-        1.5,
-        2,
-        3,
-        4
+        1
       ]
     },
     "board_thickness": {

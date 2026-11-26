@@ -439,7 +439,10 @@ def test_optional_geometric_rows():
     prof = repo_profile("pcbway-two-layer")
     # PCBWay 2L: board_min_thickness 0.3 mm, min_plated_slot_size 0.5 mm, via_hole_to_hole_min 11 mil (0.2794 mm), pad_hole_to_hole_min 16 mil (0.4064 mm)
     inv_pass = {
-        "slots": [{"attr": "pth", "minor_mm": 0.5}, {"attr": "npth", "minor_mm": 0.4}],
+        "slots": [
+            {"attr": "pth", "minor_mm": 0.5, "major_mm": 2.0, "endpoints_mm": [[20.0, 0.0], [21.0, 0.0]]},
+            {"attr": "npth", "minor_mm": 0.4, "major_mm": 1.0, "endpoints_mm": [[30.0, 0.0], [30.0, 0.0]]},
+        ],
         "holes": [
             {"kind": "via", "x": 0.0, "y": 0.0, "diameter": 0.3},
             {"kind": "via", "x": 0.5794, "y": 0.0, "diameter": 0.3},  # center 0.5794 - 0.3 = 0.2794 mm == 11 mil
@@ -452,7 +455,7 @@ def test_optional_geometric_rows():
                                                       "via_hole_to_hole_min", "pad_hole_to_hole_min")),
            f"Boundary passing cases failed: {rows}")
     inv_fail = {
-        "slots": [{"attr": "pth", "minor_mm": 0.499}],
+        "slots": [{"attr": "pth", "minor_mm": 0.499, "major_mm": 1.0, "endpoints_mm": [[40.0, 0.0], [40.0, 0.0]]}],
         "holes": [
             {"kind": "via", "x": 0.0, "y": 0.0, "diameter": 0.3},
             {"kind": "via", "x": 0.579399, "y": 0.0, "diameter": 0.3},
@@ -464,6 +467,32 @@ def test_optional_geometric_rows():
     expect(all(rows_fail[k]["status"] == "fail" for k in ("board_min_thickness", "min_plated_slot_size",
                                                            "via_hole_to_hole_min", "pad_hole_to_hole_min")),
            f"Failing cases did not fail: {rows_fail}")
+
+
+def test_oblong_pad_drill_and_general_slot_scope():
+    """An oblong drill joins the pad clearance as its bounding circle. A plated slot leaves the general slot row when min_plated_slot_size is declared."""
+    prof = repo_profile("pcbway-two-layer")
+    # Pad at x=10 with d=1.0. Slot bounding circle at x=11.8 with d=2.0. Required centre distance is 1.5 + 0.4064 mm.
+    near = {"slots": [{"attr": "npth", "minor_mm": 0.8, "major_mm": 2.0, "endpoints_mm": [[11.55, 0.0], [12.05, 0.0]]}],
+            "holes": [{"kind": "pad", "x": 10.0, "y": 0.0, "diameter": 1.0}]}
+    rows_near = _row_map(workflow.optional_geometric_rows(prof, near, _board_for(prof, thickness_mm=0.6), slot_code=0))
+    expect(rows_near["pad_hole_to_hole_min"]["status"] == "fail",
+           f"Oblong drill 1.8 mm from a pad did not fail the pad clearance: {rows_near}")
+    # Slot bounding circle at x=13.0. Centre distance 3.0 mm passes.
+    far = {"slots": [{"attr": "npth", "minor_mm": 0.8, "major_mm": 2.0, "endpoints_mm": [[12.55, 0.0], [13.05, 0.0]]}],
+           "holes": [{"kind": "pad", "x": 10.0, "y": 0.0, "diameter": 1.0}]}
+    rows_far = _row_map(workflow.optional_geometric_rows(prof, far, _board_for(prof, thickness_mm=0.6), slot_code=0))
+    expect(rows_far["pad_hole_to_hole_min"]["status"] == "pass",
+           f"Oblong drill 3.0 mm from a pad did not pass the pad clearance: {rows_far}")
+    # Plated slot of 0.5 mm: excluded from the general 0.8 mm row when min_plated_slot_size is declared.
+    slots = {"slots": [{"attr": "pth", "minor_mm": 0.5}, {"attr": "npth", "minor_mm": 0.8}]}
+    expect([float(m) for m in workflow.general_slot_minors(prof, slots)] == [0.8],
+           "Plated slot stayed in the general slot minimum although min_plated_slot_size is declared.")
+    no_plated = copy.deepcopy(prof)
+    no_plated["division"]["geometric_tests"] = [g for g in no_plated["division"]["geometric_tests"]
+                                                if g != "min_plated_slot_size"]
+    expect([float(m) for m in workflow.general_slot_minors(no_plated, slots)] == [0.5, 0.8],
+           "Without min_plated_slot_size the general slot minimum must check every slot.")
 
 
 def test_extra_manual_procedures_and_rows():
@@ -523,7 +552,7 @@ def test_extra_manual_procedures_and_rows():
 def test_drawing_facts_with_board_record():
     """drawing_facts reads substrate, thickness and copper from board.yaml when the profile omits them."""
     inv = {"outline": {"width": 40.0, "height": 25.0}, "holes": [], "slots": [], "copper_layers": ["F.Cu", "B.Cu"]}
-    for pid, inner in (("jlcpcb-two-layer", None), ("pcbway-four-layer", 2)):
+    for pid, inner in (("jlcpcb-two-layer", None), ("pcbway-four-layer", 1)):
         prof = repo_profile(pid)
         board = _board_for(prof, thickness_mm=1.6, outer_oz=1, inner_oz=inner, substrate="FR4 TG155")
         facts = fab.drawing_facts(inv, prof, b"board", "r1", b"prof", board_record=board)
@@ -531,7 +560,7 @@ def test_drawing_facts_with_board_record():
                and facts["profile"]["finished_thickness_mm"] == 1.6,
                f"{pid}: unexpected drawing facts {facts['profile']}")
         if inner is not None:
-            expect(facts["profile"]["copper"] == "1 oz outer, 2 oz inner",
+            expect(facts["profile"]["copper"] == "1 oz outer, 1 oz inner",
                    f"{pid}: unexpected copper string {facts['profile']['copper']!r}")
         pdf = fab.drawing_pdf(facts)
         expect(pdf.startswith(b"%PDF-1.4\n"), f"{pid}: drawing_pdf did not build a PDF.")
@@ -544,6 +573,14 @@ def test_drawing_facts_with_board_record():
                 pass
             else:
                 raise AssertionError(f"{pid}: invalid board_record passed drawing_facts.")
+    # A profile without fabrication options and without service.copper still reads the board copper.
+    bare = copy.deepcopy(repo_profile("jlcpcb-two-layer"))
+    bare.pop("fabrication_options", None)
+    bare["extensions"].pop("service.copper", None)
+    bare_board = _board_for(bare, thickness_mm=1.6, outer_oz=1, substrate="FR4 TG155")
+    bare_facts = fab.drawing_facts(inv, bare, b"board", "r1", b"prof", board_record=bare_board)
+    expect(bare_facts["profile"]["copper"] == "1 oz outer",
+           f"Board copper without fabrication options was not read: {bare_facts['profile']}")
 
 
 def test_check_profile_fabrication_options():

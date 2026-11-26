@@ -412,19 +412,21 @@ def _drawing_board_facts(profile, board_record):
             if thick_mm < Fraction(str(bt["min_mm"])) or thick_mm > Fraction(str(bt["max_mm"])) or thick_mm not in allowed:
                 raise Invalid("mechanical.thickness_mm is not an allowed thickness of the profile")
     copper = ext.get("service.copper")
-    if opts is not None and fab_ext is not None:
-        cw = opts["copper_weight"]
+    # Read the board copper even when the profile has no fabrication options.
+    # Check it against the allowed weights only when the profile defines them.
+    if fab_ext is not None:
+        cw = None if opts is None else opts["copper_weight"]
         outer = fab_ext.get("copper_outer_oz")
         if outer is not None and outer != "unconfirmed":
             outer_frac = _positive_fraction(outer, "extensions.fabrication.copper_outer_oz")
-            if outer_frac not in [Fraction(str(v)) for v in cw["outer_oz"]]:
+            if cw is not None and outer_frac not in [Fraction(str(v)) for v in cw["outer_oz"]]:
                 raise Invalid("extensions.fabrication.copper_outer_oz is not an allowed copper weight of the profile")
             copper = f"{outer} oz outer"
-            if "inner_oz" in cw:
+            if cw is None or "inner_oz" in cw:
                 inner = fab_ext.get("copper_inner_oz")
                 if inner is not None and inner != "unconfirmed":
                     inner_frac = _positive_fraction(inner, "extensions.fabrication.copper_inner_oz")
-                    if inner_frac not in [Fraction(str(v)) for v in cw["inner_oz"]]:
+                    if cw is not None and inner_frac not in [Fraction(str(v)) for v in cw["inner_oz"]]:
                         raise Invalid("extensions.fabrication.copper_inner_oz is not an allowed copper weight of the profile")
                     copper = f"{outer} oz outer, {inner} oz inner"
     if not isinstance(copper, str) or not copper.strip():

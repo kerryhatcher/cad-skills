@@ -57,7 +57,7 @@ Limit direction:
 
 Notes on the table:
 
-- The workflow has one minimum slot value for all slots (`0.8 mm`) and a plated slot minimum (`0.5 mm`) in `division.geometric_tests`.
+- The workflow applies the `0.8 mm` slot minimum to non-plated slots. If `min_plated_slot_size` is declared in `division.geometric_tests`, the `0.5 mm` minimum applies to plated slots.
 - The four-layer profile limits each side to 600 mm. If a side is larger than 600 mm, the inner hole to copper spacing must be 15 mil or more.
 - The four-layer profile uses 5 mil and 6 mil for all layers. The normal process gives 4 mil width and 5 mil spacing on the inner layers. The profile is stricter there.
 
@@ -65,7 +65,7 @@ Notes on the table:
 
 The PCBWay profiles include `fabrication_options` for copper weight, board thickness and mask color. The workflow compares these options with `board.yaml` and `${PROJECT}/manufacturing/supplier.yaml`. The stop of the PCBWay profiles stays active until phase 5.
 
-- **Copper weight.** `extensions.fabrication.copper_outer_oz` must be `1`. The four-layer profile checks `extensions.fabrication.copper_inner_oz` against `1`, `1.5`, `2`, `3` and `4` oz. Missing or `unconfirmed` values keep the row `pending`.
+- **Copper weight.** `extensions.fabrication.copper_outer_oz` must be `1`. The four-layer profile accepts `extensions.fabrication.copper_inner_oz` of `1` only. The trace and space rows cover 1 oz copper only. Heavier inner copper needs vendor minima before the profile can allow it. Missing or `unconfirmed` values keep the row `pending`.
 - **Board thickness.** `mechanical.thickness_mm` in `board.yaml` must match `fabrication_options.board_thickness.allowed_mm` and `board_min_thickness` (`0.3 mm` two-layer, `0.6 mm` four-layer). `drawing_facts` reads `mechanical.thickness_mm` and `extensions.fabrication.substrate` from `board.yaml`.
 - **Mask color.** `extensions.fabrication.mask_color` must name one of the eight normal-process colors (`green`, `matt green`, `blue`, `red`, `black`, `matte black`, `white` or `yellow`). Missing or `unconfirmed` values keep the row `pending`. The workflow checks `mask_web_min` against `bridge_min_by_color`.
 - **Manual minimums.** `silk_line_min_short_text`, `silk_text_min_height` and `plated_half_hole_min_diameter` use `manual-evidence` JSON records passed through `--manual`.

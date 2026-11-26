@@ -501,6 +501,25 @@ def _holes_clearance_ok(holes, min_mm):
     return True
 
 
+def general_slot_minors(profile, inventory):
+    """Return the minor dimensions that the min_slot_size row checks.
+
+    When the profile declares min_plated_slot_size, the plated slots have their own row.
+    The min_slot_size row then checks the non-plated slots only.
+    """
+    plated_checked = "min_plated_slot_size" in profile["division"].get("geometric_tests", [])
+    return [Fraction(str(s["minor_mm"])) for s in inventory.get("slots", [])
+            if not (plated_checked and s.get("attr") == "pth")]
+
+
+def _slot_bounding_circle(slot):
+    """Return the circle that contains a slot. Its diameter is the major dimension of the slot."""
+    (x1, y1), (x2, y2) = slot["endpoints_mm"]
+    return {"x": (Fraction(str(x1)) + Fraction(str(x2))) / 2,
+            "y": (Fraction(str(y1)) + Fraction(str(y2))) / 2,
+            "diameter": slot["major_mm"]}
+
+
 def optional_geometric_rows(profile, inventory, board_record, slot_code=0):
     """Measure the optional geometric_tests declared by the profile."""
     geom = set(profile["division"].get("geometric_tests", []))
@@ -528,10 +547,14 @@ def optional_geometric_rows(profile, inventory, board_record, slot_code=0):
                      "interpretation": "edge-to-edge distance between via holes from the saved inventory"})
     if "pad_hole_to_hole_min" in geom:
         pads = [h for h in inventory.get("holes", []) if h.get("kind") == "pad"]
+        # The inventory keeps oblong drills under slots. Each slot joins the check as its bounding circle.
+        # That circle is at least as large as the slot, so the check cannot pass a pair that is too close.
+        pads += [_slot_bounding_circle(s) for s in inventory.get("slots", [])]
         ok = _holes_clearance_ok(pads, fab.limit_in_mm(profile["limits"]["pad_hole_to_hole_min"]))
         rows.append({"condition": "pad_hole_to_hole_min", "method": "geometric_test", "mandatory": True,
                      "status": "pass" if ok else "fail",
-                     "interpretation": "edge-to-edge distance between drilled pad holes from the saved inventory"})
+                     "interpretation": "edge-to-edge distance between drilled pad holes and slots from the saved inventory, "
+                                       "a slot measured as its bounding circle"})
     return rows
 
 
@@ -1021,11 +1044,10 @@ def _supplier_measure(project, profile, out, extra_inputs, manual_items, consume
     if slot_report.is_file():
         outputs.write(out / "slots.json", slot_report.read_bytes())
     min_slot_mm = fab.limit_in_mm(profile["limits"]["min_slot_size"])
-    minors = [Fraction(str(s["minor_mm"])) for s in inventory.get("slots", [])]
-    slot_ok = all(m >= min_slot_mm for m in minors)
+    slot_ok = all(m >= min_slot_mm for m in general_slot_minors(profile, inventory))
     rows.append({"condition": "min_slot_size", "method": "slot_inspection", "mandatory": True,
                  "status": "pass" if (code_slot == 0 and slot_ok) else "fail",
-                 "interpretation": "minor dimension of every drilled slot and record match"})
+                 "interpretation": "minor dimension of each slot in scope and record match"})
     board_record = VAL.parse_record(consumed["board.yaml"], ".yaml", "board.yaml")
     supplier_record = (VAL.parse_record(consumed["manufacturing/supplier.yaml"], ".yaml", "manufacturing/supplier.yaml")
                        if consumed["manufacturing/supplier.yaml"] is not None else None)
