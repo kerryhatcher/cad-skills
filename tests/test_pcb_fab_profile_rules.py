@@ -243,7 +243,7 @@ def test_check_division_refuses():
             profile = profile_copy()
             profile["limits"][key] = dict(profile["limits"][key], value=value)
             cases.append((profile, f"the limit {key} must have a finite value greater than 0"))
-    for value in ("abc", "nan", 0, -1, "1/3"):
+    for value in ("abc", "nan", "inf", None, 0, -1, "1/3"):
         profile = profile_copy()
         profile["limits"]["silk_line_min_short_text"] = dict(profile["limits"]["silk_line_min_short_text"],
                                                              value=value)
