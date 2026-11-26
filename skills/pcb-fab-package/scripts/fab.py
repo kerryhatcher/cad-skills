@@ -483,9 +483,13 @@ def _review_source(a, project):
     """Write the source review and its observation file. Run under the project lock. Return the exit status."""
     profile_path = pathlib.Path(a["--profile"])
     profile = check_profile(profile_path)
-    out = pathlib.Path(a["--out"])
+    raw_out = pathlib.Path(a["--out"])
     # Make sure that the path is in the project first. Thus an outside path never gets the destination message.
-    PIO.confine(project, out)
+    out = PIO.confine(project, raw_out)
+    # Refuse a symbolic link before the existing-file test. PIO.confine resolves links.
+    lexical_out = raw_out if raw_out.is_absolute() else project.resolve() / raw_out
+    if os.path.islink(lexical_out) or os.path.islink(out):
+        raise PIO.SymlinkTarget(f"The target {raw_out} is a symbolic link.")
     if out.exists():
         return _fail(EXIT_ARGS, "the destination exists")
     raw_obs = pathlib.Path(a["--observations"]).read_bytes()

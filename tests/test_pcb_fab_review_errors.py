@@ -2,7 +2,7 @@
 # requires-python = ">=3.10"
 # dependencies = ["jsonschema==4.26.0", "pyyaml==6.0.3"]
 # ///
-"""Tests for the one-line errors of review-source in skills/pcb-fab-package (issue #11).
+"""Tests for the one-line errors and relative --out paths of review-source in skills/pcb-fab-package (issues #11, #18).
 
 Run with: uv run tests/test_pcb_fab_review_errors.py
 
@@ -54,18 +54,18 @@ def expect_one_line_error(stderr, code, want_code, label):
     expect(stderr.startswith("fab: "), f"{label}: the error does not start with the prefix. Error: {stderr}")
 
 
-def run_cli(*args):
+def run_cli(*args, cwd=None):
     """Run fab.py through uv. Return the exit code, the stdout text and the stderr text."""
     done = subprocess.run(["uv", "run", "--quiet", str(SCRIPTS / "fab.py"), *args],
-                          capture_output=True, text=True, env=dict(os.environ), check=False)
+                          capture_output=True, text=True, env=dict(os.environ), cwd=cwd, check=False)
     return done.returncode, done.stdout, done.stderr
 
 
-def run_review(project, observations, out):
+def run_review(project, observations, out, cwd=None):
     """Run review-source for the fixture profile and the fixture release."""
     return run_cli("review-source", "--project", str(project), "--profile", str(PROFILE),
                    "--release", RELEASE, "--observations", str(observations),
-                   "--reviewer", REVIEWER, "--out", str(out))
+                   "--reviewer", REVIEWER, "--out", str(out), cwd=cwd)
 
 
 def new_project(td):
@@ -234,6 +234,70 @@ def test_existing_out_in_project_exits_2():
         expect_one_line_error(err, code, 2, "existing destination")
         expect("the destination exists" in err, f"The destination message is missing. Error: {err}")
         expect(out.read_bytes() == b"old\n", "The existing destination changed.")
+
+
+def test_relative_out_from_outside_cwd():
+    """A relative --out from a caller directory outside the project writes into the project and refuses a second run."""
+    with tempfile.TemporaryDirectory() as td:
+        project = new_project(td)
+        caller = Path(td) / "caller"
+        caller.mkdir()
+        obs = write_body(td, observation_body(project))
+        rel_out = Path("out/fab/review/REVIEW.json")
+        code, text, err = run_review(project, obs, rel_out, cwd=caller)
+        expect(code == 0, f"A relative --out gave exit {code}. Expected 0. Error: {err}")
+        expect(err == "", f"Stderr is not empty. Error: {err}")
+        out_in_project = project / "out" / "fab" / "review" / "REVIEW.json"
+        expect(out_in_project.is_file(), "REVIEW.json is missing in the project.")
+        expect((out_in_project.parent / "observations.json").read_bytes() == obs.read_bytes(),
+               "observations.json does not have the bytes of the observation file.")
+        payload = json.loads(text)
+        expect(payload["decision"] == "unchanged", f"The decision is {payload['decision']}. Expected unchanged.")
+        expect(payload["review_sha256"] == hashlib.sha256(out_in_project.read_bytes()).hexdigest(),
+               "review_sha256 differs from the written REVIEW.json bytes.")
+        expect(list(caller.iterdir()) == [], "The command wrote items in the caller directory.")
+        first_bytes = out_in_project.read_bytes()
+        code2, _, err2 = run_review(project, obs, rel_out, cwd=caller)
+        expect_one_line_error(err2, code2, 2, "relative existing destination")
+        expect("the destination exists" in err2, f"The destination message is missing. Error: {err2}")
+        expect(out_in_project.read_bytes() == first_bytes, "The existing destination changed.")
+        expect(list(caller.iterdir()) == [], "The command wrote items in the caller directory on the second run.")
+
+
+def test_relative_out_symlink_from_outside_cwd():
+    """A relative --out that names a symbolic link in the project gives exit 2 from an outside directory."""
+    with tempfile.TemporaryDirectory() as td:
+        project = new_project(td)
+        caller = Path(td) / "caller"
+        caller.mkdir()
+        obs = write_body(td, observation_body(project))
+        review_dir = project / "out" / "fab" / "review"
+        review_dir.mkdir(parents=True)
+        target = review_dir / "target.json"
+        link = review_dir / "REVIEW.json"
+        link.symlink_to(target)
+        code, _, err = run_review(project, obs, Path("out/fab/review/REVIEW.json"), cwd=caller)
+        expect_one_line_error(err, code, 2, "relative symbolic link target")
+        expect("symbolic link" in err, f"The symbolic link message is missing. Error: {err}")
+        expect(LINK_HINT in err, f"The hint is missing. Error: {err}")
+        expect(not target.exists(), "The target of the link was written.")
+        expect(os.readlink(link) == str(target), "The link changed.")
+        expect(list(caller.iterdir()) == [], "The command wrote items in the caller directory.")
+
+
+def test_relative_out_escape_from_outside_cwd():
+    """A relative --out that goes outside the project gives exit 2 from an outside directory."""
+    with tempfile.TemporaryDirectory() as td:
+        project = new_project(td)
+        caller = Path(td) / "caller"
+        caller.mkdir()
+        obs = write_body(td, observation_body(project))
+        code, _, err = run_review(project, obs, Path("../outside/REVIEW.json"), cwd=caller)
+        expect_one_line_error(err, code, 2, "relative outside project")
+        expect("outside the project root" in err, f"The confinement message is missing. Error: {err}")
+        expect(OUTSIDE_HINT in err, f"The hint is missing. Error: {err}")
+        expect(not (Path(td) / "outside").exists(), "The directory outside the project was made.")
+        expect(list(caller.iterdir()) == [], "The command wrote items in the caller directory.")
 
 
 TESTS = [value for name, value in list(globals().items()) if name.startswith("test_") and callable(value)]
