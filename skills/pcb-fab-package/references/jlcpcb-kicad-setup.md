@@ -85,4 +85,4 @@ Do not describe a JLCPCB package from this repository as ready for production. A
 - One-layer and six-layer services are out of scope.
 - Copper heavier than 1 oz is out of scope.
 - Cutter diameters, a substrate and a finished thickness are not in the profiles.
-- The lead opens follow-up work for these facts, for the mask units, for the drawing facts and for the review of project settings.
+- The lead opens follow-up work for these facts, for the drawing facts and for the review of project settings.
