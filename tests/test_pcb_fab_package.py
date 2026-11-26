@@ -416,6 +416,69 @@ def test_drawing(tmp):
     check("drawing renders to PNG", proc.returncode == 0 and png.is_file() and png.stat().st_size > 1000, proc.stderr)
 
 
+def process_line(pdf):
+    """The text of the Process line of the drawing sheet."""
+    text = pdf.decode("ascii", errors="replace")
+    for part in text.split("\n"):
+        if part.startswith("BT /F1") and " Tj" in part:
+            line = part.split("(", 1)[1].rsplit(") Tj", 1)[0].replace("\\(", "(").replace("\\)", ")")
+            if line.startswith("Process: "):
+                return line
+    return None
+
+
+def test_drawing_units(tmp):
+    """The drawing facts and the sheet show the unit of each process limit."""
+    profile = load_profile()
+    inv_data = json.loads((FIX / "inventory" / "board_rot45.inventory.json").read_text())
+    board = FIX / "inventory" / "board_rot45.inventory.json"
+    facts = fab.drawing_facts(inv_data, profile, board.read_bytes(), "trial-1", PROFILE.read_bytes())
+    check("drawing facts of the OSH Park profile have the same profile keys",
+          set(facts["profile"]) == {"profile", "source_page", "min_trace_mil", "min_space_mil", "min_drill_mil",
+                                    "mask_web_min_mil", "substrate", "finished_thickness_mm", "copper"},
+          sorted(facts["profile"]))
+    check("the OSH Park process line does not change",
+          process_line(fab.drawing_pdf(facts))
+          == "Process: min trace 6 mil, min space 6 mil, min drill 10 mil, mask web min 4 mil",
+          process_line(fab.drawing_pdf(facts)))
+    changed = copy.deepcopy(load_profile())
+    for name, value, unit in (("min_trace", 0.1, "mm"), ("min_drill", 0.2, "mm"),
+                              ("mask_web_min", 0.13, "mm"), ("min_space", 6, "mil")):
+        changed["limits"][name] = dict(changed["limits"][name], value=value, unit=unit)
+    facts = fab.drawing_facts(inv_data, changed, board.read_bytes(), "trial-1", PROFILE.read_bytes())
+    keys = set(facts["profile"])
+    check("a limit in mm gives a key in mm and no key in mil",
+          {"min_trace_mm", "min_drill_mm", "mask_web_min_mm", "min_space_mil"} <= keys and "min_trace_mil" not in keys,
+          sorted(keys))
+    check("the process line shows the unit of each limit",
+          process_line(fab.drawing_pdf(facts))
+          == "Process: min trace 0.1 mm, min space 6 mil, min drill 0.2 mm, mask web min 0.13 mm",
+          process_line(fab.drawing_pdf(facts)))
+    mm_facts = facts
+    changed = copy.deepcopy(load_profile())
+    changed["limits"]["min_drill"] = dict(changed["limits"]["min_drill"], value=0.01, unit="in")
+    facts = fab.drawing_facts(inv_data, changed, board.read_bytes(), "trial-1", PROFILE.read_bytes())
+    check("a limit in in gives a key in in and the text in in",
+          "min_drill_in" in facts["profile"] and "min drill 0.01 in" in process_line(fab.drawing_pdf(facts)),
+          (sorted(facts["profile"]), process_line(fab.drawing_pdf(facts))))
+    two = copy.deepcopy(mm_facts)
+    two["profile"]["min_trace_mil"] = 6
+    try:
+        fab.drawing_pdf(two)
+        refused = False
+    except fab.Invalid:
+        refused = True
+    check("the sheet refuses two units for one limit", refused)
+    none = copy.deepcopy(mm_facts)
+    del none["profile"]["min_trace_mm"]
+    try:
+        fab.drawing_pdf(none)
+        refused = False
+    except fab.Invalid:
+        refused = True
+    check("the sheet refuses a limit with no unit", refused)
+
+
 def test_refuses_unimplemented(tmp):
     code, text = run_fab("design", "--project", str(tmp), "--profile", str(SKILL / "supplier" / "profiles" / "oshpark-two-layer.yaml"))
     check("design refuses a project with no files (not zero)", code != 0, (code, text))
@@ -602,6 +665,7 @@ def main():
         test_source_review(tmp / "rv") if (tmp / "rv").mkdir() is None else None
         test_review_gate(tmp / "gt") if (tmp / "gt").mkdir() is None else None
         test_drawing(tmp / "dr") if (tmp / "dr").mkdir() is None else None
+        test_drawing_units(tmp / "du") if (tmp / "du").mkdir() is None else None
         test_geometry_focused(tmp / "geo") if (tmp / "geo").mkdir() is None else None
         test_geometry_corrections(tmp / "corr") if (tmp / "corr").mkdir() is None else None
         test_final_decisions(tmp / "final") if (tmp / "final").mkdir() is None else None

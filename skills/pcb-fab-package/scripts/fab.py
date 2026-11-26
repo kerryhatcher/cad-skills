@@ -293,26 +293,41 @@ def review_gate(project, profile, review_path, expected_sha, release):
     return problems
 
 
+# The process limits on the drawing sheet: the limit name and the label. The facts key has the unit of the limit.
+DRAWING_LIMITS = (("min_trace", "min trace"), ("min_space", "min space"), ("min_drill", "min drill"),
+                  ("mask_web_min", "mask web min"))
+DRAWING_UNITS = ("mil", "mm", "in")
+
+
+def _limit_text(p, name, label):
+    """The sheet text of one process limit. The facts must give the limit in exactly one unit."""
+    found = [(unit, p[f"{name}_{unit}"]) for unit in DRAWING_UNITS if f"{name}_{unit}" in p]
+    if len(found) != 1:
+        raise Invalid(f"the drawing facts must give one unit for {name}")
+    unit, value = found[0]
+    return f"{label} {value} {unit}"
+
+
 def drawing_facts(inventory, profile, board_bytes, release, profile_bytes):
     """Build the facts that the drawing sheet shows. The inventory comes from board_inventory_slots.py."""
     outline = inventory["outline"]
     holes = inventory.get("holes", []) + inventory.get("slots", [])
     diameters = sorted({h.get("diameter", h.get("minor_mm")) for h in holes})
     layers = inventory["copper_layers"]
+    shown = {"profile": profile["id"], "source_page": "stored supplier page"}
+    for name, _ in DRAWING_LIMITS:
+        limit = profile["limits"][name]
+        shown[f"{name}_{limit['unit']}"] = limit["value"]
+    shown.update({"substrate": profile["extensions"]["service.substrate"],
+                  "finished_thickness_mm": profile["extensions"]["service.finished_thickness_display_mm"],
+                  "copper": profile["extensions"]["service.copper"]})
     return {"release_id": release, "unit": "mm",
             "board_sha256": sha(board_bytes), "profile_sha256": profile["content_sha256"],
             "profile_file_sha256": sha(profile_bytes),
             "overall_width_mm": outline["width"], "overall_height_mm": outline["height"],
             "holes": {"count": len(holes), "diameters_mm": diameters},
             "copper_layers": layers, "stackup": f"{len(layers)}-layer",
-            "profile": {"profile": profile["id"], "source_page": "stored supplier page",
-                        "min_trace_mil": profile["limits"]["min_trace"]["value"],
-                        "min_space_mil": profile["limits"]["min_space"]["value"],
-                        "min_drill_mil": profile["limits"]["min_drill"]["value"],
-                        "mask_web_min_mil": profile["limits"]["mask_web_min"]["value"],
-                        "substrate": profile["extensions"]["service.substrate"],
-                        "finished_thickness_mm": profile["extensions"]["service.finished_thickness_display_mm"],
-                        "copper": profile["extensions"]["service.copper"]}}
+            "profile": shown}
 
 
 def _pdf_escape(text):
@@ -331,8 +346,7 @@ def drawing_pdf(facts):
         (f"Holes: {facts['holes']['count']} (diameters mm: {', '.join(str(d) for d in facts['holes']['diameters_mm'])})", 11),
         (f"Copper layers: {', '.join(facts['copper_layers'])}; stackup: {facts['stackup']}", 11),
         (f"Profile: {p['profile']} (source: {p['source_page']})", 11),
-        (f"Process: min trace {p['min_trace_mil']} mil, min space {p['min_space_mil']} mil, "
-         f"min drill {p['min_drill_mil']} mil, mask web min {p['mask_web_min_mil']} mil", 11),
+        ("Process: " + ", ".join(_limit_text(p, name, label) for name, label in DRAWING_LIMITS), 11),
         (f"Substrate: {p['substrate']}; finished thickness {p['finished_thickness_mm']} mm; copper {p['copper']}", 11),
         (f"Board SHA-256: {facts['board_sha256']}", 9),
         (f"Profile SHA-256: {facts['profile_sha256']}", 9),
