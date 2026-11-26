@@ -243,6 +243,15 @@ def test_check_division_refuses():
             profile = profile_copy()
             profile["limits"][key] = dict(profile["limits"][key], value=value)
             cases.append((profile, f"the limit {key} must have a finite value greater than 0"))
+    for value in ("abc", "nan", 0, -1, "1/3"):
+        profile = profile_copy()
+        profile["limits"]["silk_line_min_short_text"] = dict(profile["limits"]["silk_line_min_short_text"],
+                                                             value=value)
+        cases.append((profile, "the limit silk_line_min_short_text must have a finite value greater than 0"))
+        for kind in ("minimum", "maximum"):
+            profile = manual_copy(kind)
+            profile["limits"]["pad_to_silk_min"]["value"] = value
+            cases.append((profile, "the limit pad_to_silk_min must have a finite value greater than 0"))
     try:
         for profile, wanted in cases:
             code, message = stop_of(workflow.check_division, profile)
@@ -250,6 +259,14 @@ def test_check_division_refuses():
                    f"The division gives the code {code} and the message {message!r}, not {wanted!r}.")
     finally:
         workflow.RULE_CONSTRAINT.pop("fake_rule", None)
+
+
+def test_check_division_manual_recommendation_value():
+    """check_division does not examine the value of a manual recommendation."""
+    profile = manual_copy("recommendation")
+    profile["limits"]["pad_to_silk_min"]["value"] = 0
+    code, message = stop_of(workflow.check_division, profile)
+    expect(code is None, f"The recommendation with the value 0 gives the code {code} and the message {message!r}.")
 
 
 def test_check_division_repository_profiles():

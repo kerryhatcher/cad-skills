@@ -69,7 +69,8 @@ Read these two live pages by hand at each release, also when the hash is the sam
 2. Read the live page. Write the observations.
 3. Run `fab.py review-source` with the observations. Keep the review hash.
 4. If a rule value changes, change the profile in a separate commit. Then change the hash in `sources.yaml` and in the profile `evidence_pages`.
-   Write the `observed_text_sha256` value of the re-check report as `text_sha256` in `sources.yaml`.
+   If the entry is `markup` and `observed_text_sha256` is not `null`, write this value as `text_sha256` in `sources.yaml`.
+   If the entry is not `markup` or the value is `null`, do not write `text_sha256`.
 5. Run `fetch_sources.py` again. Then run the re-check again. The re-check must give exit 0.
 
 ## 6. If a fetch failed

@@ -442,6 +442,11 @@ def check_division(profile):
         if kind not in MANUAL_KINDS:
             raise Stop(EXIT_UNSUPPORTED, f"the manual-evidence limit {key} has the kind {kind!r}. "
                        "Use minimum, maximum or recommendation.")
+        # A person examines a manual minimum or maximum. A numeric value must be valid, as for the measured limits.
+        limit = profile["limits"][key]
+        if (kind in ("minimum", "maximum") and limit.get("value_kind") == "number"
+                and _limit_number(limit.get("value")) is None):
+            raise Stop(EXIT_UNSUPPORTED, f"the limit {key} must have a finite value greater than 0.")
     if profile["extensions"].get("service.order_multiple", {}).get("kind") == "not_stated":
         raise Stop(EXIT_UNSUPPORTED, "The profile states no order multiple. The workflow cannot examine the order quantity.")
     return None
