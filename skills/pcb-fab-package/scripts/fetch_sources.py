@@ -37,7 +37,7 @@ SCHEMA_VERSION = 1
 TOP_KEYS = {"schema", "schema_version", "sources"}
 ENTRY_KEYS = {"id", "path", "url", "retrieved", "sha256", "content_type", "magic", "license_state",
               "distribution_decision", "profile_binding"}
-# An optional key. Its value is the SHA-256 of the visible page text. The byte sha256 stays the binding evidence.
+# The optional key text_sha256 holds the SHA-256 of the visible page text. The byte sha256 stays the binding evidence.
 OPTIONAL_ENTRY_KEYS = {"text_sha256"}
 # The text in these elements is not visible page text.
 HIDDEN_TEXT_TAGS = frozenset({"script", "style", "noscript"})
@@ -97,7 +97,7 @@ def magic_status(token, data):
 
 
 class _VisibleText(html.parser.HTMLParser):
-    """Collect the visible page text. Each tag, removed element, comment, declaration, processing
+    """Collect the visible page text. Each tag, removed element, comment, doctype, processing
     instruction and CDATA section becomes one space."""
 
     def __init__(self):

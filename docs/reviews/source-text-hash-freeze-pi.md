@@ -6,9 +6,9 @@ Date: 2026-11-26 UTC. Released by the lead decision of 2026-11-26 (issue #9, "Co
 
 | Path | SHA-256 |
 |---|---|
-| `skills/pcb-fab-package/scripts/fetch_sources.py` | `56e6c789f8e7369bf21373ee3e9322797a9c3c45311ba13987163f3bd0b368db` |
+| `skills/pcb-fab-package/scripts/fetch_sources.py` | `c257ca4e6383c0f3bfa6a8aa865243b644c3ea86d8ac4db472e76a600f5ac46f` |
 | `skills/pcb-fab-package/scripts/recheck_sources.py` | `73195ca6e4b7325b34635ac0db3ad47075f159d75df2a3df723c8301ea3aca8d` |
-| `tests/test_source_retrieval.py` | `7a4ab0e07f8e0e67a9b358aa2940c52b3e2823191bf769e964874be57685bb1a` |
+| `tests/test_source_retrieval.py` | `addd4f3515b64a7fe2831af0f9c2822e133277407d3d1c67a44acdd987392aa5` |
 | `tests/test_recheck_sources.py` | `e2c90b1d7f40e885b2052744975fcaf456135229ea00a05307090aa4f66387d4` |
 | `tests/fab_fixture.py` | `58162631b319c76d45b465548eb1c36adf7617c2e2d1d15d7ab1cab85354c69a` |
 
@@ -41,7 +41,7 @@ Outcome rules (`fetch_sources.py`):
 
 ## Risks
 
-A tag around one word changes the text, because each tag gives one space. `<p><b>Fi</b>x</p>` gives the text `Fi x`, and `<p>Fix</p>` gives `Fix`. A markup-only change of this kind then gives the status `text-mismatch` (bytes match) or `changed` (bytes differ), with exit 1.
+A tag around one word changes the text, because each tag gives one space. `<p><b>Fi</b>x</p>` gives the text `Fi x`, and `<p>Fix</p>` gives `Fix`. A markup-only change of this kind gives the status `changed`, with exit 1. It gives `text-mismatch` only after a person rebinds the byte hash to the new bytes.
 
 ## Tests
 

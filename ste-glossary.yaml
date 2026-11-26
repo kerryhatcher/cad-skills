@@ -720,6 +720,14 @@ technical_nouns:
     inflections: ["HTML entities"]
   - word: "whitespace"
     inflections: []
+  - word: "doctype"
+    inflections: ["doctypes"]
+  - word: "processing instruction"
+    inflections: ["processing instructions"]
+  - word: "CDATA section"
+    inflections: ["CDATA sections"]
+  - word: "byte order mark"
+    inflections: ["byte order marks"]
 technical_verbs:
   - word: "build"
     part_of_speech: verb
@@ -785,6 +793,10 @@ technical_verbs:
     part_of_speech: verb
     status: technical_verbs
     inflections: ["pushes", "pushed"]
+  - word: "rebind"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["rebinds"]
   - word: "render"
     part_of_speech: verb
     status: technical_verbs

@@ -46,7 +46,8 @@ Do not commit the report without the lead's approval.
 | Exit | Result | Next step |
 |---|---|---|
 | 0 | The hash of each fetched page matches the recorded hash, or only the layout changed (`layout`). | No new source review. For `layout`, do not edit the profile. |
-| 1 | A page changed, has no recorded hash, has an incorrect magic token, or has a text hash that does not match the visible text, while the bytes match (`text-mismatch`). | Follow "If a page changed". |
+| 1 | A page changed, has no recorded hash, or has an incorrect magic token. | Follow "If a page changed". |
+| 1 | The bytes match, but the text hash does not match the visible text (`text-mismatch`). | Follow "If a page changed". |
 | 2 | An argument, manifest, binding or watch problem. The command fetched no page. | Repair the problem. Run the command again. |
 | 3 | A fetch failed. The report also gives the pages that changed. | Follow "If a fetch failed". |
 

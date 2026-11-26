@@ -733,10 +733,10 @@ def test_text_rule_decl_pi_cdata_bom(tmp):
           FS.visible_text(b"A<!DOCTYPE x>B") == "A B" and FS.visible_text(b"A<?xml x?>B") == "A B"
           and FS.visible_text(b"A<![CDATA[x]]>B") == "A B"
           and FS.visible_text(b"\xef\xbb\xbfA") == "A"
-          and FS.visible_text(b"\xef\xbb\xbf<p>A</p>") == "A",
+          and FS.visible_text(b"\xef\xbb\xbf<p>A</p>") == "A"
+          and FS.visible_text(b"\xef\xbb\xbf\xef\xbb\xbfA") == "\ufeffA",
           (FS.visible_text(b"A<!DOCTYPE x>B"), FS.visible_text(b"A<?xml x?>B"),
            FS.visible_text(b"A<![CDATA[x]]>B"), FS.visible_text(b"\xef\xbb\xbfA")))
-
 
 
 def test_text_hash_value(tmp):
