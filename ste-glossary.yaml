@@ -676,18 +676,12 @@ technical_nouns:
     inflections: []
   - word: "copper"
     inflections: []
-  - word: "page"
-    inflections: ["pages"]
-  - word: "table"
-    inflections: ["tables"]
   - word: "standard table"
     inflections: ["standard tables"]
   - word: "advanced table"
     inflections: ["advanced tables"]
   - word: "normal process"
     inflections: ["normal processes"]
-  - word: "limit"
-    inflections: ["limits"]
   - word: "multilayer"
     inflections: []
   - word: "single-sided"
@@ -712,8 +706,6 @@ technical_nouns:
     inflections: ["mask colors"]
   - word: "reviewer"
     inflections: ["reviewers"]
-  - word: "reading"
-    inflections: ["readings"]
   - word: "CNC milling"
     inflections: []
   - word: "mill tool"

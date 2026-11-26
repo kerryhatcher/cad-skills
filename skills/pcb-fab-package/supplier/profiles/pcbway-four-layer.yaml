@@ -7,7 +7,7 @@
   "source_url": "https://www.pcbway.com/capabilities.html",
   "retrieved": "2026-11-26",
   "evidence_sha256": "07c42c853e7ad2b936f48c65d6271791db7a7daacc0fe68384df53bb2eb3fb81",
-  "content_sha256": "2bf122d7172367230b83b1b81029979a284b27f01f8626f7ff02b35342a4e45f",
+  "content_sha256": "b6b8d2f39f762c522dc2683d683037c882ab3a6a2efb1458af79cf5a80d54d7d",
   "units": "mm",
   "limits": {
     "board_max_height": {
@@ -58,7 +58,7 @@
       "kind": "recommendation",
       "scope": "fabrication",
       "value_kind": "text",
-      "value": "Board thickness: 0.2 mm to 3.2 mm. The standard table lists 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.6, 2.0, 2.4, 2.6, 2.8, 3.0 and 3.2 mm.",
+      "value": "Board thickness: 0.6 mm to 3.2 mm, the minimum of the advanced table, row 27, normal process. The standard table lists 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.6, 2.0, 2.4, 2.6, 2.8, 3.0 and 3.2 mm. The 0.2 mm and 0.4 mm options are below the minimum.",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
     },
@@ -74,7 +74,7 @@
       "kind": "recommendation",
       "scope": "fabrication",
       "value_kind": "text",
-      "value": "Outer layer copper: 1 oz to 8 oz (35 um to 280 um) on the standard table. The profile limits apply to 1 oz outer copper.",
+      "value": "Outer layer copper: the normal process of the advanced table, row 22, gives 0.5 oz to 4 oz. The standard table gives 1 oz to 8 oz (35 um to 280 um). The profile limits apply to 1 oz outer copper, which is inside both ranges.",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
     },
@@ -100,8 +100,8 @@
       "kind": "minimum",
       "scope": "fabrication",
       "value_kind": "number",
-      "value": 0.15,
-      "unit": "mm",
+      "value": 10,
+      "unit": "mil",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
     },
@@ -109,7 +109,7 @@
       "kind": "minimum",
       "scope": "fabrication",
       "value_kind": "number",
-      "value": 0.15,
+      "value": 0.2,
       "unit": "mm",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
@@ -172,7 +172,7 @@
       "kind": "minimum",
       "scope": "fabrication",
       "value_kind": "number",
-      "value": 0.4,
+      "value": 0.5,
       "unit": "mm",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
@@ -207,7 +207,7 @@
       "kind": "recommendation",
       "scope": "fabrication",
       "value_kind": "text",
-      "value": "Standard table: green, red, yellow, blue, white, black, matt green, matte black, purple and none. The page gives no extra charge for green, red, yellow and blue.",
+      "value": "Normal process, row 24 of the advanced table: green, matt green, blue, red, black, matte black, white and yellow. The standard table also lists purple and none. The normal process does not give purple or none. The page gives no extra charge for green, red, yellow and blue.",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
     },
@@ -263,7 +263,7 @@
     },
     "notes.aspect_ratio": "The normal process has a thickness to diameter ratio of 8 or less. No check reads the board thickness or the ratio.",
     "notes.board_min_size": "Advanced table row 30, normal process: a finished board of 20 mm or more. The profile uses 20 mm for board_min_edge.",
-    "notes.board_min_thickness": "Advanced table row 27, normal process: 0.6 mm for 4 layers. No check reads the board thickness.",
+    "notes.board_min_thickness": "Advanced table, row 27, normal process: 0.6 mm for 4 layers. The standard table gives 0.2 mm. No check reads the board thickness.",
     "notes.board_size": "Advanced table row 29, normal process: 508 x 600 mm for multilayer boards. The profile uses 508 mm width and 600 mm height, so no side is larger than 600 mm.",
     "notes.copper_condition": "The limits apply to 1 oz outer copper. The page gives other values for heavier copper.",
     "notes.edge_source": "The standard table states no copper to edge distance. The advanced table gives 0.25 mm for CNC milling as the normal process.",
@@ -272,7 +272,9 @@
     "notes.manual_conditions": "No workflow row enforces the copper weight, board thickness, mask color or mask bridge limits. These limits are text for manual review. The supplier stop (decision P2, amendment H) is the control for these conditions.",
     "notes.mask_bridge": "For copper less than 2 oz, the bridge is 4 mil for green oil and 4.5 mil or more for variegated or black oil. The profile uses 4.5 mil, the stricter value.",
     "notes.max_drill": "The page gives a drill diameter to 6.0 mm. Process note, not a limit.",
-    "notes.min_drill": "The page gives a drill range of 0.15 mm to 6.0 mm. A hole smaller than 0.2 mm or larger than 6 mm has an extra charge.",
+    "notes.min_drill": "Advanced table, row 5, normal process: a drill of 0.20 mm or more. The standard table gives 0.15 mm. The profile uses 0.2 mm. The standard table gives a range to 6.0 mm. A hole smaller than 0.2 mm or larger than 6 mm has an extra charge.",
+    "notes.annular_ring": "Advanced table, row 17, normal process, 35 um outer copper: a component hole has a weld ring of 10 mil or more. A via hole has 5 mil or more. The standard table gives 6 mil for a via pad. The profile applies one ring rule to both pad types, so it uses 10 mil.",
+    "notes.plated_half_hole": "Advanced table, row 12, normal process: a castellated hole of 0.5 mm or more. The standard table gives 0.4 mm for a plated half hole. The profile uses 0.5 mm. The profile has no limit for the castellated spacing of row 12, because the standard table gives no value for it.",
     "notes.not_stated": [
       "process.outline_cutter_diameter",
       "process.cutout_cutter_diameter",
@@ -281,9 +283,9 @@
       "service.finished_thickness_display_mm"
     ],
     "notes.slot": "The advanced table gives a plated slot of 0.5 mm or more and a non-plated slot of 0.8 mm or more, normal process. The profile uses 0.5 mm for plated slots and 0.8 mm for the slot minimum.",
-    "notes.standard_values": "The standard table gives 560 x 1150 mm, 3 x 3 mm, 4 mil trace and 4 mil space, and 0.2 mm board thickness. The profile does not use these values where the advanced normal process is stricter.",
-    "notes.stricter_values": "The profile fails closed. Where the normal process of the advanced table is stricter than the standard table, the profile uses the advanced value. These are page values.",
-    "notes.trace_space": "Advanced table rows 14 and 15, normal process, 35 um copper: inner 4 mil width and 5 mil spacing, outer 5 mil width and 6 mil spacing. The profile uses 5 mil trace and 6 mil space on all layers. Inner layers may use 4 mil and 5 mil. The profile is stricter there.",
+    "notes.standard_values": "The profile does not use these standard-table values, because the normal-process value is stricter: 560 x 1150 mm, 3 x 3 mm, 4 mil trace, 4 mil space, 0.2 mm board thickness, 0.15 mm drill, 0.4 mm plated half hole and 6 mil annular ring for via pads. The standard table gives 1 oz to 8 oz outer copper. The normal process gives 0.5 oz to 4 oz.",
+    "notes.stricter_values": "For each item, the profile uses the stricter of the standard-table value and the normal-process value of the advanced table. If the standard table gives no value, the profile uses the normal-process value. The notes name the standard value of each changed item.",
+    "notes.trace_space": "Advanced table rows 14 and 15, normal process, 35 um copper: inner 4 mil width and 5 mil spacing, outer 5 mil width and 6 mil spacing. The profile uses 5 mil trace and 6 mil space on all layers. The normal process allows 4 mil width and 5 mil spacing on the inner layers. The profile is stricter there.",
     "notes.via_construction": "The page lists blind and buried vias only for HDI boards in the advanced table. This profile is the standard service. It refuses blind, buried and via-in-pad vias.",
     "service.copper": "1 oz outer. The page states no default inner copper weight.",
     "service.layers": {

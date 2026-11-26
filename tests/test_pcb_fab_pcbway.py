@@ -55,8 +55,8 @@ EXTENSION_NAMES = {"service.layers", "service.order_multiple", "service.via_cons
 TWO_LAYER_RULES = (
     "(version 1)\n"
     '(rule "supplier_edge_keepout" (constraint edge_clearance (min 0.25mm)))\n'
-    '(rule "supplier_min_annular_ring" (constraint annular_width (min 0.15mm)))\n'
-    '(rule "supplier_min_drill" (constraint hole_size (min 0.15mm)))\n'
+    '(rule "supplier_min_annular_ring" (constraint annular_width (min 0.254mm)))\n'
+    '(rule "supplier_min_drill" (constraint hole_size (min 0.2mm)))\n'
     '(rule "supplier_min_space" (constraint clearance (min 0.1524mm)))\n'
     '(rule "supplier_min_trace" (constraint track_width (min 0.127mm)))\n'
 )
@@ -232,6 +232,68 @@ def test_pcbway_strict_values():
            "board_min_thickness is not in mm.")
 
 
+# The one rule of the source (review M1, amendment J). The profile notes and the reference both state it.
+RULE_SENTENCE = ("For each item, the profile uses the stricter of the standard-table value and the normal-process "
+                 "value of the advanced table. If the standard table gives no value, the profile uses the "
+                 "normal-process value.")
+# Each compared limit: its kind, and the page values (value, unit) of the standard table and the normal process.
+# The profile value must be the stricter of these values. A limit with one value uses that value.
+COMPARED_TWO_LAYER = {
+    "board_max_height": ("maximum", [("1200", "mm"), ("610", "mm")]),
+    "board_max_width": ("maximum", [("600", "mm"), ("508", "mm")]),
+    "board_min_edge": ("minimum", [("3", "mm"), ("20", "mm")]),
+    "board_min_thickness": ("minimum", [("0.2", "mm"), ("0.3", "mm")]),
+    "edge_keepout": ("minimum", [("0.25", "mm")]),
+    "min_annular_ring": ("minimum", [("6", "mil"), ("10", "mil")]),
+    "min_drill": ("minimum", [("0.15", "mm"), ("0.2", "mm")]),
+    "min_plated_slot_size": ("minimum", [("0.5", "mm")]),
+    "min_slot_size": ("minimum", [("0.8", "mm")]),
+    "min_space": ("minimum", [("4", "mil"), ("6", "mil")]),
+    "min_trace": ("minimum", [("4", "mil"), ("5", "mil")]),
+    "mask_web_min": ("minimum", [("4.5", "mil")]),
+    "pad_hole_to_hole_min": ("minimum", [("16", "mil")]),
+    "plated_half_hole_min_diameter": ("minimum", [("0.4", "mm"), ("0.5", "mm")]),
+    "via_hole_to_hole_min": ("minimum", [("11", "mil")]),
+}
+COMPARED = {
+    "pcbway-two-layer": COMPARED_TWO_LAYER,
+    "pcbway-four-layer": dict(
+        COMPARED_TWO_LAYER,
+        board_max_height=("maximum", [("1150", "mm"), ("600", "mm")]),
+        board_max_width=("maximum", [("560", "mm"), ("508", "mm")]),
+        board_min_thickness=("minimum", [("0.2", "mm"), ("0.6", "mm")]),
+        plated_drill_to_internal_copper=("minimum", [("7", "mil")]),
+    ),
+}
+
+
+def mm_value(value, unit):
+    """Return a page value in mm as an exact fraction. A mil value converts with 0.0254 mm for each mil."""
+    factor = Fraction("0.0254") if unit == "mil" else Fraction(1)
+    return Fraction(str(value)) * factor
+
+
+def test_pcbway_one_rule_matches_data():
+    """Each compared limit is the stricter of its page values (amendment J). Board size, thickness, drill,
+    annular ring and plated half hole use the advanced normal-process value where it is stricter."""
+    for pid in PCBWAY:
+        limits = repo_profile(pid)["limits"]
+        for key, (kind, pairs) in COMPARED[pid].items():
+            values = [mm_value(value, unit) for value, unit in pairs]
+            want = max(values) if kind == "minimum" else min(values)
+            got = fab.limit_in_mm(limits[key])
+            expect(got == want, f"{pid}: {key} is {got} mm. The stricter page value is {want} mm.")
+
+
+def test_pcbway_rule_sentence_in_notes_and_reference():
+    """The one rule of the source is in the notes of each profile and in the reference (review M1)."""
+    reference = (REPO / "references" / "pcbway-kicad-setup.md").read_text(encoding="utf-8")
+    expect(RULE_SENTENCE in reference, "The reference does not state the one rule.")
+    for pid in PCBWAY:
+        note = repo_profile(pid)["extensions"]["notes.stricter_values"]
+        expect(RULE_SENTENCE in note, f"{pid}: notes.stricter_values does not state the one rule.")
+
+
 def test_pcbway_rules_text():
     """The text of each rule file equals the text that the workflow makes for the profile (section 3.5)."""
     expect(workflow.supplier_rules_text(repo_profile("pcbway-two-layer")) == TWO_LAYER_RULES,
@@ -347,7 +409,7 @@ def test_pcbway_review_source_real_path():
             items = []
             for key, (value, unit, source_url) in sorted(facts.items()):
                 if key == observed_override:
-                    value = 0.09  # a trace below the 0.10 mm limit: a material difference
+                    value = 0.09  # a trace below the 5 mil (0.127 mm) limit: a material difference
                 items.append({"key": key, "observed_value": value, "observed_unit": unit,
                               "observed_condition": "Project-authored fixture reading.",
                               "source_url": source_url, "reviewer_reading": "Project-authored fixture reading."})
