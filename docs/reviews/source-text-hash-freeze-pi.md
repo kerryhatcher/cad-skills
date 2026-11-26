@@ -39,6 +39,10 @@ Outcome rules (`fetch_sources.py`):
 
 `tests/fab_fixture.py` removes `text_sha256` from each entry it copies, because the fixture bytes are project-authored.
 
+## Risks
+
+A tag around one word changes the text, because each tag gives one space. `<p><b>Fi</b>x</p>` gives the text `Fi x`, and `<p>Fix</p>` gives `Fix`. A markup-only change of this kind then gives the status `text-mismatch` (bytes match) or `changed` (bytes differ), with exit 1.
+
 ## Tests
 
 - Tests 57 to 72 in `tests/test_source_retrieval.py` and tests 28 to 35 in `tests/test_recheck_sources.py` are new. Tests 60, 61 and 62 prove the new key checks. Tests 35 and 70 prove the new report keys. Only test 71 is a guard test, and it also passes on the base scripts (commit `e3bdbca`).
