@@ -6,7 +6,7 @@
 
 The command runs fetch_sources.py in check-only mode. It compares the live page bytes with the recorded hashes.
 It writes no file and changes no profile. It prints a report. It is a release step, not a CI step.
-Exit codes: 2 for a problem in the arguments or the manifest, 3 for a fetch failure, 1 for a page that does not match, 0 when every page matches.
+Exit codes: 2 for a bad argument or manifest, 3 for a fetch failure, 1 for a changed page, 0 when each page matches.
 """
 import argparse
 import datetime
@@ -67,7 +67,7 @@ def parse_args(argv):
 def check_watch(entries, watch):
     """Return an error text when a watch item is not in the manifest. Return None when all are present.
 
-    The check uses the whole manifest, not the selected entries, so a selection never hides a missing item."""
+    The check uses the whole manifest, not the selected entries, thus a selection never hides a missing item."""
     # An entry that is not a mapping is skipped here. fetch_sources.main refuses it with exit 2.
     ids = {row.get("id") for row in entries if isinstance(row, dict)}
     missing = [item["entry"] for item in watch if item["entry"] not in ids]
@@ -89,7 +89,7 @@ def classify(row):
 
 
 def action_for(status, binding):
-    """Return the action text for a status, or None when no action is needed."""
+    """Return the action text for a status, or None when there is no action."""
     if status in ("changed", "candidate", "magic-mismatch"):
         return ACTION_CHANGED.format(profile=binding or FALLBACK_PROFILE)
     if status == "fetch-error":
@@ -137,7 +137,7 @@ def build_report(code, fs_report, entries, watch, selected, now, manifest_bytes)
 
 
 def _cell(value):
-    """Return a table cell text. A missing value is a dash. A bar is escaped."""
+    """Return a table cell text. A missing value is a dash. The function puts a backslash before a bar."""
     if value is None or value == "":
         return "-"
     return str(value).replace("|", "\\|")

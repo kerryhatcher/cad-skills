@@ -22,9 +22,9 @@ Run every command through `uv run`. Give explicit paths. Each command returns th
 | `fab.py package --project P --profile FILE --release ID --review FILE --review-sha256 H --dest DIR` | build and publish the package | qualified | unqualified (reasons in the manifest) | existing destination or missing prerequisite | tool failure |
 | `fab.py inspect-slots --board-inventory FILE --pth FILE --npth FILE --report FILE` | slot comparison | every slot matches | mismatch | unsupported record | missing input |
 | `fab.py inspect-mask --gerber FILE --limit-mil N --report FILE` | mask web measurement | every web passes | fail or uncertain | unsupported construct or limit | tool failure |
-| `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | every fetched entry matches, or every entry is skipped | a candidate, changed or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
+| `fetch_sources.py --manifest FILE [--dest DIR] [--entry ID ...] [--check-only]` | retrieve the source pages named by the manifest. Writes only when the hash matches and the magic check passes | each fetched entry matches, or each entry is skipped | a candidate, changed or magic mismatch | manifest, argument, link or binding defect | fetch or write failure |
 | `fab.py drawing-facts` and `fab.py drawing` | fabrication drawing sheet | written | not used | arguments, or a link at `--out` | not used |
-| `recheck_sources.py --manifest FILE [--entry ID ...] [--format F] [--allow-ci]` | release re-check of the live pages. Writes no file and changes no profile | every fetched page has its recorded hash | a candidate, changed or magic mismatch | arguments, manifest or watch problem, or CI | fetch failure |
+| `recheck_sources.py --manifest FILE [--entry ID ...] [--format F] [--allow-ci]` | release re-check of the live pages. Writes no file and changes no profile | each fetched page has its recorded hash | a candidate, changed or magic mismatch | arguments, manifest or watch problem, or CI | fetch failure |
 
 ## Source setup
 

@@ -11,6 +11,7 @@ import datetime
 import hashlib
 import json
 import shutil
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -387,6 +388,18 @@ def test_real_manifest_offline(tmp):
     check("25: the real manifest gives fetch-error for each full copy and skipped-local-evidence for each header",
           statuses.count("fetch-error") == len(full) and statuses.count("skipped-local-evidence") == len(local),
           statuses)
+
+
+def test_main_subprocess_ci(tmp):
+    # A manifest path that does not exist. The CI guard must stop the run before it reads the manifest
+    # or contacts a page. Thus an exit code 2 with the refusal text shows that no fetch occurs.
+    missing = tmp / "subprocess-ci" / "sources.yaml"
+    env = {"CI": "1", "PATH": ""}
+    done = subprocess.run([sys.executable, str(SCRIPTS / "recheck_sources.py"), "--manifest", str(missing)],
+                          capture_output=True, text=True, env=env)
+    check("27: the __main__ path with CI set exits 2, writes the refusal to stderr, and contacts no page",
+          done.returncode == 2 and done.stdout == "" and "--allow-ci" in done.stderr
+          and "No such file" not in done.stderr, (done.returncode, done.stdout, done.stderr))
 
 
 def main():
