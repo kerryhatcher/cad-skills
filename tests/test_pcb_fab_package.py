@@ -203,6 +203,18 @@ def mask(name, limit="4"):
     return proc.returncode, data
 
 
+def mask_args(name, *args):
+    tmp = Path(tempfile.mkdtemp())
+    report = tmp / "mask.json"
+    proc = subprocess.run(["uv", "run", "--quiet", str(SCRIPTS / "inspect_mask.py"), "--gerber",
+                           str(FIX / "mask" / f"{name}.gts"), *args, "--report", str(report)],
+                          capture_output=True, text=True)
+    existed = report.exists()
+    data = json.loads(report.read_text()) if existed else {}
+    shutil.rmtree(tmp)
+    return proc.returncode, data, existed
+
+
 def test_mask():
     code, data = mask("m39")
     check("mask 3.9 mil fixture fails (exit 1)", code == 1 and data.get("result") == "fail", (code, data.get("result")))
@@ -219,6 +231,59 @@ def test_mask():
     check("overlapping cluster refused (exit 2)", code == 2 and "overlapping cluster" in data.get("unsupported", ""), (code, data))
     code, data = mask("m39merge")
     check("region output refused for automatic inspection (exit 2)", code == 2 and "Region" in data.get("unsupported", ""), (code, data))
+
+
+def test_mask_units(tmp):
+    """The mask command accepts the limit in mm or mil. A bad limit gives exit 2 and no report."""
+    for name, expected in (("m39", "fail"), ("m40", "uncertain"), ("m41", "pass")):
+        code_mil, data_mil = mask(name)
+        code_mm, data_mm, existed = mask_args(name, "--limit-mm", "0.1016")
+        check(f"mask {name}: the limit in mm gives the same result as the limit in mil",
+              (code_mm, data_mm.get("result"), data_mm.get("counts"), data_mm.get("minimum_web_mm"))
+              == (code_mil, data_mil.get("result"), data_mil.get("counts"), data_mil.get("minimum_web_mm"))
+              and data_mm.get("result") == expected and existed,
+              (code_mil, code_mm, data_mil.get("result"), data_mm.get("result")))
+    code, data, existed = mask_args("m41", "--limit-mm", "0.1016")
+    check("the report for a limit in mm has no mil value and the given mm value",
+          data.get("limit_mil") is None and data.get("limit_mm") == 0.1016, (data.get("limit_mil"), data.get("limit_mm")))
+    code, data, existed = mask_args("m41", "--limit-mil", "4", "--limit-mm", "0.1016")
+    check("two limit flags give exit 2 and no report", code == 2 and not existed, (code, existed))
+    code, data, existed = mask_args("m41")
+    check("no limit flag gives exit 2 and no report", code == 2 and not existed, (code, existed))
+    for flag in ("--limit-mil", "--limit-mm"):
+        for value in ("abc", "0", "-1", "nan", "inf"):
+            code, data, existed = mask_args("m41", flag, value)
+            check(f"{flag} {value} gives exit 2 and no report", code == 2 and not existed, (code, existed))
+    stub = tmp / "stub.py"
+    stub.write_text('# /// script\n# requires-python = ">=3.10"\n# dependencies = []\n# ///\n'
+                    'import json\nimport sys\nargs = sys.argv[1:]\n'
+                    'open(args[args.index("--report") + 1], "w").write(json.dumps(args))\n')
+    old = os.environ.get("PCB_FAB_MASK_WORKER")
+    os.environ["PCB_FAB_MASK_WORKER"] = str(stub)
+    try:
+        g = str(FIX / "mask" / "m41.gts")
+        cases = [("4", {}, ["--limit-mil", "4"]),
+                 ("4", {"unit": "mil"}, ["--limit-mil", "4"]),
+                 ("0.13", {"unit": "mm"}, ["--limit-mm", "0.13"]),
+                 ("0.005", {"unit": "in"}, ["--limit-mm", "0.127"])]
+        for index, (value, kwargs, wanted) in enumerate(cases, start=1):
+            report = tmp / f"r{index}.json"
+            code = fab.run_mask_worker(g, value, str(report), **kwargs)
+            args = json.loads(report.read_text()) if report.exists() else []
+            check(f"run_mask_worker {value} {kwargs} gives the worker arguments {wanted}",
+                  code == 0 and all(item in args for item in wanted)
+                  and ("--limit-mil" in args) == ("--limit-mil" in wanted), (code, args))
+        for index, (value, kwargs) in enumerate((("4", {"unit": "cm"}), ("abc", {"unit": "in"}),
+                                                ("abc", {}), ("0", {"unit": "mm"}), ("nan", {})), start=5):
+            report = tmp / f"r{index}.json"
+            code = fab.run_mask_worker(g, value, str(report), **kwargs)
+            check(f"run_mask_worker refuses {value} {kwargs} with exit 2 and no report",
+                  code == 2 and not report.exists(), (code, report.exists()))
+    finally:
+        if old is None:
+            os.environ.pop("PCB_FAB_MASK_WORKER", None)
+        else:
+            os.environ["PCB_FAB_MASK_WORKER"] = old
 
 
 # ------------------------------------------------------------------ source review
@@ -533,6 +598,7 @@ def main():
         test_export_reader(tmp)
         test_measured_slot_fixtures()
         test_mask()
+        test_mask_units(tmp / "mu") if (tmp / "mu").mkdir() is None else None
         test_source_review(tmp / "rv") if (tmp / "rv").mkdir() is None else None
         test_review_gate(tmp / "gt") if (tmp / "gt").mkdir() is None else None
         test_drawing(tmp / "dr") if (tmp / "dr").mkdir() is None else None

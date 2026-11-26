@@ -834,10 +834,10 @@ def test_transient_input(tmp):
     captured_bytes = gerber.read_bytes()
     original_worker = fab.run_mask_worker
 
-    def worker_with_transient(gerber_arg, limit, report):
+    def worker_with_transient(gerber_arg, limit, report, unit="mil"):
         gerber.write_bytes(b"transient bytes, not the design output\n")
         try:
-            return original_worker(gerber_arg, limit, report)
+            return original_worker(gerber_arg, limit, report, unit=unit)
         finally:
             gerber.write_bytes(captured_bytes)
 

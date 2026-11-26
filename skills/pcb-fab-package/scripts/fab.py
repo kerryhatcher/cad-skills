@@ -27,6 +27,7 @@ import pathlib
 import signal
 import subprocess
 import sys
+from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -367,20 +368,32 @@ def drawing_pdf(facts):
 
 
 MASK_TIMEOUT_SECONDS = 2.0
+MASK_LIMIT_FLAGS = {"mil": "--limit-mil", "mm": "--limit-mm"}  # the worker flag for each unit of the limit
 
 
-def run_mask_worker(gerber, limit, report):
+def run_mask_worker(gerber, limit, report, unit="mil"):
     """Run the mask worker once through uv, with a caller timeout of MASK_TIMEOUT_SECONDS.
 
     The helper budget inside the worker checks elapsed time only at its checkpoints. The caller timeout stops
     the whole process group after the time limit. A timeout returns exit 2 and writes no report. The report
     path must be fresh, so an old result is never used. Process start and stop overhead is not removed.
+    The unit is the unit of the profile limit: mm, mil or in. A value in inches goes to the worker in millimeters.
     """
     rep = pathlib.Path(report)
     if rep.exists() or rep.is_symlink():
         return _fail(EXIT_ARGS, "the report path exists; give a fresh report path")
+    try:
+        number = Decimal(limit)
+    except (InvalidOperation, TypeError):
+        return _fail(EXIT_ARGS, f"the mask limit {limit!r} is not a number")
+    if not number.is_finite() or number <= 0:
+        return _fail(EXIT_ARGS, "the mask limit must be a finite number greater than 0")
+    if unit == "in":
+        limit, unit = format((number * Decimal("25.4")).normalize(), "f"), "mm"
+    if unit not in MASK_LIMIT_FLAGS:
+        return _fail(EXIT_ARGS, f"the mask limit unit {unit!r} is not supported. Use mm, mil or in.")
     worker = os.environ.get("PCB_FAB_MASK_WORKER") or str(HERE / "inspect_mask.py")
-    cmd = ["uv", "run", "--quiet", worker, "--gerber", gerber, "--limit-mil", limit, "--report", report]
+    cmd = ["uv", "run", "--quiet", worker, "--gerber", gerber, MASK_LIMIT_FLAGS[unit], limit, "--report", report]
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
     try:
         out, err = proc.communicate(timeout=MASK_TIMEOUT_SECONDS)

@@ -715,9 +715,10 @@ def _supplier_measure(project, profile, out, extra_inputs, manual_path, consumed
                  "status": "pass" if (code_slot == 0 and slot_ok) else "fail",
                  "interpretation": "minor dimension of every drilled slot and record match"})
     # The top mask: the worker reads the private copy, and the report must bind to the measured bytes.
+    mask_limit = profile["limits"]["mask_web_min"]
     top_report = exec_dir / "mask.json"
-    rc_mask = fab.run_mask_worker(str(exp_exec / "board-F_Mask.gbr"), str(profile["limits"]["mask_web_min"]["value"]),
-                                  str(top_report))
+    rc_mask = fab.run_mask_worker(str(exp_exec / "board-F_Mask.gbr"), str(mask_limit["value"]), str(top_report),
+                                  unit=mask_limit["unit"])
     if rc_mask == 2:
         raise Stop(EXIT_UNSUPPORTED, "the mask construct is unsupported for automatic inspection")
     if rc_mask == 3:
@@ -735,8 +736,8 @@ def _supplier_measure(project, profile, out, extra_inputs, manual_path, consumed
                  "status": top["result"] if top["result"] in ("pass", "fail", "uncertain") else "fail",
                  "interpretation": "exact web distance of the top mask flashes"})
     bottom_report = exec_dir / "mask-bottom.json"
-    rc_bottom = fab.run_mask_worker(str(exp_exec / "board-B_Mask.gbr"), str(profile["limits"]["mask_web_min"]["value"]),
-                                    str(bottom_report))
+    rc_bottom = fab.run_mask_worker(str(exp_exec / "board-B_Mask.gbr"), str(mask_limit["value"]), str(bottom_report),
+                                    unit=mask_limit["unit"])
     if rc_bottom == 2:
         raise Stop(EXIT_UNSUPPORTED, "the bottom mask construct is unsupported for automatic inspection")
     if rc_bottom == 3:
