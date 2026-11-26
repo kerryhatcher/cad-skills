@@ -15,7 +15,7 @@ Source page: https://jlcpcb.com/capabilities/pcb-capabilities
 - Each stop names the profile and the command. The stop happens before the command reads a project or starts a container.
 - The standalone KiCad rule files are for a person. The person runs the KiCad design rule check (DRC) manually. The workflow does not read these files. The workflow makes the same rule text from the profile.
 - The stored copy of the source page is local evidence only. It is not in the repository.
-- The page bytes change at each fetch. Thus `fetch_sources.py` reports the entry as `changed`. It cannot restore the stored copy. A follow-up step must make a normalized page hash.
+- The page bytes change at each fetch. Thus `fetch_sources.py` reports the entry as `changed`. It cannot restore the stored copy. The entry has no `text_sha256`. The entry gets a `text_sha256` at the next binding of the page. Then a layout change gives only the status `layout`.
 - The page gives no order multiple. The profiles record `service.order_multiple` as not stated, with no value.
 - The page gives no cutter diameter for the outline or the cutouts.
 - The page names more than one laminate supplier and seven thicknesses. It gives no one substrate and no one finished thickness for the service. The profiles contain none of these facts. The `notes.not_stated` list names them.

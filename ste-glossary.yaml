@@ -710,6 +710,16 @@ technical_nouns:
     inflections: []
   - word: "mill tool"
     inflections: ["mill tools"]
+  - word: "layout"
+    inflections: ["layouts"]
+  - word: "text hash"
+    inflections: ["text hashes"]
+  - word: "visible text"
+    inflections: []
+  - word: "HTML entity"
+    inflections: ["HTML entities"]
+  - word: "whitespace"
+    inflections: []
 technical_verbs:
   - word: "build"
     part_of_speech: verb
