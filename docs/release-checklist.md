@@ -45,8 +45,9 @@ Do not commit the report without the lead's approval.
 
 | Exit | Result | Next step |
 |---|---|---|
-| 0 | The hash of each fetched page is the same as the recorded hash. | No action. |
+| 0 | The hash of each fetched page matches the recorded hash, or only the layout changed (`layout`). | No new source review. For `layout`, do not edit the profile. |
 | 1 | A page changed, has no recorded hash, or has an incorrect magic token. | Follow "If a page changed". |
+| 1 | The bytes match, but the text hash does not match the visible text (`text-mismatch`). | Follow "If a page changed". |
 | 2 | An argument, manifest, binding or watch problem. The command fetched no page. | Repair the problem. Run the command again. |
 | 3 | A fetch failed. The report also gives the pages that changed. | Follow "If a fetch failed". |
 
@@ -68,6 +69,7 @@ Read these two live pages by hand at each release, also when the hash is the sam
 2. Read the live page. Write the observations.
 3. Run `fab.py review-source` with the observations. Keep the review hash.
 4. If a rule value changes, change the profile in a separate commit. Then change the hash in `sources.yaml` and in the profile `evidence_pages`.
+   Write the `observed_text_sha256` value of the re-check report as `text_sha256` in `sources.yaml`.
 5. Run `fetch_sources.py` again. Then run the re-check again. The re-check must give exit 0.
 
 ## 6. If a fetch failed

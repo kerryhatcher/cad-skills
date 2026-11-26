@@ -710,6 +710,24 @@ technical_nouns:
     inflections: []
   - word: "mill tool"
     inflections: ["mill tools"]
+  - word: "layout"
+    inflections: ["layouts"]
+  - word: "text hash"
+    inflections: ["text hashes"]
+  - word: "visible text"
+    inflections: []
+  - word: "HTML entity"
+    inflections: ["HTML entities"]
+  - word: "whitespace"
+    inflections: []
+  - word: "doctype"
+    inflections: ["doctypes"]
+  - word: "processing instruction"
+    inflections: ["processing instructions"]
+  - word: "CDATA section"
+    inflections: ["CDATA sections"]
+  - word: "byte order mark"
+    inflections: ["byte order marks"]
 technical_verbs:
   - word: "build"
     part_of_speech: verb
@@ -719,10 +737,18 @@ technical_verbs:
     part_of_speech: verb
     status: technical_verbs
     inflections: ["chamfers", "chamfered"]
+  - word: "collapse"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["collapses", "collapsed"]
   - word: "commit"
     part_of_speech: verb
     status: technical_verbs
     inflections: ["commits", "commited"]
+  - word: "decode"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["decodes", "decoded"]
   - word: "download"
     part_of_speech: verb
     status: technical_verbs
@@ -767,6 +793,10 @@ technical_verbs:
     part_of_speech: verb
     status: technical_verbs
     inflections: ["pushes", "pushed"]
+  - word: "rebind"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["rebinds"]
   - word: "render"
     part_of_speech: verb
     status: technical_verbs
@@ -783,6 +813,10 @@ technical_verbs:
     part_of_speech: verb
     status: technical_verbs
     inflections: ["slices", "sliced"]
+  - word: "strip"
+    part_of_speech: verb
+    status: technical_verbs
+    inflections: ["strips", "stripped"]
   - word: "tessellate"
     part_of_speech: verb
     status: technical_verbs

@@ -6,6 +6,8 @@
 
 The repository profiles and manifests retain their source hashes. Only temporary copies change.
 The fixture pages test hash bindings. They contain no supplier text and support no supplier claim.
+The fixture bytes are project-authored. A supplier text hash does not apply to them, thus the
+fixture removes text_sha256 from each entry that it copies.
 """
 import hashlib
 import json
@@ -42,6 +44,8 @@ def fixture_skill(source: Path) -> Path:
         replacements[entry["url"]] = f"https://example.invalid/fixture/{name}/"
         entry = dict(entry, sha256=digest, url=replacements[entry["url"]],
                      license_state="Project-authored fixture. No supplier evidence.")
+        # The fixture bytes are project-authored. A supplier text hash does not apply to them.
+        entry.pop("text_sha256", None)
         entries.append(entry)
     manifest["sources"] = entries
     (skill / "sources.yaml").write_text(yaml.safe_dump(manifest, sort_keys=False))

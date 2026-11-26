@@ -9,12 +9,14 @@ The manifest root is the parent directory of the manifest. Each entry writes to 
 resolve to the manifest root. A profile binding names a profile under supplier/profiles. It never names a destination.
 
 Validation runs on every selected entry before the first fetch. A failure exits 2 and fetches nothing.
-Exit precedence: validation 2, then a fetch or write failure 3, then a candidate, changed or magic mismatch 1, then 0.
+Exit precedence: validation 2, then a fetch or write failure 3, then a candidate, changed, text or magic mismatch 1,
+then 0 (a match or a layout change).
 The command never edits the manifest, a profile, or a file that a changed outcome would replace.
 """
 import argparse
 import datetime
 import hashlib
+import html.parser
 import json
 import os
 import pathlib
@@ -35,6 +37,10 @@ SCHEMA_VERSION = 1
 TOP_KEYS = {"schema", "schema_version", "sources"}
 ENTRY_KEYS = {"id", "path", "url", "retrieved", "sha256", "content_type", "magic", "license_state",
               "distribution_decision", "profile_binding"}
+# The optional key text_sha256 holds the SHA-256 of the visible page text. The byte sha256 stays the binding evidence.
+OPTIONAL_ENTRY_KEYS = {"text_sha256"}
+# The text in these elements is not visible page text.
+HIDDEN_TEXT_TAGS = frozenset({"script", "style", "noscript"})
 TEXT_KEYS = ("id", "path", "url", "retrieved", "content_type", "license_state", "distribution_decision")
 DISTRIBUTION = ("exclude-full-copy", "exclude-local-evidence")
 # The exact release tokens. The fourth token is written with a literal backslash in the YAML text.
@@ -90,6 +96,69 @@ def magic_status(token, data):
     return "ok" if ok else "mismatch"
 
 
+class _VisibleText(html.parser.HTMLParser):
+    """Collect the visible page text. Each tag, removed element, comment, doctype, processing
+    instruction and CDATA section becomes one space."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts = []
+        self.hidden = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in HIDDEN_TEXT_TAGS:
+            self.hidden += 1
+        self.parts.append(" ")
+
+    def handle_endtag(self, tag):
+        if tag in HIDDEN_TEXT_TAGS and self.hidden:
+            self.hidden -= 1
+        self.parts.append(" ")
+
+    def handle_comment(self, data):
+        self.parts.append(" ")
+
+    def handle_decl(self, decl):
+        self.parts.append(" ")
+
+    def handle_pi(self, data):
+        self.parts.append(" ")
+
+    def unknown_decl(self, data):
+        self.parts.append(" ")
+
+    def handle_data(self, data):
+        if self.hidden == 0:
+            self.parts.append(data)
+
+
+def visible_text(data):
+    """Return the visible page text of the bytes.
+
+    Replace each tag, doctype, processing instruction, CDATA section, removed script, style and noscript
+    element, and comment, with one space. Their text is not visible page text. Decode HTML entities.
+    Collapse each run of whitespace to one space. Remove the whitespace at the two ends. Remove one leading
+    U+FEFF before the rule. Decode the bytes as strict UTF-8 and raise UnicodeDecodeError for bytes that
+    are not UTF-8.
+    """
+    parser = _VisibleText()
+    text = data.decode("utf-8")
+    if text.startswith("\ufeff"):
+        text = text[1:]  # one leading U+FEFF is a byte order mark, not page text
+    parser.feed(text)
+    parser.close()
+    return " ".join("".join(parser.parts).split())
+
+
+def text_sha256(data):
+    """Return the SHA-256 of the visible page text, or None when the bytes are not UTF-8."""
+    try:
+        text = visible_text(data)
+    except UnicodeDecodeError:
+        return None
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
 def refuse_links(root, rel):
     """Refuse a link on any component of root/rel, before any read or write."""
     current = root
@@ -103,9 +172,9 @@ def check_shape(entry, index):
     """Check one entry's keys, types and values. Raise Refused for a defect."""
     if not isinstance(entry, dict):
         raise Refused(f"entry {index} is not a mapping")
-    if set(entry) != ENTRY_KEYS:
-        missing = sorted(ENTRY_KEYS - set(entry))
-        unknown = sorted(set(entry) - ENTRY_KEYS)
+    missing = sorted(ENTRY_KEYS - set(entry))
+    unknown = sorted(set(entry) - ENTRY_KEYS - OPTIONAL_ENTRY_KEYS)
+    if missing or unknown:
         raise Refused(f"entry {index} has missing keys {missing} or unknown keys {unknown}")
     ident = entry["id"]
     for key in TEXT_KEYS:
@@ -114,6 +183,14 @@ def check_shape(entry, index):
     sha = entry["sha256"]
     if sha is not None and not (isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{64}", sha)):
         raise Refused(f"entry {ident}: sha256 must be 64 lowercase hexadecimal characters or null")
+    if "text_sha256" in entry:
+        text = entry["text_sha256"]
+        if not (isinstance(text, str) and re.fullmatch(r"[0-9a-f]{64}", text)):
+            raise Refused(f"entry {ident}: text_sha256 must be 64 lowercase hexadecimal characters")
+        if entry["magic"] != "markup":
+            raise Refused(f"entry {ident}: an entry with text_sha256 must have the magic token markup")
+        if sha is None:
+            raise Refused(f"entry {ident}: an entry with text_sha256 must have a sha256 value")
     if entry["magic"] is not None and entry["magic"] not in MAGIC_TOKENS:
         raise Refused(f"entry {ident}: magic {entry['magic']!r} is not an allowed token")
     if entry["distribution_decision"] not in DISTRIBUTION:
@@ -261,7 +338,8 @@ def main(argv, fetch=default_fetch):
     rows = []
     for entry in entries:
         row = {"id": entry["id"], "path": entry["path"], "distribution": entry["distribution_decision"],
-               "hash_status": None, "magic_status": None, "written": False, "write_status": None, "fetch_error": None}
+               "hash_status": None, "magic_status": None, "written": False, "write_status": None, "fetch_error": None,
+               "text_status": None, "observed_text_sha256": None}
         rows.append(row)
         if entry["distribution_decision"] == "exclude-local-evidence":
             continue  # not fetched, not verified
@@ -277,6 +355,13 @@ def main(argv, fetch=default_fetch):
         else:
             row["hash_status"] = "match" if digest == entry["sha256"] else "changed"
             row["observed_sha256"] = digest
+        if entry["magic"] == "markup":
+            row["observed_text_sha256"] = text_sha256(body)
+        recorded_text = entry.get("text_sha256")
+        if recorded_text is not None:
+            row["text_status"] = "match" if row["observed_text_sha256"] == recorded_text else "changed"
+            if row["hash_status"] == "changed" and row["text_status"] == "match":
+                row["hash_status"] = "layout"  # only the layout changed. Nothing is written.
         row["magic_status"] = magic_status(entry["magic"], body)
         if write and row["hash_status"] == "match" and row["magic_status"] in ("ok", "not-tested"):
             try:
@@ -292,17 +377,22 @@ def main(argv, fetch=default_fetch):
                 row["error"] = str(err)
     fetched = [row for row in rows if row["hash_status"] is not None or row["fetch_error"] is not None]
     failure = any(row["fetch_error"] or row["write_status"] in ("write-failure", "write-error-after-replace") for row in rows)
-    nonmatch = any(row["hash_status"] in ("candidate", "changed") or row["magic_status"] == "mismatch" for row in rows)
+    nonmatch = any(row["hash_status"] in ("candidate", "changed") or row["magic_status"] == "mismatch"
+                   or row["text_status"] == "changed" for row in rows)
     code = EXIT_TOOL if failure else (EXIT_FAIL if nonmatch else EXIT_OK)
     if not fetched:
         overall = "no entry fetched"
     elif any(row["write_status"] == "write-error-after-replace" for row in rows):
         overall = "write error"
     elif not write:
-        overall = "all match" if not nonmatch and not failure else "not all match"
+        if nonmatch or failure:
+            overall = "not all match"
+        else:
+            overall = "match or layout" if any(row["hash_status"] == "layout" for row in rows) else "all match"
     else:
         written = [row for row in fetched if row["written"]]
-        all_match = all(row["hash_status"] == "match" and row["magic_status"] in ("ok", "not-tested") for row in fetched)
+        all_match = all(row["hash_status"] == "match" and row["magic_status"] in ("ok", "not-tested")
+                        and row["text_status"] != "changed" for row in fetched)
         overall = "all match" if all_match and len(written) == len(fetched) else (
             "partial" if written else "none written")
     return code, {"overall": overall, "exit": code, "entries": rows}
