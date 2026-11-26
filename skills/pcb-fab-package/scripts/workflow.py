@@ -556,7 +556,9 @@ def measure_vias(consumed, out, outputs, runtime, profile):
 
 
 def corner_conditions(profile, measured):
-    """Compare exact corner radii with radii derived from the published cutter diameters."""
+    """Compare exact corner radii with radii derived from the published cutter diameters.
+
+    The cutter diameter can be in mm, mil or in. The tool radius is exact in nanometers."""
     rows = []
     corners = measured["corners"]
     for corner in corners:
@@ -567,12 +569,12 @@ def corner_conditions(profile, measured):
     for location in ("outline", "cutout"):
         key = f"process.{location}_cutter_diameter"
         fact = profile["extensions"].get(key)
-        if not isinstance(fact, dict) or fact.get("unit") != "in":
+        if not isinstance(fact, dict) or not isinstance(fact.get("unit"), str) or fact["unit"] not in fab.UNIT_MM:
             raise Stop(EXIT_UNSUPPORTED, f"The profile has no supported cutter fact for {location}.")
         if not any(page["sha256"] == fact.get("source_sha256") and page["source_url"] == fact.get("source_url") for page in pages):
             raise Stop(EXIT_UNSUPPORTED, f"The cutter fact for {location} has no matching source binding.")
         try:
-            tool_radius = Fraction(str(fact["value"])) * 25400000 / 2
+            tool_radius = Fraction(str(fact["value"])) * fab.UNIT_MM[fact["unit"]] * 1000000 / 2
         except (ValueError, KeyError, ZeroDivisionError):
             raise Stop(EXIT_UNSUPPORTED, f"The cutter diameter for {location} is invalid.")
         if tool_radius <= 0 or tool_radius.denominator != 1:

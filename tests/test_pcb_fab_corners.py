@@ -11,7 +11,59 @@ from pathlib import Path
 import test_pcb_fab_workflow as base
 
 
+M_PASS = {"corners": [{"location": "outline", "radius_nm": 863600}, {"location": "cutout", "radius_nm": 508000}]}
+M_FAIL = {"corners": [{"location": "outline", "radius_nm": 863599}, {"location": "cutout", "radius_nm": 507999}]}
+
+
+def unit_checks():
+    """The cutter facts accept mm, mil and in with the same exact radius. A bad fact gives exit 2."""
+    w = base.workflow
+    profile = base.fab.check_profile(base.PROFILE)
+
+    def with_facts(outline_value, cutout_value, unit):
+        changed = copy.deepcopy(profile)
+        for key, value in (("process.outline_cutter_diameter", outline_value),
+                           ("process.cutout_cutter_diameter", cutout_value)):
+            changed["extensions"][key]["value"] = value
+            changed["extensions"][key]["unit"] = unit
+        return changed
+
+    def rows(profile, measured):
+        try:
+            return w.corner_conditions(profile, measured)
+        except w.Stop as err:
+            return err.code
+
+    rows_in = {name: rows(with_facts("0.068", "0.040", "in"), measured)
+               for name, measured in (("pass", M_PASS), ("fail", M_FAIL))}
+    for name, expected in (("pass", "pass"), ("fail", "fail")):
+        base.check(f"The cutter facts in in give {expected} for each corner with the exact radius.",
+                   all(row["status"] == expected for row in rows_in[name])
+                   and [row["tool_radius_nm"] for row in rows_in[name]] == [863600, 508000], rows_in[name])
+    def strip(result):
+        return [{key: value for key, value in row.items() if key != "process_fact"} for row in result]
+
+    stripped = {name: strip(result) for name, result in rows_in.items()}
+    for value in (("1.7272", "1.016", "mm"), ("68", "40", "mil")):
+        for name, measured in (("pass", M_PASS), ("fail", M_FAIL)):
+            got = rows(with_facts(*value), measured)
+            ok = strip(got) == stripped[name]
+            base.check(f"The cutter facts in {value[2]} give the same rows as the facts in in ({name}).", ok, got)
+    for label, changed in (("the unit cm", with_facts("0.068", "0.040", "cm")),
+                           ("a radius below one nanometer", with_facts("0.0000001", "1.016", "mm"))):
+        code = rows(changed, M_PASS)
+        base.check(f"{label} refuses with exit 2.", code == 2, code)
+    missing = copy.deepcopy(profile)
+    del missing["extensions"]["process.outline_cutter_diameter"]
+    code = rows(missing, M_PASS)
+    base.check("A profile without the outline cutter fact refuses with exit 2.", code == 2, code)
+    listed = with_facts("0.068", "0.040", ["in"])
+    code = rows(listed, M_PASS)
+    base.check("A cutter unit that is a list refuses with exit 2, not TypeError.", code == 2, code)
+
+
 def main():
+    unit_checks()
     w = base.workflow
     fixtures = base.ROOT / "tests/fixtures/pcb-fab-package/corners"
     with tempfile.TemporaryDirectory(prefix="fab-corners-") as directory:
