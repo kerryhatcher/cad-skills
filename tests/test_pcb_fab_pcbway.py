@@ -57,8 +57,8 @@ TWO_LAYER_RULES = (
     '(rule "supplier_edge_keepout" (constraint edge_clearance (min 0.25mm)))\n'
     '(rule "supplier_min_annular_ring" (constraint annular_width (min 0.15mm)))\n'
     '(rule "supplier_min_drill" (constraint hole_size (min 0.15mm)))\n'
-    '(rule "supplier_min_space" (constraint clearance (min 0.1mm)))\n'
-    '(rule "supplier_min_trace" (constraint track_width (min 0.1mm)))\n'
+    '(rule "supplier_min_space" (constraint clearance (min 0.1524mm)))\n'
+    '(rule "supplier_min_trace" (constraint track_width (min 0.127mm)))\n'
 )
 FOUR_LAYER_RULES = TWO_LAYER_RULES + (
     '(rule "supplier_plated_drill_to_internal_copper" (constraint hole_clearance (min 0.1778mm)))\n'
@@ -211,15 +211,25 @@ def test_pcbway_mandatory_limits_present():
 
 
 def test_pcbway_strict_values():
-    """The stricter values of P5 and P6 are in the profiles: mask bridge 4.5 mil, slot 0.8 mm, four-layer height 600 mm."""
-    limits = repo_profile("pcbway-two-layer")["limits"]
-    expect(Fraction(str(limits["mask_web_min"]["value"])) == Fraction("4.5") and limits["mask_web_min"]["unit"] == "mil",
-           "mask_web_min is not 4.5 mil.")
-    expect(Fraction(str(limits["min_slot_size"]["value"])) == Fraction("0.8") and limits["min_slot_size"]["unit"] == "mm",
-           "min_slot_size is not 0.8 mm.")
-    four = repo_profile("pcbway-four-layer")["limits"]
-    expect(Fraction(str(four["board_max_height"]["value"])) == Fraction("600"), "Four-layer board_max_height is not 600 mm.")
-    expect(Fraction(str(four["board_max_width"]["value"])) == Fraction("560"), "Four-layer board_max_width is not 560 mm.")
+    """The stricter normal-process values of the advanced table are in both profiles (fail closed, amendment G):
+    board size, board edge, board thickness, trace and space. Also the mask bridge and the slot."""
+    expected = {
+        "pcbway-two-layer": {"board_max_width": ("508", "mm"), "board_max_height": ("610", "mm"),
+                             "board_min_edge": ("20", "mm"), "board_min_thickness": ("0.3", "mm"),
+                             "min_trace": ("5", "mil"), "min_space": ("6", "mil"),
+                             "mask_web_min": ("4.5", "mil"), "min_slot_size": ("0.8", "mm")},
+        "pcbway-four-layer": {"board_max_width": ("508", "mm"), "board_max_height": ("600", "mm"),
+                              "board_min_edge": ("20", "mm"), "board_min_thickness": ("0.6", "mm"),
+                              "min_trace": ("5", "mil"), "min_space": ("6", "mil"),
+                              "mask_web_min": ("4.5", "mil"), "min_slot_size": ("0.8", "mm")},
+    }
+    for pid, items in expected.items():
+        limits = repo_profile(pid)["limits"]
+        for key, (value, unit) in items.items():
+            expect(Fraction(str(limits[key]["value"])) == Fraction(value) and limits[key]["unit"] == unit,
+                   f"{pid}: {key} is {limits[key]['value']} {limits[key]['unit']}. Expected {value} {unit}.")
+    expect(repo_profile("pcbway-two-layer")["limits"]["board_min_thickness"]["unit"] == "mm",
+           "board_min_thickness is not in mm.")
 
 
 def test_pcbway_rules_text():
@@ -234,6 +244,8 @@ def test_pcbway_mil_conversion():
     """A mil limit converts exactly: 4.5 mil is 1143/10000 mm and 7 mil is 1778/10000 mm."""
     mask = fab.limit_in_mm(repo_profile("pcbway-two-layer")["limits"]["mask_web_min"])
     expect(mask == Fraction(1143, 10000), f"mask_web_min converts to {mask}.")
+    trace = fab.limit_in_mm(repo_profile("pcbway-two-layer")["limits"]["min_trace"])
+    expect(trace == Fraction(127, 1000), f"min_trace converts to {trace}.")
     drill = fab.limit_in_mm(repo_profile("pcbway-four-layer")["limits"]["plated_drill_to_internal_copper"])
     expect(drill == Fraction(1778, 10000), f"plated_drill_to_internal_copper converts to {drill}.")
 
@@ -404,11 +416,11 @@ def test_pcbway_via_fail_closed():
 
 
 def test_pcbway_judge_boundaries():
-    """The two-layer min_trace of 0.10 mm: 0.09 mm fails, 0.10 mm and 0.11 mm pass."""
+    """The two-layer min_trace of 5 mil (0.127 mm): 0.12 mm fails, 0.127 mm and 0.13 mm pass."""
     threshold = fab.limit_in_mm(repo_profile("pcbway-two-layer")["limits"]["min_trace"])
-    expect(fab.judge("minimum", Fraction("0.09"), threshold) == "fail", "0.09 mm does not fail.")
-    expect(fab.judge("minimum", Fraction("0.10"), threshold) == "pass", "0.10 mm does not pass.")
-    expect(fab.judge("minimum", Fraction("0.11"), threshold) == "pass", "0.11 mm does not pass.")
+    expect(fab.judge("minimum", Fraction("0.12"), threshold) == "fail", "0.12 mm does not fail.")
+    expect(fab.judge("minimum", Fraction("0.127"), threshold) == "pass", "0.127 mm does not pass.")
+    expect(fab.judge("minimum", Fraction("0.13"), threshold) == "pass", "0.13 mm does not pass.")
 
 
 def test_pcbway_fact_items_complete():

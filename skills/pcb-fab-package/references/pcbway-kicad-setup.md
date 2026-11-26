@@ -20,13 +20,13 @@ Source page: https://www.pcbway.com/capabilities.html
 
 ## Source rule
 
-The profiles describe the standard service. For each value:
+The profiles fail closed. For each item, the profile uses the stricter value:
 
-1. Use the value of the standard table, if the standard table gives one.
-2. If the standard table gives no value, use the normal process column of the advanced table.
-3. For the mask bridge, use the stricter value of the two tables.
+1. If the normal process of the advanced table gives a stricter value, the profile uses it.
+2. Otherwise, the profile uses the value of the standard table.
+3. If the standard table gives no value, the profile uses the normal process of the advanced table.
 
-The advanced table gives other values for some items. The profiles do not use them. See "Advanced table values not used" below.
+The profile notes give the standard-table values for each item that changed.
 
 ## Limit values
 
@@ -34,15 +34,16 @@ Each row gives its unit. Some values are in mil.
 
 | Setting | Two-layer profile | Four-layer profile | Note |
 |---|---|---|---|
-| Minimum trace width | 0.10 mm | 0.10 mm | Standard table, 4 mil |
-| Minimum trace spacing | 0.10 mm | 0.10 mm | Standard table, 4 mil |
+| Minimum trace width | 5 mil | 5 mil | Advanced table, normal process, 35 um outer copper. Standard table: 4 mil |
+| Minimum trace spacing | 6 mil | 6 mil | Advanced table, normal process, 35 um outer copper. Inner layers may use 5 mil |
 | Minimum annular ring | 0.15 mm | 0.15 mm | Standard table, 6 mil |
 | Minimum drill | 0.15 mm | 0.15 mm | Standard table. A hole smaller than 0.2 mm or larger than 6 mm has an extra charge |
 | Copper to board edge, CNC milling | 0.25 mm | 0.25 mm | Advanced table, normal process |
 | Inner hole to inner copper | not used | 7 mil | Four-layer only. Advanced table, normal process |
-| Minimum board edge | 3 mm | 3 mm | Standard table |
-| Maximum board width | 600 mm | 560 mm | Standard table |
-| Maximum board height | 1200 mm | 600 mm | Standard table. The four-layer profile limits each side to 600 mm |
+| Minimum board edge | 20 mm | 20 mm | Advanced table, normal process. Standard table: 3 x 3 mm |
+| Minimum board thickness | 0.3 mm | 0.6 mm | Advanced table, normal process. Manual evidence only |
+| Maximum board width | 508 mm | 508 mm | Advanced table, normal process |
+| Maximum board height | 610 mm | 600 mm | Advanced table, normal process. The four-layer profile limits each side to 600 mm |
 | Minimum slot | 0.8 mm | 0.8 mm | Non-plated slot. Advanced table, normal process |
 | Minimum plated slot | 0.5 mm | 0.5 mm | Manual evidence only |
 | Soldermask bridge | 4.5 mil | 4.5 mil | The stricter value. Green oil uses 4 mil |
@@ -61,26 +62,26 @@ Limit direction:
 Notes on the table:
 
 - The workflow has one minimum slot value for all slots. The profile uses 0.8 mm, the value for a non-plated slot. A plated slot of 0.5 mm or more fails this value. The profile keeps the plated value as manual evidence.
-- The four-layer profile limits each side to 600 mm. The standard table gives 1150 mm for the long side of a multilayer board. A side larger than 600 mm needs an inner hole to copper spacing of 15 mil or more.
+- The four-layer profile limits each side to 600 mm. A side larger than 600 mm needs an inner hole to copper spacing of 15 mil or more.
+- The four-layer profile uses 5 mil and 6 mil for all layers. Inner layers may use 4 mil and 5 mil. The profile is stricter there.
 
 ## Conditions that no command examines
 
 No workflow row reads the board thickness, the mask color or the copper weight. The profiles record the values of the page as text limits in `manual_evidence`. The stop of the PCBWay profiles is the control for these conditions.
 
 - **Copper weight.** The profiles apply to 1 oz outer copper. The standard table gives 1 oz to 8 oz for the outer layers. The four-layer profile records the inner copper weights of the standard table. The page gives no default inner copper weight.
-- **Board thickness.** The standard table gives 0.2 mm to 3.2 mm, in 13 options. The normal process gives a maximum board thickness for each drill size. For a 0.20 mm hole, the maximum board thickness is 1.6 mm. The profile does not check the board thickness.
+- **Board thickness.** The standard table gives 0.2 mm to 3.2 mm, in 13 options. The profile uses 0.3 mm or 0.6 mm as the minimum, as the table above shows. The normal process gives a maximum board thickness for each drill size. For a 0.20 mm hole, the maximum board thickness is 1.6 mm. The profile does not check the board thickness.
 - **Mask color.** The standard table gives ten options, including none. The page gives no extra charge for green, red, yellow and blue. The bridge depends on the oil color. Green oil uses 4 mil when the spacing between ICs is 8 mil. Variegated or black oil uses 4.5 mil or more. The profile uses 4.5 mil for every color.
 
-## Advanced table values not used
+## Standard-table values replaced
 
-The advanced table gives other values for these items. The profiles use the standard table for them. A user who needs these values must check them with the supplier.
+The profiles replace these standard-table values with the stricter advanced values. The profile notes keep the standard values as notes.
 
-- Maximum finished board size: 508 x 610 mm for single-sided and double-sided boards, normal process. The standard table gives 600 x 1200 mm.
-- Maximum finished board size: 508 x 600 mm for multilayer boards, normal process. The standard table gives 560 x 1150 mm.
-- Minimum finished board size: 20 mm, normal process. The standard table gives 3 x 3 mm.
-- Minimum board thickness: 0.3 mm for single-sided and double-sided boards, and 0.6 mm for 4 layers, normal process. The standard table gives 0.2 mm.
-- Trace and space at 35 um outer copper: 5 mil and 6 mil, normal process. The standard table gives 4 mil and 4 mil.
-- Trace and space at 35 um inner copper, four layers: 4 mil and 5 mil, normal process.
+- Maximum board size: 600 x 1200 mm (two-layer) and 560 x 1150 mm (four-layer).
+- Minimum board size: 3 x 3 mm.
+- Trace and space: 4 mil and 4 mil.
+
+The profiles replace the 0.2 mm minimum board thickness of the standard table with 0.3 mm (two-layer) and 0.6 mm (four-layer).
 
 ## Vias
 

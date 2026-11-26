@@ -7,14 +7,14 @@
   "source_url": "https://www.pcbway.com/capabilities.html",
   "retrieved": "2026-11-26",
   "evidence_sha256": "07c42c853e7ad2b936f48c65d6271791db7a7daacc0fe68384df53bb2eb3fb81",
-  "content_sha256": "c0699d2be4f9b1f58f452e48c7583d20017e0f7077cbf6e7a80c6b52f2fdc09c",
+  "content_sha256": "24a60fbe4430bf84f064f6536a48b0999c56ce4242cd2c612b24c6752c3275e6",
   "units": "mm",
   "limits": {
     "board_max_height": {
       "kind": "maximum",
       "scope": "fabrication",
       "value_kind": "number",
-      "value": 1200,
+      "value": 610,
       "unit": "mm",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
@@ -23,7 +23,7 @@
       "kind": "maximum",
       "scope": "fabrication",
       "value_kind": "number",
-      "value": 600,
+      "value": 508,
       "unit": "mm",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
@@ -32,7 +32,16 @@
       "kind": "minimum",
       "scope": "fabrication",
       "value_kind": "number",
-      "value": 3,
+      "value": 20,
+      "unit": "mm",
+      "source_url": "https://www.pcbway.com/capabilities.html",
+      "retrieved": "2026-11-26"
+    },
+    "board_min_thickness": {
+      "kind": "minimum",
+      "scope": "fabrication",
+      "value_kind": "number",
+      "value": 0.3,
       "unit": "mm",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
@@ -119,8 +128,8 @@
       "kind": "minimum",
       "scope": "fabrication",
       "value_kind": "number",
-      "value": 0.1,
-      "unit": "mm",
+      "value": 6,
+      "unit": "mil",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
     },
@@ -128,8 +137,8 @@
       "kind": "minimum",
       "scope": "fabrication",
       "value_kind": "number",
-      "value": 0.1,
-      "unit": "mm",
+      "value": 5,
+      "unit": "mil",
       "source_url": "https://www.pcbway.com/capabilities.html",
       "retrieved": "2026-11-26"
     },
@@ -222,7 +231,8 @@
       "board_thickness_options",
       "board_thickness_condition",
       "soldermask_colors",
-      "soldermask_bridge_by_color"
+      "soldermask_bridge_by_color",
+      "board_min_thickness"
     ]
   },
   "extensions": {
@@ -232,9 +242,10 @@
         "source_url": "https://www.pcbway.com/capabilities.html"
       }
     },
-    "notes.advanced_conflicts": "The advanced table gives other values for four items. The profile uses the standard table (decision P0). Maximum finished board size: 508 x 610 mm for single-sided and double-sided boards, normal process. Minimum finished board size: 20 mm, normal process. Minimum board thickness: 0.3 mm for single-sided and double-sided boards, normal process. Outer trace and space at 35 um copper: 5 mil and 6 mil, normal process, row 15. A user who needs these values must check them with the supplier.",
     "notes.aspect_ratio": "The normal process has a thickness to diameter ratio of 8 or less. No check reads the board thickness or the ratio.",
-    "notes.board_size": "The standard table gives 600 x 1200 mm for single-sided and double-sided boards. The page gives no board axis. The profile uses 600 mm and 1200 mm in the page order.",
+    "notes.board_min_size": "Advanced table row 30, normal process: a finished board of 20 mm or more. The profile uses 20 mm for board_min_edge.",
+    "notes.board_min_thickness": "Advanced table row 27, normal process: 0.3 mm for single-sided and double-sided boards. No check reads the board thickness.",
+    "notes.board_size": "Advanced table row 29, normal process: 508 x 610 mm for single-sided and double-sided boards. The page gives no board axis. The profile uses 508 mm and 610 mm in the page order.",
     "notes.copper_condition": "The limits apply to 1 oz outer copper. The page gives other values for heavier copper.",
     "notes.edge_source": "The standard table states no copper to edge distance. The advanced table gives 0.25 mm for CNC milling as the normal process.",
     "notes.edge_vcut": "The page states no copper to V-score edge distance.",
@@ -250,6 +261,9 @@
       "service.finished_thickness_display_mm"
     ],
     "notes.slot": "The advanced table gives a plated slot of 0.5 mm or more and a non-plated slot of 0.8 mm or more, normal process. The profile uses 0.5 mm for plated slots and 0.8 mm for the slot minimum.",
+    "notes.standard_values": "The standard table gives 600 x 1200 mm, 3 x 3 mm, 4 mil trace and 4 mil space, and 0.2 mm board thickness. The profile does not use these values where the advanced normal process is stricter.",
+    "notes.stricter_values": "The profile fails closed. Where the normal process of the advanced table is stricter than the standard table, the profile uses the advanced value. These are page values.",
+    "notes.trace_space": "Advanced table row 15, normal process, 35 um outer copper: 5 mil width and 6 mil spacing. The profile uses 5 mil trace and 6 mil space.",
     "notes.via_construction": "The page lists blind and buried vias only for HDI boards in the advanced table. This profile is the standard service. It refuses blind, buried and via-in-pad vias.",
     "service.copper": "1 oz outer",
     "service.layers": {
