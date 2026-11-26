@@ -347,7 +347,7 @@ def effective_pro(project_pro_bytes, profile):
     return json.dumps(data, indent=2, sort_keys=True) + "\n"
 
 
-# The division names that the workflow measures. Each profile must have all five of them.
+# The division names that the workflow measures. Each profile must have all ten of these limits.
 GEOMETRIC_ROWS = ("board_min_edge", "board_max_width", "board_max_height", "min_slot_size", "mask_web_min")
 CORE_KICAD_DRU = ("min_trace", "min_space", "min_annular_ring", "min_drill", "edge_keepout")
 MASK_SIDE_ROWS = ("mask_web_min_top", "mask_web_min_bottom")
