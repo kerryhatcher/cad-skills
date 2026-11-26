@@ -429,16 +429,17 @@ def _review_source(a, project):
     profile_path = pathlib.Path(a["--profile"])
     profile = check_profile(profile_path)
     out = pathlib.Path(a["--out"])
+    # Confine the path first, so that an outside path never gets the destination message.
+    PIO.confine(project, out)
     if out.exists():
         return _fail(EXIT_ARGS, "the destination exists")
-    review_record = review.build_review(pathlib.Path(a["--observations"]).read_bytes(), profile,
-                                        profile_path.read_bytes(), a["--release"], project)
+    raw_obs = pathlib.Path(a["--observations"]).read_bytes()
+    review_record = review.build_review(raw_obs, profile, profile_path.read_bytes(), a["--release"], project)
     if review_record["reviewer"] != a["--reviewer"]:
         return _fail(EXIT_FAIL, "the reviewer differs from the observation file")
-    PIO.confine(project, out)
     out.parent.mkdir(parents=True, exist_ok=True)
     PIO.atomic_write(project, out, (json.dumps(review_record, indent=2, sort_keys=True) + "\n").encode("utf-8"))
-    PIO.atomic_write(project, out.parent / "observations.json", pathlib.Path(a["--observations"]).read_bytes())
+    PIO.atomic_write(project, out.parent / "observations.json", raw_obs)
     print(json.dumps({"decision": review_record["decision"], "problems": review_record["problems"],
                       "review_sha256": hashlib.sha256(out.read_bytes()).hexdigest()}))
     return EXIT_FAIL if review_record["decision"] == "material" else EXIT_OK
@@ -529,6 +530,14 @@ def main(argv):
         return _fail(EXIT_ARGS, f"the project is locked: {err}")
     except workflow.Stop as err:
         return _fail(err.code, str(err))
+    # PIO.SymlinkTarget subclasses PIO.PathEscape, so it must come first.
+    # These clauses apply to every command. PIO.atomic_write raises them in other commands too.
+    except PIO.SymlinkTarget as err:
+        return _fail(EXIT_ARGS, f"{err} Give an output path that is not a symbolic link.")
+    except PIO.PathEscape as err:
+        return _fail(EXIT_ARGS, f"{err} Give a path in the project.")
+    except review.ReviewError as err:
+        return _fail(EXIT_FAIL, f"invalid observation file: {err}. Correct the file and run the command again.")
     except VAL.RecordError as err:
         return _fail(EXIT_FAIL, f"invalid record: {err}")
     except (OSError, ValueError, KeyError) as err:
