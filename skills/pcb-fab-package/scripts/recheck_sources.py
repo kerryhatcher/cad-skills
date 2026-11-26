@@ -204,7 +204,7 @@ def main(argv, fetch=None, environ=None, now=None, watch=None):
         return EXIT_ARGS, f"recheck_sources.py: {err}"
     missing = check_watch(data["sources"], watch)
     if missing:
-        return EXIT_ARGS, missing  # checked before the first fetch, so no page is requested
+        return EXIT_ARGS, missing  # checked before the first fetch, thus no page is requested
     fs_argv = ["--manifest", args.manifest, "--check-only"]
     for ident in args.entry:
         fs_argv += ["--entry", ident]
