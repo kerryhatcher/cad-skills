@@ -55,7 +55,7 @@ def offline_fetch(url):
     return source_map[url].read_bytes()
 
 code, retrieval = fetch_sources.main(["--manifest", str(skill / "sources.yaml"), "--dest", str(skill)], fetch=offline_fetch)
-assert code == 0 and len(fetches) == 6 and sum(row["written"] for row in retrieval["entries"]) == 6
+assert code == 0 and len(fetches) == 7 and sum(row["written"] for row in retrieval["entries"]) == 7
 (root / "retrieval.json").write_text(json.dumps(retrieval, indent=2) + "\n")
 assert not list((skill / "supplier/pages").glob("*.headers"))
 run("profile", ["profile", "--profile", str(profile_path)])

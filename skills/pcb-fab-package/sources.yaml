@@ -125,3 +125,23 @@ sources:
     license_state: "copyright 2026 JLCPCB.COM shown on the page; no license or reuse terms found (fetched 2026-11-26); not a permission"
     distribution_decision: exclude-local-evidence
     profile_binding: null
+  - id: pcbway-capabilities-html
+    path: supplier/pages/pcbway-capabilities.html
+    url: https://www.pcbway.com/capabilities.html
+    retrieved: "2026-11-26"
+    sha256: 07c42c853e7ad2b936f48c65d6271791db7a7daacc0fe68384df53bb2eb3fb81
+    content_type: text/html
+    magic: markup
+    license_state: "copyright 2024 PCBWay. All rights reserved. Shown on the page. No license or reuse terms found (fetched 2026-11-26). Not a permission."
+    distribution_decision: exclude-full-copy
+    profile_binding: supplier/profiles/pcbway-two-layer.yaml
+  - id: pcbway-capabilities-headers
+    path: supplier/pages/pcbway-capabilities.headers
+    url: https://www.pcbway.com/capabilities.html
+    retrieved: "2026-11-26"
+    sha256: 685cd76d9da3d8e4948cdafd4a596ee4148b538a22438d2739d136005928a7a6
+    content_type: text/plain
+    magic: null
+    license_state: "copyright 2024 PCBWay. All rights reserved. Shown on the page. No license or reuse terms found (fetched 2026-11-26). Not a permission."
+    distribution_decision: exclude-local-evidence
+    profile_binding: null
