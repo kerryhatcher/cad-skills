@@ -32,6 +32,21 @@ A package with status `unqualified` does not establish supplier acceptance or a 
 
 ## How to install the skills
 
+### Claude Code plugin
+
+This repository is a Claude Code plugin marketplace. It supplies the plugin `cad-skills` with all seven skills.
+
+```
+/plugin marketplace add kerryhatcher/cad-skills
+/plugin install cad-skills@cad-skills
+```
+
+The plugin has a `SessionStart` hook. The hook tells the agent the path of the plugin.
+Thus the agent can resolve the script paths, such as `skills/cadquery/scripts/inspect_model.py`, in the skill documents.
+The plugin is in `plugins/cad-skills`. Its `skills` link points to the `skills` directory of the repository.
+
+### Other agents
+
 ```bash
 # this project (select the agents in a menu)
 npx skills add kerryhatcher/cad-skills
