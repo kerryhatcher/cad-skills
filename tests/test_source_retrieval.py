@@ -723,7 +723,9 @@ def test_text_rule(tmp):
           text == "Fixture Trace 6 mil & space Drill 10 mil" and "a1" not in text and "red" not in text
           and "build" not in text and "Enable scripts" not in text
           and FS.visible_text(LAYOUT_B) == "Fixture Trace 6 mil & space Drill 10 mil"
-          and FS.text_sha256(b"<p>A</p><p>B</p>") == FS.text_sha256(b"<p>A</p>\n<p>B</p>"), text)
+          and FS.text_sha256(b"<p>A</p><p>B</p>") == FS.text_sha256(b"<p>A</p>\n<p>B</p>")
+          and FS.visible_text(b"<p>A<br>B</p>") == "A B", text)
+
 
 
 def test_text_hash_value(tmp):
