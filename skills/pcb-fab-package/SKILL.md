@@ -134,7 +134,7 @@ The B6 inventory worker remains unchanged.
 ## Corner tool compatibility
 
 The profile records published cutter diameters under `process.outline_cutter_diameter` and `process.cutout_cutter_diameter`.
-Each fact retains its inch value, source URL and source hash.
+Each fact retains its value, its unit (mm, mil or in), source URL and source hash.
 The supplier command derives the circular tool radius as half that diameter.
 It compares this radius with measured concave outline corners and cutout corners.
 The result is derived tool compatibility. It is not a quoted supplier minimum or a general manufacturing guarantee.
